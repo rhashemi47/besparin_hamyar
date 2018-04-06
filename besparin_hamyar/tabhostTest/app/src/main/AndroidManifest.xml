@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.project.it.tabhosttest">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/Logo_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/Logo_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="Login"
+            android:noHistory="true" />
+        <activity
+            android:name="Info_Person"
+            android:noHistory="true" />
+        <activity
+            android:name="Accept_code"
+            android:noHistory="true"/>
+        <activity
+            android:name="Profile"
+            android:noHistory="true"/>
+        <activity
+            android:name="About"
+            android:noHistory="true"/>
+        <activity
+            android:name="Contact"
+            android:noHistory="true"/>
+        <activity
+            android:name="GiftBank"
+            android:noHistory="true"/>
+        <activity
+            android:name="Help"
+            android:noHistory="true"/>
+        <activity
+            android:name="List_Messages"
+            android:noHistory="true"/>
+        <activity
+            android:name="OurCommitment"
+            android:noHistory="true"/>
+        <activity
+            android:name=".StepJob"
+            android:noHistory="true"/>
+        <activity
+            android:name="YourCommitment"
+            android:noHistory="true"/>
+        <activity
+            android:name="ViewJob"
+            android:noHistory="true"/>
+        <activity
+            android:name="StepJobDetaile"
+            android:noHistory="true"/>
+        <activity
+            android:name="ShowMessage"
+            android:noHistory="true"/>
+        <activity
+            android:name="List_Visits"
+            android:noHistory="true"/>
+        <activity
+            android:name="Save_Per_Factor"
+            android:noHistory="true"/>
+    </application>
+</manifest>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.project.it.hamyar">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/Logo_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name="com.project.it.hamyar.MainActivity"
+            android:label="@string/Logo_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.project.it.hamyar.Login"
+            android:noHistory="true" />
+        <activity
+            android:name="com.project.it.hamyar.Info_Person"
+            android:noHistory="true" />
+        <activity
+            android:name="com.project.it.hamyar.Accept_code"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.hamyar.Profile"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.hamyar.About"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.hamyar.Contact"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.hamyar.GiftBank"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.hamyar.Help"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.hamyar.List_Messages"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.hamyar.OurCommitment"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.hamyar.StepJob"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.hamyar.YourCommitment"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.hamyar.ViewJob"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.hamyar.StepJobDetaile"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.hamyar.ShowMessage"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.hamyar.List_Visits"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.hamyar.Save_Per_Factor"
+            android:noHistory="true"/>
+        <service android:name=".ServiceGetNewJob">
+
+        </service>
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyCEoiUWJUsQBPqH9SERQK3zA2S0XPMBmS8" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <receiver android:name="com.project.it.hamyar.SMSReseiver" android:enabled="true" android:exported="true">
+            <intent-filter android:priority="2147483647">
+                <action android:name=
+                    "android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+    </application>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+</manifest>

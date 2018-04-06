@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
+
+    <TextView
+        android:id="@+id/textViewName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/firstname" />
+
+    <TextView
+        android:id="@+id/TextViewLastName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/textViewName"
+        android:layout_below="@+id/textViewName"
+        android:layout_marginTop="30dp"
+        android:text="@string/lastname" />
+
+    <TextView
+        android:id="@+id/TextViewAge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/TextViewLastName"
+        android:layout_below="@+id/TextViewLastName"
+        android:layout_marginTop="30dp"
+        android:text="@string/brithday" />
+
+    <TextView
+        android:id="@+id/TextViewEducation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/TextViewAge"
+        android:layout_below="@+id/TextViewAge"
+        android:layout_marginTop="30dp"
+        android:text="@string/education" />
+
+    <TextView
+        android:id="@+id/TextViewExpertise"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/TextViewEducation"
+        android:layout_below="@+id/TextViewEducation"
+        android:layout_marginTop="30dp"
+        android:text="@string/Expertise" />
+
+    <Spinner
+        android:id="@+id/spEdudation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true" />
+
+    <ExpandableListView
+        android:id="@+id/evExpertise"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/spEdudation" >
+    </ExpandableListView>
+
+    <Button
+        android:id="@+id/btnSendInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Send" />
+
+    <EditText
+        android:id="@+id/etFname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewName"
+        android:layout_toLeftOf="@+id/TextViewLastName"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="رضا" />
+
+    <EditText
+        android:id="@+id/etLname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/etFname"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="هاشمی" />
+
+    <EditText
+        android:id="@+id/etBrithday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/etLname"
+        android:ems="10"
+        android:inputType="date"
+        android:maxLength="10"
+        android:text="1366/03/05" />
+
+</RelativeLayout>

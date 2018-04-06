@@ -1,0 +1,120 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/menu_body">
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:verticalScrollbarPosition="right">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/rounded_layout_select_job_body">
+        <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:text="@string/Job" />
+
+    <TextView
+        android:id="@+id/ContentShowJob"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tvTitle"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="23dp"
+        />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="5">
+
+            <Button
+                android:id="@+id/btnSelect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="200dp"
+                android:layout_marginStart="200dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/Select"
+                android:textColor="@color/colorbuttonview"/>
+            <Button
+                android:id="@+id/btnCansel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="110dp"
+                android:layout_marginStart="110dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/Cansel"
+                android:textColor="@color/colorbuttonview"/>
+
+            <Button
+                android:id="@+id/btnPause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/Pause"
+                android:textColor="@color/colorbuttonview"/>
+
+            <Button
+                android:id="@+id/btnPerFactor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1100dp"
+                android:layout_marginStart="110dp"
+                android:layout_marginTop="60dp"
+                android:text="@string/PerFactor"
+                android:textColor="@color/colorbuttonview"/>
+
+            <Button
+                android:id="@+id/btnVisit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="200dp"
+                android:layout_marginStart="200dp"
+                android:layout_marginTop="60dp"
+                android:text="@string/Visit"
+                android:textColor="@color/colorbuttonview"/>
+
+            <Button
+                android:id="@+id/btnResume"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/Resume"
+                android:textColor="@color/colorbuttonview"/>
+
+            <Button
+                android:id="@+id/btnFinal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="200dp"
+                android:layout_marginStart="200dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/Final"
+                android:textColor="@color/colorbuttonview"/>
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>
+</RelativeLayout>

@@ -1,0 +1,13 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/menu_body">
+
+    <ListView
+        android:id="@+id/listViewMessages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+    </ListView>
+
+</RelativeLayout>

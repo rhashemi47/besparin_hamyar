@@ -1,0 +1,97 @@
+<resources>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="app_name">بسپارین</string>
+    <string name="update">به روز رسانی</string>
+    <string name="action_settings">تنظیمات</string>
+    <string name="Logo_name">بسپارین</string>
+    <string name="Phone_Number">شماره همراه</string>
+    <string name="Send">ارسال</string>
+    <string name="accep_code">کد تایید</string>
+    <string name="firstname">نام</string>
+    <string name="lastname">نام خانوادگی</string>
+    <string name="education">تحصیلات</string>
+    <string name="Expertise">تخصص ها</string>
+    <string name="brithday">تاریخ تولد</string>
+    <string name="Profile">پروفایل</string>
+    <string name="Yourcommitment">تعهدات شما</string>
+    <string name="Ourcommitment">تعهدات ما</string>
+    <string name="Messages">پیام  ها</string>
+    <string name="GiftBank">بانک هدیه</string>
+    <string name="Contact">تماس با پشتیبانی</string>
+    <string name="Help">راهنما</string>
+    <string name="About">درباره ما</string>
+    <string name="Exit">خروج از برنامه</string>
+    <string name="Logout">خروج از حساب کاربری</string>
+    <string name="Login">ورود</string>
+    <string name="Job">لیست درخواست های رسیده</string>
+    <string name="Duty">فرصت های شغلی امروز</string>
+    <string name="Select">انتخاب</string>
+    <string name="Cansel">لغو</string>
+    <string name="PerFactor">پیش فاکتور</string>
+    <string name="Pause">وقفه</string>
+    <string name="Visit">بازدید</string>
+    <string name="Resume">ادامه کار</string>
+    <string name="Final">اتمام کار</string>
+    <string name="MainMenuTitle">صفحه اصلی</string>
+    <string name="StepJob">مراحل کاری</string>
+    <string name="StepJobdetaile">ملزومات کاری</string>
+    <string name="Save">ذخیره</string>
+    <string name="titleStep">عنوان کاری</string>
+    <string name="PriceJob">کارمزد</string>
+    <string name="Unit">واحد</string>
+    <string name="UnitPrice">هزینه هر واحد</string>
+    <string name="StepJobDetaile">ملزومات کاری</string>
+    <string name="titleToolsStep">لوازم مصرفی</string>
+    <string name="Brand">برند</string>
+    <string name="PriceTools">قیمت</string>
+    <string name="Credits">اعتبارات</string>
+    <string name="Delete">حذف</string>
+    <string name="RefreshAcceptCode">دریافت مجدد کد تایید</string>
+    <string name="TextAbout">شرکت تعاونی خدمات گستران برتر ایران، با هدف بهبود روند خدمات رسانی به هموطنان عزیز و با در نظر گرفتن تمامی نیاز ها و جنبه های کاری، زبده ترین تیم های تخصصی را گرد هم آورده تا ضمن ایجاد اشتغال و ساماندهی بازار کار، بتواند با کیفیت ترین خدمات را در کوتاه ترین زمان ممکن به مشترکین خود ارائه دهد. گروه خدماتی بسپارینا با در اختیار داشتن نیروهای خلاق و مبتکر و کار شبانه روزی این سیستم هوشمند را طراحی و با افتخار در اختیار شما عزیزان قرارداده است. بسپارینا افزون بر کاهش هدر روی زمان و دوباره کاری، هزینه های اضافی و غیر ضروری را از فرآیند سفارش مشتری حذف و همیاران قابل اعتماد خود را به چرخه انجام خدمات معرفی می‌نماید. </string>
+    <string name="TextYourCommitment">همیاران محترم، از آنجایی که مشتری‌ مداری یکی از چشم انداز ها و اهداف اصلی بسپارینا می‌باشد؛ مواردی را به شرح ذیل به استحضارمی رساند\n امیدواریم با رعایت نکات زیر در راستای اعطلای اهداف شرکت و رسیدن به نهایت سطح کیفی ما را همراهی فرمایید\n
+1-	رعایت نظم و انضباط کاری\n
+2-	رعایت شئونات اخلاقی\n
+3-	رعایت نظافت و آراستگی\n
+4-	رعایت اصول ایمنی در تمامی مراحل کاری\n
+5-	پایبندی به اصول بسپارینا\n
+6-	سعی و تلاش در انجام خدمات به شایسته‌ترین راه ممکن و انجام کار با بالاترین کیفیت \n
+7-	اطلاع رسانی کامل به مشتریان در خصوص فرآیند کاری و  ارائه توضیحات لازم \n
+8-	اعلام هزینه‌های خدمات مورد نیاز مشتری و ارائه توضیحات کامل و شفاف سازی هزینه های پیش‌بینی شده احتمالی  \n
+9-	تلاش برای جلب رضایت مشتری\n
+10-	 انجام کار و پایبندی به روال مشخص شده در بسپارینا\n
+11-	صدور فاکتور مطابق با نرخ نامه های مصوب اصناف\n
+12-	تسویه حساب  با استفاده از روش‌های پیش‌بینی شده در نرم افزار \n
+13-	پرهیز از هر نوع بحث و جدل بی‌مورد با مشتری و ارجاع این موارد به تیم پشتیبانی\n
+14-	هماهنگی کامل با تیم پشتیبانی در موارد اضطراری\n
+15-	عدم لغو بی‌مورد سرویس‌ها (تنها در موارد اضطراری و با هماهنگی پشتیبانی)\n
+</string>
+    <string name="TextOurCommitment">1-	بسپارینا با اخذ مجوزهای لازم و بهره‌مندی از برترین تیم‌های کارشناسی، در راستای ایجاد اشتغال و بالا بردن سطح بهره‌وری در خدمت همیاران خود می باشد و برای بالابردن سطح رضایتمندی همیاران خود از هیچ کوششی دریغ نخواهد کرد\n
+2-	بسپارینا در راستای مشخص نمودن اهداف شرکت و یکپارچه‌سازی همیاران خود، دوره های آموزشی-توجیهی مورد نیاز را برای همیاران خود برگزار می نماید\n
+3-	 بسپارینا افتخار دارد با کارآمدترین روش‌های تبلیغاتی و شناخت بازار، فرصتهای شغلی مناسب را جهت همیاران خود فراهم نموده و  در کمترین زمان ممکن اطلاع رسانی نماید\n
+4-	در راستای آسودگی خاطر همیاران محترم، بسپارینا ضمن تدوین آئین‌نامه و روش اجرایی، مشتریان خود را ملزم به پایبندی به مقررات و دستور العملها نموده و از بروز مشکلات احتمالی جلوگیری می‌نماید\n
+5-	تیم پشتیبانی و کارشناسان خبره بسپارینا در همه مراحل از ثبت سفارش تا انجام کار، مرحله به مرحله پاسخگوی سوالات همیاران خود می باشد\n
+6-	تیم پشتیبانی از زمان شروع انجام خدمات تا پایان کار همراه همیاران خود بوده و گام به گام بر تمام مراحل اجرایی نظارت دارد\n
+7-	یک نسخه از تمامی فاکتورهای صادره در اختیار کارشناسان بسپارینا قرار می گیرد تا در صورت بروز هر گونه مشکل در روند تسویه حساب از خدمات حمایتی تیم پشتیبانی بهره مند شوید\n
+8-	بسپارینا بعد از پایان انجام خدمات، کار انجام شده را ارزیابی نموده و همیاران خود را مورد تقدیر و تشویق قرار می دهد\n
+9-	پس از اتمام هر سرویس و دریافت نظرات و میزان رضایتمندی مشتریان امتیازی را برای همیاران در نظر گرفته خواهد شد و اعتبار اخذ شده به بانک جوایز همیاران واریز خواهد شد\n
+</string>
+    <string name="ListVisit">بازدیدهای ثبت شده</string>
+    <string name="servicename">نام سرویس</string>
+    <string name="ServiDetailName">نوع سرویس</string>
+    <string name="Add">افزودن</string>
+    <string name="FinalSave">ثبت نهایی</string>
+    <string name="value">مقدار</string>
+    <string name="TitleTools">عنوان ملزومات</string>
+    <string name="CheckTitleTool">آیا فاکتور ملزومات دارد؟</string>
+    <string name="Description">توضیحات</string>
+    <string name="Total">جمع</string>
+    <string name="CaseResume">علت وقفه</string>
+    <string name="CasePause">علت وقفه</string>
+    <string name="CodeMoaref">کد معرف</string>
+    <string name="service">سرویس</string>
+    <string name="credite">اعتبارات</string>
+    <string name="home">خانه</string>
+    <string name="DutyItem">وظایف</string>
+    <string name="RecentCredit">اعتبار فعلی</string>
+
+</resources>

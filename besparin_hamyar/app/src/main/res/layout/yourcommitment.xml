@@ -1,0 +1,62 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/menu_body">
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/appbar_padding_top"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:background="@drawable/background_actionbar">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:title="@string/Yourcommitment" />
+    </android.support.design.widget.AppBarLayout>
+<ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:verticalScrollbarPosition="right">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="90dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/rounded_layout_select_job_body">
+    <TextView
+        android:id="@+id/tvTextOurcommitment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/TextYourCommitment"
+        android:lineSpacingExtra="4dp"
+        android:textSize="18dp"/>
+    </LinearLayout>
+    </ScrollView>
+    <FrameLayout
+        android:id="@+id/frame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_actionbar" />
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        style="@style/BottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:menu="@menu/bottom_menu"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>
