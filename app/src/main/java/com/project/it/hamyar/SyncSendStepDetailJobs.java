@@ -93,7 +93,7 @@ public class SyncSendStepDetailJobs {
 		
 		public AsyncCallWS(Activity activity) {
 		    this.activity = activity;
-		    this.dialog = new ProgressDialog(activity);
+		    this.dialog = new ProgressDialog(activity);		    		    this.dialog.setCanceledOnTouchOutside(false);
 		}
 		
         @Override
@@ -157,19 +157,7 @@ public class SyncSendStepDetailJobs {
         }
         
     }
-	
-	String LastNewsId;
-	public void LoadMaxNewId()
-	{
-		db = dbh.getReadableDatabase();
-		Cursor cursors = db.rawQuery("select IFNULL(max(id),0)MID from news", null);
-		if(cursors.getCount() > 0)
-		{
-			cursors.moveToNext();
-			LastNewsId = cursors.getString(cursors.getColumnIndex("MID"));
-		}
-	}
-	
+
 	public void CallWsMethod(String METHOD_NAME) {
 	    //Create request
 	    SoapObject request = new SoapObject(PV.NAMESPACE, METHOD_NAME);
@@ -256,11 +244,7 @@ public class SyncSendStepDetailJobs {
 	
 	
 	public void InsertDataFromWsToDb(String AllRecord)
-    {	
-//		String query;
-//		db=dbh.getWritableDatabase();
-//		query="UPDATE HmFactorService SET IsSend='1'";
-//		db.execSQL(query);
+    {
 		SyncGetHmFactorTools getHmFactorServicetools=new SyncGetHmFactorTools(activity,guid,hamyarcode);
 		getHmFactorServicetools.AsyncExecute();
     }

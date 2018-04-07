@@ -86,18 +86,12 @@ public class Info_Person extends Activity {
         	
         }
         catch (Exception e) {
-//        	phonenumber="0";
-//        	acceptcode="0";
-//        	guid="0";
 		}		
    		try
         {
    			Acceptcode = getIntent().getStringExtra("acceptcode").toString();
         }
         catch (Exception e) {
-//        	phonenumber="0";
-//        	acceptcode="0";
-//        	guid="0";
 		}			
 		fname=(EditText)findViewById(R.id.etFname);
 		lname=(EditText)findViewById(R.id.etLname);
@@ -141,11 +135,8 @@ public class Info_Person extends Activity {
 		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, labels);
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spEducation.setAdapter(dataAdapter);
-		
-		//get the listview expandible
-         //expListView = (ExpandableListView)findViewById(R.id.evExpertise);
- 
-        // preparing list data
+		db.close();
+
         prepareListData();
  
         listAdapter = new CustomeExpandableListAdapter(this, listDataHeader, listDataChild);
@@ -266,9 +257,12 @@ public void insertHamyar() {
 			}
 			InsertHamyar insertHamyar = new InsertHamyar(Info_Person.this, phonenumber, Acceptcode, fname.getText().toString(), lname.getText().toString(), education, exExpertiseString, yearStr, monStr, dayStr,ReagentCode);
 			insertHamyar.AsyncExecute();
-		} else {
+		}
+		else
+		{
 			Toast.makeText(getApplicationContext(), "لطفا تخصص خود را اعلام انتخاب فرمایید", Toast.LENGTH_SHORT).show();
 		}
+		db.close();
 	}
 	else
 	{
@@ -286,19 +280,18 @@ public void insertHamyar() {
 		//String head;
 		for(int i=0;i<headers.getCount();i++){
 			headers.moveToNext();
-			//head=headers.getString(headers.getColumnIndex("servicename"));
 			listDataHeader.add(headers.getString(headers.getColumnIndex("servicename")));
-			//Cursor childs = db.rawQuery("SELECT * FROM servicesdetails WHERE servicename='"+listDataHeader.get(i)+"'",null);
 			Cursor childs = db.rawQuery("SELECT * FROM servicesdetails WHERE code='"+headers.getString(headers.getColumnIndex("code"))+"'",null);
 			//String child;
 			 List<String> childDetails = new ArrayList<String>();
 			for(int j=0;j<childs.getCount();j++)
 			{
 				childs.moveToNext();
-				//child=childs.getString(childs.getColumnIndex("name"));
 				childDetails.add(childs.getString(childs.getColumnIndex("name")));
 			}
+
 			listDataChild.put(listDataHeader.get(i), childDetails);
 		}
+		db.close();
     }
 }

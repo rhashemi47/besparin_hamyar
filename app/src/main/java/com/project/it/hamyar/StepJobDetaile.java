@@ -130,6 +130,8 @@
                     hamyarcode = coursors.getString(coursors.getColumnIndex("hamyarcode"));
                 }
             }
+
+            db.close();
             addItemFromList(true);
             db=dbh.getReadableDatabase();
             Cursor coursors = db.rawQuery("SELECT * FROM services", null);
@@ -161,6 +163,8 @@
                 dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 SpNameService.setAdapter(dataAdapter);
             }
+
+            db.close();
             SpNameService.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -170,6 +174,8 @@
                         coursors.moveToNext();
                         FillSpinnerChild(coursors.getString(coursors.getColumnIndex("code")));
                     }
+
+                    db.close();
                 }
 
                 @Override
@@ -199,9 +205,6 @@
                     return true;
                 }
             });
-            String Query="UPDATE UpdateApp SET Status='1'";
-            db=dbh.getWritableDatabase();
-            db.execSQL(Query);
 
             btnCredit.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -320,6 +323,8 @@
                                 return v;
                             }
                         };
+
+                        db.close();
                         lvStepJob.setAdapter(adapterList);
                     }
                 }
@@ -377,6 +382,8 @@
                         syncUpdateStepDetailJobs.AsyncExecute();
 
                     }
+
+                    db.close();
                     Toast.makeText(StepJobDetaile.this, "آیتم حذف شد", Toast.LENGTH_LONG).show();
                     listItems.remove(deletePosition);
                     adapterList.notifyDataSetChanged();
@@ -402,6 +409,8 @@
                 dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 SpDitalNameService.setAdapter(dataAdapter);
             }
+
+            db.close();
         }
         public void SendFarctor() {
             db = dbh.getReadableDatabase();
@@ -419,6 +428,7 @@
                             coursors.getString(coursors.getColumnIndex("BrandName")),
                             coursors.getString(coursors.getColumnIndex("Price"))
                     );
+
                     syncSendStepDetailJobs.AsyncExecute();
                 }
             }
@@ -426,5 +436,7 @@
             {
                 Toast.makeText(StepJobDetaile.this, "لطفا آیتم جدیدی ایجاد کنید", Toast.LENGTH_LONG).show();
             }
+
+            db.close();
         }
     }

@@ -84,13 +84,12 @@ protected void onCreate(Bundle savedInstanceState) {
 			guid=coursors.getString(coursors.getColumnIndex("guid"));
 			hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
 		}
+
+		db.close();
 	}
 	Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
 	txtContent=(TextView)findViewById(R.id.tvTextAbout);
 	txtContent.setTypeface(FontMitra);
-	String Query="UPDATE UpdateApp SET Status='1'";
-	db=dbh.getWritableDatabase();
-	db.execSQL(Query);
 	((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map3)).getMapAsync(new OnMapReadyCallback() {
 		@Override
 

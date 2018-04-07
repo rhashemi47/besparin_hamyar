@@ -84,7 +84,7 @@ public class SyncUnit {
 		
 		public AsyncCallWS(Activity activity) {
 		    this.activity = activity;
-		    this.dialog = new ProgressDialog(activity);
+		    this.dialog = new ProgressDialog(activity);		    		    this.dialog.setCanceledOnTouchOutside(false);
 		}
 		
         @Override
@@ -144,18 +144,7 @@ public class SyncUnit {
         }
         
     }
-	
-	String LastNewsId;
-	public void LoadMaxNewId()
-	{
-		db = dbh.getReadableDatabase();
-		Cursor cursors = db.rawQuery("select IFNULL(max(id),0)MID from news", null);
-		if(cursors.getCount() > 0)
-		{
-			cursors.moveToNext();
-			LastNewsId = cursors.getString(cursors.getColumnIndex("MID"));
-		}
-	}
+
 	
 	public void CallWsMethod(String METHOD_NAME) {
 	    //Create request
@@ -205,6 +194,7 @@ public class SyncUnit {
 			query="INSERT INTO Unit (Code,Name) VALUES('"+value[0]+"','"+value[1]+"')";
 			db.execSQL(query);
 		}
+		db.close();
 		SyncGetHmFactorService getHmFactorService=new SyncGetHmFactorService(this.activity,GUID,HamyarCode);
 		getHmFactorService.AsyncExecute();
 		SyncGetHmFactorTools getHmFactorServiceTools=new SyncGetHmFactorTools(this.activity,GUID,HamyarCode);

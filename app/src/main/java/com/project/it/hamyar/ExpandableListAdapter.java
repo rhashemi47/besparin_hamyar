@@ -105,7 +105,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 		coursors.moveToNext();
 		db.execSQL("DELETE FROM HmFactorService WHERE code='"+coursors.getString(coursors.getColumnIndex("code")) +"')");
 	}
-
+			db.close();
   }
 	};
 

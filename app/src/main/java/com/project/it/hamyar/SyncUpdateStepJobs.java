@@ -97,7 +97,7 @@ public class SyncUpdateStepJobs {
 		
 		public AsyncCallWS(Activity activity) {
 		    this.activity = activity;
-		    this.dialog = new ProgressDialog(activity);
+		    this.dialog = new ProgressDialog(activity);		    		    this.dialog.setCanceledOnTouchOutside(false);
 		}
 		
         @Override
@@ -276,5 +276,7 @@ public class SyncUpdateStepJobs {
 		String query="UPDATE HmFactorService SET Status='0',IsSend='1' WHERE ServiceName='"+ServiceName+"' AND PricePerUnit='"+PricePerUnit+"' AND Unit='"+UnitCode+"'" +
 				" AND ServiceDetaileCode='"+ServiceDetaileCode+"'";
 		db.execSQL(query);
+
+		db.close();
 	}
 }

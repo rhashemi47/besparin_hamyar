@@ -144,6 +144,8 @@ public class Profile extends Activity {
 				guid=coursors.getString(coursors.getColumnIndex("guid"));
 				hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
 			}
+
+			db.close();
 		}
 
 		Bitmap bmp= BitmapFactory.decodeResource(getResources(),R.drawable.useravatar);
@@ -159,15 +161,10 @@ public class Profile extends Activity {
 			etReagentCodeProfile.setText(coursors.getString(coursors.getColumnIndex("HamyarCodeForReagent")));
 			bmp=convertToBitmap(coursors.getString(coursors.getColumnIndex("Pic")));
 		}
+
+		db.close();
 		imgUser.setImageBitmap(bmp);
-//		etReagentCodeProfile.setOnClickListener(new View.OnClickListener() {
-//			@Override
-//			public void onClick(View view) {
-//				if(etReagentCodeProfile.getText().toString().length()>0) {
-//					sharecode(etReagentCodeProfile.getText().toString());
-//				}
-//			}
-//		});
+
 		etBrithday.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {

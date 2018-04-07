@@ -83,29 +83,11 @@
                 guid=coursors.getString(coursors.getColumnIndex("guid"));
                 hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
             }
+            db.close();
         }
             //******************************************************************************
             Preparedata();
             //*****************************************************************************
-//            BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
-//
-//            bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-//                @Override
-//                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                    if (item.getItemId() == R.id.credite) {
-////                    Toast.makeText(getBaseContext(), "اعتبارات", Toast.LENGTH_LONG).show();
-//                        LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
-//                        return true;
-//                    } else if (item.getItemId() == R.id.History	) {
-////                     History.this.LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
-//                        return true;
-//                    } else if (item.getItemId() == R.id.home) {
-////                    Toast.makeText(getBaseContext(), "صفحه اصلی", Toast.LENGTH_LONG).show();
-//                        return true;
-//                    }
-//                    return false;
-//                }
-//            });
             btnCredit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -107,7 +107,7 @@ public class InsertHamyar {
 		
 		public AsyncCallWS(Activity activity) {
 		    this.activity = activity;
-		    this.dialog = new ProgressDialog(activity);
+		    this.dialog = new ProgressDialog(activity);		    		    this.dialog.setCanceledOnTouchOutside(false);
 		}
 		
         @Override
@@ -171,18 +171,7 @@ public class InsertHamyar {
         }
         
     }
-	
-	String LastNewsId;
-	public void LoadMaxNewId()
-	{
-		db = dbh.getReadableDatabase();
-		Cursor cursors = db.rawQuery("select IFNULL(max(id),0)MID from news", null);
-		if(cursors.getCount() > 0)
-		{
-			cursors.moveToNext();
-			LastNewsId = cursors.getString(cursors.getColumnIndex("MID"));
-		}
-	}
+
 	
 	public void CallWsMethod(String METHOD_NAME) {
 	    //Create request
@@ -316,6 +305,7 @@ public class InsertHamyar {
 				"(Code,Name,Fam,BthDate,ShSh,BirthplaceCode,Sader,StartDate,Address,Tel,Mobile,ReagentName,AccountNumber,HamyarNumber,IsEmrgency,Status) " +
 				"VALUES" +
 				"('"+notext+"','"+Name+"','"+Family+"','"+brith+"','"+notext+"','"+notext+"','"+notext+"','"+notext+"','"+notext+"','"+notext+"','"+notext+"','"+notext+"','"+notext+"','"+notext+"','"+notext+"','"+notext+"')");
+		db.close();
 		LoadActivity(MainMenu.class, "guid", guid,"hamyarcode",hamyarcode);
     }
 	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2)

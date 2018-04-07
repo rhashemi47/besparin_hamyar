@@ -175,7 +175,7 @@ public class MainMenu extends AppCompatActivity {
                 IsActive=false;
             }
 
-
+            db.close();
         }
         catch(Exception e)
         {
@@ -201,6 +201,7 @@ public class MainMenu extends AppCompatActivity {
                 bpm[j]=convertToBitmap(coursors.getString(coursors.getColumnIndex("Pic")));
                 link[j]=coursors.getString(coursors.getColumnIndex("Link"));
             }
+            db.close();
             int i = 0;
             while(i<bpm.length)
             {
@@ -254,27 +255,6 @@ public class MainMenu extends AppCompatActivity {
         }
 
 
-
-
-        //***************************************************************************************************************************
-//        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
-//        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                if (item.getItemId() == R.id.credite) {
-////                    Toast.makeText(getBaseContext(), "اعتبارات", Toast.LENGTH_LONG).show();
-//                    LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
-//                    return true;
-//                } else if (item.getItemId() == R.id.History	) {
-//                    LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
-//                    return true;
-//                } else if (item.getItemId() == R.id.home) {
-//                   LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
-//                    return true;
-//                }
-//                return false;
-//            }
-//        });
         btnCredit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -375,6 +355,7 @@ public class MainMenu extends AppCompatActivity {
                 stopService(new Intent(getBaseContext(), ServiceGetLocation.class));
                 stopService(new Intent(getBaseContext(), ServiceGetNewJob.class));
                 stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+                db.close();
                 System.exit(0);
                 arg0.dismiss();
 
@@ -395,6 +376,7 @@ public class MainMenu extends AppCompatActivity {
             name=coursors.getString(coursors.getColumnIndex("Name"));
             family= coursors.getString(coursors.getColumnIndex("Fam"));
             bmp=convertToBitmap(coursors.getString(coursors.getColumnIndex("Pic")));
+            db.close();
         }
         else
         {
@@ -476,8 +458,9 @@ public class MainMenu extends AppCompatActivity {
                                     {
                                         LoadActivity(Profile.class, "guid", guid,"hamyarcode",hamyarcode);
                                     }
-                                    db.close();
                                 }
+
+                                db.close();
                                 break;
                             case 2:
                                 db = dbh.getReadableDatabase();
@@ -561,6 +544,8 @@ public class MainMenu extends AppCompatActivity {
 
                                             LoadActivity(StepJob.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
                                         }
+
+                                        db.close();
                                         arg0.dismiss();
                                     }
                                 });
@@ -576,6 +561,8 @@ public class MainMenu extends AppCompatActivity {
 
                                             LoadActivity(StepJobDetaile.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
                                         }
+
+                                        db.close();
                                         arg0.dismiss();
 
                                     }

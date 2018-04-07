@@ -98,6 +98,8 @@ public class ServiceGetLocation extends Service {
                                                 syncInsertHamyarLocation.AsyncExecute();
                                             }
                                         }
+
+                                        db.close();
                                     }
 
                                 }

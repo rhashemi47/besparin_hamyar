@@ -84,6 +84,7 @@ protected void onCreate(Bundle savedInstanceState) {
 			guid=coursors.getString(coursors.getColumnIndex("guid"));
 			hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
 		}
+		db.close();
 	}
 
 	btnIncreseCredit=(Button)findViewById(R.id.btnIncresCredit);
@@ -93,9 +94,6 @@ protected void onCreate(Bundle savedInstanceState) {
 	txtContent.setTypeface(FontMitra);
 	tvRecentCreditsValue=(TextView)findViewById(R.id.tvRecentCreditsValue);
 	tvRecentCreditsValue.setTypeface(FontMitra);
-	String Query="UPDATE UpdateApp SET Status='1'";
-	db=dbh.getWritableDatabase();
-	db.execSQL(Query);
 	try
 	{
 		String Content="";

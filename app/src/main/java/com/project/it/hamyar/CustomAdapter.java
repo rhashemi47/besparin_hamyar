@@ -187,7 +187,7 @@ public class CustomAdapter extends BaseAdapter {
         //map.get("title")
         holder.txtValues.setTag(code);
         holder.txtValues.setOnClickListener(TextViewItemOnclick);
-
+db.close();
         return convertView;
     }
 

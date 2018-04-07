@@ -80,6 +80,8 @@ public class ShowMessage extends Activity{
                 guid=coursors.getString(coursors.getColumnIndex("guid"));
                 hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
             }
+
+            db.close();
         }
         String query=null;
         String[] DateSp=null;
@@ -92,6 +94,8 @@ public class ShowMessage extends Activity{
             content.setText(cursor.getString(cursor.getColumnIndex("Content")));
             Isread=cursor.getString(cursor.getColumnIndex("IsReade"));
         }
+
+        db.close();
         if(Isread.compareTo("0")==0)
         {
             DateSp= ChangeDate.getCurrentDate().split("/");
@@ -109,12 +113,11 @@ public class ShowMessage extends Activity{
                         " SET  IsDelete='1' " +
                         "WHERE Code='"+getIntent().getStringExtra("Code") + "'";
                 db.execSQL(query);
+
+                db.close();
                 LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
             }
         });
-        String Query="UPDATE UpdateApp SET Status='1'";
-        db=dbh.getWritableDatabase();
-        db.execSQL(Query);
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {

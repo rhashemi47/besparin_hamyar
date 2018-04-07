@@ -150,6 +150,8 @@
                     guid = coursors.getString(coursors.getColumnIndex("guid"));
                     hamyarcode = coursors.getString(coursors.getColumnIndex("hamyarcode"));
                 }
+
+                db.close();
             }
 
             db = dbh.getReadableDatabase();
@@ -161,6 +163,7 @@
                     Unit_key.put(coursors.getString(coursors.getColumnIndex("Code")),coursors.getString(coursors.getColumnIndex("Name")));
                     labels.add(coursors.getString(coursors.getColumnIndex("Name")));
                 }
+
                 addItemFromList(true);
                 ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, labels){
                     public View getView(int position, View convertView, ViewGroup parent) {
@@ -214,6 +217,8 @@
                         return v;
                     }
                 };
+
+                db.close();
                 dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 SpNameService.setAdapter(dataAdapter);
             }
@@ -226,6 +231,8 @@
                             coursors.moveToNext();
                         FillSpinnerChild(coursors.getString(coursors.getColumnIndex("code")));
                         }
+
+                    db.close();
                 }
 
                 @Override
@@ -255,9 +262,6 @@
                     return true;
                 }
             });
-            String Query="UPDATE UpdateApp SET Status='1'";
-            db=dbh.getWritableDatabase();
-            db.execSQL(Query);
 
             btnCredit.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -328,6 +332,7 @@
                                     return v;
                                 }
                             };
+
                             lvStepJob.setAdapter(adapterList);
                         }
                     }
@@ -378,7 +383,7 @@
                     }
                 }
             }
-
+            db.close();
 }
 
 
@@ -388,6 +393,8 @@
                 String query="DELETE FROM HmFactorService WHERE IsSend='0' AND Status='0'";
                 db=dbh.getWritableDatabase();
                 db.execSQL(query);
+
+                db.close();
                 StepJob.this.LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
             }
             return super.onKeyDown(keyCode, event);

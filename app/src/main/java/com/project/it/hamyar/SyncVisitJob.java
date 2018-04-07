@@ -99,7 +99,7 @@ public class SyncVisitJob {
 		
 		public AsyncCallWS(Activity activity) {
 		    this.activity = activity;
-		    this.dialog = new ProgressDialog(activity);
+		    this.dialog = new ProgressDialog(activity);		    		    this.dialog.setCanceledOnTouchOutside(false);
 		}
 		
         @Override
@@ -167,19 +167,6 @@ public class SyncVisitJob {
         
     }
 
-
-
-	String LastNewsId;
-	public void LoadMaxNewId()
-	{
-		db = dbh.getReadableDatabase();
-		Cursor cursors = db.rawQuery("select IFNULL(max(id),0)MID from news", null);
-		if(cursors.getCount() > 0)
-		{
-			cursors.moveToNext();
-			LastNewsId = cursors.getString(cursors.getColumnIndex("MID"));
-		}
-	}
 	
 	public void CallWsMethod(String METHOD_NAME) {
 	    //Create request
@@ -294,6 +281,8 @@ public class SyncVisitJob {
 				" SET  Status='5' ,VisitDate='"+this.Year+"/" +this.Mon+"/"+this.Day+
 				"' WHERE Code='"+UserServiceCode+"'";
 		db.execSQL(query);
+
+		db.close();
 		LoadActivity(ViewJob.class,"guid", guid,"hamyarcode",hamyarcode,"tab","0","BsUserServicesID",UserServiceCode);
 	}
 	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2, String VariableName3, String VariableValue3, String VariableName4, String VariableValue4)

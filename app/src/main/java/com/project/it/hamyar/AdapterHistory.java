@@ -72,20 +72,5 @@ public class AdapterHistory extends BaseAdapter {
 
         return convertView;
     }
-
-
-//    private OnClickListener TextViewItemOnclick = new OnClickListener() {
-//        @Override
-//        public void onClick(View v) {
-//            String BsUserServicesID="";
-//            BsUserServicesID = ((TextView)v).getTag().toString();
-//            Intent intent = new Intent(activity.getApplicationContext(),ViewJob.class);
-//            intent.putExtra("guid",guid);
-//            intent.putExtra("hamyarcode",hamyarcode);
-//            intent.putExtra("BsUserServicesID",BsUserServicesID);
-//            intent.putExtra("tab","0");
-//            activity.startActivity(intent);
-//        }
-//    };
 }
 

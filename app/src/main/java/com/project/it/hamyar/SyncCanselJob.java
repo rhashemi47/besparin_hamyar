@@ -32,7 +32,6 @@ public class SyncCanselJob {
 	private String UserServiceCode;
 	private String Description;
 	private String RowID;
-	//private String acceptcode;
 	private boolean CuShowDialog=false;
 	//Contractor
 	public SyncCanselJob(Activity activity, String guid, String hamyarcode, String UserServiceCode, String rowid,String Description) {
@@ -93,7 +92,7 @@ public class SyncCanselJob {
 		
 		public AsyncCallWS(Activity activity) {
 		    this.activity = activity;
-		    this.dialog = new ProgressDialog(activity);
+		    this.dialog = new ProgressDialog(activity);		    		    this.dialog.setCanceledOnTouchOutside(false);
 		}
 		
         @Override
@@ -161,18 +160,6 @@ public class SyncCanselJob {
     }
 
 
-
-	String LastNewsId;
-	public void LoadMaxNewId()
-	{
-		db = dbh.getReadableDatabase();
-		Cursor cursors = db.rawQuery("select IFNULL(max(id),0)MID from news", null);
-		if(cursors.getCount() > 0)
-		{
-			cursors.moveToNext();
-			LastNewsId = cursors.getString(cursors.getColumnIndex("MID"));
-		}
-	}
 	
 	public void CallWsMethod(String METHOD_NAME) {
 	    //Create request
@@ -249,6 +236,8 @@ public class SyncCanselJob {
 				"' WHERE Code='"+UserServiceCode+"'";
 		db.execSQL(query);
 		Toast.makeText(activity, "سرویس لغو شد", Toast.LENGTH_LONG).show();
+
+		db.close();
 		LoadActivity(MainMenu.class,"guid", guid,"hamyarcode",hamyarcode,"tab","1","BsUserServicesID",UserServiceCode);
 
 	}

@@ -86,7 +86,7 @@ public class SyncEducation {
 		
 		public AsyncCallWS(Activity activity) {
 		    this.activity = activity;
-		    this.dialog = new ProgressDialog(activity);
+		    this.dialog = new ProgressDialog(activity);		    		    this.dialog.setCanceledOnTouchOutside(false);
 		}
 		
         @Override
@@ -207,14 +207,7 @@ public class SyncEducation {
 		}
 		SyncServices syncservices=new SyncServices(this.activity,this.phonenumber,this.acceptcode,"0");
 		syncservices.AsyncExecute();
+		db.close();
     }
-	
-
-//	public void LoadActivity(Class<?> Cls,String VariableName,String VariableValue,String VariableName2,String VariableValue2)
-//	{
-//		Intent intent = new Intent(activity,Cls);
-//		intent.putExtra(VariableName, VariableValue);
-//		activity.startActivity(intent);
-//	}
 	
 }

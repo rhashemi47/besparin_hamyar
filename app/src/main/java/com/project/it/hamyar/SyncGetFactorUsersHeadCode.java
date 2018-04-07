@@ -113,7 +113,7 @@ public class SyncGetFactorUsersHeadCode {
 		
 		public AsyncCallWS(Activity activity) {
 		    this.activity = activity;
-		    this.dialog = new ProgressDialog(activity);
+		    this.dialog = new ProgressDialog(activity);		    		    this.dialog.setCanceledOnTouchOutside(false);
 		}
 		
         @Override
@@ -322,6 +322,8 @@ public class SyncGetFactorUsersHeadCode {
 				}
 			}
 		}
+
+		db.close();
 		LoadActivity(ViewJob.class, "guid", guid, "hamyarcode", hamyarcode,"BsUserServicesID", UserServiceCode, "tab", "0");
 	}
 	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2, String VariableName3, String VariableValue3, String VariableName4, String VariableValue4)

@@ -83,7 +83,7 @@ public class SyncGetSelectJobs {
 
 		public AsyncCallWS(Activity activity) {
 			this.activity = activity;
-			this.dialog = new ProgressDialog(activity);
+			this.dialog = new ProgressDialog(activity);		    		    this.dialog.setCanceledOnTouchOutside(false);
 		}
 
 		@Override
@@ -129,6 +129,8 @@ public class SyncGetSelectJobs {
 				}
 			} catch (Exception e) {
 			}
+
+			db.close();
 		}
 
 		@Override
@@ -145,16 +147,6 @@ public class SyncGetSelectJobs {
 
 	}
 
-	String LastNewsId;
-
-	public void LoadMaxNewId() {
-		db = dbh.getReadableDatabase();
-		Cursor cursors = db.rawQuery("select IFNULL(max(id),0)MID from news", null);
-		if (cursors.getCount() > 0) {
-			cursors.moveToNext();
-			LastNewsId = cursors.getString(cursors.getColumnIndex("MID"));
-		}
-	}
 
 	public void CallWsMethod(String METHOD_NAME) {
 		//Create request
@@ -300,6 +292,8 @@ public class SyncGetSelectJobs {
 			cursors.moveToNext();
 			LastHamyarUserServiceCode=cursors.getString(cursors.getColumnIndex("code"));
 		}
+
+		db.close();
 		SyncJobs jobs=new SyncJobs(this.activity, guid,hamyarcode,LastHamyarUserServiceCode);
 		jobs.AsyncExecute();
 	}

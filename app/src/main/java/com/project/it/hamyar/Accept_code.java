@@ -139,6 +139,8 @@ public class Accept_code extends Activity {
 					sendCode.AsyncExecute();
 				}
 
+				db.close();
+
 			}
 		});
 		SMSReseiver.bindListener(new SmsListener() {
@@ -198,5 +200,7 @@ public void onPause() {
 		db.execSQL(query);
 		HmLogin hm=new HmLogin(Accept_code.this, phonenumber, acceptcode.getText().toString(),check_load);
 		hm.AsyncExecute();
+
+		db.close();
 	}
 }

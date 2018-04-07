@@ -77,6 +77,7 @@ public class Contact extends Activity {
 				guid=coursors.getString(coursors.getColumnIndex("guid"));
 				hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
 			}
+			db.close();
 		}
 		btnCallSupporter.setOnClickListener(new View.OnClickListener() {
 			@Override

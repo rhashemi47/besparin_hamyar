@@ -81,6 +81,7 @@ public class ServiceGetNewJob extends Service {
                                     }
                                     SyncNewJob syncNewJob=new SyncNewJob(getApplicationContext(),guid,hamyarcode,LastHamyarUserServiceCode,true);
                                     syncNewJob.AsyncExecute();
+                                    db.close();
                                 }
                             });
                         } catch (Exception e) {

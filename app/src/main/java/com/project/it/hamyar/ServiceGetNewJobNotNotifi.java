@@ -69,16 +69,20 @@ public class ServiceGetNewJobNotNotifi extends Service {
                                     db=dbh.getReadableDatabase();
                                     Cursor coursors = db.rawQuery("SELECT * FROM login",null);
                                     for(int i=0;i<coursors.getCount();i++){
+
                                         coursors.moveToNext();
                                         guid=coursors.getString(coursors.getColumnIndex("guid"));
                                         hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
                                     }
+
                                     Cursor cursors = db.rawQuery("SELECT ifnull(MAX(CAST (code AS INT)),0)as code FROM BsUserServices", null);
                                     if(cursors.getCount()>0)
                                     {
                                         cursors.moveToNext();
                                         LastHamyarUserServiceCode=cursors.getString(cursors.getColumnIndex("code"));
                                     }
+
+                                    db.close();
                                     SyncNewJob syncNewJob=new SyncNewJob(getApplicationContext(),guid,hamyarcode,LastHamyarUserServiceCode,false);
                                     syncNewJob.AsyncExecute();
                                 }

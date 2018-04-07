@@ -58,6 +58,8 @@
             String Query="UPDATE UpdateApp SET Status='1'";
             db=dbh.getWritableDatabase();
             db.execSQL(Query);
+
+            db.close();
             BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
 
             bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {

@@ -90,7 +90,7 @@ public class SyncMessage {
 		
 		public AsyncCallWS(Activity activity) {
 		    this.activity = activity;
-		    this.dialog = new ProgressDialog(activity);
+		    this.dialog = new ProgressDialog(activity);		    		    this.dialog.setCanceledOnTouchOutside(false);
 		}
 		
         @Override
@@ -159,17 +159,7 @@ public class SyncMessage {
         
     }
 	
-	String LastNewsId;
-	public void LoadMaxNewId()
-	{
-		db = dbh.getReadableDatabase();
-		Cursor cursors = db.rawQuery("select IFNULL(max(id),0)MID from news", null);
-		if(cursors.getCount() > 0)
-		{
-			cursors.moveToNext();
-			LastNewsId = cursors.getString(cursors.getColumnIndex("MID"));
-		}
-	}
+
 	
 	public void CallWsMethod(String METHOD_NAME) {
 	    //Create request
@@ -245,6 +235,8 @@ public class SyncMessage {
 					"','"+value[4]+"')";
 			db.execSQL(query);
 		}
+
+		db.close();
 		SyncGetSelectJobs Selectjobs=new SyncGetSelectJobs(this.activity, guid,hamyarcode,LastHamyarSelectUserServiceCode);
 		Selectjobs.AsyncExecute();
 		SyncUnit unit=new SyncUnit(this.activity,guid,hamyarcode);

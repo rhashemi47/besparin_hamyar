@@ -69,6 +69,7 @@
                 guid=coursors.getString(coursors.getColumnIndex("guid"));
                 hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
             }
+            db.close();
         }
         db=dbh.getReadableDatabase();
             Cursor coursors = db.rawQuery("SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
@@ -93,10 +94,7 @@
             AdapterVisit dataAdapter=new AdapterVisit(List_Visits.this,valuse,guid,hamyarcode);
             lvVisit.setAdapter(dataAdapter);
         }
-            String Query="UPDATE UpdateApp SET Status='1'";
-            db=dbh.getWritableDatabase();
-            db.execSQL(Query);
-//
+            db.close();
             btnCredit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

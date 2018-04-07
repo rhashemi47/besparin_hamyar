@@ -86,7 +86,7 @@ public class SyncProfile {
 		
 		public AsyncCallWS(Activity activity) {
 		    this.activity = activity;
-		    this.dialog = new ProgressDialog(activity);
+		    this.dialog = new ProgressDialog(activity);		    		    this.dialog.setCanceledOnTouchOutside(false);
 		}
 		
         @Override
@@ -152,18 +152,7 @@ public class SyncProfile {
         
     }
 	
-	String LastNewsId;
-	public void LoadMaxNewId()
-	{
-		db = dbh.getReadableDatabase();
-		Cursor cursors = db.rawQuery("select IFNULL(max(id),0)MID from news", null);
-		if(cursors.getCount() > 0)
-		{
-			cursors.moveToNext();
-			LastNewsId = cursors.getString(cursors.getColumnIndex("MID"));
-		}
-	}
-	
+
 	public void CallWsMethod(String METHOD_NAME) {
 	    //Create request
 	    SoapObject request = new SoapObject(PV.NAMESPACE, METHOD_NAME);
@@ -257,6 +246,8 @@ public class SyncProfile {
 					//"','"+value[16]+ todo به علت خطای توی وب سرویس کامنت شده
 					"')";
 			db.execSQL(query);
+
+		db.close();
 		//LoadActivity(Profile.class, "guid", guid,"hamyarcode",hamyarcode,"updateflag","0");
 		SyncProfilePic syncProfilePic=new SyncProfilePic(activity,guid,hamyarcode);
 		syncProfilePic.AsyncExecute();

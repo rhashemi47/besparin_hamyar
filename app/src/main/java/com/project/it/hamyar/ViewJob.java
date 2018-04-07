@@ -952,6 +952,8 @@ public class ViewJob extends AppCompatActivity{
                                         db=dbh.getWritableDatabase();
                                 String query="UPDATE  DateTB SET Date = '" +String.valueOf(year)+"/"+String.valueOf(monthOfYear+1)+"/"+String.valueOf(dayOfMonth)+"'";
                                  db.execSQL(query);
+
+                                 db.close();
                                 GetTime();
                              }
                          }, now.getPersianYear(),
@@ -993,6 +995,8 @@ public class ViewJob extends AppCompatActivity{
                     coursors.moveToNext();
                     LoadActivity_PerFactor(Save_Per_Factor.class,"tab",tab,"BsUserServicesID",BsUserServicesID,"ServiceDetaileCode",coursors.getString(coursors.getColumnIndex("ServiceDetaileCode")));
                 }
+
+                db.close();
             }
         });
         btnCallToCustomer.setOnClickListener(new View.OnClickListener() {
@@ -1026,9 +1030,6 @@ public class ViewJob extends AppCompatActivity{
                 db.close();
             }
         });
-        String Query="UPDATE UpdateApp SET Status='1'";
-        db=dbh.getWritableDatabase();
-        db.execSQL(Query);
 
         btnCredit.setOnClickListener(new View.OnClickListener() {
             @Override

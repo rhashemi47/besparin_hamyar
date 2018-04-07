@@ -76,6 +76,7 @@
                 guid=coursors.getString(coursors.getColumnIndex("guid"));
                 hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
             }
+            db.close();
         }
             db=dbh.getReadableDatabase();
             Cursor coursors = db.rawQuery("SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
@@ -94,7 +95,7 @@
                 map.put("UserPhone",coursors.getString(coursors.getColumnIndex("UserPhone")));
                 valuse.add(map);
             }
-
+            db.close();
             AdapterServices dataAdapter=new AdapterServices(this,valuse,guid,hamyarcode);
             lvServices.setAdapter(dataAdapter);
             

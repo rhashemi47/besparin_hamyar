@@ -223,6 +223,8 @@ public class Save_Per_Factor extends Activity {
                 guid=coursors.getString(coursors.getColumnIndex("guid"));
                 hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
             }
+
+            db.close();
         }
         try
         {
@@ -237,6 +239,8 @@ public class Save_Per_Factor extends Activity {
         db = dbh.getWritableDatabase();
         String query="DELETE FROM HmFactorTools_List";
         db.execSQL(query);
+
+        db.close();
         FillSpinnerStep();
         FillSpinnerTools();
         ShowOrHidde();
@@ -346,6 +350,8 @@ public class Save_Per_Factor extends Activity {
                     tvUnitPrice.setText(coursors.getString(coursors.getColumnIndex("PricePerUnit")));
                     EtUnitValuePrice.setText("0");
                 }
+
+                db.close();
             }
 
             @Override
@@ -365,6 +371,8 @@ public class Save_Per_Factor extends Activity {
                         tvPriceTools.setText(coursors.getString(coursors.getColumnIndex("Price")));
                         EtToolValuePrice.setText("0");
                     }
+
+                db.close();
             }
 
             @Override
@@ -406,6 +414,8 @@ public class Save_Per_Factor extends Activity {
             String query="DELETE FROM HmFactorTools_List";
             db=dbh.getWritableDatabase();
             db.execSQL(query);
+
+            db.close();
             Save_Per_Factor.this.LoadActivity_Select(ViewJob.class, "guid", guid, "hamyarcode", hamyarcode,"BsUserServicesID", BsUserServicesID, "tab", tab);
         }
 
@@ -437,6 +447,8 @@ public class Save_Per_Factor extends Activity {
                 mapStep.put(coursors.getString(coursors.getColumnIndex("ServiceName")),coursors.getString(coursors.getColumnIndex("Code")));
                 labelsServiceDetailName.add(coursors.getString(coursors.getColumnIndex("ServiceName")));
             }
+
+            db.close();
             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, labelsServiceDetailName){
                 public View getView(int position, View convertView, ViewGroup parent) {
                     View v = super.getView(position, convertView, parent);
@@ -472,6 +484,8 @@ public class Save_Per_Factor extends Activity {
                 mapTool.put(coursors.getString(coursors.getColumnIndex("ToolName")),coursors.getString(coursors.getColumnIndex("Code")));
                 labelsServiceDetailName.add(coursors.getString(coursors.getColumnIndex("ToolName")));
             }
+
+            db.close();
             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, labelsServiceDetailName){
                 public View getView(int position, View convertView, ViewGroup parent) {
                     View v = super.getView(position, convertView, parent);
@@ -583,6 +597,8 @@ public class Save_Per_Factor extends Activity {
                     }
                 }
             }
+
+        db.close();
     }
 void removeItemFromList(final int position) {
     final int deletePosition = position;
@@ -608,6 +624,8 @@ void removeItemFromList(final int position) {
             String query="DELETE FROM HmFactorTools WHERE ToolName='"+STR[0]+"' AND Price='"+STR[2]+"'" +
                     " AND ServiceDetaileCode='"+ServiceDetaileCode+"' AND BrandName='"+STR[1]+"' AND Amount='"+STR[3]+"'";
            db.execSQL(query);
+
+            db.close();
             listItems.remove(deletePosition);
             adapterList.notifyDataSetChanged();
             Toast.makeText(Save_Per_Factor.this, "آیتم حذف شد", Toast.LENGTH_LONG).show();

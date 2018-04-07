@@ -255,6 +255,7 @@ public class CustomeExpandableListAdapter extends BaseExpandableListAdapter {
 					coursors.moveToNext();
 					db.execSQL("DELETE FROM exprtise WHERE code='"+coursors.getString(coursors.getColumnIndex("code")) +"'");
 				}
+				db.close();
 			}
 		});
 

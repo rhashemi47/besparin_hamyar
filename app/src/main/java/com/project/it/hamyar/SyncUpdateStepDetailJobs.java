@@ -97,7 +97,7 @@ public class SyncUpdateStepDetailJobs {
 		
 		public AsyncCallWS(Activity activity) {
 		    this.activity = activity;
-		    this.dialog = new ProgressDialog(activity);
+		    this.dialog = new ProgressDialog(activity);		    		    this.dialog.setCanceledOnTouchOutside(false);
 		}
 		
         @Override
@@ -161,18 +161,7 @@ public class SyncUpdateStepDetailJobs {
         }
         
     }
-	
-	String LastNewsId;
-	public void LoadMaxNewId()
-	{
-		db = dbh.getReadableDatabase();
-		Cursor cursors = db.rawQuery("select IFNULL(max(id),0)MID from news", null);
-		if(cursors.getCount() > 0)
-		{
-			cursors.moveToNext();
-			LastNewsId = cursors.getString(cursors.getColumnIndex("MID"));
-		}
-	}
+
 	
 	public void CallWsMethod(String METHOD_NAME) {
 	    //Create request
@@ -287,5 +276,8 @@ public class SyncUpdateStepDetailJobs {
 		String query="UPDATE HmFactorTools SET Status='0',IsSend='1' WHERE ToolName='"+ToolName+"' AND Price='"+Price+"' AND BrandName='"+BrandName+"'" +
 				" AND ServiceDetaileCode='"+ServiceDetaileCode+"'";
 		db.execSQL(query);
+
+		db.close();
+
 	}
 }

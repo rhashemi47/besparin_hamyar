@@ -22,8 +22,8 @@ public class ServiceGetSliderPic extends Service {
     boolean createthread=true;
     private DatabaseHelper dbh;
     private SQLiteDatabase db;
-    private String hamyarcode;
-    private String guid;
+    private String hamyarcode="0";
+    private String guid="0";
     @Override
     public IBinder onBind(Intent arg0) {
         return null;

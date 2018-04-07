@@ -86,7 +86,7 @@ public class SyncProfilePic {
 		
 		public AsyncCallWS(Activity activity) {
 		    this.activity = activity;
-		    this.dialog = new ProgressDialog(activity);
+		    this.dialog = new ProgressDialog(activity);		    		    this.dialog.setCanceledOnTouchOutside(false);
 		}
 		
         @Override
@@ -151,19 +151,7 @@ public class SyncProfilePic {
         }
         
     }
-	
-	String LastNewsId;
-	public void LoadMaxNewId()
-	{
-		db = dbh.getReadableDatabase();
-		Cursor cursors = db.rawQuery("select IFNULL(max(id),0)MID from news", null);
-		if(cursors.getCount() > 0)
-		{
-			cursors.moveToNext();
-			LastNewsId = cursors.getString(cursors.getColumnIndex("MID"));
-		}
-	}
-	
+
 	public void CallWsMethod(String METHOD_NAME) {
 	    //Create request
 	    SoapObject request = new SoapObject(PV.NAMESPACE, METHOD_NAME);
@@ -217,14 +205,8 @@ public class SyncProfilePic {
 		db=dbh.getWritableDatabase();
 			query="UPDATE Profile SET Pic='"+WsResponse+"'";
 			db.execSQL(query);
-		//LoadActivity(Profile.class, "guid", guid,"hamyarcode",hamyarcode,"updateflag","0");
+
+		db.close();
+
     }
-//	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2, String VariableName3, String VariableValue3)
-//	{
-//		Intent intent = new Intent(activity,Cls);
-//		intent.putExtra(VariableName, VariableValue);
-//		intent.putExtra(VariableName2, VariableValue2);
-//		intent.putExtra(VariableName3, VariableValue3);
-//		activity.startActivity(intent);
-//	}
 }

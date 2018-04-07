@@ -86,7 +86,7 @@ public class SyncGetServiceUserInfo {
 		
 		public AsyncCallWS(Context activity) {
 		    this.activity = activity;
-		    this.dialog = new ProgressDialog(activity);
+		    this.dialog = new ProgressDialog(activity);		    		    this.dialog.setCanceledOnTouchOutside(false);
 		}
 		
         @Override
@@ -151,19 +151,7 @@ public class SyncGetServiceUserInfo {
         }
         
     }
-	
-	String LastNewsId;
-	public void LoadMaxNewId()
-	{
-		db = dbh.getReadableDatabase();
-		Cursor cursors = db.rawQuery("select IFNULL(max(id),0)MID from news", null);
-		if(cursors.getCount() > 0)
-		{
-			cursors.moveToNext();
-			LastNewsId = cursors.getString(cursors.getColumnIndex("MID"));
-		}
-	}
-	
+
 	public void CallWsMethod(String METHOD_NAME) {
 	    //Create request
 	    SoapObject request = new SoapObject(PV.NAMESPACE, METHOD_NAME);
@@ -212,5 +200,7 @@ public class SyncGetServiceUserInfo {
 				"UserPhone='" +NumberPhone+
 				"' WHERE Code='"+ UserServiceCode+"'";
 			db.execSQL(query);
+
+		db.close();
     }
 }

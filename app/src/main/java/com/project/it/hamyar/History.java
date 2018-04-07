@@ -74,15 +74,13 @@
                     guid = coursors.getString(coursors.getColumnIndex("guid"));
                     hamyarcode = coursors.getString(coursors.getColumnIndex("hamyarcode"));
                 }
+                db.close();
             }
             Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
             tvHistory=(TextView)findViewById(R.id.tvHistory);
             tvHistory.setTypeface(FontMitra);
             tvHistory.setTextSize(18);
             lstHistory=(ListView)findViewById(R.id.lstHistory);
-            String Query = "UPDATE UpdateApp SET Status='1'";
-            db = dbh.getWritableDatabase();
-            db.execSQL(Query);
             String query = "SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
                     "LEFT JOIN " +
                     "Servicesdetails ON " +
@@ -295,26 +293,8 @@
                 AdapterHistory dataAdapter=new AdapterHistory(this,valuse,guid,hamyarcode);
                 lstHistory.setAdapter(dataAdapter);
             }
+            db.close();
 
-//                BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
-//
-//                bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-//                    @Override
-//                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                        if (item.getItemId() == R.id.credite) {
-////                    Toast.makeText(getBaseContext(), "اعتبارات", Toast.LENGTH_LONG).show();
-//                            LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
-//                            return true;
-//                        } else if (item.getItemId() == R.id.History	) {
-//                            //LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
-//                            return true;
-//                        } else if (item.getItemId() == R.id.home) {
-//                            LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
-//                            return true;
-//                        }
-//                        return false;
-//                    }
-//                });
             btnCredit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
