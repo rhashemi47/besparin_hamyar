@@ -206,6 +206,8 @@ public class SyncServicesDetails {
 		}
 		else if (this.flag.compareTo("1")==0)
 		{
+			SyncGettHamyarCreditHistory syncGettHamyarCreditHistory =new SyncGettHamyarCreditHistory(this.activity,this.acceptcode,"0");
+			syncGettHamyarCreditHistory.AsyncExecute();
 			LoadActivity(MainMenu.class, "guid",this.phonenumber,"hamyarcode",this.acceptcode);
 		}
 

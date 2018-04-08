@@ -81,6 +81,7 @@
             tvHistory.setTypeface(FontMitra);
             tvHistory.setTextSize(18);
             lstHistory=(ListView)findViewById(R.id.lstHistory);
+            db=dbh.getReadableDatabase();
             String query = "SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
                     "LEFT JOIN " +
                     "Servicesdetails ON " +

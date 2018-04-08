@@ -86,7 +86,9 @@
                         +"نام متقاضی: "+coursors.getString(coursors.getColumnIndex("UserName"))+
                         " "+coursors.getString(coursors.getColumnIndex("UserFamily"))+"\n"+
                         "تاریخ حضور: "+coursors.getString(coursors.getColumnIndex("StartDate"))+"\n"+
+                        "ساعت حضور: "+coursors.getString(coursors.getColumnIndex("StartTime"))+"\n"+
                         "تاریخ ثبت بازدید: "+coursors.getString(coursors.getColumnIndex("VisitDate"))+"\n"+
+                        "ساعت بازدید: "+coursors.getString(coursors.getColumnIndex("VisitTime"))+"\n"+
                         "وضعیت: "+((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0")==1? "عادی":"فوری")));
                 map.put("Code",coursors.getString(coursors.getColumnIndex("Code")));
                 valuse.add(map);

@@ -78,6 +78,7 @@ protected void onCreate(Bundle savedInstanceState) {
 	}
 	catch (Exception e)
 	{
+		db=dbh.getReadableDatabase();
 		Cursor coursors = db.rawQuery("SELECT * FROM login",null);
 		for(int i=0;i<coursors.getCount();i++){
 			coursors.moveToNext();
@@ -97,10 +98,18 @@ protected void onCreate(Bundle savedInstanceState) {
 	try
 	{
 		String Content="";
-		Cursor coursors = db.rawQuery("SELECT * FROM credits ORDER BY Code DESC", null);
+		Cursor coursors = db.rawQuery("SELECT * FROM AmountCredit", null);
 		if (coursors.getCount() > 0) {
 			coursors.moveToNext();
-			Content+=coursors.getString(coursors.getColumnIndex("Price"));
+			String splitStr[]=coursors.getString(coursors.getColumnIndex("Amount")).toString().split("\\.");
+			if(splitStr[1].compareTo("00")==0)
+			{
+				Content+=splitStr[0];
+			}
+			else
+			{
+				Content+=coursors.getString(coursors.getColumnIndex("Amount"));
+			}
 		}
 		else
 		{
@@ -113,7 +122,8 @@ protected void onCreate(Bundle savedInstanceState) {
 			tvRecentCreditsValue.setText(Content+" ریال");
 		}
 	}
-	catch (Exception ex){
+	catch (Exception ex)
+	{
 		tvRecentCreditsValue.setText("0"+" ریال");
 		lstHistoryCredit.setVisibility(View.GONE);
 	}

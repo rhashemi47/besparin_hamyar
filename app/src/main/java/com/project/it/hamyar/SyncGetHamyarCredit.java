@@ -2,6 +2,7 @@ package com.project.it.hamyar;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -16,7 +17,7 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import java.io.IOException;
 
-public class SyncGettHamyarCreditHistory {
+public class SyncGetHamyarCredit {
 
 	//Primary Variable
 	DatabaseHelper dbh;
@@ -24,15 +25,16 @@ public class SyncGettHamyarCreditHistory {
 	PublicVariable PV;
     InternetConnection IC;
 	private Activity activity;
+	private String WsResponse;
 	private String pHamyarCode;
 	private String Flag;
-	private String WsResponse;
-	private boolean CuShowDialog=true;
+	private boolean CuShowDialog=false;
 	//Contractor
-	public SyncGettHamyarCreditHistory(Activity activity, String pHamyarCode,String Flag) {
+	public SyncGetHamyarCredit(Activity activity, String pHamyarCode, String Flag) {
 		this.activity = activity;
+		this.Flag = Flag;
+
 		this.pHamyarCode=pHamyarCode;
-		this.Flag=Flag;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
 		
@@ -84,7 +86,7 @@ public class SyncGettHamyarCreditHistory {
 		
 		public AsyncCallWS(Activity activity) {
 		    this.activity = activity;
-		    this.dialog = new ProgressDialog(activity);		    		    this.dialog.setCanceledOnTouchOutside(false);
+		    this.dialog = new ProgressDialog(activity);		    this.dialog.setCanceledOnTouchOutside(false);
 		}
 		
         @Override
@@ -92,7 +94,7 @@ public class SyncGettHamyarCreditHistory {
         	String result = null;
         	try
         	{
-        		CallWsMethod("GettHamyarCreditHistory");
+        		CallWsMethod("GetHamyarCredit");
         	}
 	    	catch (Exception e) {
 	    		result = e.getMessage().toString();
@@ -110,18 +112,16 @@ public class SyncGettHamyarCreditHistory {
 	            }
 	            else if(WsResponse.toString().compareTo("0") == 0)
 	            {
-	            	Toast.makeText(this.activity.getApplicationContext(), "خطایی رخداده است", Toast.LENGTH_LONG).show();
-					//LoadActivity(MainMenu.class, "guid", guid,"hamyarcode",hamyarcode,"updateflag","1");
+	            	//Toast.makeText(this.activity.getApplicationContext(), "سرویس جدیدی اعلام نشده", Toast.LENGTH_LONG).show();
 	            }
 				else if(WsResponse.toString().compareTo("2") == 0)
 				{
-					Toast.makeText(this.activity.getApplicationContext(), "همیار شناسایی نشد!", Toast.LENGTH_LONG).show();
+					//Toast.makeText(this.activity.getApplicationContext(), "کاربر شناسایی نشد!", Toast.LENGTH_LONG).show();
 				}
-				else
-				{
-					InsertDataFromWsToDb();
-				}
-
+	            else
+	            {
+	            	InsertDataFromWsToDb(WsResponse);
+	            }
         	}
         	else
         	{
@@ -150,20 +150,21 @@ public class SyncGettHamyarCreditHistory {
         }
         
     }
-
 	
 	public void CallWsMethod(String METHOD_NAME) {
 	    //Create request
 	    SoapObject request = new SoapObject(PV.NAMESPACE, METHOD_NAME);
-	    PropertyInfo pHamyarCodePI = new PropertyInfo();
-	    //Set Name
+	    //*****************************************************
+		PropertyInfo pHamyarCodePI = new PropertyInfo();
+		//Set Name
 		pHamyarCodePI.setName("pHamyarCode");
-	    //Set Value
+		//Set Value
 		pHamyarCodePI.setValue(this.pHamyarCode);
-	    //Set dataType
+		//Set dataType
 		pHamyarCodePI.setType(String.class);
-	    //Add the property to request object
-	    request.addProperty(pHamyarCodePI);
+		//Add the property to request object
+		request.addProperty(pHamyarCodePI);
+		//*****************************************************
 	    //Create envelope
 	    SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
 	            SoapEnvelope.VER11);
@@ -185,33 +186,25 @@ public class SyncGettHamyarCreditHistory {
 	    	e.printStackTrace();
 	    }
 	}
-	
-	
-	public void InsertDataFromWsToDb()
+	public void InsertDataFromWsToDb(String AllRecord)
     {
-		String[] res;
-		String[] value;
-		res=WsResponse.split("@@");
-		String query=null;
 		db=dbh.getWritableDatabase();
-		db.execSQL("DELETE FROM credits");
-		for(int i=0;i<res.length;i++){
-			value=res[i].split("##");
-			query="INSERT INTO credits (Code,TransactionType,Price,TransactionDate,PaymentMethod,DocNumber,Description,InsertDate)" +
-					" VALUES('"+value[0] +
-					"','"+value[1]+
-					"','"+value[2]+
-					"','"+value[3]+
-					"','"+value[4]+
-					"','"+value[5]+
-					"','"+value[6]+
-					"','"+value[7]+
-					"')";
+			String query="UPDATE AmountCredit SET Amount='"+this.WsResponse+"'" ;
 			db.execSQL(query);
-		}
 		db.close();
-		Toast.makeText(activity, "ثبت شد", Toast.LENGTH_LONG).show();
-		SyncGetHamyarCredit syncGetHamyarCredit =new SyncGetHamyarCredit(this.activity,pHamyarCode,this.Flag);
-		syncGetHamyarCredit.AsyncExecute();
+		if(this.Flag.compareTo("0")!=0) {
+			Toast.makeText(activity, "ثبت شد", Toast.LENGTH_LONG).show();
+			LoadActivity(Credit.class, "hamyarcode", pHamyarCode);
+		}
+//		else {
+//			LoadActivity(MainMenu.class, "hamyarcode", pHamyarCode);
+//		}
+    }
+	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue)
+	{
+		Intent intent = new Intent(activity,Cls);
+		intent.putExtra(VariableName, VariableValue);
+
+		activity.startActivity(intent);
 	}
 }

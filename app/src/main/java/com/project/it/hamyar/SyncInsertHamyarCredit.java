@@ -240,7 +240,7 @@ public class SyncInsertHamyarCredit {
     {
 
 
-		SyncGettHamyarCreditHistory syncGettHamyarCreditHistory=new SyncGettHamyarCreditHistory(this.activity,this.pHamyarCode);
+		SyncGettHamyarCreditHistory syncGettHamyarCreditHistory=new SyncGettHamyarCreditHistory(this.activity,this.pHamyarCode,"1");
 		syncGettHamyarCreditHistory.AsyncExecute();
 
 	}

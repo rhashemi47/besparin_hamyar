@@ -5,10 +5,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,6 +23,8 @@ import java.io.IOException;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import static com.google.android.gms.wearable.DataMap.TAG;
+
 
 public class Login extends Activity {
 	Button btnEnter;
@@ -28,6 +32,30 @@ public class Login extends Activity {
 	EditText etPhoneNumber;
 	DatabaseHelper dbh;
 	SQLiteDatabase db;
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		Log.i(TAG, "onSaveInstanceState");
+		etPhoneNumber=(EditText)findViewById(R.id.etPhoneNumber);
+		//CharSequence userText = textBox.getText();
+		outState.putCharSequence("savedText", etPhoneNumber.getText().toString());
+		super.onSaveInstanceState(outState);
+
+	}
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		Log.i(TAG, "onRestoreInstanceState");
+		etPhoneNumber=(EditText)findViewById(R.id.etPhoneNumber);
+		CharSequence NumberPhone =	savedInstanceState.getCharSequence("savedText");
+		etPhoneNumber.setText(NumberPhone);
+		super.onRestoreInstanceState(savedInstanceState);
+	}
+@Override
+protected void onPause() {
+	Log.i(TAG, "onPause");
+	super.onPause();
+	//todo
+}
 	@Override
 	protected void attachBaseContext(Context newBase) {
 		super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -60,6 +88,15 @@ public class Login extends Activity {
 		btnSignUp=(Button)findViewById(R.id.btnSignUp);
 		btnEnter=(Button)findViewById(R.id.btnEnter);
         etPhoneNumber=(EditText)findViewById(R.id.etPhoneNumber);
+        try {
+			CharSequence NumberPhone =	savedInstanceState.getCharSequence("savedText");
+			etPhoneNumber.setText(NumberPhone);
+		}
+		catch (Exception ex)
+		{
+
+		}
+
         //set font for element
         etPhoneNumber.setTypeface(FontMitra);
 		btnEnter.setTypeface(FontMitra);
@@ -119,6 +156,7 @@ public class Login extends Activity {
 			}
 		});
     }
+
     public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2, String VariableName3, String VariableValue3)
 	{
 		Intent intent = new Intent(getApplicationContext(),Cls);
