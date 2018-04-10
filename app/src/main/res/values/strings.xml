@@ -114,5 +114,8 @@
     <string name="CallToCastumer">تماس با متقاضی</string>
     <string name="Invite_friends">دعوت از دوستان</string>
     <string name="rial">ریال</string>
+    <string name="Addres">آدرس</string>
+    <string name="edit">ویرایش</string>
+    <string name="Email">ایمیل</string>
 
 </resources>

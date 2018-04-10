@@ -71,7 +71,6 @@ public class MainMenu extends AppCompatActivity {
     private Button btnHome;
     private boolean IsActive=true;
     ArrayList<String> slides;
-//    com.flaviofaria.kenburnsview.KenBurnsView imageView;
     ImageView imageView;
     Custom_ViewFlipper viewFlipper;
     GestureDetector mGestureDetector;
@@ -334,27 +333,35 @@ public class MainMenu extends AppCompatActivity {
             // do something when the button is clicked
             public void onClick(DialogInterface arg0, int arg1) {
                 //Declare Object From Get Internet Connection Status For Check Internet Status
+                stopService(new Intent(getBaseContext(), ServiceGetLocation.class));
+                stopService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+                stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+                stopService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
                 db = dbh.getWritableDatabase();
-                db.execSQL("DELETE FROM login");
-                db.execSQL("DELETE FROM Profile");
+                db.execSQL("DELETE FROM AmountCredit");
+                db.execSQL("DELETE FROM android_metadata");
                 db.execSQL("DELETE FROM BsHamyarSelectServices");
                 db.execSQL("DELETE FROM BsUserServices");
+                db.execSQL("DELETE FROM credits");
+                db.execSQL("DELETE FROM DateTB");
                 db.execSQL("DELETE FROM education");
                 db.execSQL("DELETE FROM exprtise");
-                db.execSQL("DELETE FROM messages");
-                db.execSQL("DELETE FROM services");
-                db.execSQL("DELETE FROM servicesdetails");
-                db.execSQL("DELETE FROM DateTB");
                 db.execSQL("DELETE FROM FaktorUserDetailes");
                 db.execSQL("DELETE FROM HeadFactor");
                 db.execSQL("DELETE FROM HmFactorService");
                 db.execSQL("DELETE FROM HmFactorTools");
                 db.execSQL("DELETE FROM HmFactorTools_List");
                 db.execSQL("DELETE FROM InsertFaktorUserDetailes");
+                db.execSQL("DELETE FROM login");
+                db.execSQL("DELETE FROM messages");
+                db.execSQL("DELETE FROM Profile");
+                db.execSQL("DELETE FROM services");
+                db.execSQL("DELETE FROM servicesdetails");
+                db.execSQL("DELETE FROM Slider");
+                db.execSQL("DELETE FROM sqlite_sequence");
+                db.execSQL("DELETE FROM Supportphone");
                 db.execSQL("DELETE FROM Unit");
-                stopService(new Intent(getBaseContext(), ServiceGetLocation.class));
-                stopService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-                stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+                db.execSQL("DELETE FROM UpdateApp");
                 db.close();
                 System.exit(0);
                 arg0.dismiss();
@@ -428,7 +435,7 @@ public class MainMenu extends AppCompatActivity {
                         new SecondaryDrawerItem().withName(R.string.Help).withIcon(R.drawable.help).withSelectable(false),
                         new SecondaryDrawerItem().withName(R.string.About).withIcon(R.drawable.about).withSelectable(false),
                         //new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
-                        new SecondaryDrawerItem().withName(R.string.Exit).withIcon(R.drawable.exit).withSelectable(false),
+                        //new SecondaryDrawerItem().withName(R.string.Exit).withIcon(R.drawable.exit).withSelectable(false),
                         new SecondaryDrawerItem().withName(R.string.Logout).withIcon(R.drawable.logout).withSelectable(false)
                 ).addStickyDrawerItems(new PrimaryDrawerItem().withName(R.string.RelateUs).withSelectable(false).withEnabled(false),
                         new PrimaryDrawerItem().withName(R.string.telegram).withIcon(R.drawable.telegram).withSelectable(false),
@@ -590,11 +597,11 @@ public class MainMenu extends AppCompatActivity {
                                 }
                                 db.close();
                                 break;
+//                            case 12:
+////                                Toast.makeText(MainMenu.this, "خروج از برنامه", Toast.LENGTH_SHORT).show();
+//                                ExitApplication();
+//                                break;
                             case 12:
-//                                Toast.makeText(MainMenu.this, "خروج از برنامه", Toast.LENGTH_SHORT).show();
-                                ExitApplication();
-                                break;
-                            case 13:
 //                                Toast.makeText(MainMenu.this, "خروج از کاربری", Toast.LENGTH_SHORT).show();
                                 Logout();
                                 break;

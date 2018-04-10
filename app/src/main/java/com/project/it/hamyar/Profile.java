@@ -8,6 +8,12 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -46,13 +52,20 @@ public class Profile extends Activity {
 	private EditText etReagentCodeProfile;
 	private DatabaseHelper dbh;
 	private SQLiteDatabase db;
-	private Button btnCredit;
-	private Button btnOrders;
-	private Button btnHome;
+//	private Button btnCredit;
+//	private Button btnOrders;
+//	private Button btnHome;
 	private ImageView imgUser;
 	private String yearStr="";
 	private String monStr="";
 	private String dayStr="";
+	private int color;
+	private Paint paint;
+	private Rect rect;
+	private RectF rectF;
+	private Bitmap result;
+	private Canvas canvas;
+	private float roundPx;
 	@Override
 	protected void attachBaseContext(Context newBase) {
 		super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -75,14 +88,14 @@ public class Profile extends Activity {
 		etReagentCodeProfile=(EditText)findViewById(R.id.etReagentCodeProfile);
 		imgUser=(ImageView) findViewById(R.id.imgUser);
 		//***************************************************************
-		btnCredit=(Button)findViewById(R.id.btnCredit);
-		btnOrders=(Button)findViewById(R.id.btnOrders);
-		btnHome=(Button)findViewById(R.id.btnHome);
+//		btnCredit=(Button)findViewById(R.id.btnCredit);
+//		btnOrders=(Button)findViewById(R.id.btnOrders);
+//		btnHome=(Button)findViewById(R.id.btnHome);
 		tvProfileRegentCode=(TextView)findViewById(R.id.tvCodeMoaref);
 		Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
-		btnCredit.setTypeface(FontMitra);
-		btnOrders.setTypeface(FontMitra);
-		btnHome.setTypeface(FontMitra);
+//		btnCredit.setTypeface(FontMitra);
+//		btnOrders.setTypeface(FontMitra);
+//		btnHome.setTypeface(FontMitra);
 		//********************************************************
 		tvProfileRegentCode.setTypeface(FontMitra);
 		tvUserCode.setTypeface(FontMitra);
@@ -149,6 +162,7 @@ public class Profile extends Activity {
 		}
 
 		Bitmap bmp= BitmapFactory.decodeResource(getResources(),R.drawable.useravatar);
+
 		db=dbh.getReadableDatabase();
 		Cursor coursors = db.rawQuery("SELECT * FROM Profile",null);
 		if(coursors.getCount()>0){
@@ -163,7 +177,8 @@ public class Profile extends Activity {
 		}
 
 		db.close();
-		imgUser.setImageBitmap(bmp);
+
+		imgUser.setImageBitmap(getRoundedRectBitmap(bmp,1000));
 
 		etBrithday.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -211,24 +226,24 @@ public class Profile extends Activity {
 				}
 			}
 		});
-		btnCredit.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
-			}
-		});
-		btnOrders.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
-			}
-		});
-		btnHome.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
-			}
-		});
+//		btnCredit.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
+//			}
+//		});
+//		btnOrders.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
+//			}
+//		});
+//		btnHome.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
+//			}
+//		});
 	}
 	@Override
 	public boolean onKeyDown( int keyCode, KeyEvent event )  {
@@ -268,6 +283,27 @@ public class Profile extends Activity {
 		sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "عنوان");
 		sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
 		startActivity(Intent.createChooser(sharingIntent, "اشتراک گذاری با"));
+	}
+	public  Bitmap getRoundedRectBitmap(Bitmap bitmap, int pixels)
+	{
+		result = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+		canvas = new Canvas(result);
+
+		color = 0xff424242;
+		paint = new Paint();
+		rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+		rectF = new RectF(rect);
+		roundPx = pixels;
+
+		paint.setAntiAlias(true);
+		canvas.drawARGB(0, 0, 0, 0);
+		paint.setColor(color);
+		canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+
+		paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+		canvas.drawBitmap(bitmap, rect, rect, paint);
+
+		return result;
 	}
 }
 
