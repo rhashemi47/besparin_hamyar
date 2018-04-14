@@ -17,6 +17,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -68,6 +69,7 @@ public class ViewJob extends AppCompatActivity{
     private Button btnCredit;
     private Button btnOrders;
     private Button btnHome;
+    private TextView tvNumberService;
     GoogleMap map;
 
     @Override
@@ -80,6 +82,7 @@ public class ViewJob extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.viewjob);
         Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
+        tvNumberService=(TextView) findViewById(R.id.tvNumberService);
         btnCredit=(Button)findViewById(R.id.btnCredit);
         btnOrders=(Button)findViewById(R.id.btnOrders);
         btnHome=(Button)findViewById(R.id.btnHome);
@@ -112,10 +115,11 @@ public class ViewJob extends AppCompatActivity{
             guid = getIntent().getStringExtra("guid").toString();
             BsUserServicesID = getIntent().getStringExtra("BsUserServicesID").toString();
             tab = getIntent().getStringExtra("tab").toString();
+            tvNumberService.setText(BsUserServicesID);
         }
         catch (Exception e)
         {
-            //todo
+            tvNumberService.setText("0");
         }
         dbh=new DatabaseHelper(getApplicationContext());
         try {
@@ -159,14 +163,14 @@ public class ViewJob extends AppCompatActivity{
                 {
                     //todo
                 }
-                try
-                {
-                    Content+="سرویس درخواستی: "+coursors.getString(coursors.getColumnIndex("name"))+"\n";
-                }
-                catch (Exception ex)
-                {
-                    //todo
-                }
+//                try
+//                {
+//                    Content+="سرویس درخواستی: "+coursors.getString(coursors.getColumnIndex("name"))+"\n";
+//                }
+//                catch (Exception ex)
+//                {
+//                    //todo
+//                }
                 try
                 {
                     Content+="نام متقاضی: "+coursors.getString(coursors.getColumnIndex("UserName"))+" "+coursors.getString(coursors.getColumnIndex("UserFamily"))+"\n";
@@ -177,7 +181,7 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    Content+="تاریخ شروع: "+coursors.getString(coursors.getColumnIndex("StartDate"))+"\n";
+                    Content+= "تاریخ شروع: "+coursors.getString(coursors.getColumnIndex("StartDate"))+"\n";
                 }
                 catch (Exception ex)
                 {
@@ -193,7 +197,7 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    Content+="از ساعت: "+coursors.getString(coursors.getColumnIndex("StartTime"))+"\n";
+                    Content+="از ساعت: "+coursors.getString(coursors.getColumnIndex("StartTime"))+" - ";
                 }
                 catch (Exception ex)
                 {
@@ -456,14 +460,14 @@ public class ViewJob extends AppCompatActivity{
                 {
                     //todo
                 }
-                try
-                {
-                    Content+="سرویس درخواستی: "+coursors.getString(coursors.getColumnIndex("name"))+"\n";
-                }
-                catch (Exception ex)
-                {
-                    //todo
-                }
+//                try
+//                {
+//                    Content+="سرویس درخواستی: "+coursors.getString(coursors.getColumnIndex("name"))+"\n";
+//                }
+//                catch (Exception ex)
+//                {
+//                    //todo
+//                }
                 try
                 {
                     Content+="نام متقاضی: "+coursors.getString(coursors.getColumnIndex("UserName"))+" "+coursors.getString(coursors.getColumnIndex("UserFamily"))+"\n";
@@ -474,7 +478,7 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    Content+="تاریخ شروع: "+coursors.getString(coursors.getColumnIndex("StartDate"))+"\n";
+                    Content+= "تاریخ شروع: "+coursors.getString(coursors.getColumnIndex("StartDate"))+"\n";
                 }
                 catch (Exception ex)
                 {
@@ -482,7 +486,7 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    Content+="تاریخ پایان: "+coursors.getString(coursors.getColumnIndex("EndDate"))+"\n";
+                    Content+= "تاریخ پایان: "+coursors.getString(coursors.getColumnIndex("EndDate"))+"\n";
                 }
                 catch (Exception ex)
                 {
@@ -490,7 +494,7 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    Content+="از ساعت: "+coursors.getString(coursors.getColumnIndex("StartTime"))+"\n";
+                    Content+="از ساعت: "+coursors.getString(coursors.getColumnIndex("StartTime"))+" - ";
                 }
                 catch (Exception ex)
                 {

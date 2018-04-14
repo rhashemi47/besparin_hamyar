@@ -19,15 +19,13 @@
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:titleTextColor="#000000"
-            android:background="@drawable/background_actionbar"
-            android:layoutDirection="ltr">
+            android:background="@drawable/background_actionbar">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvNumberService"
                 android:textColor="#000000"
-                android:layoutDirection="ltr"
-                android:textDirection="ltr"/>
+                android:layoutDirection="ltr"/>
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
