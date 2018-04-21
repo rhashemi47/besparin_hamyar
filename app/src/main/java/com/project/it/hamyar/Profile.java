@@ -177,8 +177,15 @@ public class Profile extends Activity {
 		}
 
 		db.close();
-
-		imgUser.setImageBitmap(getRoundedRectBitmap(bmp,1000));
+		try
+		{
+			imgUser.setImageBitmap(getRoundedRectBitmap(bmp, 1000));
+		}
+		catch (Exception ex)
+		{
+			bmp = BitmapFactory.decodeResource(getResources(),R.drawable.useravatar);
+			imgUser.setImageBitmap(getRoundedRectBitmap(bmp, 1000));
+		}
 
 		etBrithday.setOnClickListener(new View.OnClickListener() {
 			@Override
