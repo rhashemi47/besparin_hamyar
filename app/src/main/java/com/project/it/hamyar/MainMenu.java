@@ -545,6 +545,7 @@ public class MainMenu extends AppCompatActivity {
                                 alertbox.setPositiveButton("مراحل کاری", new DialogInterface.OnClickListener() {
                                     // do something when the button is clicked
                                     public void onClick(DialogInterface arg0, int arg1) {
+                                        db=dbh.getReadableDatabase();
                                         Cursor  c = db.rawQuery("SELECT * FROM login",null);
                                         if(c.getCount()>0) {
                                             c.moveToNext();
@@ -562,6 +563,7 @@ public class MainMenu extends AppCompatActivity {
                                     // do something when the button is clicked
                                     public void onClick(DialogInterface arg0, int arg1) {
                                         //Declare Object From Get Internet Connection Status For Check Internet Status
+                                        db=dbh.getReadableDatabase();
                                         Cursor  c = db.rawQuery("SELECT * FROM login",null);
                                         if(c.getCount()>0) {
                                             c.moveToNext();

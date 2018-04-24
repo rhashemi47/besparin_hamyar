@@ -52,7 +52,7 @@ public class Profile extends Activity {
 	private EditText etReagentCodeProfile;
 	private DatabaseHelper dbh;
 	private SQLiteDatabase db;
-//	private Button btnCredit;
+	private Button btnSendProfile;
 //	private Button btnOrders;
 //	private Button btnHome;
 	private ImageView imgUser;
@@ -87,6 +87,7 @@ public class Profile extends Activity {
 		etBrithday=(EditText) findViewById(R.id.etBrithday);
 		etReagentCodeProfile=(EditText)findViewById(R.id.etReagentCodeProfile);
 		imgUser=(ImageView) findViewById(R.id.imgUser);
+		btnSendProfile=(Button) findViewById(R.id.btnSendProfile);
 		//***************************************************************
 //		btnCredit=(Button)findViewById(R.id.btnCredit);
 //		btnOrders=(Button)findViewById(R.id.btnOrders);
@@ -251,6 +252,13 @@ public class Profile extends Activity {
 //				LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
 //			}
 //		});
+		btnSendProfile.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				SyncUpdateProfile syncUpdateProfile=new SyncUpdateProfile(Profile.this,guid,hamyarcode);
+				syncUpdateProfile.AsyncExecute();
+			}
+		});
 	}
 	@Override
 	public boolean onKeyDown( int keyCode, KeyEvent event )  {
