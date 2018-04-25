@@ -50,7 +50,7 @@ public class NotificationClass {
             long[] v = {500,1000};
             Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
-            mBuilder.setSmallIcon(R.drawable.job);
+            mBuilder.setSmallIcon(R.drawable.logo);
             mBuilder.setContentTitle(Title);
             mBuilder.setContentText(Detils);
             mBuilder.setVibrate(v);
@@ -59,7 +59,7 @@ public class NotificationClass {
             Intent intent = new Intent(context, Cls);
             intent.putExtra("guid", guid);
             intent.putExtra("hamyarcode", hamyarcode);
-            intent.putExtra("tab", "1");
+            intent.putExtra("tab", "0");
             intent.putExtra("BsUserServicesID", BsUserServicesID);
             PendingIntent pIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, 0);
             mBuilder.setContentIntent(pIntent);

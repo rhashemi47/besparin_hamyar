@@ -180,10 +180,11 @@ public class MainMenu extends AppCompatActivity {
         {
             throw new Error("Error Opne Activity");
         }
-        stopService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-        startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+        startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+        //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
         startService(new Intent(getBaseContext(), ServiceGetLocation.class));
         startService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
+        startService(new Intent(getBaseContext(), ServiceSyncServiceSelected.class));
         //**************************************************************************
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -337,6 +338,7 @@ public class MainMenu extends AppCompatActivity {
                 stopService(new Intent(getBaseContext(), ServiceGetNewJob.class));
                 stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
                 stopService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
+                stopService(new Intent(getBaseContext(), ServiceSyncServiceSelected.class));
                 db = dbh.getWritableDatabase();
                 db.execSQL("DELETE FROM AmountCredit");
                 db.execSQL("DELETE FROM android_metadata");
@@ -376,19 +378,80 @@ public class MainMenu extends AppCompatActivity {
         Bitmap bmp=BitmapFactory.decodeResource(getResources(),R.drawable.useravatar);
         String name="";
         String family="";
+        String status="";
         db=dbh.getReadableDatabase();
         Cursor coursors = db.rawQuery("SELECT * FROM Profile",null);
         if(coursors.getCount()>0) {
             coursors.moveToNext();
-            name=coursors.getString(coursors.getColumnIndex("Name"));
-            family= coursors.getString(coursors.getColumnIndex("Fam"));
-            bmp=convertToBitmap(coursors.getString(coursors.getColumnIndex("Pic")));
-            db.close();
+            try
+            {
+                if(coursors.getString(coursors.getColumnIndex("Status")).compareTo("null")!=0){
+                    status = coursors.getString(coursors.getColumnIndex("Status"));
+                    if(status.compareTo("0")==0)
+                    {
+                        status="غیرفعال";
+                    }
+                    else
+                    {
+                        status="فعال";
+                    }
+                }
+                else
+                {
+                    status = "غیرفعال";
+                }
+
+            }
+            catch (Exception ex){
+                status = "غیرفعال";
+            }
+            try
+            {
+                if(coursors.getString(coursors.getColumnIndex("Name")).compareTo("null")!=0){
+                    name = coursors.getString(coursors.getColumnIndex("Name"));
+                }
+                else
+                {
+                    name = "کاربر";
+                }
+
+            }
+            catch (Exception ex){
+                name = "کاربر";
+            }
+            try
+            {
+                if(coursors.getString(coursors.getColumnIndex("Fam")).compareTo("null")!=0){
+                    family = coursors.getString(coursors.getColumnIndex("Fam"));
+                }
+                else
+                {
+                    family = "مهمان";
+                }
+
+            }
+            catch (Exception ex){
+                family = "مهمان";
+            }
+            try
+            {
+                if(coursors.getString(coursors.getColumnIndex("Pic")).compareTo("null")!=0){
+                    bmp = convertToBitmap(coursors.getString(coursors.getColumnIndex("Pic")));
+                }
+                else
+                {
+                    bmp = BitmapFactory.decodeResource(getResources(), R.drawable.useravatar);
+                }
+
+            }
+            catch (Exception ex){
+                bmp = BitmapFactory.decodeResource(getResources(), R.drawable.useravatar);
+            }
         }
         else
         {
-            name="کاربر";
-            family="مهمان";
+            name = "کاربر";
+            family = "مهمان";
         }
 
         int drawerGravity= Gravity.END;
@@ -651,7 +714,7 @@ public class MainMenu extends AppCompatActivity {
     @Override
     public boolean onKeyDown( int keyCode, KeyEvent event )  {
         if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
-            stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+           // stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
             startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
             ExitApplication();
         }
@@ -683,26 +746,26 @@ public class MainMenu extends AppCompatActivity {
     protected void onStart() {
 
         super.onStart();
-        stopService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-        startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+        startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+        //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
 
     }
     protected void onStop() {
 
         super.onStop();
-        stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+        //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
     }
     protected void onPause() {
 
         super.onPause();
-        stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+        //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
     }
     protected void onDestroy() {
 
         super.onDestroy();
-        stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+        //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
     }
     void sharecode(String shareStr)

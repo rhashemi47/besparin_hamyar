@@ -255,7 +255,7 @@ public class Profile extends Activity {
 		btnSendProfile.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				SyncUpdateProfile syncUpdateProfile=new SyncUpdateProfile(Profile.this,guid,hamyarcode);
+				SyncUpdateProfile syncUpdateProfile=new SyncUpdateProfile(Profile.this,guid,hamyarcode,etReagentCodeProfile.getText().toString());
 				syncUpdateProfile.AsyncExecute();
 			}
 		});

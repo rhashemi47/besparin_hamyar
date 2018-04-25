@@ -110,7 +110,7 @@ public class SyncGetHamyarCredit {
 	            {
 	            	Toast.makeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();
 	            }
-	            else if(WsResponse.toString().compareTo("0") == 0)
+	            else if(WsResponse.toString().compareTo("0") == -1)
 	            {
 	            	//Toast.makeText(this.activity.getApplicationContext(), "سرویس جدیدی اعلام نشده", Toast.LENGTH_LONG).show();
 	            }

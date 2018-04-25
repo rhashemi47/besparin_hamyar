@@ -113,11 +113,11 @@
             labelssp=new ArrayList<>();
             labelssp.add("");
             db = dbh.getReadableDatabase();
-            Cursor cursors = db.rawQuery("SELECT * FROM Expert ", null);
+            Cursor cursors = db.rawQuery("SELECT * FROM servicesdetails ", null);
             String str;
             for (int i = 0; i < cursors.getCount(); i++) {
                 cursors.moveToNext();
-                str = cursors.getString(cursors.getColumnIndex("title"));
+                str = cursors.getString(cursors.getColumnIndex("name"));
                 labelssp.add(str);
             }
             ArrayAdapter<String> dataAdaptersp = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, labelssp);

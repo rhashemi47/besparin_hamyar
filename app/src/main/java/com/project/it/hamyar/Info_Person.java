@@ -312,7 +312,7 @@ public void insertHamyar() {
 		for(int i=0;i<headers.getCount();i++){
 			headers.moveToNext();
 			listDataHeader.add(headers.getString(headers.getColumnIndex("servicename")));
-			Cursor childs = db.rawQuery("SELECT * FROM servicesdetails WHERE code='"+headers.getString(headers.getColumnIndex("code"))+"'",null);
+			Cursor childs = db.rawQuery("SELECT * FROM servicesdetails WHERE servicename='"+headers.getString(headers.getColumnIndex("code"))+"'",null);
 			//String child;
 			 List<String> childDetails = new ArrayList<String>();
 			for(int j=0;j<childs.getCount();j++)
