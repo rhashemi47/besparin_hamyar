@@ -128,8 +128,11 @@ public class HmLogin {
 	            }
 	            else if(res[0].toString().compareTo("2") == 0)//نیروی جدید می باشد و باید اطلاعات اولیه دریافت شود.
 	            {
+
 					if(check_load.compareTo("0")==0)
 					{
+						SyncProfile profile = new SyncProfile(this.activity, res[2], res[1]);
+						profile.AsyncExecute();
 						setloginDeactive();
 					}
 					else
@@ -140,6 +143,8 @@ public class HmLogin {
 	            else if(res[0].toString().compareTo("3") == 0)
 	            {
 	            	//به صفحه منو برده شود اما امکانات غیرفعال گردد.
+					SyncProfile profile = new SyncProfile(this.activity, res[2], res[1]);
+					profile.AsyncExecute();
 	            	setloginDeactive();
 	            }
         	}
@@ -219,6 +224,7 @@ public class HmLogin {
 	
 	public void InsertDataFromWsToDb(String[] AllRecord)
     {
+		Toast.makeText(this.activity.getApplicationContext(), "شما فعال نشده اید", Toast.LENGTH_LONG).show();
 		SyncEducation syncEducation=new SyncEducation(this.activity,this.phonenumber,this.acceptcode);
 		syncEducation.AsyncExecute();
     }

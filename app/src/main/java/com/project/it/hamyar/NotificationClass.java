@@ -50,7 +50,7 @@ public class NotificationClass {
             long[] v = {500,1000};
             Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
-            mBuilder.setSmallIcon(R.drawable.job);
+            mBuilder.setSmallIcon(R.drawable.logo);
             mBuilder.setContentTitle(Title);
             mBuilder.setContentText(Detils);
             mBuilder.setVibrate(v);

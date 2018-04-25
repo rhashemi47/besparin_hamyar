@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
@@ -173,7 +174,7 @@ public class Profile extends Activity {
 			tvUserFName.setText(coursors.getString(coursors.getColumnIndex("Fam")));
 			etBrithday.setText(coursors.getString(coursors.getColumnIndex("BthDate")));
 			tvNumberPhone.setText(coursors.getString(coursors.getColumnIndex("Mobile")));
-			etReagentCodeProfile.setText(coursors.getString(coursors.getColumnIndex("HamyarCodeForReagent")));
+			//etReagentCodeProfile.setText(coursors.getString(coursors.getColumnIndex("HamyarCodeForReagent")));
 			bmp=convertToBitmap(coursors.getString(coursors.getColumnIndex("Pic")));
 		}
 
@@ -255,8 +256,24 @@ public class Profile extends Activity {
 		btnSendProfile.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				SyncUpdateProfile syncUpdateProfile=new SyncUpdateProfile(Profile.this,guid,hamyarcode);
-				syncUpdateProfile.AsyncExecute();
+				InternetConnection ic=new InternetConnection(getApplicationContext());
+				if(ic.isConnectingToInternet())
+				{
+					if(etReagentCodeProfile.getText().toString().length()>0 && etReagentCodeProfile.getText().toString().length()<=5)
+					{
+						Toast.makeText(getApplicationContext(), "کد معرف به درستی وارد نشده!", Toast.LENGTH_LONG).show();
+					}
+					else
+					{
+						SyncUpdateProfile syncUpdateProfile=new SyncUpdateProfile(Profile.this,guid,hamyarcode,etReagentCodeProfile.getText().toString());
+						syncUpdateProfile.AsyncExecute();
+					}
+				}
+				else
+				{
+					Toast.makeText(getApplicationContext(), "اتصال به شبکه را چک نمایید.", Toast.LENGTH_LONG).show();
+				}
+				db.close();
 			}
 		});
 	}

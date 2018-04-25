@@ -224,7 +224,7 @@ public class SyncProfile {
 					"HamyarNumber," +
 					"IsEmrgency," +
 					"Status" +
-					//",HamyarCodeForReagent" + todo به علت خطای توی وب سرویس کامنت شده
+					",HamyarCodeForReagent" +
 					" )" +
 					"VALUES" +
 					"('"+value[0]+
@@ -243,7 +243,7 @@ public class SyncProfile {
 					"','"+value[13]+
 					"','"+value[14]+
 					"','"+value[15]+
-					//"','"+value[16]+ todo به علت خطای توی وب سرویس کامنت شده
+					"','"+value[16]+
 					"')";
 			db.execSQL(query);
 

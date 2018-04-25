@@ -2,6 +2,7 @@ package com.project.it.hamyar;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -16,25 +17,23 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import java.io.IOException;
 
-public class SyncUpdateProfile {
+public class SyncProfileForService {
 
 	//Primary Variable
 	DatabaseHelper dbh;
 	SQLiteDatabase db;
 	PublicVariable PV;
     InternetConnection IC;
-	private Activity activity;
+	private Context activity;
 	private String guid;
 	private String hamyarcode;
 	private String WsResponse;
-	private String ReagentCode;
 	private boolean CuShowDialog=true;
 	//Contractor
-	public SyncUpdateProfile(Activity activity, String guid, String hamyarcode, String ReagentCode) {
+	public SyncProfileForService(Context activity, String guid, String hamyarcode) {
 		this.activity = activity;
 		this.guid = guid;
 		this.hamyarcode=hamyarcode;
-		this.ReagentCode=ReagentCode;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
 		
@@ -65,7 +64,7 @@ public class SyncUpdateProfile {
 		{
 			try
 			{
-				AsyncCallWS task = new AsyncCallWS(this.activity);
+				AsyncCallWS task = new AsyncCallWS((Activity) this.activity);
 				task.execute();
 			}	
 			 catch (Exception e) {
@@ -82,7 +81,7 @@ public class SyncUpdateProfile {
 	//Async Method
 	private class AsyncCallWS extends AsyncTask<String, Void, String> {
 		private ProgressDialog dialog;
-		private Activity activity;
+		private Context activity;
 		
 		public AsyncCallWS(Activity activity) {
 		    this.activity = activity;
@@ -94,7 +93,7 @@ public class SyncUpdateProfile {
         	String result = null;
         	try
         	{
-        		CallWsMethod("UpdateHamyarProfile");
+        		CallWsMethod("GetHamyarProfile");
         	}
 	    	catch (Exception e) {
 	    		result = e.getMessage().toString();
@@ -112,7 +111,7 @@ public class SyncUpdateProfile {
 	            }
 	            else if(WsResponse.toString().compareTo("0") == 0)
 	            {
-	            	Toast.makeText(this.activity.getApplicationContext(), "کد معرف نا معتبر است", Toast.LENGTH_LONG).show();
+	            	Toast.makeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();
 					//LoadActivity(MainMenu.class, "guid", guid,"hamyarcode",hamyarcode,"updateflag","1");
 	            }
 				else if(WsResponse.toString().compareTo("2") == 0)
@@ -176,16 +175,6 @@ public class SyncUpdateProfile {
 		//Add the property to request object
 		request.addProperty(HamyarCodePI);
 		//*****************************************************
-		PropertyInfo ReagentCodePI = new PropertyInfo();
-		//Set Name
-		ReagentCodePI.setName("ReagentCode");
-		//Set Value
-		ReagentCodePI.setValue(this.ReagentCode);
-		//Set dataType
-		ReagentCodePI.setType(String.class);
-		//Add the property to request object
-		request.addProperty(ReagentCodePI);
-		//*****************************************************
 
 	    //Create envelope
 	    SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
@@ -212,6 +201,62 @@ public class SyncUpdateProfile {
 	
 	public void InsertDataFromWsToDb(String AllRecord)
     {
-		Toast.makeText(activity, "ثبت گردید", Toast.LENGTH_LONG).show();
-	}
+		String[] value;
+		String query=null;
+		db=dbh.getWritableDatabase();
+		db.execSQL("DELETE FROM Profile");
+			value=WsResponse.split("##");
+			query="INSERT INTO Profile " +
+					"(Code," +
+					"Name," +
+					"Fam," +
+					"BthDate," +
+					"ShSh," +
+					"BirthplaceCode," +
+					"Sader," +
+					"StartDate," +
+					"Address," +
+					"Tel," +
+					"Mobile," +
+					"ReagentName," +
+					"AccountNumber," +
+					"HamyarNumber," +
+					"IsEmrgency," +
+					"Status" +
+					",HamyarCodeForReagent" +
+					" )" +
+					"VALUES" +
+					"('"+value[0]+
+					"','"+value[1]+
+					"','"+value[2]+
+					"','"+value[3]+
+					"','"+value[4]+
+					"','"+value[5]+
+					"','"+value[6]+
+					"','"+value[7]+
+					"','"+value[8]+
+					"','"+value[9]+
+					"','"+value[10]+
+					"','"+value[11]+
+					"','"+value[12]+
+					"','"+value[13]+
+					"','"+value[14]+
+					"','"+value[15]+
+					"','"+value[16]+
+					"')";
+			db.execSQL(query);
+
+		db.close();
+		//LoadActivity(Profile.class, "guid", guid,"hamyarcode",hamyarcode,"updateflag","0");
+//		SyncProfilePic syncProfilePic=new SyncProfilePic(activity,guid,hamyarcode);
+//		syncProfilePic.AsyncExecute();
+    }
+//	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2, String VariableName3, String VariableValue3)
+//	{
+//		Intent intent = new Intent(activity,Cls);
+//		intent.putExtra(VariableName, VariableValue);
+//		intent.putExtra(VariableName2, VariableValue2);
+//		intent.putExtra(VariableName3, VariableValue3);
+//		activity.startActivity(intent);
+//	}
 }
