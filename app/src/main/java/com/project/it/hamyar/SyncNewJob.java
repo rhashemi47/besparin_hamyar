@@ -294,8 +294,6 @@ public class SyncNewJob {
                     "','"+value[33]+
                     "')";
             db.execSQL(query);
-
-            db.close();
             SyncGetServiceUserInfo syncGetServiceUserInfo=new SyncGetServiceUserInfo(this.activity,value[0]);
             syncGetServiceUserInfo.AsyncExecute();
             if(notifocationEnable) {
@@ -307,10 +305,9 @@ public class SyncNewJob {
                     coursors.moveToNext();
                     runNotification("بسپارینا", coursors.getString(coursors.getColumnIndex("name")), i, value[0], ViewJob.class);
                 }
-
-                db.close();
             }
         }
+        db.close();
     }
 
     public void runNotification(String title,String detail,int id,String BsUserServicesID,Class<?> Cls)

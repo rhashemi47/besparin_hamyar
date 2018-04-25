@@ -191,6 +191,7 @@
                 SyncUnit unit = new SyncUnit(this,guid,hamyarcode);
                 unit.AsyncExecute();
             }
+            db=dbh.getReadableDatabase();
             coursors = db.rawQuery("SELECT * FROM services", null);
             if (coursors.getCount() > 0) {
                 for (int i = 0; i < coursors.getCount(); i++) {

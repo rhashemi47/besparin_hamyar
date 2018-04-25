@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -136,7 +137,17 @@ public class Info_Person extends Activity {
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spEducation.setAdapter(dataAdapter);
 		db.close();
+		spEducation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				education=spEducation.getSelectedItem().toString();
+			}
 
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+
+			}
+		});
         prepareListData();
  
         listAdapter = new CustomeExpandableListAdapter(this, listDataHeader, listDataChild);
@@ -205,7 +216,7 @@ public class Info_Person extends Activity {
 								new DatePickerDialog.OnDateSetListener() {
 									@Override
 									public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-										brithday.setText(String.valueOf(year)+"/"+String.valueOf(monthOfYear)+"/"+String.valueOf(dayOfMonth));
+										brithday.setText(String.valueOf(year)+"/"+String.valueOf(monthOfYear+1)+"/"+String.valueOf(dayOfMonth));
 										yearStr=String.valueOf(year);
 										monStr=String.valueOf(monthOfYear);
 										dayStr=String.valueOf(dayOfMonth);
@@ -218,6 +229,26 @@ public class Info_Person extends Activity {
 
 					}
 
+		});
+        brithday.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				PersianCalendar now = new PersianCalendar();
+				DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
+						new DatePickerDialog.OnDateSetListener() {
+							@Override
+							public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+								brithday.setText(String.valueOf(year)+"/"+String.valueOf(monthOfYear+1)+"/"+String.valueOf(dayOfMonth));
+								yearStr=String.valueOf(year);
+								monStr=String.valueOf(monthOfYear);
+								dayStr=String.valueOf(dayOfMonth);
+							}
+						}, now.getPersianYear(),
+						now.getPersianMonth(),
+						now.getPersianDay());
+				datePickerDialog.setThemeDark(true);
+				datePickerDialog.show(getFragmentManager(), "tpd");
+			}
 		});
 	}
 public void insertHamyar() {

@@ -103,27 +103,29 @@ protected void onPause() {
 		btnEnter.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				String Phone=etPhoneNumber.getText().toString();
-				if(Phone.compareTo("")!=0) {
-					InternetConnection ic = new InternetConnection(getApplicationContext());
-					if (ic.isConnectingToInternet()) {
-						String query = null;
-						db = dbh.getWritableDatabase();
-						query = "INSERT INTO Profile (Mobile) VALUES ('" + etPhoneNumber.getText().toString() + "')";
-						db.execSQL(query);
-						SendAcceptCode sendCode = new SendAcceptCode(Login.this, etPhoneNumber.getText().toString(), "0");
-						sendCode.AsyncExecute();
-						db.close();
-					}
-					else
-					{
-						Toast.makeText(getApplicationContext(), "اتصال به شبکه را چک نمایید.", Toast.LENGTH_LONG).show();
-					}
-				}
-				else
-				{
-					Toast.makeText(getApplicationContext(), "لطفا شماره همراه خود را وارد نمایید.", Toast.LENGTH_LONG).show();
-				}
+//				String Phone=etPhoneNumber.getText().toString();
+//				if(Phone.compareTo("")!=0) {
+//					InternetConnection ic = new InternetConnection(getApplicationContext());
+//					if (ic.isConnectingToInternet()) {
+//						String query = null;
+//						db = dbh.getWritableDatabase();
+//						query = "INSERT INTO Profile (Mobile) VALUES ('" + etPhoneNumber.getText().toString() + "')";
+//						db.execSQL(query);
+//						SendAcceptCode sendCode = new SendAcceptCode(Login.this, etPhoneNumber.getText().toString(), "0");
+//						sendCode.AsyncExecute();
+//						db.close();
+//					}
+//					else
+//					{
+//						Toast.makeText(getApplicationContext(), "اتصال به شبکه را چک نمایید.", Toast.LENGTH_LONG).show();
+//					}
+//				}
+//				else
+//				{
+//					Toast.makeText(getApplicationContext(), "لطفا شماره همراه خود را وارد نمایید.", Toast.LENGTH_LONG).show();
+//				}
+				Toast.makeText(Login.this, "برای استفاده از امکانات بسپارینا باید ثبت نام کنید", Toast.LENGTH_LONG).show();
+				LoadActivity2(MainMenu.class, "guid", "0","hamyarcode","0");
 			}
 		});
 		btnSignUp.setTypeface(FontMitra);
@@ -158,6 +160,13 @@ protected void onPause() {
     }
 
     public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2, String VariableName3, String VariableValue3)
+	{
+		Intent intent = new Intent(getApplicationContext(),Cls);
+		intent.putExtra(VariableName, VariableValue);
+		intent.putExtra(VariableName2, VariableValue2);
+		Login.this.startActivity(intent);
+	}
+    public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2)
 	{
 		Intent intent = new Intent(getApplicationContext(),Cls);
 		intent.putExtra(VariableName, VariableValue);

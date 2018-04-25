@@ -994,6 +994,7 @@ public class ViewJob extends AppCompatActivity{
                         "LEFT JOIN " +
                         "Servicesdetails ON " +
                         "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode AND BsHamyarSelectServices.Code=" + BsUserServicesID;
+                db=dbh.getReadableDatabase();
                 coursors = db.rawQuery(query, null);
                 if (coursors.getCount()>0) {
                     coursors.moveToNext();

@@ -131,7 +131,6 @@
                 }
             }
 
-            db.close();
             addItemFromList(true);
             db=dbh.getReadableDatabase();
             Cursor coursors = db.rawQuery("SELECT * FROM services", null);

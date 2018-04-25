@@ -114,5 +114,14 @@
     <string name="CallToCastumer">تماس با متقاضی</string>
     <string name="Invite_friends">دعوت از دوستان</string>
     <string name="rial">ریال</string>
+    <string name="Addres">آدرس</string>
+    <string name="edit">ویرایش</string>
+    <string name="Email">ایمیل</string>
+    <string name="FromDate">از تاریخ</string>
+    <string name="ToDate">تا تاریخ</string>
+    <string name="FromTime">از ساعت</string>
+    <string name="ToTime">تا ساعت</string>
+    <string name="Area">نام محله</string>
+    <string name="Expert">تخصص</string>
 
 </resources>
