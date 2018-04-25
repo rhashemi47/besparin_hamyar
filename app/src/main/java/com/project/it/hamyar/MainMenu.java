@@ -130,6 +130,27 @@ public class MainMenu extends AppCompatActivity {
         }
         try
         {
+            String status="غیرفعال";
+            db = dbh.getReadableDatabase();
+            Cursor cursor = db.rawQuery("SELECT * FROM Profile", null);
+            if (cursor.getCount() > 0) {
+                cursor.moveToNext();
+                try {
+                    if (cursor.getString(cursor.getColumnIndex("Status")).compareTo("null") != 0) {
+                        status = cursor.getString(cursor.getColumnIndex("Status"));
+                        if (status.compareTo("0") == 0) {
+                            status = "غیرفعال";
+                        } else {
+                            status = "فعال";
+                        }
+                    } else {
+                        status = "غیرفعال";
+                    }
+
+                } catch (Exception ex) {
+                    status = "غیرفعال";
+                }
+            }
             hamyarcode = getIntent().getStringExtra("hamyarcode");
             guid = getIntent().getStringExtra("guid");
             if(hamyarcode==null || guid==null)
@@ -169,8 +190,9 @@ public class MainMenu extends AppCompatActivity {
                     LoadActivity(Login.class,"hamyarcode","0","guid","0");
                 }
             }
-            else if(hamyarcode.compareTo("0")==0 || guid.compareTo("0")==0)
+            else if(hamyarcode.compareTo("0")==0 || guid.compareTo("0")==0 || status.compareTo("غیرفعال")==0)
             {
+                Toast.makeText(MainMenu.this, "شما فعال نشده اید", Toast.LENGTH_LONG).show();
                 IsActive=false;
             }
 
@@ -180,11 +202,11 @@ public class MainMenu extends AppCompatActivity {
         {
             throw new Error("Error Opne Activity");
         }
-        startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-        //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+        stopService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+        startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
         startService(new Intent(getBaseContext(), ServiceGetLocation.class));
         startService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
-        startService(new Intent(getBaseContext(), ServiceSyncServiceSelected.class));
+        startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
         //**************************************************************************
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -338,7 +360,7 @@ public class MainMenu extends AppCompatActivity {
                 stopService(new Intent(getBaseContext(), ServiceGetNewJob.class));
                 stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
                 stopService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
-                stopService(new Intent(getBaseContext(), ServiceSyncServiceSelected.class));
+                stopService(new Intent(getBaseContext(), ServiceSyncProfile.class));
                 db = dbh.getWritableDatabase();
                 db.execSQL("DELETE FROM AmountCredit");
                 db.execSQL("DELETE FROM android_metadata");
@@ -379,9 +401,9 @@ public class MainMenu extends AppCompatActivity {
         String name="";
         String family="";
         String status="";
-        db=dbh.getReadableDatabase();
-        Cursor coursors = db.rawQuery("SELECT * FROM Profile",null);
-        if(coursors.getCount()>0) {
+        db = dbh.getReadableDatabase();
+        Cursor coursors = db.rawQuery("SELECT * FROM Profile", null);
+        if (coursors.getCount() > 0) {
             coursors.moveToNext();
             try
             {
@@ -467,7 +489,7 @@ public class MainMenu extends AppCompatActivity {
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.menu_header)
                 .addProfiles(
-                        new ProfileDrawerItem().withName(name+" "+family).withIcon(bmp)// withIcon(getResources().getDrawable(R.drawable.personpic))
+                        new ProfileDrawerItem().withName(name+" "+family+"\n-"+"وضعیت: "+status).withIcon(bmp)// withIcon(getResources().getDrawable(R.drawable.personpic))
                 ).withSelectionListEnabledForSingleProfile(false)
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override
@@ -483,7 +505,7 @@ public class MainMenu extends AppCompatActivity {
                 .withDrawerGravity(drawerGravity)
                 .withShowDrawerOnFirstLaunch(true)
                 .addDrawerItems(
-                        new SecondaryDrawerItem().withName(R.string.Profile).withIcon(R.drawable.profile).withSelectable(false),
+                        new SecondaryDrawerItem().withName(R.string.Profile).withIcon(R.drawable.profile).withSelectable(true),
                         new SecondaryDrawerItem().withName(R.string.ListVisit).withIcon(R.drawable.job).withBadge(countVisit).withBadgeStyle(new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.md_red_700)).withSelectable(false).withEnabled(IsActive),
                         // new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
                         new SecondaryDrawerItem().withName(R.string.Yourcommitment).withIcon(R.drawable.yourcommitment).withSelectable(false),
@@ -528,6 +550,11 @@ public class MainMenu extends AppCompatActivity {
                                     {
                                         LoadActivity(Profile.class, "guid", guid,"hamyarcode",hamyarcode);
                                     }
+                                }
+                                else
+                                {
+                                    Toast.makeText(MainMenu.this, "برای استفاده از امکانات بسپارینا باید ثبت نام کنید", Toast.LENGTH_LONG).show();
+                                    LoadActivity(Login.class,"guid",guid,"hamyarcode",hamyarcode);
                                 }
 
                                 db.close();
@@ -714,7 +741,7 @@ public class MainMenu extends AppCompatActivity {
     @Override
     public boolean onKeyDown( int keyCode, KeyEvent event )  {
         if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
-           // stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+            stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
             startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
             ExitApplication();
         }
@@ -746,26 +773,26 @@ public class MainMenu extends AppCompatActivity {
     protected void onStart() {
 
         super.onStart();
-        startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-        //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+        stopService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+        startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
 
     }
     protected void onStop() {
 
         super.onStop();
-        //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+        stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
     }
     protected void onPause() {
 
         super.onPause();
-        //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+        stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
     }
     protected void onDestroy() {
 
         super.onDestroy();
-        //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+        stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
     }
     void sharecode(String shareStr)

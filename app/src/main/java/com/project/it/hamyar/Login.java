@@ -124,7 +124,7 @@ protected void onPause() {
 //				{
 //					Toast.makeText(getApplicationContext(), "لطفا شماره همراه خود را وارد نمایید.", Toast.LENGTH_LONG).show();
 //				}
-				Toast.makeText(Login.this, "برای استفاده از امکانات بسپارینا باید ثبت نام کنید", Toast.LENGTH_LONG).show();
+				Toast.makeText(Login.this, "برای استفاده از امکانات بسپارینا باید وارد حساب کاربری خود شوید.", Toast.LENGTH_LONG).show();
 				LoadActivity2(MainMenu.class, "guid", "0","hamyarcode","0");
 			}
 		});
