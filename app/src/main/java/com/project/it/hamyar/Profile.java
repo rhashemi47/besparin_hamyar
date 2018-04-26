@@ -49,6 +49,7 @@ public class Profile extends Activity {
 	private TextView tvTitleNumberPhone;
 	private TextView tvNumberPhone;
 	private TextView tvCodeMoaref;
+	private TextView tvStatuse;
 	private EditText etBrithday;
 	private EditText etReagentCodeProfile;
 	private DatabaseHelper dbh;
@@ -82,6 +83,7 @@ public class Profile extends Activity {
 		tvTitleFName=(TextView)findViewById(R.id.tvTitleFName);
 		tvUserFName=(TextView)findViewById(R.id.tvUserFName);
 		TextViewAge=(TextView)findViewById(R.id.TextViewAge);
+		tvStatuse=(TextView)findViewById(R.id.tvStatuse);
 		tvTitleNumberPhone=(TextView)findViewById(R.id.tvTitleNumberPhone);
 		tvNumberPhone=(TextView)findViewById(R.id.tvNumberPhone);
 		tvCodeMoaref=(TextView)findViewById(R.id.tvCodeMoaref);
@@ -174,7 +176,7 @@ public class Profile extends Activity {
 			tvUserFName.setText(coursors.getString(coursors.getColumnIndex("Fam")));
 			etBrithday.setText(coursors.getString(coursors.getColumnIndex("BthDate")));
 			tvNumberPhone.setText(coursors.getString(coursors.getColumnIndex("Mobile")));
-			//etReagentCodeProfile.setText(coursors.getString(coursors.getColumnIndex("HamyarCodeForReagent")));
+			tvStatuse.setText((coursors.getString(coursors.getColumnIndex("Status"))).compareTo("0")==0 ? "غیرفعال" : "فعال");
 			bmp=convertToBitmap(coursors.getString(coursors.getColumnIndex("Pic")));
 		}
 

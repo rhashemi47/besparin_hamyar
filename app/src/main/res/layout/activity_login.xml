@@ -39,34 +39,35 @@
                     android:textStyle="normal"
                     android:layout_marginEnd="20dp"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"/>
+                    android:layout_marginTop="80dp"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:layout_marginTop="10dp">
-                <Button
-                    android:id="@+id/btnEnter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/rounded_button"
-                    android:drawableRight="@drawable/signin"
-                    android:text="@string/Login"
-                    android:textSize="22sp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="1"/>
                 <Button
                     android:id="@+id/btnSignUp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_button"
                     android:drawableRight="@drawable/singup"
-                    android:text="@string/SignUp"
+                    android:text="@string/SignUpOrLogin"
                     android:textSize="22sp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"/>
+                <Button
+                    android:id="@+id/btnEnter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_button"
+                    android:drawableRight="@drawable/signin"
+                    android:text="@string/LoginGuest"
+                    android:textSize="22sp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"/>

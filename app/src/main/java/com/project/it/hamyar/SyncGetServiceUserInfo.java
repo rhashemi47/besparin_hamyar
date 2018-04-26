@@ -75,7 +75,7 @@ public class SyncGetServiceUserInfo {
 		}
 		else
 		{
-			Toast.makeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
+			//Toast.makeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
 		}
 	}
 	
@@ -86,7 +86,8 @@ public class SyncGetServiceUserInfo {
 		
 		public AsyncCallWS(Context activity) {
 		    this.activity = activity;
-		    this.dialog = new ProgressDialog(activity);		    		    this.dialog.setCanceledOnTouchOutside(false);
+		    this.dialog = new ProgressDialog(activity);
+		    this.dialog.setCanceledOnTouchOutside(false);
 		}
 		
         @Override

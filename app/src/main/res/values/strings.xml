@@ -123,5 +123,8 @@
     <string name="ToTime">تا ساعت</string>
     <string name="Area">نام محله</string>
     <string name="Expert">تخصص</string>
+    <string name="Filter">فیلتر</string>
+    <string name="LoginGuest">ورود مهمان</string>
+    <string name="SignUpOrLogin">ورود به حساب کاربری یا ثبت نام</string>
 
 </resources>

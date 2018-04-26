@@ -15,8 +15,10 @@
     import android.text.Editable;
     import android.text.TextWatcher;
     import android.view.KeyEvent;
+    import android.view.LayoutInflater;
     import android.view.MenuItem;
     import android.view.View;
+    import android.view.ViewGroup;
     import android.widget.AdapterView;
     import android.widget.ArrayAdapter;
     import android.widget.Button;
@@ -50,7 +52,7 @@
         private EditText etToDate;
         private EditText etFromTime;
         private EditText etToTime;
-        private EditText etArea;
+//        private EditText etArea;
         private Spinner spExpert;
         private List<String> labelssp;
         //*****************************************************
@@ -65,6 +67,11 @@
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.list_services);
+            //************************************************************************
+            LayoutInflater layoutInflater=getLayoutInflater();
+            getWindow().addContentView(layoutInflater.inflate(R.layout.sliding_filter,null),new
+                    ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,ViewGroup.LayoutParams.FILL_PARENT));
+            //************************************************************************
             btnCredit = (Button) findViewById(R.id.btnCredit);
             btnOrders = (Button) findViewById(R.id.btnOrders);
             btnHome = (Button) findViewById(R.id.btnHome);
@@ -73,7 +80,7 @@
             etToDate = (EditText) findViewById(R.id.etToDate);
             etFromTime = (EditText) findViewById(R.id.etFromTime);
             etToTime = (EditText) findViewById(R.id.etToTime);
-            etArea = (EditText) findViewById(R.id.etArea);
+//            etArea = (EditText) findViewById(R.id.etArea);
             spExpert = (Spinner) findViewById(R.id.spExpert);
             //************************************************************
             lvServices = (ListView) findViewById(R.id.listViewServices);
@@ -113,11 +120,11 @@
             labelssp=new ArrayList<>();
             labelssp.add("");
             db = dbh.getReadableDatabase();
-            Cursor cursors = db.rawQuery("SELECT * FROM Expert ", null);
+            Cursor cursors = db.rawQuery("SELECT * FROM servicesdetails ", null);
             String str;
             for (int i = 0; i < cursors.getCount(); i++) {
                 cursors.moveToNext();
-                str = cursors.getString(cursors.getColumnIndex("title"));
+                str = cursors.getString(cursors.getColumnIndex("name"));
                 labelssp.add(str);
             }
             ArrayAdapter<String> dataAdaptersp = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, labelssp);
@@ -511,9 +518,9 @@
         if(etToTime.getText().toString().length()>0) {
             query = query + " AND EndTime<='" + etToTime.getText().toString()+"'";
         }
-        if(etArea.getText().toString().length()>0) {
-            query = query + " AND AddressText LIKE '%" + etArea.getText().toString()+"%'";
-        }
+//        if(etArea.getText().toString().length()>0) {
+//            query = query + " AND AddressText LIKE '%" + etArea.getText().toString()+"%'";
+//        }
 //        if(spExpert.getSelectedItem().toString().compareTo("")!=0) {
 //            query = query + " AND " + spExpert.getSelectedItem().toString();
 //        }
