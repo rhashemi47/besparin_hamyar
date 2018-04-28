@@ -130,7 +130,7 @@ public class MainMenu extends AppCompatActivity {
         }
         try
         {
-            String status="غیرفعال";
+            String status="0";
             db = dbh.getReadableDatabase();
             Cursor cursor = db.rawQuery("SELECT * FROM Profile", null);
             if (cursor.getCount() > 0) {
@@ -207,6 +207,7 @@ public class MainMenu extends AppCompatActivity {
         startService(new Intent(getBaseContext(), ServiceGetLocation.class));
         startService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
         startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
+        startService(new Intent(getBaseContext(), ServiceSyncServiceSelected.class));
         //**************************************************************************
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -361,6 +362,7 @@ public class MainMenu extends AppCompatActivity {
                 stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
                 stopService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
                 stopService(new Intent(getBaseContext(), ServiceSyncProfile.class));
+                stopService(new Intent(getBaseContext(), ServiceSyncServiceSelected.class));
                 db = dbh.getWritableDatabase();
                 db.execSQL("DELETE FROM AmountCredit");
                 db.execSQL("DELETE FROM android_metadata");
@@ -483,13 +485,13 @@ public class MainMenu extends AppCompatActivity {
             }
 
 
-
+String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
         // Create the AccountHeader
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.menu_header)
                 .addProfiles(
-                        new ProfileDrawerItem().withName(name+" "+family+"\n-"+"وضعیت: "+status).withIcon(bmp)// withIcon(getResources().getDrawable(R.drawable.personpic))
+                        new ProfileDrawerItem().withName(HeaderStr).withIcon(bmp)// withIcon(getResources().getDrawable(R.drawable.personpic))
                 ).withSelectionListEnabledForSingleProfile(false)
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override
@@ -741,7 +743,7 @@ public class MainMenu extends AppCompatActivity {
     @Override
     public boolean onKeyDown( int keyCode, KeyEvent event )  {
         if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
-            stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+            //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
             startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
             ExitApplication();
         }
@@ -773,26 +775,26 @@ public class MainMenu extends AppCompatActivity {
     protected void onStart() {
 
         super.onStart();
-        stopService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-        startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+        startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+        //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
 
     }
     protected void onStop() {
 
         super.onStop();
-        stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+        //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
     }
     protected void onPause() {
 
         super.onPause();
-        stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+        //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
     }
     protected void onDestroy() {
 
         super.onDestroy();
-        stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+        //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
     }
     void sharecode(String shareStr)

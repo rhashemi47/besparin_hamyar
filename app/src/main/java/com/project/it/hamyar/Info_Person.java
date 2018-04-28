@@ -1,6 +1,7 @@
 package com.project.it.hamyar;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -224,7 +225,7 @@ public class Info_Person extends Activity {
 								}, now.getPersianYear(),
 								now.getPersianMonth(),
 								now.getPersianDay());
-						datePickerDialog.setThemeDark(true);
+						datePickerDialog.setThemeDark(false);
 						datePickerDialog.show(getFragmentManager(), "tpd");
 
 					}
@@ -243,10 +244,11 @@ public class Info_Person extends Activity {
 								monStr=String.valueOf(monthOfYear);
 								dayStr=String.valueOf(dayOfMonth);
 							}
-						}, now.getPersianYear(),
+						},
+						now.getPersianYear(),
 						now.getPersianMonth(),
 						now.getPersianDay());
-				datePickerDialog.setThemeDark(true);
+				datePickerDialog.setThemeDark(false);
 				datePickerDialog.show(getFragmentManager(), "tpd");
 			}
 		});
@@ -325,4 +327,8 @@ public void insertHamyar() {
 		}
 		db.close();
     }
+
+	public Object getActivity() {
+		return Info_Person.this;
+	}
 }

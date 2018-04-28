@@ -30,7 +30,6 @@ public class SyncGetSelectJobsForService {
 	private String hamyarcode;
 	private String WsResponse;
 	private String LastHamyarSelectUserServiceCode;
-	//private String acceptcode;
 	private boolean CuShowDialog = false;
 
 	//Contractor
@@ -66,14 +65,14 @@ public class SyncGetSelectJobsForService {
 	public void AsyncExecute() {
 		if (IC.isConnectingToInternet() == true) {
 			try {
-				SyncGetSelectJobsForService.AsyncCallWS task = new SyncGetSelectJobsForService.AsyncCallWS(this.activity);
+				AsyncCallWS task = new AsyncCallWS(this.activity);
 				task.execute();
 			} catch (Exception e) {
 
 				e.printStackTrace();
 			}
 		} else {
-			Toast.makeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
+			//Toast.makeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -122,8 +121,6 @@ public class SyncGetSelectJobsForService {
 				}
 			} catch (Exception e) {
 			}
-
-			db.close();
 		}
 
 		@Override
@@ -374,18 +371,18 @@ public class SyncGetSelectJobsForService {
 		NotificationClass notifi=new NotificationClass();
 		notifi.Notificationm(this.activity,title,getDetailname(detail)+" "+ StrStatus,OrderCode,id,Cls);
 	}
-	public boolean IsFristInsert()
-	{
-		db=dbh.getReadableDatabase();
-		String query = "SELECT * FROM BsHamyarSelectServices";
-		Cursor cursor= db.rawQuery(query,null);
-		if(cursor.getCount()>0)
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
-	}
+//	public boolean IsFristInsert()
+//	{
+//		db=dbh.getReadableDatabase();
+//		String query = "SELECT * FROM BsHamyarSelectServices";
+//		Cursor cursor= db.rawQuery(query,null);
+//		if(cursor.getCount()>0)
+//		{
+//			return false;
+//		}
+//		else
+//		{
+//			return true;
+//		}
+//	}
 }

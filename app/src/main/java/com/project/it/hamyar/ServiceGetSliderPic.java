@@ -66,7 +66,6 @@ public class ServiceGetSliderPic extends Service {
                                 @Override
                                 public void run() {
 
-
                                     db=dbh.getReadableDatabase();
                                     Cursor coursors = db.rawQuery("SELECT * FROM login",null);
                                     for(int i=0;i<coursors.getCount();i++){
@@ -74,6 +73,7 @@ public class ServiceGetSliderPic extends Service {
                                         guid=coursors.getString(coursors.getColumnIndex("guid"));
                                         hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
                                     }
+                                    coursors.close();
                                     if(guid.compareTo("0")!=0 && hamyarcode.compareTo("0")!=0) {
                                         SyncSliderPic syncSliderPic = new SyncSliderPic(getApplicationContext(), guid, hamyarcode);
                                         syncSliderPic.AsyncExecute();
@@ -84,7 +84,6 @@ public class ServiceGetSliderPic extends Service {
                             });
                             db=dbh.getReadableDatabase();
                             Cursor cursor = db.rawQuery("SELECT * FROM Slider",null);
-
                             if(cursor.getCount()>0) {
                                 Thread.sleep(43200000); // every 12 hour
                             }
