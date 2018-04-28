@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -39,6 +41,8 @@ import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
 import java.io.IOException;
 import java.util.Calendar;
 
+import ir.hamsaa.persiandatepicker.Listener;
+import ir.hamsaa.persiandatepicker.PersianDatePickerDialog;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
@@ -69,6 +73,7 @@ public class ViewJob extends AppCompatActivity{
     private Button btnOrders;
     private Button btnHome;
     GoogleMap map;
+    private ir.hamsaa.persiandatepicker.util.PersianCalendar initDate;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -79,7 +84,7 @@ public class ViewJob extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.viewjob);
-        Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
+        final Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
         btnCredit=(Button)findViewById(R.id.btnCredit);
         btnOrders=(Button)findViewById(R.id.btnOrders);
         btnHome=(Button)findViewById(R.id.btnHome);
@@ -944,26 +949,27 @@ public class ViewJob extends AppCompatActivity{
             @Override
             public void onClick(View v)
             {
-                PersianCalendar now = new PersianCalendar();
-                DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
-                        new DatePickerDialog.OnDateSetListener() {
-                             @Override
-                             public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-                                        db=dbh.getWritableDatabase();
-                                String query="UPDATE  DateTB SET Date = '" +String.valueOf(year)+"/"+String.valueOf(monthOfYear+1)+"/"+String.valueOf(dayOfMonth)+"'";
-                                 db.execSQL(query);
-
-                                 db.close();
-                                GetTime();
-                             }
-                         }, now.getPersianYear(),
-                        now.getPersianMonth(),
-                        now.getPersianDay());
-                datePickerDialog.setThemeDark(true);
-                datePickerDialog.show(getFragmentManager(), "tpd");
-
+//                PersianCalendar now = new PersianCalendar();
+//                DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
+//                        new DatePickerDialog.OnDateSetListener() {
+//                             @Override
+//                             public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+//                                        db=dbh.getWritableDatabase();
+//                                String query="UPDATE  DateTB SET Date = '" +String.valueOf(year)+"/"+String.valueOf(monthOfYear+1)+"/"+String.valueOf(dayOfMonth)+"'";
+//                                 db.execSQL(query);
+//
+//                                 db.close();
+//                                GetTime();
+//                             }
+//                         }, now.getPersianYear(),
+//                        now.getPersianMonth(),
+//                        now.getPersianDay());
+//                datePickerDialog.setThemeDark(false);
+//                datePickerDialog.show(getFragmentManager(), "tpd");
+                date_picker();
             }
         });
+
         btnResume.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -1135,5 +1141,35 @@ public class ViewJob extends AppCompatActivity{
 
 
         startActivity(callIntent);
+    }
+    private void date_picker()
+    {
+
+          //  initDate.setPersianDate(1370, 3, 13);
+
+
+        PersianDatePickerDialog picker = new PersianDatePickerDialog(this);
+        picker.setPositiveButtonString("باشه");
+        picker.setNegativeButton("بیخیال");
+        picker.setTodayButton("امروز");
+        picker.setTodayButtonVisible(true);
+        //picker.setInitDate(initDate);
+        picker.setMaxYear(PersianDatePickerDialog.THIS_YEAR);
+        picker.setMinYear(1300);
+        picker.setActionTextColor(Color.GRAY);
+        //picker.setTypeFace(FontMitra);
+        picker.setListener(new Listener() {
+
+            @Override
+            public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
+                Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onDismissed() {
+
+            }
+        });
+        picker.show();
     }
 }
