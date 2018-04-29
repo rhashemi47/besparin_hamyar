@@ -135,6 +135,7 @@ public class Contact extends Activity {
 			Intent intent = new Intent(getApplicationContext(),Cls);
 			intent.putExtra(VariableName, VariableValue);
 			intent.putExtra(VariableName2, VariableValue2);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			Contact.this.startActivity(intent);
 		}
 	public void dialContactPhone(String phoneNumber) {

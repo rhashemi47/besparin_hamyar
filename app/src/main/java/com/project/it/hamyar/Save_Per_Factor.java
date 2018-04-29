@@ -525,23 +525,23 @@ public class Save_Per_Factor extends Activity {
             StrAmount="0";
         }
         try {
-            SyncGetFactorUsersHeadCode syncGetFactorUsersHeadCode = new SyncGetFactorUsersHeadCode(Save_Per_Factor.this,
-                    guid,
-                    hamyarcode,
-                    BsUserServicesID,
-                    Year,
-                    Mounth,
-                    Day,
-                    EtDescription.getText().toString(),
-                    CheckTitleTools.isChecked(),
-                    mapStep.get(SpTitleStepJob.getSelectedItem().toString())
-                    , StrAmount);
-            syncGetFactorUsersHeadCode.AsyncExecute();
-        }
-        catch (Exception ex)
-        {
-            Toast.makeText(getApplicationContext(), "مقادیر به درستی وارد نشده است", Toast.LENGTH_LONG).show();
-        }
+                    SyncGetFactorUsersHeadCode syncGetFactorUsersHeadCode = new SyncGetFactorUsersHeadCode(Save_Per_Factor.this,
+                            guid,
+                            hamyarcode,
+                            BsUserServicesID,
+                            Year,
+                            Mounth,
+                            Day,
+                            EtDescription.getText().toString(),
+                            CheckTitleTools.isChecked(),
+                            mapStep.get(SpTitleStepJob.getSelectedItem().toString())
+                            , StrAmount);
+                    syncGetFactorUsersHeadCode.AsyncExecute();
+            }
+        catch(Exception ex)
+            {
+                Toast.makeText(getApplicationContext(), "مقادیر به درستی وارد نشده است", Toast.LENGTH_LONG).show();
+            }
     }
     public void ShowOrHidde()
     {
@@ -571,7 +571,7 @@ public class Save_Per_Factor extends Activity {
             Amont=EtToolValuePrice.getText().toString();
             float FAmount=Float.parseFloat(Amont);
             Amont=Float.toString(FAmount);
-            if (Amont.compareTo("0")==0 || Amont.length()<=0) {
+            if (Amont.compareTo("0.0")==0 || Amont.length()<=0) {
                 Toast.makeText(Save_Per_Factor.this, "لطفا  فیلد مقدار را پر فرمایید", Toast.LENGTH_SHORT).show();
             } else {
                 temp=TitleTool+ "-" +BrandName+ "-" +Price+ "-" +Amont;

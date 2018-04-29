@@ -39,10 +39,11 @@ public class InsertHamyar {
 	private String BthMonth;
 	private String BthDay;
 	private String ReagentCode;
+	//private String gender;
 	private boolean CuShowDialog=true;
 	private String[] res;
 	//Contractor
-	public InsertHamyar(Activity activity, String phonenumber, String acceptcode, String Name, String Family, String EducationCode, String Expertise, String BthYear, String BthMonth, String BthDay,String ReagentCode) {
+	public InsertHamyar(Activity activity, String phonenumber, String acceptcode, String Name, String Family, String EducationCode, String Expertise, String BthYear, String BthMonth, String BthDay,String ReagentCode/*,String gender*/) {
 		this.activity = activity;
 		this.phonenumber = phonenumber;		
 		this.acceptcode=acceptcode;
@@ -54,6 +55,7 @@ public class InsertHamyar {
 		this.BthMonth=BthMonth;
 		this.BthDay=BthDay;
 		this.ReagentCode=ReagentCode;
+		//this.gender=gender;
 
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
@@ -270,6 +272,16 @@ public class InsertHamyar {
 		ReagentCodePI.setType(String.class);
 	    //Add the property to request object
 	    request.addProperty(ReagentCodePI);
+//	    //
+//	    PropertyInfo genderPI = new PropertyInfo();
+//	    //Set Name
+//		genderPI.setName("Gender");
+//	    //Set Value
+//		genderPI.setValue(this.gender);
+//	    //Set dataType
+//		genderPI.setType(String.class);
+//	    //Add the property to request object
+//	    request.addProperty(genderPI);
 	    
 	    //Create envelope
 	    SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(

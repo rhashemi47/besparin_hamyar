@@ -56,7 +56,7 @@
         private Spinner SpNameService;
         private Spinner SpDitalNameService;
         private Button btnSave;
-        private Button btnSend;
+//        private Button btnSend;
         private List<String> labels = new ArrayList<String>();
         private List<String> labelsServiceName = new ArrayList<String>();
         private List<String> labelsServiceDetailName;
@@ -87,7 +87,7 @@
             SpNameService = (Spinner) findViewById(R.id.ServiceName);
             SpDitalNameService = (Spinner) findViewById(R.id.ServiDetailName);
             btnSave = (Button) findViewById(R.id.btnSaveStepJob);
-            btnSend = (Button) findViewById(R.id.btnSendStepJob);
+//            btnSend = (Button) findViewById(R.id.btnSendStepJob);
             tvtitleServiDetailName= (TextView) findViewById(R.id.tvtitleServiDetailName);
             tvtitleStepServise= (TextView) findViewById(R.id.tvtitleStepServise);
             tvtitleStep= (TextView) findViewById(R.id.tvtitleStep);
@@ -100,7 +100,7 @@
             EttitleStep.setTypeface(FontMitra);
             EtUnitPrice.setTypeface(FontMitra);
             btnSave .setTypeface(FontMitra);
-            btnSend.setTypeface(FontMitra);
+//            btnSend.setTypeface(FontMitra);
             tvtitleServiDetailName.setTypeface(FontMitra);
             tvtitleStepServise.setTypeface(FontMitra);
             tvtitleStep.setTypeface(FontMitra);
@@ -113,7 +113,7 @@
             EttitleStep.setTextSize(18);
             EtUnitPrice.setTextSize(18);
             btnSave .setTextSize(18);
-            btnSend.setTextSize(18);
+//            btnSend.setTextSize(18);
             tvtitleServiDetailName.setTextSize(18);
             tvtitleStepServise.setTextSize(18);
             tvtitleStep.setTextSize(18);
@@ -248,12 +248,12 @@
                     addItemFromList(false);
                 }
             });
-            btnSend.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                   SendFarctor();
-                }
-            });
+//            btnSend.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                   SendFarctor();
+//                }
+//            });
             lvStepJob.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 //وقتی برروی لیست چند ثانیه لمس شود
                 @Override
@@ -286,27 +286,88 @@
 }
 
         private void addItemFromList(boolean FirestFill) {
-            if (!FirestFill) {
-                String temp;
-                EttitleStepStr = EttitleStep.getText().toString();
-                EtUnitPriceStr = EtUnitPrice.getText().toString();
-                UnitStr = SpUnit.getSelectedItem().toString();
-                if (EttitleStepStr.compareTo("") == 0 || EtUnitPriceStr.compareTo("") == 0) {
-                    Toast.makeText(StepJob.this, "لطفا تمام فیلد ها را پر فرمایید", Toast.LENGTH_SHORT).show();
-                } else {
-                    String[] StrDital=SpDitalNameService.getSelectedItem().toString().split(":");
-                    temp=SpDitalNameService.getSelectedItem().toString()+ "-" +EttitleStepStr+ "-" +UnitStr+ "-" +EtUnitPriceStr;
+            InternetConnection IC;
+            IC = new InternetConnection(StepJob.this);
+            if(IC.isConnectingToInternet()==true)
+            {
+                if (!FirestFill) {
+                    String temp;
+                    EttitleStepStr = EttitleStep.getText().toString();
+                    EtUnitPriceStr = EtUnitPrice.getText().toString();
+                    UnitStr = SpUnit.getSelectedItem().toString();
+                    if (EttitleStepStr.compareTo("") == 0 || EtUnitPriceStr.compareTo("") == 0)
+                    {
+                        Toast.makeText(StepJob.this, "لطفا تمام فیلد ها را پر فرمایید", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        String[] StrDital=SpDitalNameService.getSelectedItem().toString().split(":");
+                        temp=SpDitalNameService.getSelectedItem().toString()+ "-" +EttitleStepStr+ "-" +UnitStr+ "-" +EtUnitPriceStr;
+                        db = dbh.getReadableDatabase();
+                        Cursor coursors = db.rawQuery("SELECT * FROM HmFactorService WHERE ServiceName='" + EttitleStepStr + "' AND PricePerUnit='" + EtUnitPriceStr + "'AND " +
+                                "Unit='" +Unit_value.get(UnitStr) + "' AND ServiceDetaileCode='"+StrDital[0]+"'", null);
+                        if (coursors.getCount() > 0)
+                        {
+                            Toast.makeText(StepJob.this, "این مقدار تکراریست", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            String[] StrDetail=SpDitalNameService.getSelectedItem().toString().split(":");
+                            String query="INSERT INTO HmFactorService (ServiceName,PricePerUnit,Unit,ServiceDetaileCode) VALUES('" + EttitleStepStr + "','" + EtUnitPriceStr
+                                    + "','" + Unit_value.get(UnitStr) + "','" +StrDetail[0] +"')";
+                            db = dbh.getWritableDatabase();
+                            db.execSQL(query);
+                            if (lvStepJob.getCount() > 0) {
+                                adapterList.add(temp);
+                                lvStepJob.setAdapter(adapterList);
+                                SendFarctor();
+                            } else {
+                                listItems = new ArrayList<String>();
+                                listItems.add(temp);
+                                adapterList = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItems){
+                                    public View getView(int position, View convertView, ViewGroup parent) {
+                                        View v = super.getView(position, convertView, parent);
+
+                                        Typeface typeface=Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");
+                                        ((TextView) v).setTypeface(typeface);
+
+                                        return v;
+                                    }
+
+                                    public View getDropDownView(int position,  View convertView,  ViewGroup parent) {
+                                        View v =super.getDropDownView(position, convertView, parent);
+
+
+                                        Typeface typeface=Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");
+                                        ((TextView) v).setTypeface(typeface);
+
+                                        return v;
+                                    }
+                                };
+
+                                lvStepJob.setAdapter(adapterList);
+                                SendFarctor();
+                            }
+                        }
+                    }
+                }
+                else
+                {
                     db = dbh.getReadableDatabase();
-                    Cursor coursors = db.rawQuery("SELECT * FROM HmFactorService WHERE ServiceName='" + EttitleStepStr + "' AND PricePerUnit='" + EtUnitPriceStr + "'AND " +
-                            "Unit='" +Unit_value.get(UnitStr) + "' AND ServiceDetaileCode='"+StrDital[0]+"'", null);
-                    if (coursors.getCount() > 0) {
-                        Toast.makeText(StepJob.this, "این مقدار تکراریست", Toast.LENGTH_SHORT).show();
-                    } else {
-                        String[] StrDetail=SpDitalNameService.getSelectedItem().toString().split(":");
-                        String query="INSERT INTO HmFactorService (ServiceName,PricePerUnit,Unit,ServiceDetaileCode) VALUES('" + EttitleStepStr + "','" + EtUnitPriceStr
-                                + "','" + Unit_value.get(UnitStr) + "','" +StrDetail[0] +"')";
-                        db = dbh.getWritableDatabase();
-                        db.execSQL(query);
+                    String query="SELECT HmFactorService.*,Servicesdetails.name FROM HmFactorService " +
+                            "LEFT JOIN " +
+                            "Servicesdetails ON " +
+                            "Servicesdetails.code=HmFactorService.ServiceDetaileCode WHERE Status='1'";
+                    Cursor coursors = db.rawQuery(query, null);
+                    for (int i = 0; i < coursors.getCount(); i++) {
+                        coursors.moveToNext();
+                        String temp;
+                        //query="SELECT * FROM servicesdetails WHERE code='"+coursors.getString(coursors.getColumnIndex("ServiceDetaileCode"))+"'";
+                        temp =coursors.getString(coursors.getColumnIndex("ServiceDetaileCode")) + ":" +
+                                coursors.getString(coursors.getColumnIndex("name"))+ "-" +
+                                coursors.getString(coursors.getColumnIndex("ServiceName")) + "-" +
+                                Unit_key.get(coursors.getString(coursors.getColumnIndex("Unit")))+ "-" +
+                                coursors.getString(coursors.getColumnIndex("PricePerUnit"));
                         if (lvStepJob.getCount() > 0) {
                             adapterList.add(temp);
                             lvStepJob.setAdapter(adapterList);
@@ -333,58 +394,17 @@
                                     return v;
                                 }
                             };
-
                             lvStepJob.setAdapter(adapterList);
                         }
                     }
                 }
-            } else {
-                db = dbh.getReadableDatabase();
-                String query="SELECT HmFactorService.*,Servicesdetails.name FROM HmFactorService " +
-                        "LEFT JOIN " +
-                        "Servicesdetails ON " +
-                        "Servicesdetails.code=HmFactorService.ServiceDetaileCode WHERE Status='1'";
-                Cursor coursors = db.rawQuery(query, null);
-                for (int i = 0; i < coursors.getCount(); i++) {
-                    coursors.moveToNext();
-                    String temp;
-                    //query="SELECT * FROM servicesdetails WHERE code='"+coursors.getString(coursors.getColumnIndex("ServiceDetaileCode"))+"'";
-                    temp =coursors.getString(coursors.getColumnIndex("ServiceDetaileCode")) + ":" +
-                            coursors.getString(coursors.getColumnIndex("name"))+ "-" +
-                            coursors.getString(coursors.getColumnIndex("ServiceName")) + "-" +
-                            Unit_key.get(coursors.getString(coursors.getColumnIndex("Unit")))+ "-" +
-                            coursors.getString(coursors.getColumnIndex("PricePerUnit"));
-                    if (lvStepJob.getCount() > 0) {
-                        adapterList.add(temp);
-                        lvStepJob.setAdapter(adapterList);
-                    } else {
-                        listItems = new ArrayList<String>();
-                        listItems.add(temp);
-                        adapterList = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItems){
-                            public View getView(int position, View convertView, ViewGroup parent) {
-                                View v = super.getView(position, convertView, parent);
-
-                                Typeface typeface=Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");
-                                ((TextView) v).setTypeface(typeface);
-
-                                return v;
-                            }
-
-                            public View getDropDownView(int position,  View convertView,  ViewGroup parent) {
-                                View v =super.getDropDownView(position, convertView, parent);
-
-
-                                Typeface typeface=Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");
-                                ((TextView) v).setTypeface(typeface);
-
-                                return v;
-                            }
-                        };
-                        lvStepJob.setAdapter(adapterList);
-                    }
-                }
+                db.close();
             }
-            db.close();
+            else
+            {
+                Toast.makeText(StepJob.this, "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
+            }
+
 }
 
 
@@ -440,7 +460,6 @@
                         syncUpdateStepJobs.AsyncExecute();
 
                     }
-                    Toast.makeText(StepJob.this, "آیتم حذف شد", Toast.LENGTH_LONG).show();
                     listItems.remove(deletePosition);
                     adapterList.notifyDataSetChanged();
 

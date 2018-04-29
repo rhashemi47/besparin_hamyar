@@ -85,7 +85,8 @@ public class SyncGetHmFactorTools {
 		
 		public AsyncCallWS(Activity activity) {
 		    this.activity = activity;
-		    this.dialog = new ProgressDialog(activity);		    		    this.dialog.setCanceledOnTouchOutside(false);
+		    this.dialog = new ProgressDialog(activity);
+		    this.dialog.setCanceledOnTouchOutside(false);
 		}
 		
         @Override
@@ -206,6 +207,19 @@ public class SyncGetHmFactorTools {
 		db.execSQL("DELETE FROM HmFactorTools");
 		for(int i=0;i<res.length;i++){
 			value=res[i].split("##");
+			String Price[];
+			if(value[4].indexOf("/")>0)
+			{
+				Price=value[4].split("/");
+			}
+			else
+			{
+
+				Price=value[4].split("\\.");
+			}
+			if(Price[1].compareTo("00")==0){
+				value[4]=Price[0];
+			}
 			query="INSERT INTO HmFactorTools (Code,HamyarCode,ToolName,BrandName,Price,Status,ServiceDetaileCode,InsertDate,IsSend) " +
 					"VALUES('"
 					+value[0]+"','"

@@ -126,5 +126,8 @@
     <string name="Filter">فیلتر</string>
     <string name="LoginGuest">ورود مهمان</string>
     <string name="SignUpOrLogin">ورود به حساب کاربری یا ثبت نام</string>
+    <string name="Gender">جنسیت</string>
+    <string name="man">مرد</string>
+    <string name="woman">زن</string>
 
 </resources>

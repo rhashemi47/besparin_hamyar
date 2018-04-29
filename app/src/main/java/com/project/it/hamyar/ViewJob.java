@@ -36,6 +36,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog;
+import com.mohamadamin.persianmaterialdatetimepicker.time.RadialPickerLayout;
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
 
 import java.io.IOException;
@@ -57,6 +58,7 @@ public class ViewJob extends AppCompatActivity{
     private String status;
     private String latStr="0";
     private String lonStr="0";
+    private String DateStr="";
     private TextView ContentShowJob;
     private	DatabaseHelper dbh;
     private SQLiteDatabase db;
@@ -1078,6 +1080,7 @@ public class ViewJob extends AppCompatActivity{
         Intent intent = new Intent(getApplicationContext(),Cls);
         intent.putExtra(VariableName, VariableValue);
         intent.putExtra(VariableName2, VariableValue2);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         ViewJob.this.startActivity(intent);
     }
     public void LoadActivity_PerFactor(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2, String VariableName3, String VariableValue3)
@@ -1094,33 +1097,37 @@ public class ViewJob extends AppCompatActivity{
         int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
         int minute = mcurrentTime.get(Calendar.MINUTE);
 
+         //****************************
         TimePickerDialog mTimePicker;
-        mTimePicker = new TimePickerDialog(ViewJob.this, new TimePickerDialog.OnTimeSetListener() {
+        mTimePicker = new TimePickerDialog(ViewJob.this,  new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                 String AM_PM;
                 if (selectedHour >=0 && selectedHour < 12){
                     AM_PM = "AM";
-                } else {
+                } else
+                {
                     AM_PM = "PM";
                 }
-                 db=dbh.getWritableDatabase();
-                String query="UPDATE  DateTB SET Time = '" +String.valueOf(selectedHour)+":"+String.valueOf(selectedMinute)+"'";
-                db.execSQL(query);
-                db=dbh.getReadableDatabase();
-                query="SELECT * FROM DateTB";
-                Cursor c=db.rawQuery(query,null);
-                if(c.getCount()>0)
-                {
-                    c.moveToNext();
-                    String[] DateTB = c.getString(c.getColumnIndex("Date")).split("/");
-                    String[] TimeTB = c.getString(c.getColumnIndex("Time")).split(":");
-                    SyncVisitJob syncVisitJob = new SyncVisitJob(ViewJob.this, guid, hamyarcode, coursors.getString(coursors.getColumnIndex("Code")), DateTB[0], DateTB[1], DateTB[2], TimeTB[0], TimeTB[1]);
+//                 db=dbh.getWritableDatabase();
+//                String query="UPDATE  DateTB SET Time = '" +String.valueOf(selectedHour)+":"+String.valueOf(selectedMinute)+"'";
+//                db.execSQL(query);
+//                db=dbh.getReadableDatabase();
+//                query="SELECT * FROM DateTB";
+//                Cursor c=db.rawQuery(query,null);
+//                if(c.getCount()>0)
+//                {
+//                    c.moveToNext();
+//                    String[] DateTB = c.getString(c.getColumnIndex("Date")).split("/");
+//                    String[] TimeTB = c.getString(c.getColumnIndex("Time")).split(":");
+                    String[] DateTB = DateStr.split("/");
+                    SyncVisitJob syncVisitJob = new SyncVisitJob(ViewJob.this, guid, hamyarcode, coursors.getString(coursors.getColumnIndex("Code")), DateTB[0], DateTB[1], DateTB[2], String.valueOf(selectedHour), String.valueOf(selectedMinute));
                     syncVisitJob.AsyncExecute();
-                }
+//                }
             }
-        }, hour, minute, false);
-        mTimePicker.setTitle("Select Time");
+        }, hour, minute, true);
+        mTimePicker.setTitle("");
+
         mTimePicker.show();
 
     }
@@ -1146,14 +1153,12 @@ public class ViewJob extends AppCompatActivity{
     {
 
           //  initDate.setPersianDate(1370, 3, 13);
-
-
         PersianDatePickerDialog picker = new PersianDatePickerDialog(this);
-        picker.setPositiveButtonString("باشه");
-        picker.setNegativeButton("بیخیال");
+        picker.setPositiveButtonString("تایید");
+        picker.setNegativeButton("انصراف");
         picker.setTodayButton("امروز");
         picker.setTodayButtonVisible(true);
-        //picker.setInitDate(initDate);
+        //  picker.setInitDate(initDate);
         picker.setMaxYear(PersianDatePickerDialog.THIS_YEAR);
         picker.setMinYear(1300);
         picker.setActionTextColor(Color.GRAY);
@@ -1162,7 +1167,10 @@ public class ViewJob extends AppCompatActivity{
 
             @Override
             public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
-                Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
+                 DateStr= persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay();
+
+                GetTime();
             }
 
             @Override

@@ -93,7 +93,8 @@ public class SyncSendStepJobs {
 		
 		public AsyncCallWS(Activity activity) {
 		    this.activity = activity;
-		    this.dialog = new ProgressDialog(activity);		    		    this.dialog.setCanceledOnTouchOutside(false);
+		    this.dialog = new ProgressDialog(activity);
+		    this.dialog.setCanceledOnTouchOutside(false);
 		}
 		
         @Override
@@ -247,7 +248,7 @@ public class SyncSendStepJobs {
 	public void InsertDataFromWsToDb(String AllRecord)
     {	
 
-		Toast.makeText(activity, "ثبت نهایی انجام شد", Toast.LENGTH_LONG).show();
+		Toast.makeText(activity, "ثبت شد", Toast.LENGTH_LONG).show();
 		SyncGetHmFactorService getHmFactorService=new SyncGetHmFactorService(activity,guid,hamyarcode);
 		getHmFactorService.AsyncExecute();
     }

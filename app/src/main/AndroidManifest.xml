@@ -14,7 +14,7 @@
             android:name="com.project.it.hamyar.MainMenu"
             android:label="@string/Logo_name"
             android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:noHistory="true" >
+            android:noHistory="false" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,67 +23,67 @@
         </activity>
         <activity
             android:name="com.project.it.hamyar.Login"
-            android:noHistory="true" />
+            android:noHistory="false" />
         <activity
             android:name="com.project.it.hamyar.Info_Person"
-            android:noHistory="true" />
+            android:noHistory="false" />
         <activity
             android:name="com.project.it.hamyar.Accept_code"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.hamyar.Profile"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.hamyar.About"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.hamyar.Contact"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.hamyar.GiftBank"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.hamyar.Help"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.hamyar.List_Messages"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.hamyar.OurCommitment"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.hamyar.StepJob"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.hamyar.YourCommitment"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.hamyar.ViewJob"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.hamyar.StepJobDetaile"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.hamyar.ShowMessage"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.hamyar.List_Visits"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.hamyar.Save_Per_Factor"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.hamyar.Credit"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.hamyar.History"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.hamyar.List_Dutys"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.hamyar.List_Services"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <service android:name=".ServiceGetNewJob">
 
         </service>
