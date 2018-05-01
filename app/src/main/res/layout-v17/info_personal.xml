@@ -86,11 +86,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/man"
-                        android:checked="true"/>
+                        android:checked="true"
+                        android:id="@+id/rdbMale"/>
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/woman"/>
+                        android:text="@string/woman"
+                        android:id="@+id/rdbFemale"/>
                 </RadioGroup>
             </LinearLayout>
             <LinearLayout

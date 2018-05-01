@@ -58,6 +58,7 @@ public class Info_Person extends Activity {
 	private List<String> listDataHeader;
 	private HashMap<String, List<String>> listDataChild;
 	private RadioGroup rgGender;
+	private RadioButton radioStatusButton;
 	@Override
 	protected void attachBaseContext(Context newBase) {
 		super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -195,9 +196,7 @@ public class Info_Person extends Activity {
  
             }
         });
-		int selectedId=rgGender.getCheckedRadioButtonId();
-		RadioButton rdb=(RadioButton) findViewById(selectedId);
-		gender=rdb.getText().toString();
+
      // Listview on child click listener
         exExpertise.setOnChildClickListener(new OnChildClickListener() {
  

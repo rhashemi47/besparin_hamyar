@@ -157,50 +157,7 @@ public class MainMenu extends AppCompatActivity {
             }
             hamyarcode = getIntent().getStringExtra("hamyarcode");
             guid = getIntent().getStringExtra("guid");
-            if(hamyarcode==null || guid==null)
-            {
-
-                Cursor cursors=null;
-                db=dbh.getReadableDatabase();
-                cursors = db.rawQuery("SELECT * FROM login", null);
-                if(cursors.getCount()>0)
-                {
-                    cursors.moveToNext();
-                    String Result=cursors.getString(cursors.getColumnIndex("islogin"));
-                    if(Result.compareTo("0")==0)
-                    {
-                        LoadActivity(Login.class,"hamyarcode","0","guid","0");
-                    }
-                    else
-                    {
-                        hamyarcode = cursors.getString(cursors.getColumnIndex("hamyarcode"));
-                        guid = cursors.getString(cursors.getColumnIndex("guid"));
-                        db=dbh.getReadableDatabase();
-                        coursors = db.rawQuery("SELECT * FROM UpdateApp",null);
-                        if(coursors.getCount()>0)
-                        {
-                            coursors.moveToNext();
-                            if(coursors.getString(coursors.getColumnIndex("Status")).compareTo("1")==0){
-                                String Query="UPDATE UpdateApp SET Status='0'";
-                                db=dbh.getWritableDatabase();
-                                db.execSQL(Query);
-                                //update();
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    LoadActivity(Login.class,"hamyarcode","0","guid","0");
-                }
-            }
-            else if(hamyarcode.compareTo("0")==0 || guid.compareTo("0")==0 || status.compareTo("غیرفعال")==0)
-            {
-                Toast.makeText(MainMenu.this, "شما فعال نشده اید", Toast.LENGTH_LONG).show();
-                IsActive=false;
-            }
-
-            db.close();
+           Check_Login(hamyarcode,guid,status);
         }
         catch(Exception e)
         {
@@ -393,7 +350,18 @@ public class MainMenu extends AppCompatActivity {
                 db.execSQL("DELETE FROM Unit");
                 db.execSQL("DELETE FROM UpdateApp");
                 db.close();
-                System.exit(0);
+                Intent startMain = new Intent(Intent.ACTION_MAIN);
+
+
+                startMain.addCategory(Intent.CATEGORY_HOME);
+
+//                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                startActivity(startMain);
+
+                finish();
                 arg0.dismiss();
 
             }
@@ -721,46 +689,46 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
                 .build();
 //        drawer.closeDrawer();
     }
-    private void ExitApplication()
-    {
-
-        //Exit All Activity And Kill Application
-        AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
-        // set the message to display
-        alertbox.setMessage("آیا می خواهید از برنامه خارج شوید ؟");
-
-        // set a negative/no button and create a listener
-        alertbox.setPositiveButton("خیر", new DialogInterface.OnClickListener() {
-            // do something when the button is clicked
-            public void onClick(DialogInterface arg0, int arg1) {
-                arg0.dismiss();
-            }
-        });
-
-        // set a positive/yes button and create a listener
-        alertbox.setNegativeButton("بله", new DialogInterface.OnClickListener() {
-            // do something when the button is clicked
-            public void onClick(DialogInterface arg0, int arg1) {
-                //Declare Object From Get Internet Connection Status For Check Internet Status
-                Intent startMain = new Intent(Intent.ACTION_MAIN);
-
-
-                startMain.addCategory(Intent.CATEGORY_HOME);
-
-//                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-                startActivity(startMain);
-
-                finish();
-
-                arg0.dismiss();
-
-            }
-        });
-
-        alertbox.show();
-    }
+//    private void ExitApplication()
+//    {
+//
+//        //Exit All Activity And Kill Application
+//        AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
+//        // set the message to display
+//        alertbox.setMessage("آیا می خواهید از برنامه خارج شوید ؟");
+//
+//        // set a negative/no button and create a listener
+//        alertbox.setPositiveButton("خیر", new DialogInterface.OnClickListener() {
+//            // do something when the button is clicked
+//            public void onClick(DialogInterface arg0, int arg1) {
+//                arg0.dismiss();
+//            }
+//        });
+//
+//        // set a positive/yes button and create a listener
+//        alertbox.setNegativeButton("بله", new DialogInterface.OnClickListener() {
+//            // do something when the button is clicked
+//            public void onClick(DialogInterface arg0, int arg1) {
+//                //Declare Object From Get Internet Connection Status For Check Internet Status
+//                Intent startMain = new Intent(Intent.ACTION_MAIN);
+//
+//
+//                startMain.addCategory(Intent.CATEGORY_HOME);
+//
+////                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//
+//                startActivity(startMain);
+//
+//                finish();
+//
+//                arg0.dismiss();
+//
+//            }
+//        });
+//
+//        alertbox.show();
+//    }
 
     @Override
     public boolean onKeyDown( int keyCode, KeyEvent event )  {
@@ -797,6 +765,44 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
 
         super.onStart();
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+        //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+
+    }
+    protected void onResume() {
+
+        super.onResume();
+        startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+        try
+        {
+            String status="0";
+            db = dbh.getReadableDatabase();
+            Cursor cursor = db.rawQuery("SELECT * FROM Profile", null);
+            if (cursor.getCount() > 0) {
+                cursor.moveToNext();
+                try {
+                    if (cursor.getString(cursor.getColumnIndex("Status")).compareTo("null") != 0) {
+                        status = cursor.getString(cursor.getColumnIndex("Status"));
+                        if (status.compareTo("0") == 0) {
+                            status = "غیرفعال";
+                        } else {
+                            status = "فعال";
+                        }
+                    } else {
+                        status = "غیرفعال";
+                    }
+
+                } catch (Exception ex) {
+                    status = "غیرفعال";
+                }
+            }
+            hamyarcode = getIntent().getStringExtra("hamyarcode");
+            guid = getIntent().getStringExtra("guid");
+            Check_Login(hamyarcode,guid,status);
+        }
+        catch(Exception e)
+        {
+            throw new Error("Error Opne Activity");
+        }
         //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
 
     }
@@ -844,6 +850,7 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
             startMain.addCategory(Intent.CATEGORY_HOME);
 
 //                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
             startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
             startActivity(startMain);
@@ -865,5 +872,35 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
                 doubleBackToExitPressedOnce=false;
             }
         }, 2000);
+    }
+    public void Check_Login(String hamyarcode,String guid,String status)
+    {
+        if(hamyarcode==null || guid==null)
+        {
+
+            Cursor cursor;
+            db=dbh.getReadableDatabase();
+            cursor = db.rawQuery("SELECT * FROM login", null);
+            if(cursor.getCount()>0)
+            {
+                cursor.moveToNext();
+                String Result=cursor.getString(cursor.getColumnIndex("islogin"));
+                if(Result.compareTo("0")==0)
+                {
+                    LoadActivity(Login.class,"hamyarcode","0","guid","0");
+                }
+            }
+            else
+            {
+                LoadActivity(Login.class,"hamyarcode","0","guid","0");
+            }
+        }
+        else if(hamyarcode.compareTo("0")==0 || guid.compareTo("0")==0 || status.compareTo("غیرفعال")==0)
+        {
+            Toast.makeText(MainMenu.this, "شما فعال نشده اید", Toast.LENGTH_LONG).show();
+            IsActive=false;
+        }
+
+        db.close();
     }
 }
