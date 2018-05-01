@@ -287,6 +287,7 @@ public class HmLogin {
 		Intent intent = new Intent(activity,Cls);
 		intent.putExtra(VariableName, VariableValue);
 		intent.putExtra(VariableName2, VariableValue2);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 		activity.startActivity(intent);
 	}
 	

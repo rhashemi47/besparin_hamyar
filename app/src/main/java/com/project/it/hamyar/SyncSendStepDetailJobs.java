@@ -245,6 +245,7 @@ public class SyncSendStepDetailJobs {
 	
 	public void InsertDataFromWsToDb(String AllRecord)
     {
+		Toast.makeText(activity, "ثبت شد", Toast.LENGTH_LONG).show();
 		SyncGetHmFactorTools getHmFactorServicetools=new SyncGetHmFactorTools(activity,guid,hamyarcode);
 		getHmFactorServicetools.AsyncExecute();
     }

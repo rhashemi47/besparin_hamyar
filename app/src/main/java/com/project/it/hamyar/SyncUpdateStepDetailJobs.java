@@ -279,5 +279,6 @@ public class SyncUpdateStepDetailJobs {
 
 		db.close();
 
+		Toast.makeText(this.activity.getApplicationContext(), "آیتم حذف شد", Toast.LENGTH_LONG).show();
 	}
 }

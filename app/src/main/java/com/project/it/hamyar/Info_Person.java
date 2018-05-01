@@ -19,6 +19,8 @@ import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.ExpandableListView.OnGroupCollapseListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -46,6 +48,7 @@ public class Info_Person extends Activity {
 	private String yearStr="";
 	private String monStr="";
 	private String dayStr="";
+	private String gender="";
 	private Spinner spEducation;
 	private	DatabaseHelper dbh;
 	private SQLiteDatabase db;
@@ -54,6 +57,8 @@ public class Info_Person extends Activity {
     //ExpandableListView expListView;
 	private List<String> listDataHeader;
 	private HashMap<String, List<String>> listDataChild;
+	private RadioGroup rgGender;
+	private RadioButton radioStatusButton;
 	@Override
 	protected void attachBaseContext(Context newBase) {
 		super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -100,6 +105,7 @@ public class Info_Person extends Activity {
 		etReagentCode=(EditText)findViewById(R.id.etReagentCode);
 		brithday=(EditText)findViewById(R.id.etBrithday);
 		spEducation=(Spinner)findViewById(R.id.spEdudation);
+		rgGender=(RadioGroup) findViewById(R.id.rgGender);
 		exExpertise=(ExpandableListView)findViewById(R.id.evExpertise);
 		btnSendInfo=(Button)findViewById(R.id.btnSendInfo);
 		btnSendInfo.setOnClickListener(new OnClickListener() {
@@ -190,7 +196,7 @@ public class Info_Person extends Activity {
  
             }
         });
- 
+
      // Listview on child click listener
         exExpertise.setOnChildClickListener(new OnChildClickListener() {
  
@@ -278,6 +284,11 @@ public void insertHamyar() {
 					exExpertiseString += "##";
 				}
 			}
+			//******************************************
+			int selectedId=rgGender.getCheckedRadioButtonId();
+			RadioButton rdb=(RadioButton) findViewById(selectedId);
+			gender=rdb.getText().toString();
+			//******************************************
 			String queryEducation = "SELECT * FROM education WHERE title='" + ((Spinner) spEducation).getSelectedItem().toString() + "'";
 			coursors = db.rawQuery(queryEducation, null);
 			coursors.moveToNext();
@@ -288,7 +299,7 @@ public void insertHamyar() {
 			{
 				ReagentCode="0";
 			}
-			InsertHamyar insertHamyar = new InsertHamyar(Info_Person.this, phonenumber, Acceptcode, fname.getText().toString(), lname.getText().toString(), education, exExpertiseString, yearStr, monStr, dayStr,ReagentCode);
+			InsertHamyar insertHamyar = new InsertHamyar(Info_Person.this, phonenumber, Acceptcode, fname.getText().toString(), lname.getText().toString(), education, exExpertiseString, yearStr, monStr, dayStr,ReagentCode/*,gender*/);
 			insertHamyar.AsyncExecute();
 		}
 		else

@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/menu_body"
     android:orientation="vertical"
-    android:layoutDirection="rtl">
+    android:layoutDirection="rtl"
+    android:focusableInTouchMode="true">
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"

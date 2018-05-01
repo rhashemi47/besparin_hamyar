@@ -13,13 +13,16 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.internal.BottomNavigationMenu;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v7.app.AppCompatActivity;
@@ -69,6 +72,7 @@ public class MainMenu extends AppCompatActivity {
     private Button btnCredit;
     private Button btnOrders;
     private Button btnHome;
+    private boolean doubleBackToExitPressedOnce = false;
     private boolean IsActive=true;
     ArrayList<String> slides;
     ImageView imageView;
@@ -153,50 +157,7 @@ public class MainMenu extends AppCompatActivity {
             }
             hamyarcode = getIntent().getStringExtra("hamyarcode");
             guid = getIntent().getStringExtra("guid");
-            if(hamyarcode==null || guid==null)
-            {
-
-                Cursor cursors=null;
-                db=dbh.getReadableDatabase();
-                cursors = db.rawQuery("SELECT * FROM login", null);
-                if(cursors.getCount()>0)
-                {
-                    cursors.moveToNext();
-                    String Result=cursors.getString(cursors.getColumnIndex("islogin"));
-                    if(Result.compareTo("0")==0)
-                    {
-                        LoadActivity(Login.class,"hamyarcode","0","guid","0");
-                    }
-                    else
-                    {
-                        hamyarcode = cursors.getString(cursors.getColumnIndex("hamyarcode"));
-                        guid = cursors.getString(cursors.getColumnIndex("guid"));
-                        db=dbh.getReadableDatabase();
-                        coursors = db.rawQuery("SELECT * FROM UpdateApp",null);
-                        if(coursors.getCount()>0)
-                        {
-                            coursors.moveToNext();
-                            if(coursors.getString(coursors.getColumnIndex("Status")).compareTo("1")==0){
-                                String Query="UPDATE UpdateApp SET Status='0'";
-                                db=dbh.getWritableDatabase();
-                                db.execSQL(Query);
-                                //update();
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    LoadActivity(Login.class,"hamyarcode","0","guid","0");
-                }
-            }
-            else if(hamyarcode.compareTo("0")==0 || guid.compareTo("0")==0 || status.compareTo("غیرفعال")==0)
-            {
-                Toast.makeText(MainMenu.this, "شما فعال نشده اید", Toast.LENGTH_LONG).show();
-                IsActive=false;
-            }
-
-            db.close();
+           Check_Login(hamyarcode,guid,status);
         }
         catch(Exception e)
         {
@@ -389,7 +350,18 @@ public class MainMenu extends AppCompatActivity {
                 db.execSQL("DELETE FROM Unit");
                 db.execSQL("DELETE FROM UpdateApp");
                 db.close();
-                System.exit(0);
+                Intent startMain = new Intent(Intent.ACTION_MAIN);
+
+
+                startMain.addCategory(Intent.CATEGORY_HOME);
+
+//                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                startActivity(startMain);
+
+                finish();
                 arg0.dismiss();
 
             }
@@ -571,23 +543,26 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
                                 db.close();
                                 break;
                             case 3:
-                                db = dbh.getReadableDatabase();
-                                c = db.rawQuery("SELECT * FROM login",null);
-                                if(c.getCount()>0) {
-                                    c.moveToNext();
-
-                                    LoadActivity(YourCommitment.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
-                                }
-                                db.close();
+//                                db = dbh.getReadableDatabase();
+//                                c = db.rawQuery("SELECT * FROM login",null);
+//                                if(c.getCount()>0) {
+//                                    c.moveToNext();
+//
+//                                    LoadActivity(YourCommitment.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
+//                                }
+//                                db.close();
+                                openWebPage("http://besparina.ir");
                                 break;
-                            case 4:db = dbh.getReadableDatabase();
-                                c = db.rawQuery("SELECT * FROM login",null);
-                                if(c.getCount()>0) {
-                                    c.moveToNext();
-
-                                    LoadActivity(OurCommitment.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
-                                }
-                                db.close();
+                            case 4:
+//                                db = dbh.getReadableDatabase();
+//                                c = db.rawQuery("SELECT * FROM login",null);
+//                                if(c.getCount()>0) {
+//                                    c.moveToNext();
+//
+//                                    LoadActivity(OurCommitment.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
+//                                }
+//                                db.close();
+                                openWebPage("http://besparina.ir");
                                 break;
                             case 5:
                                 db = dbh.getReadableDatabase();
@@ -639,12 +614,13 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
                                     public void onClick(DialogInterface arg0, int arg1) {
                                         db=dbh.getReadableDatabase();
                                         Cursor  c = db.rawQuery("SELECT * FROM login",null);
-                                        if(c.getCount()>0) {
+                                        if(c.getCount()>0)
+                                        {
                                             c.moveToNext();
-
+                                            SyncGetHmFactorService getHmFactorService=new SyncGetHmFactorService(MainMenu.this,guid,hamyarcode);
+                                            getHmFactorService.AsyncExecute();
                                             LoadActivity(StepJob.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
                                         }
-
                                         db.close();
                                         arg0.dismiss();
                                     }
@@ -659,7 +635,8 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
                                         Cursor  c = db.rawQuery("SELECT * FROM login",null);
                                         if(c.getCount()>0) {
                                             c.moveToNext();
-
+                                            SyncGetHmFactorTools syncGetHmFactorTools=new SyncGetHmFactorTools(MainMenu.this,guid,hamyarcode);
+                                            syncGetHmFactorTools.AsyncExecute();
                                             LoadActivity(StepJobDetaile.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
                                         }
 
@@ -710,42 +687,54 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
                     }
                 })
                 .build();
+//        drawer.closeDrawer();
     }
-    private void ExitApplication()
-    {
-        //Exit All Activity And Kill Application
-        AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
-        // set the message to display
-        alertbox.setMessage("آیا می خواهید از برنامه خارج شوید ؟");
-
-        // set a negative/no button and create a listener
-        alertbox.setPositiveButton("خیر", new DialogInterface.OnClickListener() {
-            // do something when the button is clicked
-            public void onClick(DialogInterface arg0, int arg1) {
-                arg0.dismiss();
-            }
-        });
-
-        // set a positive/yes button and create a listener
-        alertbox.setNegativeButton("بله", new DialogInterface.OnClickListener() {
-            // do something when the button is clicked
-            public void onClick(DialogInterface arg0, int arg1) {
-                //Declare Object From Get Internet Connection Status For Check Internet Status
-                System.exit(0);
-                arg0.dismiss();
-
-            }
-        });
-
-        alertbox.show();
-    }
+//    private void ExitApplication()
+//    {
+//
+//        //Exit All Activity And Kill Application
+//        AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
+//        // set the message to display
+//        alertbox.setMessage("آیا می خواهید از برنامه خارج شوید ؟");
+//
+//        // set a negative/no button and create a listener
+//        alertbox.setPositiveButton("خیر", new DialogInterface.OnClickListener() {
+//            // do something when the button is clicked
+//            public void onClick(DialogInterface arg0, int arg1) {
+//                arg0.dismiss();
+//            }
+//        });
+//
+//        // set a positive/yes button and create a listener
+//        alertbox.setNegativeButton("بله", new DialogInterface.OnClickListener() {
+//            // do something when the button is clicked
+//            public void onClick(DialogInterface arg0, int arg1) {
+//                //Declare Object From Get Internet Connection Status For Check Internet Status
+//                Intent startMain = new Intent(Intent.ACTION_MAIN);
+//
+//
+//                startMain.addCategory(Intent.CATEGORY_HOME);
+//
+////                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//
+//                startActivity(startMain);
+//
+//                finish();
+//
+//                arg0.dismiss();
+//
+//            }
+//        });
+//
+//        alertbox.show();
+//    }
 
     @Override
     public boolean onKeyDown( int keyCode, KeyEvent event )  {
         if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
             //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
-            startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-            ExitApplication();
+
         }
 
         return super.onKeyDown( keyCode, event );
@@ -779,6 +768,44 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
         //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
 
     }
+    protected void onResume() {
+
+        super.onResume();
+        startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+        try
+        {
+            String status="0";
+            db = dbh.getReadableDatabase();
+            Cursor cursor = db.rawQuery("SELECT * FROM Profile", null);
+            if (cursor.getCount() > 0) {
+                cursor.moveToNext();
+                try {
+                    if (cursor.getString(cursor.getColumnIndex("Status")).compareTo("null") != 0) {
+                        status = cursor.getString(cursor.getColumnIndex("Status"));
+                        if (status.compareTo("0") == 0) {
+                            status = "غیرفعال";
+                        } else {
+                            status = "فعال";
+                        }
+                    } else {
+                        status = "غیرفعال";
+                    }
+
+                } catch (Exception ex) {
+                    status = "غیرفعال";
+                }
+            }
+            hamyarcode = getIntent().getStringExtra("hamyarcode");
+            guid = getIntent().getStringExtra("guid");
+            Check_Login(hamyarcode,guid,status);
+        }
+        catch(Exception e)
+        {
+            throw new Error("Error Opne Activity");
+        }
+        //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+
+    }
     protected void onStop() {
 
         super.onStop();
@@ -805,5 +832,75 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "عنوان");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
         startActivity(Intent.createChooser(sharingIntent, "اشتراک گذاری با"));
+    }
+    public void openWebPage(String url) {
+        Uri webpage = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+            Intent startMain = new Intent(Intent.ACTION_MAIN);
+
+
+            startMain.addCategory(Intent.CATEGORY_HOME);
+
+//                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+            startActivity(startMain);
+
+            finish();
+            super.onBackPressed();
+            return;
+        }
+        drawer.closeDrawer();
+        this.doubleBackToExitPressedOnce = true;
+
+//        Snackbar.make(findViewById(R.id.background_place_holder_image_view), "Please click BACK again to exit", Snackbar.LENGTH_SHORT).show();
+        Toast.makeText(this, "جهت خروج از برنامه مجددا دکمه برگشت را لمس کنید", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
+    public void Check_Login(String hamyarcode,String guid,String status)
+    {
+        if(hamyarcode==null || guid==null)
+        {
+
+            Cursor cursor;
+            db=dbh.getReadableDatabase();
+            cursor = db.rawQuery("SELECT * FROM login", null);
+            if(cursor.getCount()>0)
+            {
+                cursor.moveToNext();
+                String Result=cursor.getString(cursor.getColumnIndex("islogin"));
+                if(Result.compareTo("0")==0)
+                {
+                    LoadActivity(Login.class,"hamyarcode","0","guid","0");
+                }
+            }
+            else
+            {
+                LoadActivity(Login.class,"hamyarcode","0","guid","0");
+            }
+        }
+        else if(hamyarcode.compareTo("0")==0 || guid.compareTo("0")==0 || status.compareTo("غیرفعال")==0)
+        {
+            Toast.makeText(MainMenu.this, "شما فعال نشده اید", Toast.LENGTH_LONG).show();
+            IsActive=false;
+        }
+
+        db.close();
     }
 }

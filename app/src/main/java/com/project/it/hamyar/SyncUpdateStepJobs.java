@@ -97,7 +97,8 @@ public class SyncUpdateStepJobs {
 		
 		public AsyncCallWS(Activity activity) {
 		    this.activity = activity;
-		    this.dialog = new ProgressDialog(activity);		    		    this.dialog.setCanceledOnTouchOutside(false);
+		    this.dialog = new ProgressDialog(activity);
+		    this.dialog.setCanceledOnTouchOutside(false);
 		}
 		
         @Override
@@ -278,5 +279,7 @@ public class SyncUpdateStepJobs {
 		db.execSQL(query);
 
 		db.close();
+
+		Toast.makeText(this.activity.getApplicationContext(), "آیتم حذف شد", Toast.LENGTH_LONG).show();
 	}
 }

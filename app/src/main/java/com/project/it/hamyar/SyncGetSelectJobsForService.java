@@ -125,7 +125,8 @@ public class SyncGetSelectJobsForService {
 
 		@Override
 		protected void onPreExecute() {
-			if (CuShowDialog) {
+			if (CuShowDialog)
+			{
 				this.dialog.setMessage("در حال پردازش");
 				this.dialog.show();
 			}
@@ -186,7 +187,9 @@ public class SyncGetSelectJobsForService {
 			//Assign it to FinalResultForCheck static variable
 			WsResponse = response.toString();
 			if (WsResponse == null) WsResponse = "ER";
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			WsResponse = "ER";
 			e.printStackTrace();
 		}

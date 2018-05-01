@@ -1,12 +1,14 @@
 package com.project.it.hamyar;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v7.widget.AlertDialogLayout;
 import android.view.KeyEvent;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -79,6 +81,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 		Intent intent = new Intent(getApplicationContext(),Cls);
 		intent.putExtra(VariableName, VariableValue);
 		intent.putExtra(VariableName2, VariableValue2);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 		Cansel.this.startActivity(intent);
 	}
 }
