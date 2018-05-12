@@ -12,5 +12,5 @@ public class PublicVariable {
 	public static String GuidCode = null;
 	public static final String FIELD_SPLITTER = "##";
 	public static final String RECORD_SPLITTER = "@@";
-	public static final String Recive_NumberPhone = "+9810005137017";
+	public static final String Recive_NumberPhone = "+9810000037240005";
 }
