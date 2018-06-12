@@ -73,7 +73,7 @@ public class MainMenu extends AppCompatActivity {
     private Button btnOrders;
     private Button btnHome;
     private boolean doubleBackToExitPressedOnce = false;
-    private boolean IsActive=true;
+    private boolean IsActive;
     ArrayList<String> slides;
     ImageView imageView;
     Custom_ViewFlipper viewFlipper;
@@ -144,15 +144,19 @@ public class MainMenu extends AppCompatActivity {
                         status = cursor.getString(cursor.getColumnIndex("Status"));
                         if (status.compareTo("0") == 0) {
                             status = "غیرفعال";
+                            PublicVariable.IsActive=false;
                         } else {
                             status = "فعال";
+                            PublicVariable.IsActive=true;
                         }
                     } else {
                         status = "غیرفعال";
+                        PublicVariable.IsActive=false;
                     }
 
                 } catch (Exception ex) {
                     status = "غیرفعال";
+                    PublicVariable.IsActive=false;
                 }
             }
             hamyarcode = getIntent().getStringExtra("hamyarcode");
@@ -898,7 +902,13 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
         else if(hamyarcode.compareTo("0")==0 || guid.compareTo("0")==0 || status.compareTo("غیرفعال")==0)
         {
             Toast.makeText(MainMenu.this, "شما فعال نشده اید", Toast.LENGTH_LONG).show();
+            PublicVariable.IsActive=false;
             IsActive=false;
+        }
+        else
+        {
+            PublicVariable.IsActive=true;
+            IsActive=true;
         }
 
         db.close();

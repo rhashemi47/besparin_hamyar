@@ -278,7 +278,7 @@ public class SyncVisitJob {
 		String query=null;
 		db=dbh.getWritableDatabase();
 		query="UPDATE  BsHamyarSelectServices" +
-				" SET  Status='5' ,VisitDate='"+this.Year+"/" +this.Mon+"/"+this.Day+
+				" SET  Status='5' ,VisitDate='"+this.Year+"/" +this.Mon+"/"+this.Day+"' ,VisitTime='"+this.Hour+":"+this.Min+
 				"' WHERE Code='"+UserServiceCode+"'";
 		db.execSQL(query);
 

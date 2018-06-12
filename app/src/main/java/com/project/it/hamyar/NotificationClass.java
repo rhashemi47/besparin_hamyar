@@ -59,7 +59,7 @@ public class NotificationClass {
             Intent intent = new Intent(context, Cls);
             intent.putExtra("guid", guid);
             intent.putExtra("hamyarcode", hamyarcode);
-            intent.putExtra("tab", "0");
+            intent.putExtra("tab", "1");
             intent.putExtra("BsUserServicesID", BsUserServicesID);
             PendingIntent pIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, 0);
             mBuilder.setContentIntent(pIntent);

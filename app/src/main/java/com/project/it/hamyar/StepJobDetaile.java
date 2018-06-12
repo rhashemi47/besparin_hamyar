@@ -195,6 +195,7 @@
 //                    SendFarctor();
 //                }
 //            });
+            EtUnitPrice.addTextChangedListener(new NumberTextWatcherForThousand(EtUnitPrice));
             lvStepJob.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 //وقتی برروی لیست چند ثانیه لمس شود
                 @Override
@@ -232,7 +233,7 @@
                 if (!FirestFill) {
                     String temp;
                     EttitleStepStr = EttitleStep.getText().toString();
-                    EtUnitPriceStr = EtUnitPrice.getText().toString();
+                    EtUnitPriceStr = EtUnitPrice.getText().toString().replace(",","");
                     EtBrandStr = EtBrand.getText().toString();
                     if (EttitleStepStr.compareTo("") == 0 || EtUnitPriceStr.compareTo("") == 0) {
                         Toast.makeText(this, "لطفا تمام فیلد ها را پر فرمایید", Toast.LENGTH_SHORT).show();

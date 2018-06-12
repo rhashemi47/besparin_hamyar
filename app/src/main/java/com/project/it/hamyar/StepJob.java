@@ -241,7 +241,7 @@
 
                 }
             });
-
+            EtUnitPrice.addTextChangedListener(new NumberTextWatcherForThousand(EtUnitPrice));
             btnSave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -293,7 +293,7 @@
                 if (!FirestFill) {
                     String temp;
                     EttitleStepStr = EttitleStep.getText().toString();
-                    EtUnitPriceStr = EtUnitPrice.getText().toString();
+                    EtUnitPriceStr = EtUnitPrice.getText().toString().replace(",","");
                     UnitStr = SpUnit.getSelectedItem().toString();
                     if (EttitleStepStr.compareTo("") == 0 || EtUnitPriceStr.compareTo("") == 0)
                     {

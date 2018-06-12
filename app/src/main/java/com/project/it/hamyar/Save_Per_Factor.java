@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.project.it.hamyar.Date.ChangeDate;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -262,6 +263,7 @@ public class Save_Per_Factor extends Activity {
                 addItemFromList();
             }
         });
+        EtToolValuePrice.addTextChangedListener(new NumberTextWatcherForThousand(EtToolValuePrice));
         EtToolValuePrice.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -279,25 +281,32 @@ public class Save_Per_Factor extends Activity {
                     if(EtToolValuePrice.length()<=0 )
                     {
                         String PriceStep;
-//                            String Amount;
-                            float Result;
-//                            Amount= EtToolValuePrice.getText().toString();
-                            PriceStep=tvPriceTools.getText().toString().replace("/",".");
-                            Result=0*Float.parseFloat(PriceStep);
-                            tvTotalSumTool.setText(Float.toString(Result));
+                        Integer Result;
+                        PriceStep=tvPriceTools.getText().toString().replace("/",".");
+                        Result=0*Integer.parseInt(PriceStep);
+                        tvTotalSumTool.setText(Float.toString(Result));
                     }
                     else
                     {
+                        DecimalFormat df = new DecimalFormat("###,###,###,###,###,###,###,###");
                         String PriceStep;
                         String Amount;
-                        float Result;
-                        Amount= EtToolValuePrice.getText().toString();
-                        PriceStep=tvPriceTools.getText().toString().replace("/",".");
-                        Result=Float.parseFloat(Amount)*Float.parseFloat(PriceStep);
-                        tvTotalSumTool.setText(Float.toString(Result));
+                        double Result;
+                        try {
+                            Amount= EtToolValuePrice.getText().toString().replace(",","");
+                            Result =  df.parse(Amount).longValue();
+                            PriceStep=tvPriceTools.getText().toString();
+                            Result=Double.parseDouble(Amount)*Double.parseDouble(PriceStep);
+                            tvTotalSumTool.setText(df.format(Result));
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
                     }
             }
         });
+        EtUnitValuePrice.addTextChangedListener(new NumberTextWatcherForThousand(EtUnitValuePrice));
         EtUnitValuePrice.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -316,21 +325,29 @@ public class Save_Per_Factor extends Activity {
                     {
                         String PriceStep;
 //                        String Amount;
-                        float Result;
+                        Integer Result;
 //                        Amount= EtUnitValuePrice.getText().toString();
                         PriceStep=tvUnitPrice.getText().toString();
-                        Result=0*Float.parseFloat(PriceStep);
-                        tvTotalSumStep.setText(Float.toString(Result));
+                        Result=0*Integer.parseInt(PriceStep);
+                        tvTotalSumStep.setText(Integer.toString(Result));
                     }
                     else
                     {
+                        DecimalFormat df = new DecimalFormat("###,###,###,###,###,###,###,###");
                         String PriceStep;
                         String Amount;
-                        float Result;
-                        Amount= EtUnitValuePrice.getText().toString();
-                        PriceStep=tvUnitPrice.getText().toString();
-                        Result=Float.parseFloat(Amount)*Float.parseFloat(PriceStep);
-                        tvTotalSumStep.setText(Float.toString(Result));
+                        double Result;
+                        try {
+                            Amount= EtUnitValuePrice.getText().toString().replace(",","");
+                            Result =  df.parse(Amount).longValue();
+                            PriceStep=tvUnitPrice.getText().toString();
+                            Result=Double.parseDouble(Amount)*Double.parseDouble(PriceStep);
+                            tvTotalSumStep.setText(df.format(Result));
+                        }
+                        catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
                     }
             }
         });
@@ -516,14 +533,15 @@ public class Save_Per_Factor extends Activity {
         String Mounth=DateSp[1];
         String Day=DateSp[2];
         String StrAmount;
-        if(CheckTitleTools.isChecked())
-        {
-            StrAmount=Amont;
-        }
-        else
-        {
-            StrAmount="0";
-        }
+//        if(CheckTitleTools.isChecked())
+//        {
+//            StrAmount=Amont;
+//        }
+//        else
+//        {
+//            StrAmount="0";
+//        }
+
         try {
                     SyncGetFactorUsersHeadCode syncGetFactorUsersHeadCode = new SyncGetFactorUsersHeadCode(Save_Per_Factor.this,
                             guid,
@@ -535,7 +553,7 @@ public class Save_Per_Factor extends Activity {
                             EtDescription.getText().toString(),
                             CheckTitleTools.isChecked(),
                             mapStep.get(SpTitleStepJob.getSelectedItem().toString())
-                            , StrAmount);
+                            , EtUnitValuePrice.getText().toString());
                     syncGetFactorUsersHeadCode.AsyncExecute();
             }
         catch(Exception ex)

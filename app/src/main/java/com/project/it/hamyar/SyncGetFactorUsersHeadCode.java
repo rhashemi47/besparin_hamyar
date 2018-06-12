@@ -315,8 +315,8 @@ public class SyncGetFactorUsersHeadCode {
 							WsResponse,
 							"2",
 							cDetail.getString(cDetail.getColumnIndex("Code")),
-							cDetail.getString(cDetail.getColumnIndex("Price")).replace("/","."),
-							cDetail.getString(cDetail.getColumnIndex("Amount")).replace("/","."));
+							cDetail.getString(cDetail.getColumnIndex("Price")).replace(",","."),
+							cDetail.getString(cDetail.getColumnIndex("Amount")).replace(",","."));
 					UserDetailes.AsyncExecute();
 					Toast.makeText(activity, "مقدار "+ (i+1) +" ثبت شد", Toast.LENGTH_SHORT).show();
 
