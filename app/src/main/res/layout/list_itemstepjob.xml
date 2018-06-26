@@ -18,5 +18,4 @@
         android:layout_alignBottom="@+id/radio1"
         android:layout_toEndOf="@+id/radio1"
         android:layout_toRightOf="@+id/radio1"/>
-
 </LinearLayout>

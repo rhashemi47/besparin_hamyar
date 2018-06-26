@@ -22,28 +22,51 @@
             app:titleTextColor="#000000"
             android:background="@drawable/background_actionbar"/>
     </android.support.design.widget.AppBarLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="80dp"
+        android:layout_below="@+id/appbar">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="90dp"
+        android:id="@+id/LinearMain">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:id="@+id/LinearMinCredit"
-        android:background="@drawable/rounded_layout_credit">
+        android:id="@+id/LinearMinCredit">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/appbar"
-            android:id="@+id/TopValueCredits">
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:id="@+id/TopValueCredits"
+            android:orientation="vertical">
             <TextView
                 android:id="@+id/tvRecentCredits"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:lineSpacingExtra="4dp"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:text="@string/RecentCredit"
                 android:textSize="18dp"
+                android:textColor="#000000"/>
+            <TextView
+                android:id="@+id/tvLine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:lineSpacingExtra="4dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/Line"
+                android:textSize="18sp"
                 android:textColor="#000000"/>
             <TextView
                 android:id="@+id/tvRecentCreditsValue"
@@ -51,13 +74,17 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:lineSpacingExtra="4dp"
-                android:textSize="18dp"
+                android:textSize="18sp"
+                android:text="0"
                 android:textColor="#000000" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/appbar"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:id="@+id/TopValueCreditsIncrise">
             <TextView
                 android:id="@+id/tvTitleIncriseCredit"
@@ -65,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="@string/CurrencyInsertCredit"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:textColor="#000000" />
             <EditText
                 android:id="@+id/etCurrencyInsertCredit"
@@ -74,72 +101,127 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/rounded_edittext"
                 android:inputType="number"
-                android:textSize="18dp"
+                android:textSize="18sp"
+                android:textColor="#000000"/>
+            <TextView
+                android:id="@+id/tvLine2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/Line"
+                android:textSize="18sp"
+                android:textColor="#000000" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10,000"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_margin="10dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20,000"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_margin="10dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="30,000"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_margin="10dp"/>
+            </LinearLayout>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnIncresCredit"
+                android:background="@drawable/rounded_button"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/cash"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:drawableLeft="@drawable/catch_money"
                 android:textColor="#000000"/>
         </LinearLayout>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:id="@+id/LinearIncreseCredite"
-        android:layout_below="@+id/LinearMinCredit"
-        android:gravity="center">
-        <Button
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btnIncresCredit"
-            android:background="@drawable/rounded_button"
-            android:layout_marginLeft="100dp"
-            android:layout_marginRight="100dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/cash"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:drawableLeft="@drawable/credit"
-            android:textColor="#000000"
-            />
+            android:id="@+id/LinearIncreseEtebar"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvTitleIncriseEtebar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/CrediteCode"
+                android:textSize="18dp"
+                android:textColor="#000000"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+            <EditText
+                android:id="@+id/etCurrencyInsertEtebar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/rounded_edittext"
+                android:inputType="number"
+                android:text="0"
+                android:textSize="18sp"
+                android:textColor="#000000"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Line"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:layout_marginTop="-10dp"
+                android:textColor="#000"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnIncreseEtebar"
+                android:background="@drawable/rounded_button"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/cash"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="#000000"
+                android:paddingLeft="110dp"
+                android:paddingRight="110dp"
+                android:drawableRight="@drawable/credite_code" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnCreditHistory"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/Credits_History"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="#000000"
+                android:paddingLeft="75dp"
+                android:paddingRight="115dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rounded_button_transparent"
+                android:drawableRight="@drawable/list" />
+        </LinearLayout>
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="80dp"
-        android:layout_below="@+id/LinearMinCredit"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/tvHistoryCredits"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:layout_marginTop="50dp"
-            android:textSize="18dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textColor="#000000"/>
-
-        <ListView
-            android:id="@+id/lstHistoryCredit"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="70dp">
-        </ListView>
     </LinearLayout>
-    <!--<FrameLayout-->
-        <!--android:id="@+id/frame"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@drawable/background_actionbar" />-->
-
-    <!--<android.support.design.widget.BottomNavigationView-->
-        <!--android:id="@+id/bottomNavigationView"-->
-        <!--style="@style/BottomNavigation"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:menu="@menu/bottom_menu"-->
-        <!--android:layout_alignParentBottom="true"/>-->
+    </ScrollView>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -157,18 +239,25 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/btnOrders"
+            android:id="@+id/btnDutyToday"
             android:layout_weight="1"
             android:background="@drawable/rounded_button_bottom"
-            android:drawableTop="@drawable/history"
-            android:text="@string/Orders"/>
+            android:drawableTop="@drawable/calendar"
+            android:text="@string/DutyToday"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/btnServices_at_the_turn"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_button_bottom"
+            android:drawableTop="@drawable/clock"
+            android:text="@string/Services_at_the_turn"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/btnCredit"
             android:layout_weight="1"
             android:background="@drawable/rounded_button_bottom"
-            android:drawableTop="@drawable/credit"
             android:text="@string/credite"/>
     </LinearLayout>
 </RelativeLayout>

@@ -17,10 +17,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnCallFromList"
-        android:background="@drawable/rounded_button_bottom_list"
-        android:drawableLeft="@drawable/call_supporter"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:background="@drawable/rounded_button3"
+        android:drawableRight="@drawable/phone"
         android:text="@string/CallToCastumer"
-        android:textColor="#ffff"/>
+        android:textColor="#000"/>
 </LinearLayout>
 
 </LinearLayout>

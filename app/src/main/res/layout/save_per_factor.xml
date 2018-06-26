@@ -285,34 +285,29 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:gravity="center">
             <Button
                 android:id="@+id/btnSaveTool"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Add"
-                android:drawableLeft="@drawable/add"
-                android:background="@drawable/rounded_button"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
+                android:text="@string/Add_List"
+                android:drawableRight="@drawable/plus"
+                android:background="@drawable/rounded_button3"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:paddingRight="100dp"
+                android:paddingLeft="100dp"
                 android:textColor="#000000"/>
-            <Button
-                android:id="@+id/btnSendPerFactor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/FinalSave"
-                android:drawableLeft="@drawable/save"
-                android:background="@drawable/rounded_button"
-                android:layout_marginLeft="90dp"
-                android:layout_weight="1"
-                android:layout_marginStart="90dp"
-                android:textColor="#000000" />
+
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:orientation="vertical"
             android:id="@+id/LinerListTools">
             <ListView
                 android:id="@+id/ListTools"
@@ -320,6 +315,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp" />
+            <Button
+                android:id="@+id/btnSendPerFactor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/FinalSave"
+                android:drawableRight="@drawable/check"
+                android:background="@drawable/rounded_button3"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:textColor="#000000" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
@@ -353,18 +358,25 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/btnOrders"
+            android:id="@+id/btnDutyToday"
             android:layout_weight="1"
             android:background="@drawable/rounded_button_bottom"
-            android:drawableTop="@drawable/history"
-            android:text="@string/Orders"/>
+            android:drawableTop="@drawable/calendar"
+            android:text="@string/DutyToday"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/btnServices_at_the_turn"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_button_bottom"
+            android:drawableTop="@drawable/clock"
+            android:text="@string/Services_at_the_turn"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/btnCredit"
             android:layout_weight="1"
             android:background="@drawable/rounded_button_bottom"
-            android:drawableTop="@drawable/credit"
             android:text="@string/credite"/>
     </LinearLayout>
 </RelativeLayout>

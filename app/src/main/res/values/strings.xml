@@ -35,7 +35,7 @@
     <string name="MainMenuTitle">بسپارینا</string>
     <string name="StepJob">مراحل کاری</string>
     <string name="StepJobdetaile">ملزومات کاری</string>
-    <string name="Save">ذخیره</string>
+    <string name="Save">ثبت</string>
     <string name="titleStep">عنوان کاری</string>
     <string name="PriceJob">کارمزد</string>
     <string name="Unit">واحد</string>
@@ -79,10 +79,11 @@
     <string name="servicename">نام سرویس</string>
     <string name="ServiDetailName">نوع سرویس</string>
     <string name="Add">افزودن</string>
+    <string name="Add_List">افزودن به لیست</string>
     <string name="FinalSave">ثبت نهایی</string>
     <string name="value">مقدار</string>
     <string name="TitleTools">عنوان ملزومات</string>
-    <string name="CheckTitleTool">آیا فاکتور ملزومات دارد؟</string>
+    <string name="CheckTitleTool">آیا عنوان کاری ملزومات دارد؟</string>
     <string name="Description">توضیحات</string>
     <string name="Total">جمع</string>
     <string name="CaseResume">علت وقفه</string>
@@ -92,7 +93,7 @@
     <string name="credite">اعتبارات</string>
     <string name="home">خانه</string>
     <string name="DutyItem">وظایف</string>
-    <string name="RecentCredit">اعتبار فعلی</string>
+    <string name="RecentCredit">میزان اعتبار</string>
     <string name="IncreseCredit">افزایش اعتبار</string>
     <string name="History">تاریخچه خدمات</string>
     <string name="RelateUs">به ما بپیوندید!</string>
@@ -110,7 +111,7 @@
     <string name="Message">پیام</string>
     <string name="usercode">کد کاربری</string>
     <string name="cash">پرداخت</string>
-    <string name="CurrencyInsertCredit">مبلغ افزایش اعتبار</string>
+    <string name="CurrencyInsertCredit">افزایش اعتبار (تومان)</string>
     <string name="CallToCastumer">تماس با متقاضی</string>
     <string name="Invite_friends">دعوت از دوستان</string>
     <string name="rial">ریال</string>
@@ -125,9 +126,24 @@
     <string name="Expert">تخصص</string>
     <string name="Filter">فیلتر</string>
     <string name="LoginGuest">ورود مهمان</string>
-    <string name="SignUpOrLogin">ورود به حساب کاربری یا ثبت نام</string>
+    <string name="SignUpOrLogin">ثبت نام</string>
     <string name="Gender">جنسیت</string>
     <string name="man">مرد</string>
     <string name="woman">زن</string>
+    <string name="DutyToday">فرصت های امروز</string>
+    <string name="Services_at_the_turn">خدمات در نوبت</string>
+    <string name="Line">----------------------------</string>
+    <string name="Credits_History">لیست اعتبارات</string>
+    <string name="CrediteCode">کد اعتباری</string>
+    <string name="DatePause">تاریخ شروع وقفه</string>
+    <string name="TimePause">زمان شروع وقفه</string>
+    <string name="Save_working_levels">ثبت مراحل کاری</string>
+    <string name="Save_working_Details">ثبت ملزومات کاری</string>
+    <string name="date">تاریخ</string>
+    <string name="From">از</string>
+    <string name="To">تا</string>
+    <string name="clock">ساعت</string>
+    <string name="Location">محله</string>
+    <string name="Customer">متقاضی</string>
 
 </resources>

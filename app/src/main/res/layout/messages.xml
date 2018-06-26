@@ -63,18 +63,25 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/btnOrders"
+            android:id="@+id/btnDutyToday"
             android:layout_weight="1"
             android:background="@drawable/rounded_button_bottom"
-            android:drawableTop="@drawable/history"
-            android:text="@string/Orders"/>
+            android:drawableTop="@drawable/calendar"
+            android:text="@string/DutyToday"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/btnServices_at_the_turn"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_button_bottom"
+            android:drawableTop="@drawable/clock"
+            android:text="@string/Services_at_the_turn"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/btnCredit"
             android:layout_weight="1"
             android:background="@drawable/rounded_button_bottom"
-            android:drawableTop="@drawable/credit"
             android:text="@string/credite"/>
     </LinearLayout>
 </RelativeLayout>

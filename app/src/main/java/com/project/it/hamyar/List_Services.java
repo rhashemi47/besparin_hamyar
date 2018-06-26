@@ -71,7 +71,8 @@
         private DatabaseHelper dbh;
         private SQLiteDatabase db;
         private Button btnCredit;
-        private Button btnOrders;
+        private Button btnDutyToday;
+        private Button btnServices_at_the_turn;
         private Button btnHome;
         //*****************************************************
         private EditText etFromDate;
@@ -99,9 +100,11 @@
             getWindow().addContentView(layoutInflater.inflate(R.layout.sliding_filter,null),new
                     ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,ViewGroup.LayoutParams.FILL_PARENT));
             //************************************************************************
-            btnCredit = (Button) findViewById(R.id.btnCredit);
-            btnOrders = (Button) findViewById(R.id.btnOrders);
-            btnHome = (Button) findViewById(R.id.btnHome);
+
+            btnCredit=(Button)findViewById(R.id.btnCredit);
+            btnServices_at_the_turn=(Button)findViewById(R.id.btnServices_at_the_turn);
+            btnDutyToday=(Button)findViewById(R.id.btnDutyToday);
+            btnHome=(Button)findViewById(R.id.btnHome);
             //************************************************************
             etFromDate = (EditText) findViewById(R.id.etFromDate);
             etToDate = (EditText) findViewById(R.id.etToDate);
@@ -509,10 +512,16 @@
             btnCredit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    LoadActivity(Credit.class, "guid", guid, "hamyarcode", hamyarcode);
+                    LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
                 }
             });
-            btnOrders.setOnClickListener(new View.OnClickListener() {
+            btnDutyToday.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
+                }
+            });
+            btnServices_at_the_turn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);

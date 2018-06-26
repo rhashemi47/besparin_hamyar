@@ -92,7 +92,8 @@ public class Save_Per_Factor extends Activity {
     private HashMap<String,String > mapStep=new HashMap<String, String>();
     private HashMap<String,String > mapTool=new HashMap<String, String>();
     private Button btnCredit;
-    private Button btnOrders;
+    private Button btnDutyToday;
+    private Button btnServices_at_the_turn;
     private Button btnHome;
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -104,8 +105,10 @@ public class Save_Per_Factor extends Activity {
         setContentView(R.layout.save_per_factor);
         Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
         //********************************************************************
+
         btnCredit=(Button)findViewById(R.id.btnCredit);
-        btnOrders=(Button)findViewById(R.id.btnOrders);
+        btnServices_at_the_turn=(Button)findViewById(R.id.btnServices_at_the_turn);
+        btnDutyToday=(Button)findViewById(R.id.btnDutyToday);
         btnHome=(Button)findViewById(R.id.btnHome);
         SpTitleStepJob=(Spinner)findViewById(R.id.SpTitleStepJob);
         SPTitleTools=(Spinner)findViewById(R.id.SPTitleTools);
@@ -412,7 +415,13 @@ public class Save_Per_Factor extends Activity {
                 LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
             }
         });
-        btnOrders.setOnClickListener(new View.OnClickListener() {
+        btnDutyToday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
+            }
+        });
+        btnServices_at_the_turn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);

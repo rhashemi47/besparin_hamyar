@@ -55,7 +55,8 @@ public class Contact extends Activity {
 	private DatabaseHelper dbh;
 	private SQLiteDatabase db;
 	private Button btnCredit;
-	private Button btnOrders;
+	private Button btnDutyToday;
+	private Button btnServices_at_the_turn;
 	private Button btnHome;
 	private Button btnSendMessage;
 	private Button btnCallSupporter;
@@ -69,7 +70,8 @@ public class Contact extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.contact);
 		btnCredit=(Button)findViewById(R.id.btnCredit);
-		btnOrders=(Button)findViewById(R.id.btnOrders);
+		btnServices_at_the_turn=(Button)findViewById(R.id.btnServices_at_the_turn);
+		btnDutyToday=(Button)findViewById(R.id.btnDutyToday);
 		btnHome=(Button)findViewById(R.id.btnHome);
 		btnSendMessage=(Button)findViewById(R.id.btnSendMessage);
 		btnCallSupporter=(Button)findViewById(R.id.btnCallSupporter);
@@ -153,7 +155,13 @@ public class Contact extends Activity {
 				LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
 			}
 		});
-		btnOrders.setOnClickListener(new View.OnClickListener() {
+		btnDutyToday.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
+			}
+		});
+		btnServices_at_the_turn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);

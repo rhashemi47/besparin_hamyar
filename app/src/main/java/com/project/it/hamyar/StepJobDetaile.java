@@ -56,7 +56,8 @@
         private List<String> listItems;
         private ArrayAdapter<String> adapterList;
         private Button btnCredit;
-        private Button btnOrders;
+        private Button btnDutyToday;
+        private Button btnServices_at_the_turn;
         private Button btnHome;
 
         @Override
@@ -68,7 +69,8 @@
             super.onCreate(savedInstanceState);
             setContentView(R.layout.stepjobdetaile);
             btnCredit=(Button)findViewById(R.id.btnCredit);
-            btnOrders=(Button)findViewById(R.id.btnOrders);
+            btnServices_at_the_turn=(Button)findViewById(R.id.btnServices_at_the_turn);
+            btnDutyToday=(Button)findViewById(R.id.btnDutyToday);
             btnHome=(Button)findViewById(R.id.btnHome);
             EttitleStep = (EditText) findViewById(R.id.EttitleToolsStep);
             EtUnitPrice = (EditText) findViewById(R.id.EtPriceTool);
@@ -212,7 +214,13 @@
                     LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
                 }
             });
-            btnOrders.setOnClickListener(new View.OnClickListener() {
+            btnDutyToday.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
+                }
+            });
+            btnServices_at_the_turn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);

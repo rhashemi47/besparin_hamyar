@@ -63,7 +63,8 @@ public class ShowMessage extends Activity{
     private String code;
     private String Isread;
     private Button btnCredit;
-    private Button btnOrders;
+    private Button btnDutyToday;
+    private Button btnServices_at_the_turn;
     private Button btnHome;
 
 
@@ -73,6 +74,10 @@ public class ShowMessage extends Activity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.show_message);
+        btnCredit=(Button)findViewById(R.id.btnCredit);
+        btnServices_at_the_turn=(Button)findViewById(R.id.btnServices_at_the_turn);
+        btnDutyToday=(Button)findViewById(R.id.btnDutyToday);
+        btnHome=(Button)findViewById(R.id.btnHome);
         content = (TextView) findViewById(R.id.tvContentMessage);
         btnDelete = (Button) findViewById(R.id.btnDelete);
         dbh = new DatabaseHelper(getApplicationContext());

@@ -94,7 +94,8 @@ public class ViewJob extends AppCompatActivity{
     private Button btnCallToCustomer;
     private Cursor coursors;
     private Button btnCredit;
-    private Button btnOrders;
+    private Button btnDutyToday;
+    private Button btnServices_at_the_turn;
     private Button btnHome;
     GoogleMap map;
     private ir.hamsaa.persiandatepicker.util.PersianCalendar initDate;
@@ -111,7 +112,8 @@ public class ViewJob extends AppCompatActivity{
         setContentView(R.layout.viewjob);
         final Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
         btnCredit=(Button)findViewById(R.id.btnCredit);
-        btnOrders=(Button)findViewById(R.id.btnOrders);
+        btnServices_at_the_turn=(Button)findViewById(R.id.btnServices_at_the_turn);
+        btnDutyToday=(Button)findViewById(R.id.btnDutyToday);
         btnHome=(Button)findViewById(R.id.btnHome);
         ContentShowJob=(TextView)findViewById(R.id.ContentShowJob);
         btnSelect=(Button)findViewById(R.id.btnSelect);
@@ -124,7 +126,6 @@ public class ViewJob extends AppCompatActivity{
         btnCallToCustomer=(Button)findViewById(R.id.btnCallToCustomer);
         //********************************
         btnCredit.setTypeface(FontMitra);
-        btnOrders.setTypeface(FontMitra);
         btnHome.setTypeface(FontMitra);
         ContentShowJob.setTypeface(FontMitra);
         btnSelect.setTypeface(FontMitra);
@@ -1084,7 +1085,13 @@ public class ViewJob extends AppCompatActivity{
                 LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
             }
         });
-        btnOrders.setOnClickListener(new View.OnClickListener() {
+        btnDutyToday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
+            }
+        });
+        btnServices_at_the_turn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);

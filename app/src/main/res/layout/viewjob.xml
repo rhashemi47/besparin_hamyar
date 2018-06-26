@@ -19,15 +19,13 @@
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:titleTextColor="#000000"
-            android:background="@drawable/background_actionbar"
-            android:layoutDirection="ltr">
+            android:background="@drawable/background_actionbar">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvNumberService"
                 android:textColor="#000000"
-                android:layoutDirection="ltr"
-                android:textDirection="ltr"/>
+                android:layoutDirection="ltr"/>
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
@@ -54,171 +52,181 @@
         android:layout_marginBottom="90dp"
         android:layout_below="@+id/LinearMap"
         android:layout_marginTop="10dp">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/rounded_layout_select_job_body"
-            android:id="@+id/contentview"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp">
-        <TextView
-            android:id="@+id/ContentShowJob"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:lineSpacingExtra="4dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp" />
-        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/rounded_layout_select_job_body"
+                android:id="@+id/contentview"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp">
+                <TextView
+                    android:id="@+id/ContentShowJob"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:lineSpacingExtra="4dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:gravity="center">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginStart="10dp">
-                        <LinearLayout
+                    android:layout_gravity="center"
+                    android:gravity="center">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:layout_gravity="center"
+                        android:gravity="center">
+                        <Button
+                            android:id="@+id/btnSelect"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp">
-
-                            <Button
-                                android:id="@+id/btnSelect"
-                                android:layout_width="90dp"
-                                android:layout_height="wrap_content"
-                                android:text="@string/Select"
-                                android:drawableLeft="@drawable/select"
-                                android:textSize="16dp"
-                                android:background="@drawable/rounded_button"
-                                
-                                android:layout_marginRight="10dp"
-                                android:layout_weight="1"
-                                android:layout_marginEnd="10dp" />
-                            <Button
-                                android:id="@+id/btnCansel"
-                                android:layout_width="90dp"
-                                android:layout_height="wrap_content"
-                                android:textSize="16dp"
-                                android:drawableLeft="@drawable/cansel_service"
-                                android:background="@drawable/rounded_button"
-
-                                android:layout_marginRight="10dp"
-                                android:text="@string/Cansel"
-                                
-                                android:layout_weight="1"
-                                android:layout_marginEnd="10dp" />
-                        </LinearLayout>
-                        <LinearLayout
+                            android:text="@string/Select"
+                            android:drawableRight="@drawable/check"
+                            android:textSize="16sp"
+                            android:background="@drawable/rounded_button3"
+                            android:paddingLeft="140dp"
+                            android:paddingRight="140dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp">
+                        <Button
+                            android:id="@+id/btnPause"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp">
-                            <Button
-                                android:id="@+id/btnPause"
-                                android:layout_width="90dp"
-                                android:layout_height="wrap_content"
-                                android:textSize="16dp"
-                                android:text="@string/Pause"
-                                android:layout_marginRight="10dp"
-                                android:drawableLeft="@drawable/pause"
-                                android:background="@drawable/rounded_button"
-                                android:layout_weight="1"
-                                android:layout_marginEnd="10dp" />
-
-                            <Button
-                                android:id="@+id/btnPerFactor"
-                                android:layout_width="90dp"
-                                android:layout_height="wrap_content"
-                                android:drawableLeft="@drawable/factor"
-                                android:textSize="16dp"
-                                android:text="@string/PerFactor"
-                                android:background="@drawable/rounded_button"
-                                android:layout_marginRight="10dp"
-                                android:layout_weight="1"
-                                android:layout_marginEnd="10dp" />
-                        </LinearLayout>
-                        <LinearLayout
+                            android:textSize="16sp"
+                            android:text="@string/Pause"
+                            android:layout_weight="1"
+                            android:drawableRight="@drawable/clock2"
+                            android:background="@drawable/rounded_button_transparent"
+                            android:paddingLeft="30dp"
+                            android:paddingRight="30dp"
+                            android:layout_marginLeft="2dp"/>
+                        <Button
+                            android:id="@+id/btnPerFactor"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp">
-                            <Button
-                                android:id="@+id/btnVisit"
-                                android:layout_width="90dp"
-                                android:layout_height="wrap_content"
-                                android:textSize="16dp"
-                                android:text="@string/Visit"
-                                android:layout_marginLeft="10dp"
-                                android:background="@drawable/rounded_button"
-                                android:drawableLeft="@drawable/visit"
-                                android:layout_weight="1"/>
-
-                            <Button
-                                android:id="@+id/btnResume"
-                                android:layout_width="90dp"
-                                android:layout_height="wrap_content"
-                                android:textSize="16dp"
-                                android:layout_marginRight="10dp"
-                                android:text="@string/Resume"
-                                android:background="@drawable/rounded_button"
-                                android:drawableLeft="@drawable/resume"
-                                android:layout_weight="1"
-                                android:layout_marginEnd="10dp" />
-                        </LinearLayout>
-                        <LinearLayout
+                            android:drawableRight="@drawable/document"
+                            android:textSize="16sp"
+                            android:text="@string/PerFactor"
+                            android:background="@drawable/rounded_button_transparent"
+                            android:layout_weight="1"
+                            android:paddingLeft="30dp"
+                            android:paddingRight="30dp"
+                            android:layout_marginRight="2dp"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp">
+                        <Button
+                            android:id="@+id/btnVisit"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp">
-                            <Button
-                                android:id="@+id/btnCallToCustomer"
-                                android:layout_width="90dp"
-                                android:layout_height="wrap_content"
-                                android:textSize="16dp"
-                                android:layout_marginLeft="10dp"
-                                android:background="@drawable/rounded_button"
-                                android:text="@string/CallToCastumer"
-                                android:drawableLeft="@drawable/calltocastumer"
-                                android:layout_weight="1"/>
-                            <Button
-                                android:id="@+id/btnFinal"
-                                android:layout_width="90dp"
-                                android:layout_height="wrap_content"
-                                android:textSize="16dp"
-                                android:text="@string/Final"
-                                android:background="@drawable/rounded_button"
-                                android:drawableLeft="@drawable/final_job"
-                                android:layout_weight="1"
-                                android:layout_marginEnd="10dp"
-                                android:layout_marginRight="10dp" />
-                        </LinearLayout>
+                            android:textSize="16sp"
+                            android:text="@string/Visit"
+                            android:background="@drawable/rounded_button_transparent"
+                            android:drawableRight="@drawable/eye"
+                            android:layout_weight="1"
+                            android:paddingLeft="30dp"
+                            android:paddingRight="30dp"
+                            android:layout_marginLeft="2dp"/>
+
+                        <Button
+                            android:id="@+id/btnResume"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:text="@string/Resume"
+                            android:background="@drawable/rounded_button_transparent"
+                            android:drawableRight="@drawable/clock2"
+                            android:layout_weight="1"
+                            android:paddingLeft="30dp"
+                            android:paddingRight="30dp"
+                            android:layout_marginRight="2dp" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp">
+                        <Button
+                            android:id="@+id/btnCallToCustomer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:background="@drawable/rounded_button_transparent"
+                            android:text="@string/CallToCastumer"
+                            android:drawableRight="@drawable/phone"
+                            android:layout_weight="1"
+                            android:paddingLeft="30dp"
+                            android:paddingRight="30dp"
+                            android:layout_marginLeft="2dp"/>
+                        <Button
+                            android:id="@+id/btnFinal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:text="@string/Final"
+                            android:background="@drawable/rounded_button_transparent"
+                            android:drawableRight="@drawable/check"
+                            android:layout_weight="1"
+                            android:paddingLeft="30dp"
+                            android:paddingRight="30dp"
+                            android:layout_marginRight="2dp"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <Button
+                            android:id="@+id/btnCansel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:drawableRight="@drawable/close"
+                            android:background="@drawable/rounded_button3"
+                            android:text="@string/Cansel"
+                            android:layout_marginTop="10dp"
+                            android:paddingLeft="140dp"
+                            android:paddingRight="140dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp" />
+                    </LinearLayout>
                 </LinearLayout>
-        </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
-    <!--<FrameLayout-->
-        <!--android:id="@+id/frame"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@drawable/background_actionbar" />-->
 
-    <!--<android.support.design.widget.BottomNavigationView-->
-        <!--android:id="@+id/bottomNavigationView"-->
-        <!--style="@style/BottomNavigation"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:menu="@menu/bottom_menu"-->
-        <!--android:layout_alignParentBottom="true"/>-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -236,18 +244,25 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/btnOrders"
+            android:id="@+id/btnDutyToday"
             android:layout_weight="1"
             android:background="@drawable/rounded_button_bottom"
-            android:drawableTop="@drawable/history"
-            android:text="@string/Orders"/>
+            android:drawableTop="@drawable/calendar"
+            android:text="@string/DutyToday"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/btnServices_at_the_turn"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_button_bottom"
+            android:drawableTop="@drawable/clock"
+            android:text="@string/Services_at_the_turn"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/btnCredit"
             android:layout_weight="1"
             android:background="@drawable/rounded_button_bottom"
-            android:drawableTop="@drawable/credit"
             android:text="@string/credite"/>
     </LinearLayout>
 </RelativeLayout>

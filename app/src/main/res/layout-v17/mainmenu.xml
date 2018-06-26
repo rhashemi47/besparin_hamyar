@@ -47,34 +47,57 @@
 
         </com.project.it.hamyar.Custom_ViewFlipper>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/LinearSlidShow"
-        android:gravity="center"
-        android:foregroundGravity="center"
-        android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginTop="10dp">
-        <Button
-            android:layout_width="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:foregroundGravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btnDuty"
-            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:text="@string/Duty"
-            android:drawableTop="@drawable/duty"/>
+            android:textColor="#171e4c"
+            android:textSize="22sp" />
+
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnServices"
-            android:layout_weight="1"
+            android:id="@+id/btnDuty"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_button_route2"
+            android:gravity="center"
+            android:text="0"
+            android:textSize="60sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:text="@string/Job"
-            android:drawableTop="@drawable/job"/>
+            android:textColor="#171e4c"
+            android:textSize="22sp" />
+
+        <Button
+            android:id="@+id/btnServices"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_button_route1"
+            android:gravity="center"
+            android:text="0"
+            android:textSize="60sp" />
     </LinearLayout>
-    <FrameLayout
-        android:id="@+id/frame"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
 
     <!--<android.support.design.widget.BottomNavigationView-->
         <!--android:id="@+id/bottomNavigationView"-->
@@ -100,18 +123,25 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/btnOrders"
+            android:id="@+id/btnDutyToday"
             android:layout_weight="1"
             android:background="@drawable/rounded_button_bottom"
-            android:drawableTop="@drawable/history"
-            android:text="@string/Orders"/>
+            android:drawableTop="@drawable/calendar"
+            android:text="@string/DutyToday"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/btnServices_at_the_turn"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_button_bottom"
+            android:drawableTop="@drawable/clock"
+            android:text="@string/Services_at_the_turn"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/btnCredit"
             android:layout_weight="1"
             android:background="@drawable/rounded_button_bottom"
-            android:drawableTop="@drawable/credit"
             android:text="@string/credite"/>
     </LinearLayout>
 </RelativeLayout>

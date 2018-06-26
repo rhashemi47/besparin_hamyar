@@ -56,7 +56,8 @@
         private DatabaseHelper dbh;
         private SQLiteDatabase db;
         private Button btnCredit;
-        private Button btnOrders;
+        private Button btnDutyToday;
+        private Button btnServices_at_the_turn;
         private Button btnHome;
         private ArrayList<HashMap<String ,String>> valuse=new ArrayList<HashMap<String, String>>();
         @Override
@@ -69,7 +70,8 @@
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_dutys);
             btnCredit=(Button)findViewById(R.id.btnCredit);
-            btnOrders=(Button)findViewById(R.id.btnOrders);
+            btnServices_at_the_turn=(Button)findViewById(R.id.btnServices_at_the_turn);
+            btnDutyToday=(Button)findViewById(R.id.btnDutyToday);
             btnHome=(Button)findViewById(R.id.btnHome);
         lvDutys=(ListView)findViewById(R.id.listViewDutys);
             dbh=new DatabaseHelper(getApplicationContext());
@@ -151,7 +153,13 @@
                     LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
                 }
             });
-            btnOrders.setOnClickListener(new View.OnClickListener() {
+            btnDutyToday.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
+                }
+            });
+            btnServices_at_the_turn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);

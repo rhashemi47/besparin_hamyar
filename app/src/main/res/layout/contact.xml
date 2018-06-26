@@ -45,7 +45,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/MessageText"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:textColor="#000000"/>
                 <EditText
                     android:id="@+id/etSendMessage"
@@ -54,13 +54,14 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="20dp"
+                    android:layout_marginTop="10dp"
                     android:background="@drawable/rounded_edittext"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:textColor="#000000"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:layout_gravity="center"
                     android:gravity="center">
                     <Button
@@ -69,10 +70,9 @@
                         android:layout_height="wrap_content"
                         android:text="@string/SendMessage"
                         android:background="@drawable/rounded_button"
-                        android:layout_weight="1"
-                        android:drawableLeft="@drawable/message_green"
+                        android:drawableRight="@drawable/message_green"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginRight="40dp"
+                        android:layout_marginRight="10dp"
                         android:textColor="#000000" />
                     <Button
                         android:id="@+id/btnCallSupporter"
@@ -80,29 +80,16 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/rounded_button"
                         android:text="@string/Call"
-                        android:layout_weight="1"
-                        android:drawableLeft="@drawable/calltocastumer"
-                        android:layout_marginLeft="40dp"
-                        android:layout_marginRight="20dp"
+                        android:drawableRight="@drawable/calltocastumer"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
                         android:textColor="#000000"/>
                 </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
-    <!--<FrameLayout-->
-        <!--android:id="@+id/frame"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@drawable/background_actionbar" />-->
-
-    <!--<android.support.design.widget.BottomNavigationView-->
-        <!--android:id="@+id/bottomNavigationView"-->
-        <!--style="@style/BottomNavigation"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:menu="@menu/bottom_menu"-->
-        <!--android:layout_alignParentBottom="true"/>-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -120,19 +107,25 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/btnOrders"
+            android:id="@+id/btnDutyToday"
             android:layout_weight="1"
             android:background="@drawable/rounded_button_bottom"
-            android:drawableTop="@drawable/history"
-            android:text="@string/Orders"/>
+            android:drawableTop="@drawable/calendar"
+            android:text="@string/DutyToday"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/btnServices_at_the_turn"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_button_bottom"
+            android:drawableTop="@drawable/clock"
+            android:text="@string/Services_at_the_turn"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/btnCredit"
             android:layout_weight="1"
             android:background="@drawable/rounded_button_bottom"
-            android:drawableTop="@drawable/credit"
             android:text="@string/credite"/>
     </LinearLayout>
-
 </RelativeLayout>
