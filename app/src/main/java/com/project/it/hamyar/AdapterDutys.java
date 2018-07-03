@@ -14,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -52,7 +53,12 @@ public class AdapterDutys extends BaseAdapter {
     }
 
     private class ViewHolder {
-        TextView txtValues;
+        TextView txtTitleService;
+        TextView txtEmergency;
+        TextView txtNameCustomer;
+        TextView txtDate;
+        TextView txtTime;
+        LinearLayout LinearList;
         Button btnNumberPhone;
     }
 
@@ -63,25 +69,46 @@ public class AdapterDutys extends BaseAdapter {
         HashMap<String, String> map = list.get(position);
         if (convertView == null) {
             Typeface faceh = Typeface.createFromAsset(activity.getAssets(), "font/BMitra.ttf");
-            convertView = inflater.inflate(R.layout.list_item_visit, null);
+            convertView = inflater.inflate(R.layout.list_item_duty, null);
             holder = new ViewHolder();
+            holder.LinearList = (LinearLayout) convertView.findViewById(R.id.LinearList);
             holder.btnNumberPhone = (Button) convertView.findViewById(R.id.btnCallFromList);
             holder.btnNumberPhone.setTypeface(faceh);
-            holder.btnNumberPhone.setTextSize(18);
-            holder.txtValues = (TextView) convertView.findViewById(R.id.txtContentVisit);
-            holder.txtValues.setTypeface(faceh);
-            holder.txtValues.setTextSize(18);
+            holder.btnNumberPhone.setTextSize(20);
+            holder.txtTitleService = (TextView) convertView.findViewById(R.id.txtContentVisit);
+            holder.txtTitleService.setTypeface(faceh);
+            holder.txtTitleService.setTextSize(20);
+            holder.txtEmergency = (TextView) convertView.findViewById(R.id.txtContentVisit);
+            holder.txtEmergency.setTypeface(faceh);
+            holder.txtEmergency.setTextSize(20);
+            holder.txtNameCustomer = (TextView) convertView.findViewById(R.id.txtContentVisit);
+            holder.txtNameCustomer.setTypeface(faceh);
+            holder.txtNameCustomer.setTextSize(20);
+            holder.txtDate = (TextView) convertView.findViewById(R.id.txtContentVisit);
+            holder.txtDate.setTypeface(faceh);
+            holder.txtDate.setTextSize(20);
+            holder.txtTime = (TextView) convertView.findViewById(R.id.txtContentVisit);
+            holder.txtTime.setTypeface(faceh);
+            holder.txtTime.setTextSize(20);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        String name = map.get("name");
+        String TitleService = map.get("TitleService");
+        String Emergency = map.get("Emergency");
+        String NameCustomer = map.get("NameCustomer");
+        String Date = map.get("Date");
+        String Time = map.get("Time");
         String code = map.get("Code");
         String UserPhone = map.get("UserPhone");
-        holder.txtValues.setText(name);
-        holder.txtValues.setTag(code);
+        holder.txtTitleService.setText(TitleService);
+        holder.txtEmergency.setText(Emergency);
+        holder.txtNameCustomer.setText(NameCustomer);
+        holder.txtDate.setText(Date);
+        holder.txtTime.setText(Time);
+        holder.LinearList.setTag(code);
         holder.btnNumberPhone.setTag(UserPhone);
-        holder.txtValues.setOnClickListener(TextViewItemOnclick);
+        holder.LinearList.setOnClickListener(TextViewItemOnclick);
         holder.btnNumberPhone.setOnClickListener(ButtonItemOnClick);
 
         return convertView;
@@ -92,7 +119,7 @@ public class AdapterDutys extends BaseAdapter {
         @Override
         public void onClick(View v) {
             String BsUserServicesID="";
-            BsUserServicesID = ((TextView)v).getTag().toString();
+            BsUserServicesID = ((LinearLayout)v).getTag().toString();
             Intent intent = new Intent(activity.getApplicationContext(),ViewJob.class);
             intent.putExtra("guid",guid);
             intent.putExtra("hamyarcode",hamyarcode);

@@ -145,5 +145,14 @@
     <string name="clock">ساعت</string>
     <string name="Location">محله</string>
     <string name="Customer">متقاضی</string>
+    <string name="NameCustomer">نام متقاضی:</string>
+    <string name="Date">تاریخ:</string>
+    <string name="Time">ساعت کار:</string>
+    <string name="Period">خدمات دوره ای:</string>
+    <string name="Emergency">فوریت:</string>
+    <string name="CountHamyar">همیار:</string>
+    <string name="Address">آدرس:</string>
+    <string name="DescriptionTitle">توضیحات:</string>
+    <string name="LocationTitle">محله:</string>
 
 </resources>

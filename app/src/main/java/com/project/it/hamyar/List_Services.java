@@ -80,7 +80,7 @@
         private EditText etFromTime;
         private EditText etToTime;
 //        private EditText etArea;
-        private Spinner spExpert;
+//        private Spinner spExpert;
         private List<String> labelssp;
         //*****************************************************
         private ArrayList<HashMap<String, String>> valuse ;
@@ -111,7 +111,7 @@
             etFromTime = (EditText) findViewById(R.id.etFromTime);
             etToTime = (EditText) findViewById(R.id.etToTime);
 //            etArea = (EditText) findViewById(R.id.etArea);
-            spExpert = (Spinner) findViewById(R.id.spExpert);
+//            spExpert = (Spinner) findViewById(R.id.spExpert);
             //************************************************************
             lvServices = (ListView) findViewById(R.id.listViewServices);
             dbh = new DatabaseHelper(getApplicationContext());
@@ -163,20 +163,20 @@
             CreateMenu(toolbar);
             //***************************************************************************************************************************
 //*********************************************************
-            labelssp=new ArrayList<>();
-            labelssp.add("");
-            db = dbh.getReadableDatabase();
-            Cursor cursors = db.rawQuery("SELECT * FROM servicesdetails ", null);
-            String str;
-            for (int i = 0; i < cursors.getCount(); i++) {
-                cursors.moveToNext();
-                str = cursors.getString(cursors.getColumnIndex("name"));
-                labelssp.add(str);
-            }
-            ArrayAdapter<String> dataAdaptersp = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, labelssp);
-            dataAdaptersp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spExpert.setAdapter(dataAdaptersp);
-            db.close();
+//            labelssp=new ArrayList<>();
+//            labelssp.add("");
+//            db = dbh.getReadableDatabase();
+//            Cursor cursors = db.rawQuery("SELECT * FROM servicesdetails ", null);
+//            String str;
+//            for (int i = 0; i < cursors.getCount(); i++) {
+//                cursors.moveToNext();
+//                str = cursors.getString(cursors.getColumnIndex("name"));
+//                labelssp.add(str);
+//            }
+//            ArrayAdapter<String> dataAdaptersp = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, labelssp);
+//            dataAdaptersp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//            spExpert.setAdapter(dataAdaptersp);
+//            db.close();
 //*********************************************************
             setListServices();
 //*********************************************************
@@ -497,17 +497,17 @@
                 }
             });
 //*********************************************************
-            spExpert.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    setListServices();
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });
+//            spExpert.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//                @Override
+//                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                    setListServices();
+//                }
+//
+//                @Override
+//                public void onNothingSelected(AdapterView<?> parent) {
+//
+//                }
+//            });
 //*********************************************************
             btnCredit.setOnClickListener(new View.OnClickListener() {
                 @Override

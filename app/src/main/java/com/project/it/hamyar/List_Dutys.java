@@ -133,13 +133,18 @@
             for(int i=0;i<coursors.getCount();i++){
                 coursors.moveToNext();
                 HashMap<String, String> map = new HashMap<String, String>();
-                map.put("name","شماره درخواست: "+coursors.getString(coursors.getColumnIndex("Code"))+"\n"+
-                        "موضوع: "+coursors.getString(coursors.getColumnIndex("name"))+"\n"
-                        +"نام متقاضی: "+coursors.getString(coursors.getColumnIndex("UserName"))+" "+coursors.getString(coursors.getColumnIndex("UserFamily"))+"\n"+
-                        "تاریخ حضور: "+coursors.getString(coursors.getColumnIndex("StartDate"))+"\n"+"ساعت حضور: "+coursors.getString(coursors.getColumnIndex("StartTime"))+"\n"+
-                        "وضعیت: "+((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0")==1? "عادی":"فوری")));
+//                map.put("name","شماره درخواست: "+coursors.getString(coursors.getColumnIndex("Code"))+"\n"+
+//                        "موضوع: "+coursors.getString(coursors.getColumnIndex("name"))+"\n"
+//                        +"نام متقاضی: "+coursors.getString(coursors.getColumnIndex("UserName"))+" "+coursors.getString(coursors.getColumnIndex("UserFamily"))+"\n"+
+//                        "تاریخ حضور: "+coursors.getString(coursors.getColumnIndex("StartDate"))+"\n"+"ساعت حضور: "+coursors.getString(coursors.getColumnIndex("StartTime"))+"\n"+
+//                        "وضعیت: "+((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0")==1? "عادی":"فوری")));
                 map.put("Code",coursors.getString(coursors.getColumnIndex("BsHamyarSelectServices.Code")));
                 map.put("UserPhone",coursors.getString(coursors.getColumnIndex("UserPhone")));
+                map.put("TitleService",coursors.getString(coursors.getColumnIndex("name")));
+                map.put("Emergency",((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0")==1? "عادی":"فوری")));
+                map.put("NameCustomer",coursors.getString(coursors.getColumnIndex("UserName"))+" "+coursors.getString(coursors.getColumnIndex("UserFamily")));
+                map.put("Date",coursors.getString(coursors.getColumnIndex("StartDate"))+" "+coursors.getString(coursors.getColumnIndex("EndDate")));
+                map.put("Time",coursors.getString(coursors.getColumnIndex("StartTime"))+" "+coursors.getString(coursors.getColumnIndex("EndTime")));
                 valuse.add(map);
             }
             db.close();

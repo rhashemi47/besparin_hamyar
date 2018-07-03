@@ -136,196 +136,204 @@
             coursors = db.rawQuery(query, null);
             for (int i = 0; i < coursors.getCount(); i++) {
                 coursors.moveToNext();
-                String Content = "";
                 HashMap<String, String> map = new HashMap<String, String>();
-                try {
-                    Content +="شماره درخواست: " + coursors.getString(coursors.getColumnIndex("Code")) + "\n";
+                try
+                {
+                    map.put("NumberService",coursors.getString(coursors.getColumnIndex("Code")));
                 }
                 catch (Exception ex) {
                     //todo
                 }
-                try {
-                    Content +="موضوع: "+ coursors.getString(coursors.getColumnIndex("name")) + "\n";
+                try
+                {
+                    map.put("TitleService",coursors.getString(coursors.getColumnIndex("name")));
                 }
                 catch (Exception ex) {
                     //todo
                 }
-                try {
-                    Content += "نام متقاضی: " + coursors.getString(coursors.getColumnIndex("UserName")) + " " + coursors.getString(coursors.getColumnIndex("UserFamily")) + "\n";
+                try
+                {
+                    map.put("NameCustomer",coursors.getString(coursors.getColumnIndex("UserName")) + " " + coursors.getString(coursors.getColumnIndex("UserFamily")));
                 } catch (Exception ex) {
                     //todo
                 }
-                try {
-                    Content += "تاریخ شروع: " + coursors.getString(coursors.getColumnIndex("StartDate")) + "\n";
+                try
+                {
+                    map.put("Date",coursors.getString(coursors.getColumnIndex("StartDate"))+ " - " + coursors.getString(coursors.getColumnIndex("EndDate")));
                 } catch (Exception ex) {
                     //todo
                 }
-                try {
-                    Content += "تاریخ پایان: " + coursors.getString(coursors.getColumnIndex("EndDate")) + "\n";
-                } catch (Exception ex) {
-                    //todo
-                }
-                try {
-                    Content += "از ساعت: " + coursors.getString(coursors.getColumnIndex("StartTime")) + "\n";
-                } catch (Exception ex) {
-                    //todo
-                }
-                try {
-                    Content += "تا ساعت: " + coursors.getString(coursors.getColumnIndex("EndTime")) + "\n";
+                try
+                {
+                    map.put("Time",coursors.getString(coursors.getColumnIndex("StartTime"))+ " - " + coursors.getString(coursors.getColumnIndex("EndTime")));
                 } catch (Exception ex) {
                     //todo
                 }
                 try {
                     if (coursors.getString(coursors.getColumnIndex("PeriodicServices")).toString().compareTo("1") == 0) {
-                        Content += "خدمت دوره ای: " + "روزانه" + "\n";
+                        map.put("Period","روزانه");
                     } else if (coursors.getString(coursors.getColumnIndex("PeriodicServices")).toString().compareTo("2") == 0) {
-                        Content += "خدمت دوره ای: " + "هفتگی" + "\n";
+                        map.put("Period","هفتگی");
                     } else if (coursors.getString(coursors.getColumnIndex("PeriodicServices")).toString().compareTo("3") == 0) {
-                        Content += "خدمت دوره ای: " + "هفته در میان" + "\n";
+                        map.put("Period","هفته در میان");
                     } else if (coursors.getString(coursors.getColumnIndex("PeriodicServices")).toString().compareTo("4") == 0) {
-                        Content += "خدمت دوره ای: " + "ماهانه" + "\n";
+                        map.put("Period","ماهانه");
                     }
 
                 } catch (Exception ex) {
                     //todo
                 }
+                String CountStr = "";
                 try {
                     if (coursors.getString(coursors.getColumnIndex("MaleCount")).toString().compareTo("0") != 0) {
-                        Content += "تعداد همیار مرد: " + coursors.getString(coursors.getColumnIndex("MaleCount")) + "\n";
-                    }
-                } catch (Exception ex) {
-                    //todo
-                }
-                try {
-                    if (coursors.getString(coursors.getColumnIndex("FemaleCount")).toString().compareTo("0") != 0) {
-                        Content += "تعداد همیار زن: " + coursors.getString(coursors.getColumnIndex("FemaleCount")) + "\n";
-                    }
-                } catch (Exception ex) {
-                    //todo
-                }
-                try {
-                    if (coursors.getString(coursors.getColumnIndex("HamyarCount")).toString().compareTo("0") != 0) {
-                        Content += "تعداد همیار: " + coursors.getString(coursors.getColumnIndex("HamyarCount")) + "\n";
-                    }
-                } catch (Exception ex) {
-                    //todo
-                }
-                try {
-                    if (coursors.getString(coursors.getColumnIndex("EducationTitle")).toString().compareTo("0") != 0) {
-                        Content += "عنوان آموزش: " + coursors.getString(coursors.getColumnIndex("EducationTitle")) + "\n";
-                    }
-                } catch (Exception ex) {
-                    //todo
-                }
-                try {
-                    if (coursors.getString(coursors.getColumnIndex("EducationGrade")).toString().compareTo("0") != 0) {
-                        Content += "پایه تحصیلی: " + coursors.getString(coursors.getColumnIndex("EducationGrade")) + "\n";
-                    }
-                } catch (Exception ex) {
-                    //todo
-                }
-                try {
-                    if (coursors.getString(coursors.getColumnIndex("FieldOfStudy")).toString().compareTo("1") == 0) {
-                        Content += "رشته تحصیلی: " + "ابتدایی" + "\n";
-                    } else if (coursors.getString(coursors.getColumnIndex("FieldOfStudy")).toString().compareTo("2") == 0) {
-                        Content += "رشته تحصیلی: " + "متوسطه اول" + "\n";
-                    } else if (coursors.getString(coursors.getColumnIndex("FieldOfStudy")).toString().compareTo("3") == 0) {
-                        Content += "رشته تحصیلی: " + "علوم تجربی" + "\n";
-                    } else if (coursors.getString(coursors.getColumnIndex("FieldOfStudy")).toString().compareTo("4") == 0) {
-                        Content += "رشته تحصیلی: " + "ریاضی و فیزیک" + "\n";
-                    } else if (coursors.getString(coursors.getColumnIndex("FieldOfStudy")).toString().compareTo("5") == 0) {
-                        Content += "رشته تحصیلی: " + "انسانی" + "\n";
-                    }
-                } catch (Exception ex) {
-                    //todo
-                }
-                try {
-                    if (coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("0") != 0) {
-                        if (coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("2") == 0) {
-                            Content += "رشته هنری: " + "موسیقی" + "\n";
-                        } else if (coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("3") == 0) {
-                            Content += "رشته هنری: " + "موسیقی" + "\n";
-                        } else if (coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("4") == 0) {
-                            Content += "رشته هنری: " + "موسیقی" + "\n";
-                        } else if (coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("5") == 0) {
-                            Content += "رشته هنری: " + "موسیقی" + "\n";
-                        } else if (coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("6") == 0) {
-                            Content += "رشته هنری: " + "موسیقی" + "\n";
-                        } else if (coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("7") == 0) {
-                            Content += "رشته هنری: " + "موسیقی" + "\n";
-                        } else if (coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("7") == 0) {
-                            Content += "رشته هنری: " + "موسیقی" + "\n";
-                        } else {
-                            Content += "رشته هنری: " + coursors.getString(coursors.getColumnIndex("ArtField")) + "\n";
+                        if (CountStr.length() == 0) {
+                            CountStr = coursors.getString(coursors.getColumnIndex("MaleCount")) + "مرد ";
+                        }
+                        else
+                        {
+                            CountStr += " - " + coursors.getString(coursors.getColumnIndex("MaleCount")) + "مرد ";
                         }
                     }
-                } catch (Exception ex) {
-                    //todo
-                }
-                try {
-                    if (coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("1") == 0) {
-                        Content += "زبان: " + "انگلیسی" + "\n";
-                    } else if (coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("2") == 0) {
-                        Content += "زبان: " + "روسی" + "\n";
-                    } else if (coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("3") == 0) {
-                        Content += "زبان: " + "آلمانی" + "\n";
-                    } else if (coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("4") == 0) {
-                        Content += "زبان: " + "فرانسه" + "\n";
-                    } else if (coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("5") == 0) {
-                        Content += "زبان: " + "ترکی" + "\n";
-                    } else if (coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("6") == 0) {
-                        Content += "زبان: " + "عربی" + "\n";
+                    if (coursors.getString(coursors.getColumnIndex("FemaleCount")).toString().compareTo("0") != 0) {
+                        if (CountStr.length() == 0) {
+                            CountStr = coursors.getString(coursors.getColumnIndex("FemaleCount")) + "زن ";
+                        }
+                        else
+                        {
+                            CountStr += " - " + coursors.getString(coursors.getColumnIndex("FemaleCount")) + "زن ";
+                        }
                     }
-                } catch (Exception ex) {
-                    //todo
-                }
-                try {
-                    if (coursors.getString(coursors.getColumnIndex("StudentGender")).toString().compareTo("1") == 0) {
-                        Content += "جنسیت دانش آموز: " + "زن" + "\n";
-                    } else if (coursors.getString(coursors.getColumnIndex("StudentGender")).toString().compareTo("2") == 0) {
-                        Content += "جنسیت دانش آموز: " + "مرد" + "\n";
+                    if (coursors.getString(coursors.getColumnIndex("HamyarCount")).toString().compareTo("0") != 0) {
+                        if (CountStr.length() == 0) {
+                            CountStr = coursors.getString(coursors.getColumnIndex("HamyarCount"));
+                        }
+                        else
+                        {
+                            CountStr += " - " + coursors.getString(coursors.getColumnIndex("HamyarCount"));
+                        }
                     }
-                } catch (Exception ex) {
-                    //todo
-                }
-                try {
-                    if (coursors.getString(coursors.getColumnIndex("CarWashType")).toString().compareTo("1") == 0) {
-                        Content += "نوع سرویس: " + "روشویی" + "\n";
-                    } else if (coursors.getString(coursors.getColumnIndex("CarWashType")).toString().compareTo("2") == 0) {
-                        Content += "نوع سرویس: " + "روشویی و توشویی" + "\n";
-                    }
-                } catch (Exception ex) {
-                    //todo
-                }
-                try {
-                    if (coursors.getString(coursors.getColumnIndex("CarType")).toString().compareTo("1") == 0) {
-                        Content += "نوع خودرو: " + "سواری" + "\n";
-                    } else if (coursors.getString(coursors.getColumnIndex("CarType")).toString().compareTo("2") == 0) {
-                        Content += "نوع سرویس: " + "شاسی و نیم شاسی" + "\n";
-                    } else if (coursors.getString(coursors.getColumnIndex("CarType")).toString().compareTo("3") == 0) {
-                        Content += "نوع سرویس: " + "ون" + "\n";
-                    }
+                    map.put("CountHamyar",CountStr);
 
                 } catch (Exception ex) {
                     //todo
                 }
-                try {
-                    Content += "توضیحات: " + coursors.getString(coursors.getColumnIndex("Description")) + "\n";
+//                try {
+//                    if (coursors.getString(coursors.getColumnIndex("EducationTitle")).toString().compareTo("0") != 0) {
+//                        Content += "عنوان آموزش: " + coursors.getString(coursors.getColumnIndex("EducationTitle")) + "\n";
+//                    }
+//                } catch (Exception ex) {
+//                    //todo
+//                }
+//                try {
+//                    if (coursors.getString(coursors.getColumnIndex("EducationGrade")).toString().compareTo("0") != 0) {
+//                        Content += "پایه تحصیلی: " + coursors.getString(coursors.getColumnIndex("EducationGrade")) + "\n";
+//                    }
+//                } catch (Exception ex) {
+//                    //todo
+//                }
+//                try {
+//                    if (coursors.getString(coursors.getColumnIndex("FieldOfStudy")).toString().compareTo("1") == 0) {
+//                        Content += "رشته تحصیلی: " + "ابتدایی" + "\n";
+//                    } else if (coursors.getString(coursors.getColumnIndex("FieldOfStudy")).toString().compareTo("2") == 0) {
+//                        Content += "رشته تحصیلی: " + "متوسطه اول" + "\n";
+//                    } else if (coursors.getString(coursors.getColumnIndex("FieldOfStudy")).toString().compareTo("3") == 0) {
+//                        Content += "رشته تحصیلی: " + "علوم تجربی" + "\n";
+//                    } else if (coursors.getString(coursors.getColumnIndex("FieldOfStudy")).toString().compareTo("4") == 0) {
+//                        Content += "رشته تحصیلی: " + "ریاضی و فیزیک" + "\n";
+//                    } else if (coursors.getString(coursors.getColumnIndex("FieldOfStudy")).toString().compareTo("5") == 0) {
+//                        Content += "رشته تحصیلی: " + "انسانی" + "\n";
+//                    }
+//                } catch (Exception ex) {
+//                    //todo
+//                }
+//                try {
+//                    if (coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("0") != 0) {
+//                        if (coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("2") == 0) {
+//                            Content += "رشته هنری: " + "موسیقی" + "\n";
+//                        } else if (coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("3") == 0) {
+//                            Content += "رشته هنری: " + "موسیقی" + "\n";
+//                        } else if (coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("4") == 0) {
+//                            Content += "رشته هنری: " + "موسیقی" + "\n";
+//                        } else if (coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("5") == 0) {
+//                            Content += "رشته هنری: " + "موسیقی" + "\n";
+//                        } else if (coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("6") == 0) {
+//                            Content += "رشته هنری: " + "موسیقی" + "\n";
+//                        } else if (coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("7") == 0) {
+//                            Content += "رشته هنری: " + "موسیقی" + "\n";
+//                        } else if (coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("7") == 0) {
+//                            Content += "رشته هنری: " + "موسیقی" + "\n";
+//                        } else {
+//                            Content += "رشته هنری: " + coursors.getString(coursors.getColumnIndex("ArtField")) + "\n";
+//                        }
+//                    }
+//                } catch (Exception ex) {
+//                    //todo
+//                }
+//                try {
+//                    if (coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("1") == 0) {
+//                        Content += "زبان: " + "انگلیسی" + "\n";
+//                    } else if (coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("2") == 0) {
+//                        Content += "زبان: " + "روسی" + "\n";
+//                    } else if (coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("3") == 0) {
+//                        Content += "زبان: " + "آلمانی" + "\n";
+//                    } else if (coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("4") == 0) {
+//                        Content += "زبان: " + "فرانسه" + "\n";
+//                    } else if (coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("5") == 0) {
+//                        Content += "زبان: " + "ترکی" + "\n";
+//                    } else if (coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("6") == 0) {
+//                        Content += "زبان: " + "عربی" + "\n";
+//                    }
+//                } catch (Exception ex) {
+//                    //todo
+//                }
+//                try {
+//                    if (coursors.getString(coursors.getColumnIndex("StudentGender")).toString().compareTo("1") == 0) {
+//                        Content += "جنسیت دانش آموز: " + "زن" + "\n";
+//                    } else if (coursors.getString(coursors.getColumnIndex("StudentGender")).toString().compareTo("2") == 0) {
+//                        Content += "جنسیت دانش آموز: " + "مرد" + "\n";
+//                    }
+//                } catch (Exception ex) {
+//                    //todo
+//                }
+//                try {
+//                    if (coursors.getString(coursors.getColumnIndex("CarWashType")).toString().compareTo("1") == 0) {
+//                        Content += "نوع سرویس: " + "روشویی" + "\n";
+//                    } else if (coursors.getString(coursors.getColumnIndex("CarWashType")).toString().compareTo("2") == 0) {
+//                        Content += "نوع سرویس: " + "روشویی و توشویی" + "\n";
+//                    }
+//                } catch (Exception ex) {
+//                    //todo
+//                }
+//                try {
+//                    if (coursors.getString(coursors.getColumnIndex("CarType")).toString().compareTo("1") == 0) {
+//                        Content += "نوع خودرو: " + "سواری" + "\n";
+//                    } else if (coursors.getString(coursors.getColumnIndex("CarType")).toString().compareTo("2") == 0) {
+//                        Content += "نوع سرویس: " + "شاسی و نیم شاسی" + "\n";
+//                    } else if (coursors.getString(coursors.getColumnIndex("CarType")).toString().compareTo("3") == 0) {
+//                        Content += "نوع سرویس: " + "ون" + "\n";
+//                    }
+//
+//                } catch (Exception ex) {
+//                    //todo
+//                }
+                try
+                {
+                    map.put("Description",coursors.getString(coursors.getColumnIndex("Description")));
                 } catch (Exception ex) {
                     //todo
                 }
-                try {
-                    Content += "آدرس: " + coursors.getString(coursors.getColumnIndex("AddressText")) + "\n";
+                try
+                {
+                    map.put("Addres",coursors.getString(coursors.getColumnIndex("AddressText")));
                 } catch (Exception ex) {
                     //todo
                 }
-                try {
-                    Content += "وضعیت: " + ((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0") == 1 ? "عادی" : "فوری"));
+                try
+                {
+                    map.put("Emergency",((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0") == 1 ? "عادی" : "فوری")));
                 } catch (Exception ex) {
                     //todo
                 }
-                map.put("name",Content);
-                map.put("Code",coursors.getString(coursors.getColumnIndex("Code")));
                 valuse.add(map);
             }
             if(valuse.size()==0)

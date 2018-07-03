@@ -45,9 +45,17 @@ public class AdapterHistory extends BaseAdapter {
     }
 
     private class ViewHolder {
-        TextView txtValues;
+        TextView txtTitleService;
+        TextView txtNumberService;
+        TextView txtNameCustomer;
+        TextView txtDate;
+        TextView txtTime;
+        TextView txtPeriod;
+        TextView txtEmergency;
+        TextView txtCountHamyar;
+        TextView txtDescription;
+        TextView txtAddres;
     }
-
     // @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
@@ -57,19 +65,60 @@ public class AdapterHistory extends BaseAdapter {
             Typeface faceh = Typeface.createFromAsset(activity.getAssets(), "font/BMitra.ttf");
             convertView = inflater.inflate(R.layout.list_item_history, null);
             holder = new ViewHolder();
-            holder.txtValues = (TextView) convertView.findViewById(R.id.txtContentHistory);
-            holder.txtValues.setTypeface(faceh);
-            holder.txtValues.setTextSize(18);
+            holder.txtTitleService = (TextView) convertView.findViewById(R.id.txtContentHistory);
+            holder.txtTitleService.setTypeface(faceh);
+            holder.txtTitleService.setTextSize(20);
+            holder.txtNumberService = (TextView) convertView.findViewById(R.id.txtContentHistory);
+            holder.txtNumberService.setTypeface(faceh);
+            holder.txtNumberService.setTextSize(20);
+            holder.txtNameCustomer = (TextView) convertView.findViewById(R.id.txtContentHistory);
+            holder.txtNameCustomer.setTypeface(faceh);
+            holder.txtNameCustomer.setTextSize(20);
+            holder.txtDate = (TextView) convertView.findViewById(R.id.txtContentHistory);
+            holder.txtDate.setTypeface(faceh);
+            holder.txtDate.setTextSize(20);
+            holder.txtTime = (TextView) convertView.findViewById(R.id.txtContentHistory);
+            holder.txtTime.setTypeface(faceh);
+            holder.txtTime.setTextSize(20);
+            holder.txtPeriod = (TextView) convertView.findViewById(R.id.txtContentHistory);
+            holder.txtPeriod.setTypeface(faceh);
+            holder.txtPeriod.setTextSize(20);
+            holder.txtEmergency = (TextView) convertView.findViewById(R.id.txtContentHistory);
+            holder.txtEmergency.setTypeface(faceh);
+            holder.txtEmergency.setTextSize(20);
+            holder.txtCountHamyar = (TextView) convertView.findViewById(R.id.txtContentHistory);
+            holder.txtCountHamyar.setTypeface(faceh);
+            holder.txtCountHamyar.setTextSize(20);
+            holder.txtDescription = (TextView) convertView.findViewById(R.id.txtContentHistory);
+            holder.txtDescription.setTypeface(faceh);
+            holder.txtDescription.setTextSize(20);
+            holder.txtAddres = (TextView) convertView.findViewById(R.id.txtContentHistory);
+            holder.txtAddres.setTypeface(faceh);
+            holder.txtAddres.setTextSize(20);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        String name = map.get("name");
-        String code = map.get("Code");
-        holder.txtValues.setText(name);
-        holder.txtValues.setTag(code);
-//        holder.txtValues.setOnClickListener(TextViewItemOnclick);
-
+        String NumberService = map.get("NumberService");
+        String TitleService = map.get("TitleService");
+        String NameCustomer = map.get("NameCustomer");
+        String Date = map.get("Date");
+        String Time = map.get("Time");
+        String Period = map.get("Period");
+        String CountHamyar = map.get("CountHamyar");
+        String Description = map.get("Description");
+        String Addres = map.get("Addres");
+        String Emergency = map.get("Emergency");
+        holder.txtTitleService.setText(TitleService);
+        holder.txtNumberService.setText(NumberService);
+        holder.txtNameCustomer.setText(NameCustomer);
+        holder.txtDate.setText(Date);
+        holder.txtTime.setText(Time);
+        holder.txtPeriod.setText(Period);
+        holder.txtEmergency.setText(Emergency);
+        holder.txtCountHamyar.setText(CountHamyar);
+        holder.txtDescription.setText(Description);
+        holder.txtAddres.setText(Addres);
         return convertView;
     }
 }
