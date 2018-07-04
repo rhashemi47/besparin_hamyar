@@ -32,6 +32,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -81,7 +82,28 @@ public class ViewJob extends AppCompatActivity{
     private String latStr="0";
     private String lonStr="0";
     private String DateStr="";
-    private TextView ContentShowJob;
+//    private TextView ContentShowJob;
+//************************************************************
+    private TextView tvNumberService;
+    private TextView txtTitleOrder;
+    private TextView txtDateStart;
+    private TextView txtDateEnd;
+    private TextView txtTime;
+    private TextView txtPeriodAndEmergency;
+    private TextView txtCountHamyar;
+    private TextView txtAddres;
+    private TextView txtDescription;
+    private TextView txtLearning;
+    private TextView txtGraid;
+    private TextView txtFieldEducation;
+    private TextView txtFieldArt;
+    private TextView txtGenderStudent;
+    private TextView txtGenderTeacher;
+    private TextView txtCarWash;
+    private TextView txtCarType;
+    private TextView txtLanguage;
+    private TextView txtStatus;
+    //************************************************************
     private	DatabaseHelper dbh;
     private SQLiteDatabase db;
     private Button btnCansel;
@@ -97,6 +119,28 @@ public class ViewJob extends AppCompatActivity{
     private Button btnDutyToday;
     private Button btnServices_at_the_turn;
     private Button btnHome;
+    //************************************************************
+    private LinearLayout LinearIfoHamyar;
+    private LinearLayout LinearTitle;
+    private LinearLayout LinearDateStart;
+    private LinearLayout LinearDateEnd;
+    private LinearLayout LinearTime;
+    private LinearLayout LinearPeriodAndEmergency;
+    private LinearLayout LinearCountHamyar;
+    private LinearLayout LinearAddres;
+    private LinearLayout LinearDescription;
+    private LinearLayout LinearLearning;
+    private LinearLayout LinearGraid;
+    private LinearLayout LinearFieldEducation;
+    private LinearLayout LinearFieldArt;
+    private LinearLayout LinearGenderStudent;
+    private LinearLayout LinearGenderTeacher;
+    private LinearLayout LinearCarWash;
+    private LinearLayout LinearCarType;
+    private LinearLayout LinearLanguage;
+    private LinearLayout LinearStatus;
+
+    //************************************************************
     GoogleMap map;
     private ir.hamsaa.persiandatepicker.util.PersianCalendar initDate;
 
@@ -115,7 +159,7 @@ public class ViewJob extends AppCompatActivity{
         btnServices_at_the_turn=(Button)findViewById(R.id.btnServices_at_the_turn);
         btnDutyToday=(Button)findViewById(R.id.btnDutyToday);
         btnHome=(Button)findViewById(R.id.btnHome);
-        ContentShowJob=(TextView)findViewById(R.id.ContentShowJob);
+//        ContentShowJob=(TextView)findViewById(R.id.ContentShowJob);
         btnSelect=(Button)findViewById(R.id.btnSelect);
         btnCansel=(Button)findViewById(R.id.btnCansel);
         btnPause=(Button)findViewById(R.id.btnPause);
@@ -127,7 +171,7 @@ public class ViewJob extends AppCompatActivity{
         //********************************
         btnCredit.setTypeface(FontMitra);
         btnHome.setTypeface(FontMitra);
-        ContentShowJob.setTypeface(FontMitra);
+//        ContentShowJob.setTypeface(FontMitra);
         btnSelect.setTypeface(FontMitra);
         btnCansel.setTypeface(FontMitra);
         btnPause.setTypeface(FontMitra);
@@ -136,6 +180,46 @@ public class ViewJob extends AppCompatActivity{
         btnResume.setTypeface(FontMitra);
         btnFinal.setTypeface(FontMitra);
         btnCallToCustomer.setTypeface(FontMitra);
+        //******************************************************
+        LinearTitle=(LinearLayout)findViewById(R.id.LinearTitle);
+        LinearDateStart=(LinearLayout)findViewById(R.id.LinearDateStart);
+        LinearDateEnd=(LinearLayout)findViewById(R.id.LinearDateEnd);
+        LinearTime=(LinearLayout)findViewById(R.id.LinearTime);
+        LinearPeriodAndEmergency=(LinearLayout)findViewById(R.id.LinearPeriodAndEmergency);
+        LinearCountHamyar=(LinearLayout)findViewById(R.id.LinearCountHamyar);
+        LinearAddres=(LinearLayout)findViewById(R.id.LinearAddres);
+        LinearDescription=(LinearLayout)findViewById(R.id.LinearDescription);
+        LinearLearning=(LinearLayout)findViewById(R.id.LinearLearning);
+        LinearGraid=(LinearLayout)findViewById(R.id.LinearGraid);
+        LinearFieldEducation=(LinearLayout)findViewById(R.id.LinearFieldEducation);
+        LinearFieldArt=(LinearLayout)findViewById(R.id.LinearFieldArt);
+        LinearGenderStudent=(LinearLayout)findViewById(R.id.LinearGenderStudent);
+        LinearGenderTeacher=(LinearLayout)findViewById(R.id.LinearGenderTeacher);
+        LinearCarWash=(LinearLayout)findViewById(R.id.LinearCarWash);
+        LinearCarType=(LinearLayout)findViewById(R.id.LinearCarType);
+        LinearLanguage=(LinearLayout)findViewById(R.id.LinearLanguage);
+        LinearStatus=(LinearLayout)findViewById(R.id.LinearStatus);
+        //*********************************************************************
+        tvNumberService=(TextView)findViewById(R.id.tvNumberService);
+        txtTitleOrder=(TextView)findViewById(R.id.txtTitleOrder);
+        txtDateStart=(TextView)findViewById(R.id.txtDateStart);
+        txtDateEnd=(TextView)findViewById(R.id.txtDateEnd);
+        txtTime=(TextView)findViewById(R.id.txtTime);
+        txtPeriodAndEmergency=(TextView)findViewById(R.id.txtPeriodAndEmergency);
+        txtCountHamyar=(TextView)findViewById(R.id.txtCountHamyar);
+        txtAddres=(TextView)findViewById(R.id.txtAddres);
+        txtDescription=(TextView)findViewById(R.id.txtDescription);
+        txtLearning=(TextView)findViewById(R.id.txtLearning);
+        txtGraid=(TextView)findViewById(R.id.txtGraid);
+        txtFieldEducation=(TextView)findViewById(R.id.txtFieldEducation);
+        txtFieldArt=(TextView)findViewById(R.id.txtFieldArt);
+        txtGenderStudent=(TextView)findViewById(R.id.txtGenderStudent);
+        txtGenderTeacher=(TextView)findViewById(R.id.txtGenderTeacher);
+        txtCarWash=(TextView)findViewById(R.id.txtCarWash);
+        txtCarType=(TextView)findViewById(R.id.txtCarType);
+        txtLanguage=(TextView)findViewById(R.id.txtLanguage);
+        txtStatus=(TextView)findViewById(R.id.txtStatus);
+        //*********************************************************************
 
         try
         {
@@ -199,7 +283,7 @@ public class ViewJob extends AppCompatActivity{
                 String Content="";
                 try
                 {
-                    Content+="شماره درخواست: "+coursors.getString(coursors.getColumnIndex("Code"))+"\n";
+                    tvNumberService.setText(coursors.getString(coursors.getColumnIndex("Code")));
                 }
                 catch (Exception ex)
                 {

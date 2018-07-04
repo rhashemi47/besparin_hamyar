@@ -13,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -51,7 +52,11 @@ public class AdapterServices extends BaseAdapter {
     }
 
     private class ViewHolder {
-        TextView txtValues;
+        TextView txtLocationService;
+        TextView txtDate;
+        TextView txtTime;
+        TextView txtDescription;
+        LinearLayout LinearList;
         Button btnNumberPhone;
     }
 
@@ -64,23 +69,39 @@ public class AdapterServices extends BaseAdapter {
             Typeface faceh = Typeface.createFromAsset(activity.getAssets(), "font/BMitra.ttf");
             convertView = inflater.inflate(R.layout.list_item_visit, null);
             holder = new ViewHolder();
+            holder.LinearList = (LinearLayout) convertView.findViewById(R.id.LinearList);
             holder.btnNumberPhone = (Button) convertView.findViewById(R.id.btnCallFromList);
             holder.btnNumberPhone.setTypeface(faceh);
             holder.btnNumberPhone.setTextSize(18);
-            holder.txtValues = (TextView) convertView.findViewById(R.id.txtContentVisit);
-            holder.txtValues.setTypeface(faceh);
-            holder.txtValues.setTextSize(18);
+            holder.txtLocationService = (TextView) convertView.findViewById(R.id.txtLocationService);
+            holder.txtLocationService.setTypeface(faceh);
+            holder.txtLocationService.setTextSize(18);
+            holder.txtDate = (TextView) convertView.findViewById(R.id.txtDate);
+            holder.txtDate.setTypeface(faceh);
+            holder.txtDate.setTextSize(18);
+            holder.txtTime = (TextView) convertView.findViewById(R.id.txtTime);
+            holder.txtTime.setTypeface(faceh);
+            holder.txtTime.setTextSize(18);
+            holder.txtDescription = (TextView) convertView.findViewById(R.id.txtDescription);
+            holder.txtDescription.setTypeface(faceh);
+            holder.txtDescription.setTextSize(18);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        String name = map.get("name");
+        String LocationService = map.get("LocationService");
+        String Date = map.get("Date");
+        String Time = map.get("Time");
         String code = map.get("Code");
+        String Description = map.get("Description");
         String UserPhone = map.get("UserPhone");
-        holder.txtValues.setText(name);
+        holder.txtLocationService.setText(LocationService);
+        holder.txtDate.setText(Date);
+        holder.txtTime.setText(Time);
+        holder.txtDescription.setText(Description);
         holder.btnNumberPhone.setTag(UserPhone);
-        holder.txtValues.setTag(code);
-        holder.txtValues.setOnClickListener(TextViewItemOnclick);
+        holder.LinearList.setTag(code);
+        holder.LinearList.setOnClickListener(TextViewItemOnclick);
         holder.btnNumberPhone.setOnClickListener(ButtonItemOnClick);
 
         return convertView;
@@ -91,7 +112,7 @@ public class AdapterServices extends BaseAdapter {
         @Override
         public void onClick(View v) {
             String BsUserServicesID="";
-            BsUserServicesID = ((TextView)v).getTag().toString();
+            BsUserServicesID = ((LinearLayout)v).getTag().toString();
             Intent intent = new Intent(activity.getApplicationContext(),ViewJob.class);
             intent.putExtra("guid",guid);
             intent.putExtra("hamyarcode",hamyarcode);

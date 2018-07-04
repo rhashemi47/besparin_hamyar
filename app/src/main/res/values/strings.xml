@@ -148,11 +148,23 @@
     <string name="NameCustomer">نام متقاضی:</string>
     <string name="Date">تاریخ:</string>
     <string name="Time">ساعت کار:</string>
-    <string name="Period">خدمات دوره ای:</string>
+    <string name="Address">محله:</string>
     <string name="Emergency">فوریت:</string>
-    <string name="CountHamyar">همیار:</string>
-    <string name="Address">آدرس:</string>
+    <string name="Status">وضعیت:</string>
+    <string name="SavedAddres">ثبت آدرس</string>
+    <string name="DateStart">تاریخ شروع:</string>
+    <string name="DateEnd">تاریخ پایان:</string>
+    <string name="PeriodAndEmergency">خدمات دوره ای / فوریت</string>
+    <string name="CountHamyar">تعداد همیاران:</string>
+    <string name="Learning">عنوان آموزش:</string>
+    <string name="TitleGraid">پایه تحصیلی:</string>
+    <string name="TitleFieldEducation">رشته تحصیلی:</string>
+    <string name="TitleFieldArt">رشته هنری:</string>
+    <string name="TitleGenderStudent">جنسیت دانش آموز:</string>
+    <string name="TitleGenderTeacher">جنسیت معلم:</string>
+    <string name="TitleCarWashType">نوع سرویس:</string>
+    <string name="TitleCarType">نوع ماشین:</string>
+    <string name="TitleLanguage">زبان:</string>
     <string name="DescriptionTitle">توضیحات:</string>
     <string name="LocationTitle">محله:</string>
-
 </resources>

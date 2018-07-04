@@ -1002,12 +1002,11 @@
         for(int i=0;i<coursors.getCount();i++){
             coursors.moveToNext();
             HashMap<String, String> map = new HashMap<String, String>();
-            map.put("name","شماره درخواست: "+coursors.getString(coursors.getColumnIndex("Code"))+"\n"+
-                    "موضوع: "+coursors.getString(coursors.getColumnIndex("name"))+"\n"
-                    +"نام متقاضی: "+coursors.getString(coursors.getColumnIndex("UserName"))+" "+coursors.getString(coursors.getColumnIndex("UserFamily"))+"\n"+
-                    "تاریخ حضور: "+coursors.getString(coursors.getColumnIndex("StartDate"))+"\n"+"ساعت حضور: "+coursors.getString(coursors.getColumnIndex("StartTime"))+"\n"+
-                    "وضعیت: "+((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0")==0? "عادی":"فوری")));
             map.put("Code",coursors.getString(coursors.getColumnIndex("Code")));
+            map.put("LocationService",coursors.getString(coursors.getColumnIndex("AddressText")));
+            map.put("Date",coursors.getString(coursors.getColumnIndex("StartDate"))+" - "+coursors.getString(coursors.getColumnIndex("EndDate")));
+            map.put("Time",coursors.getString(coursors.getColumnIndex("StartTime"))+" - "+coursors.getString(coursors.getColumnIndex("EndTime")));
+            map.put("Description",coursors.getString(coursors.getColumnIndex("Description")));
             map.put("UserPhone",coursors.getString(coursors.getColumnIndex("UserPhone")));
             valuse.add(map);
         }
