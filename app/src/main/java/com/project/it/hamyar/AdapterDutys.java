@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
@@ -75,19 +76,19 @@ public class AdapterDutys extends BaseAdapter {
             holder.btnNumberPhone = (Button) convertView.findViewById(R.id.btnCallFromList);
             holder.btnNumberPhone.setTypeface(faceh);
             holder.btnNumberPhone.setTextSize(20);
-            holder.txtTitleService = (TextView) convertView.findViewById(R.id.txtContentVisit);
+            holder.txtTitleService = (TextView) convertView.findViewById(R.id.txtTitleService);
             holder.txtTitleService.setTypeface(faceh);
             holder.txtTitleService.setTextSize(20);
-            holder.txtEmergency = (TextView) convertView.findViewById(R.id.txtContentVisit);
+            holder.txtEmergency = (TextView) convertView.findViewById(R.id.txtEmergency);
             holder.txtEmergency.setTypeface(faceh);
             holder.txtEmergency.setTextSize(20);
-            holder.txtNameCustomer = (TextView) convertView.findViewById(R.id.txtContentVisit);
+            holder.txtNameCustomer = (TextView) convertView.findViewById(R.id.txtNameCustomer);
             holder.txtNameCustomer.setTypeface(faceh);
             holder.txtNameCustomer.setTextSize(20);
-            holder.txtDate = (TextView) convertView.findViewById(R.id.txtContentVisit);
+            holder.txtDate = (TextView) convertView.findViewById(R.id.txtDate);
             holder.txtDate.setTypeface(faceh);
             holder.txtDate.setTextSize(20);
-            holder.txtTime = (TextView) convertView.findViewById(R.id.txtContentVisit);
+            holder.txtTime = (TextView) convertView.findViewById(R.id.txtTime);
             holder.txtTime.setTypeface(faceh);
             holder.txtTime.setTextSize(20);
             convertView.setTag(holder);
@@ -103,6 +104,16 @@ public class AdapterDutys extends BaseAdapter {
         String UserPhone = map.get("UserPhone");
         holder.txtTitleService.setText(TitleService);
         holder.txtEmergency.setText(Emergency);
+        if(Emergency.compareTo("عادی")==0)
+        {
+            holder.txtTitleService.setTextColor(Color.BLACK);
+            holder.txtEmergency.setTextColor(Color.BLACK);
+        }
+        else
+        {
+            holder.txtTitleService.setTextColor(Color.RED);
+            holder.txtEmergency.setTextColor(Color.RED);
+        }
         holder.txtNameCustomer.setText(NameCustomer);
         holder.txtDate.setText(Date);
         holder.txtTime.setText(Time);

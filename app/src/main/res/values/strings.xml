@@ -167,4 +167,6 @@
     <string name="TitleLanguage">زبان:</string>
     <string name="DescriptionTitle">توضیحات:</string>
     <string name="LocationTitle">محله:</string>
+    <string name="Period">خدمات دوره ای:</string>
+    <string name="DetailePage">جزئیات فرصت شغلی</string>
 </resources>

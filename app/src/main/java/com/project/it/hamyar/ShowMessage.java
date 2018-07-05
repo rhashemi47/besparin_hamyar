@@ -167,23 +167,28 @@ public class ShowMessage extends Activity{
                 LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
             }
         });
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
-
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        btnCredit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (item.getItemId() == R.id.credite) {
-//                    Toast.makeText(getBaseContext(), "اعتبارات", Toast.LENGTH_LONG).show();
-                    LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
-                    return true;
-                } else if (item.getItemId() == R.id.History	) {
-                    LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
-                    return true;
-                } else if (item.getItemId() == R.id.home) {
-                    LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
-                    return true;
-                }
-                return false;
+            public void onClick(View v) {
+                LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
+            }
+        });
+        btnDutyToday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
+            }
+        });
+        btnServices_at_the_turn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
+            }
+        });
+        btnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
             }
         });
     }
@@ -314,9 +319,9 @@ public class ShowMessage extends Activity{
                         //new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
                         //new SecondaryDrawerItem().withName(R.string.Exit).withIcon(R.drawable.exit).withSelectable(false),
                         new SecondaryDrawerItem().withName(R.string.Logout).withIcon(R.drawable.logout).withSelectable(false)
-                ).addStickyDrawerItems(new PrimaryDrawerItem().withName(R.string.RelateUs).withSelectable(false).withEnabled(false),
-                        new PrimaryDrawerItem().withName(R.string.telegram).withIcon(R.drawable.telegram).withSelectable(false),
-                        new PrimaryDrawerItem().withName(R.string.instagram).withIcon(R.drawable.instagram).withSelectable(false))
+                )//.addStickyDrawerItems(new PrimaryDrawerItem().withName(R.string.RelateUs).withSelectable(false).withEnabled(false),se),
+                        //new PrimaryDrawerItem().withName(R.string.telegram).withIcon(R.drawable.telegram).withSelectable(false),
+                        //new PrimaryDrawerItem().withName(R.string.instagram).withIcon(R.drawable.instagram).withSelectable(false))
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {

@@ -36,8 +36,8 @@
     public class StepJob extends Activity {
         private String hamyarcode;
         private String guid;
-        private String CodeUnit;
-        private String NameUnit;
+//        private String CodeUnit;
+//        private String NameUnit;
         private String EttitleStepStr;
         private String UnitStr;
         private String EtUnitPriceStr;
@@ -49,7 +49,7 @@
         private TextView tvUnit;
         private TextView tvUnitPrice;
         private EditText EttitleStep;
-        private EditText EtPriceJob;
+//        private EditText EtPriceJob;
         private EditText EtUnitPrice;
         private ListView lvStepJob;
         private Spinner SpUnit;

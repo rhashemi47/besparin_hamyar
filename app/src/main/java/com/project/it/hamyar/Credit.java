@@ -57,7 +57,7 @@ public class Credit extends Activity {
 	private String countVisit;
 	private boolean IsActive;
 	private DatabaseHelper dbh;
-	private TextView txtContent;
+//	private TextView txtContent;
 	private TextView tvRecentCreditsValue;
 	private SQLiteDatabase db;
 	private Button btnIncreseCredit;
@@ -138,8 +138,8 @@ protected void onCreate(Bundle savedInstanceState) {
 	btnIncreseCredit=(Button)findViewById(R.id.btnIncresCredit);
 	lstHistoryCredit=(ListView) findViewById(R.id.lstHistoryCredit);
 	Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
-	txtContent=(TextView)findViewById(R.id.tvHistoryCredits);
-	txtContent.setTypeface(FontMitra);
+//	txtContent=(TextView)findViewById(R.id.tvHistoryCredits);
+//	txtContent.setTypeface(FontMitra);
 	tvRecentCreditsValue=(TextView)findViewById(R.id.tvRecentCreditsValue);
 	tvRecentCreditsValue.setTypeface(FontMitra);
 	try
@@ -194,18 +194,18 @@ protected void onCreate(Bundle savedInstanceState) {
 		lstHistoryCredit.setAdapter(dataAdapter);
 		if(valuse.size()==0){
 			lstHistoryCredit.setVisibility(View.GONE);
-			txtContent.setVisibility(View.VISIBLE);
-			txtContent.setText("موردی جهت نمایش وجود ندارد");
+//			txtContent.setVisibility(View.VISIBLE);
+//			txtContent.setText("موردی جهت نمایش وجود ندارد");
 		}
 		else
 		{
 			lstHistoryCredit.setVisibility(View.VISIBLE);
-			txtContent.setVisibility(View.GONE);
+//			txtContent.setVisibility(View.GONE);
 		}
 	}
 	catch (Exception ex){
 		lstHistoryCredit.setVisibility(View.GONE);
-		txtContent.setVisibility(View.VISIBLE);
+//		txtContent.setVisibility(View.VISIBLE);
 		tvRecentCreditsValue.setText("موردی جهت نمایش وجود ندارد");
 	}
 	btnIncreseCredit.setOnClickListener(new View.OnClickListener() {
@@ -373,9 +373,9 @@ protected void onCreate(Bundle savedInstanceState) {
 						//new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
 						//new SecondaryDrawerItem().withName(R.string.Exit).withIcon(R.drawable.exit).withSelectable(false),
 						new SecondaryDrawerItem().withName(R.string.Logout).withIcon(R.drawable.logout).withSelectable(false)
-				).addStickyDrawerItems(new PrimaryDrawerItem().withName(R.string.RelateUs).withSelectable(false).withEnabled(false),
-						new PrimaryDrawerItem().withName(R.string.telegram).withIcon(R.drawable.telegram).withSelectable(false),
-						new PrimaryDrawerItem().withName(R.string.instagram).withIcon(R.drawable.instagram).withSelectable(false))
+				)//.addStickyDrawerItems(new PrimaryDrawerItem().withName(R.string.RelateUs).withSelectable(false).withEnabled(false),se),
+						//new PrimaryDrawerItem().withName(R.string.telegram).withIcon(R.drawable.telegram).withSelectable(false),
+						//new PrimaryDrawerItem().withName(R.string.instagram).withIcon(R.drawable.instagram).withSelectable(false))
 				.withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
 					@Override
 					public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {

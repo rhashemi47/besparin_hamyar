@@ -23,8 +23,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tvNumberService"
+                android:id="@+id/tvTitleServicePage"
                 android:textColor="#000000"
+                android:text="@string/DetailePage"
                 android:layoutDirection="ltr"/>
         </android.support.v7.widget.Toolbar>
 
@@ -60,8 +61,8 @@
                 <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="wrap_content"-->
                 <!--android:orientation="vertical"-->
-                <!--android:layout_marginLeft="10dp"-->
-                <!--android:layout_marginRight="10dp"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:layout_marginRight="20dp"-->
                 <!--android:background="@drawable/rounded_layout_select_job_body"-->
                 <!--android:id="@+id/contentview"-->
                 <!--android:layout_marginEnd="10dp"-->
@@ -86,32 +87,50 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/LinearTitle"
                     android:visibility="gone"
-                    android:layout_gravity="center"
-                    android:gravity="center">
+                    android:background="#95d1da"
+                    android:orientation="horizontal">
                     <TextView
                         android:id="@+id/txtTitleOrder"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#000000"
-                        android:layout_gravity="center"
-                        android:gravity="center"/>
+                        android:layout_gravity="right"
+                        android:gravity="right"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_weight="1"/>
+                    <TextView
+                        android:id="@+id/txtNumberService"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000"
+                        android:layout_gravity="left"
+                        android:gravity="left"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_weight="1"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/LinearDateStart"
-                    android:visibility="gone">
+                    android:id="@+id/LinearNameCustomer"
+                    android:visibility="gone"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:orientation="horizontal">
                     <TextView
-                        android:id="@+id/txtTitleDateStart"
+                        android:id="@+id/txtTitleNameCustomer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#000000"
-                        android:text="@string/DateStart"
+                        android:text="@string/NameCustomer"
                         android:layout_gravity="right"
                         android:textSize="16sp"
                         android:layout_weight="1"/>
                     <TextView
-                        android:id="@+id/txtDateStart"
+                        android:id="@+id/txtNameCustomer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#000000"
@@ -122,19 +141,21 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/LinearDateEnd"
-                    android:visibility="gone">
+                    android:id="@+id/LinearDate"
+                    android:visibility="gone"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
                     <TextView
-                        android:id="@+id/txtTitleDateEnd"
+                        android:id="@+id/txtTitleDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#000000"
-                        android:text="@string/DateEnd"
+                        android:text="@string/Date"
                         android:layout_gravity="right"
                         android:textSize="16sp"
                         android:layout_weight="1"/>
                     <TextView
-                        android:id="@+id/txtDateEnd"
+                        android:id="@+id/txtDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#000000"
@@ -146,7 +167,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/LinearTime"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
                     <TextView
                         android:id="@+id/txtTitleTime"
                         android:layout_width="wrap_content"
@@ -169,7 +192,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/LinearPeriodAndEmergency"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
                     <TextView
                         android:id="@+id/txtTitlePeriodAndEmergency"
                         android:layout_width="wrap_content"
@@ -188,34 +213,14 @@
                         android:gravity="left"
                         android:layout_weight="1"/>
                 </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/LinearCountHamyar"
-                    android:visibility="gone">
-                    <TextView
-                        android:id="@+id/txtTitleCountHamyar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#000000"
-                        android:text="@string/CountHamyar"
-                        android:layout_gravity="right"
-                        android:textSize="16sp"
-                        android:layout_weight="1"/>
-                    <TextView
-                        android:id="@+id/txtCountHamyar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#000000"
-                        android:layout_gravity="left"
-                        android:gravity="left"
-                        android:layout_weight="1"/>
-                </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/LinearLearning"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
                     <TextView
                         android:id="@+id/txtTitleLearning"
                         android:layout_width="wrap_content"
@@ -238,7 +243,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/LinearGraid"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
                     <TextView
                         android:id="@+id/txtTitleGraid"
                         android:layout_width="wrap_content"
@@ -261,7 +268,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/LinearFieldEducation"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
                     <TextView
                         android:id="@+id/txtTitleFieldEducation"
                         android:layout_width="wrap_content"
@@ -284,7 +293,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/LinearFieldArt"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
                     <TextView
                         android:id="@+id/txtTitleFieldArt"
                         android:layout_width="wrap_content"
@@ -307,7 +318,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/LinearGenderStudent"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
                     <TextView
                         android:id="@+id/txtTitleGenderStudent"
                         android:layout_width="wrap_content"
@@ -330,7 +343,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/LinearGenderTeacher"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
                     <TextView
                         android:id="@+id/txtTitleGenderTeacher"
                         android:layout_width="wrap_content"
@@ -353,7 +368,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/LinearCarWash"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
                     <TextView
                         android:id="@+id/txtTitleCarWash"
                         android:layout_width="wrap_content"
@@ -376,7 +393,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/LinearCarType"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
                     <TextView
                         android:id="@+id/txtTitleCarType"
                         android:layout_width="wrap_content"
@@ -399,7 +418,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/LinearLanguage"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
                     <TextView
                         android:id="@+id/txtTitleLanguage"
                         android:layout_width="wrap_content"
@@ -422,6 +443,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/LinearDescription"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
                     android:visibility="gone">
                     <TextView
                         android:id="@+id/txtTitleDescription"
@@ -445,6 +468,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/LinearAddres"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
                     android:visibility="gone">
                     <TextView
                         android:id="@+id/txtTitleAddres"
@@ -469,16 +494,15 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/LinearStatus"
                     android:visibility="gone"
-                    android:layout_gravity="center"
-                    android:gravity="center">
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
                     <TextView
                         android:id="@+id/txtTitleStatus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#000000"
                         android:text="@string/Status"
-                        android:layout_gravity="center"
-                        android:gravity="center"
+                        android:layout_gravity="right"
                         android:textSize="16sp"
                         android:layout_weight="1"/>
                     <TextView
@@ -486,8 +510,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#000000"
-                        android:layout_gravity="center"
-                        android:gravity="center"
+                        android:layout_gravity="left"
+                        android:gravity="left"
                         android:layout_weight="1"/>
                 </LinearLayout>
             </LinearLayout>
@@ -519,8 +543,8 @@
                             android:background="@drawable/rounded_button3"
                             android:paddingLeft="140dp"
                             android:paddingRight="140dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginLeft="10dp"/>
+                            android:layout_marginRight="20dp"
+                            android:layout_marginLeft="20dp"/>
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -528,8 +552,8 @@
                         android:layout_marginTop="10dp"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginLeft="10dp">
+                        android:layout_marginRight="20dp"
+                        android:layout_marginLeft="20dp">
                         <Button
                             android:id="@+id/btnPause"
                             android:layout_width="match_parent"
@@ -561,8 +585,8 @@
                         android:layout_marginTop="5dp"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginLeft="10dp">
+                        android:layout_marginRight="20dp"
+                        android:layout_marginLeft="20dp">
                         <Button
                             android:id="@+id/btnVisit"
                             android:layout_width="match_parent"
@@ -593,8 +617,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginLeft="10dp">
+                        android:layout_marginRight="20dp"
+                        android:layout_marginLeft="20dp">
                         <Button
                             android:id="@+id/btnCallToCustomer"
                             android:layout_width="match_parent"
@@ -604,8 +628,8 @@
                             android:text="@string/CallToCastumer"
                             android:drawableRight="@drawable/phone"
                             android:layout_weight="1"
-                            android:paddingLeft="30dp"
-                            android:paddingRight="30dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
                             android:layout_marginLeft="2dp"/>
                         <Button
                             android:id="@+id/btnFinal"
@@ -634,8 +658,8 @@
                             android:layout_marginTop="10dp"
                             android:paddingLeft="140dp"
                             android:paddingRight="140dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginLeft="10dp" />
+                            android:layout_marginRight="20dp"
+                            android:layout_marginLeft="20dp" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

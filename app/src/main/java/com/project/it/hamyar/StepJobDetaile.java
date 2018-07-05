@@ -33,9 +33,9 @@
     public class StepJobDetaile extends Activity {
         private String hamyarcode;
         private String guid;
-        private String EttitleStepStr;
-        private String EtUnitPriceStr;
-        private String EtBrandStr;
+        private String EttitleToolsStepStr;
+        private String EtPriceToolStr;
+        private String EtBrandToolStr;
         private TextView tvtitleServiDetailNameTool;
         private TextView tvtitleStepServiseTool;
         private TextView tvtitleToolsStep;
@@ -43,13 +43,13 @@
         private TextView tvPriceTools;
         private DatabaseHelper dbh;
         private SQLiteDatabase db;
-        private EditText EttitleStep;
-        private EditText EtUnitPrice;
-        private ListView lvStepJob;
-        private EditText EtBrand;
-        private Spinner SpNameService;
+        private EditText EttitleToolsStep;
+        private EditText EtPriceTool;
+        private ListView ListViewSaveSetpTool;
+        private EditText EtBrandTool;
+        private Spinner ServiceNameTool;
         private Spinner SpDitalNameService;
-        private Button btnSave;
+        private Button btnSaveStepJobTool;
 //        private Button btnSend;
         private List<String> labelsServiceName = new ArrayList<String>();
         private List<String> labelsServiceDetailName;
@@ -72,13 +72,13 @@
             btnServices_at_the_turn=(Button)findViewById(R.id.btnServices_at_the_turn);
             btnDutyToday=(Button)findViewById(R.id.btnDutyToday);
             btnHome=(Button)findViewById(R.id.btnHome);
-            EttitleStep = (EditText) findViewById(R.id.EttitleToolsStep);
-            EtUnitPrice = (EditText) findViewById(R.id.EtPriceTool);
-            lvStepJob = (ListView) findViewById(R.id.ListViewSaveSetpTool);
-            EtBrand = (EditText) findViewById(R.id.EtBrandTool);
-            SpNameService = (Spinner) findViewById(R.id.ServiceNameTool);
+            EttitleToolsStep = (EditText) findViewById(R.id.EttitleToolsStep);
+            EtPriceTool = (EditText) findViewById(R.id.EtPriceTool);
+            ListViewSaveSetpTool = (ListView) findViewById(R.id.ListViewSaveSetpTool);
+            EtBrandTool = (EditText) findViewById(R.id.EtBrandTool);
+            ServiceNameTool = (Spinner) findViewById(R.id.ServiceNameTool);
             SpDitalNameService = (Spinner) findViewById(R.id.ServiDetailNameTool);
-            btnSave = (Button) findViewById(R.id.btnSaveStepJobTool);
+            btnSaveStepJobTool = (Button) findViewById(R.id.btnSaveStepJobTool);
 //            btnSend = (Button) findViewById(R.id.btnSendStepJobTool);
             tvtitleServiDetailNameTool = (TextView) findViewById(R.id.tvtitleServiDetailNameTool);
             tvtitleStepServiseTool = (TextView) findViewById(R.id.tvtitleStepServiseTool);
@@ -162,11 +162,11 @@
                     }
                 };
                 dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                SpNameService.setAdapter(dataAdapter);
+                ServiceNameTool.setAdapter(dataAdapter);
             }
 
             db.close();
-            SpNameService.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            ServiceNameTool.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     db = dbh.getReadableDatabase();
@@ -185,7 +185,7 @@
                 }
             });
 
-            btnSave.setOnClickListener(new View.OnClickListener() {
+            btnSaveStepJobTool.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     addItemFromList(false);
@@ -197,8 +197,8 @@
 //                    SendFarctor();
 //                }
 //            });
-            EtUnitPrice.addTextChangedListener(new NumberTextWatcherForThousand(EtUnitPrice));
-            lvStepJob.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            EtPriceTool.addTextChangedListener(new NumberTextWatcherForThousand(EtPriceTool));
+            ListViewSaveSetpTool.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 //وقتی برروی لیست چند ثانیه لمس شود
                 @Override
                 public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
@@ -240,31 +240,31 @@
             if (IC.isConnectingToInternet() == true) {
                 if (!FirestFill) {
                     String temp;
-                    EttitleStepStr = EttitleStep.getText().toString();
-                    EtUnitPriceStr = EtUnitPrice.getText().toString().replace(",","");
-                    EtBrandStr = EtBrand.getText().toString();
-                    if (EttitleStepStr.compareTo("") == 0 || EtUnitPriceStr.compareTo("") == 0) {
+                    EttitleToolsStepStr = EttitleToolsStep.getText().toString();
+                    EtPriceToolStr = EtPriceTool.getText().toString().replace(",","");
+                    EtBrandToolStr = EtBrandTool.getText().toString();
+                    if (EttitleToolsStepStr.compareTo("") == 0 || EtPriceToolStr.compareTo("") == 0) {
                         Toast.makeText(this, "لطفا تمام فیلد ها را پر فرمایید", Toast.LENGTH_SHORT).show();
                     } else {
                         String[] StrDital = SpDitalNameService.getSelectedItem().toString().split(":");
-                        temp = SpDitalNameService.getSelectedItem().toString() + "-" + EttitleStepStr + "-" + EtBrandStr + "-" + EtUnitPriceStr;
+                        temp = SpDitalNameService.getSelectedItem().toString() + "-" + EttitleToolsStepStr + "-" + EtBrandToolStr + "-" + EtPriceToolStr;
                         db = dbh.getReadableDatabase();
-                        String query = "SELECT * FROM HmFactorTools WHERE ToolName='" + EttitleStepStr
-                                + "' AND Price='" + EtUnitPriceStr
+                        String query = "SELECT * FROM HmFactorTools WHERE ToolName='" + EttitleToolsStepStr
+                                + "' AND Price='" + EtPriceToolStr
                                 + "' AND ServiceDetaileCode='" + StrDital[0] +
-                                "' AND BrandName='" + EtBrandStr + "'";
+                                "' AND BrandName='" + EtBrandToolStr + "'";
                         Cursor coursors = db.rawQuery(query, null);
                         if (coursors.getCount() > 0) {
                             Toast.makeText(this, "این مقدار تکراریست", Toast.LENGTH_SHORT).show();
                         } else {
                             String[] StrDetail = SpDitalNameService.getSelectedItem().toString().split(":");
-                            query = "INSERT INTO HmFactorTools (ToolName,Price,ServiceDetaileCode,BrandName) VALUES('" + EttitleStepStr + "','" + EtUnitPriceStr
-                                    + "','" + StrDetail[0] + "','" + EtBrandStr + "')";
+                            query = "INSERT INTO HmFactorTools (ToolName,Price,ServiceDetaileCode,BrandName) VALUES('" + EttitleToolsStepStr + "','" + EtPriceToolStr
+                                    + "','" + StrDetail[0] + "','" + EtBrandToolStr + "')";
                             db = dbh.getWritableDatabase();
                             db.execSQL(query);
-                            if (lvStepJob.getCount() > 0) {
+                            if (ListViewSaveSetpTool.getCount() > 0) {
                                 adapterList.add(temp);
-                                lvStepJob.setAdapter(adapterList);
+                                ListViewSaveSetpTool.setAdapter(adapterList);
                                 SendFarctor();
                             } else {
                                 listItems = new ArrayList<String>();
@@ -289,7 +289,7 @@
                                         return v;
                                     }
                                 };
-                                lvStepJob.setAdapter(adapterList);
+                                ListViewSaveSetpTool.setAdapter(adapterList);
                                 SendFarctor();
                             }
                         }
@@ -310,9 +310,9 @@
                                 coursors.getString(coursors.getColumnIndex("ToolName")) + "-" +
                                 coursors.getString(coursors.getColumnIndex("BrandName")) + "-" +
                                 coursors.getString(coursors.getColumnIndex("Price"));
-                        if (lvStepJob.getCount() > 0) {
+                        if (ListViewSaveSetpTool.getCount() > 0) {
                             adapterList.add(temp);
-                            lvStepJob.setAdapter(adapterList);
+                            ListViewSaveSetpTool.setAdapter(adapterList);
                         } else {
                             listItems = new ArrayList<String>();
                             listItems.add(temp);
@@ -338,7 +338,7 @@
                             };
 
                             db.close();
-                            lvStepJob.setAdapter(adapterList);
+                            ListViewSaveSetpTool.setAdapter(adapterList);
                         }
                     }
                 }

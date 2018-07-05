@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
@@ -57,7 +58,8 @@ public class AdapterServices extends BaseAdapter {
         TextView txtTime;
         TextView txtDescription;
         LinearLayout LinearList;
-        Button btnNumberPhone;
+        LinearLayout LinearTitle;
+//        Button btnNumberPhone;
     }
 
     // @Override
@@ -67,12 +69,13 @@ public class AdapterServices extends BaseAdapter {
         HashMap<String, String> map = list.get(position);
         if (convertView == null) {
             Typeface faceh = Typeface.createFromAsset(activity.getAssets(), "font/BMitra.ttf");
-            convertView = inflater.inflate(R.layout.list_item_visit, null);
+            convertView = inflater.inflate(R.layout.list_item_service, null);
             holder = new ViewHolder();
             holder.LinearList = (LinearLayout) convertView.findViewById(R.id.LinearList);
-            holder.btnNumberPhone = (Button) convertView.findViewById(R.id.btnCallFromList);
-            holder.btnNumberPhone.setTypeface(faceh);
-            holder.btnNumberPhone.setTextSize(18);
+            holder.LinearTitle = (LinearLayout) convertView.findViewById(R.id.LinearTitle);
+//            holder.btnNumberPhone = (Button) convertView.findViewById(R.id.btnCallFromList);
+//            holder.btnNumberPhone.setTypeface(faceh);
+//            holder.btnNumberPhone.setTextSize(18);
             holder.txtLocationService = (TextView) convertView.findViewById(R.id.txtLocationService);
             holder.txtLocationService.setTypeface(faceh);
             holder.txtLocationService.setTextSize(18);
@@ -93,16 +96,25 @@ public class AdapterServices extends BaseAdapter {
         String Date = map.get("Date");
         String Time = map.get("Time");
         String code = map.get("Code");
+        String Emergency = map.get("Emergency");
         String Description = map.get("Description");
-        String UserPhone = map.get("UserPhone");
+//        String UserPhone = map.get("UserPhone");
+        if(Emergency.compareTo("عادی")==0)
+        {
+            holder.LinearTitle.setBackgroundColor(Color.rgb(212,212,212));
+        }
+        else
+        {
+            holder.LinearTitle.setBackgroundColor(Color.rgb(219,125,118));
+        }
         holder.txtLocationService.setText(LocationService);
         holder.txtDate.setText(Date);
         holder.txtTime.setText(Time);
         holder.txtDescription.setText(Description);
-        holder.btnNumberPhone.setTag(UserPhone);
+//        holder.btnNumberPhone.setTag(UserPhone);
         holder.LinearList.setTag(code);
         holder.LinearList.setOnClickListener(TextViewItemOnclick);
-        holder.btnNumberPhone.setOnClickListener(ButtonItemOnClick);
+//        holder.btnNumberPhone.setOnClickListener(ButtonItemOnClick);
 
         return convertView;
     }

@@ -84,6 +84,9 @@
         <activity
             android:name="com.project.it.hamyar.List_Services"
             android:noHistory="false"/>
+        <activity
+            android:name="com.project.it.hamyar.Setting"
+            android:noHistory="false"/>
         <service android:name=".ServiceGetNewJob">
 
         </service>

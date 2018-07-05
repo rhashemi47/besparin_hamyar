@@ -662,9 +662,9 @@
                             //new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
                             //new SecondaryDrawerItem().withName(R.string.Exit).withIcon(R.drawable.exit).withSelectable(false),
                             new SecondaryDrawerItem().withName(R.string.Logout).withIcon(R.drawable.logout).withSelectable(false)
-                    ).addStickyDrawerItems(new PrimaryDrawerItem().withName(R.string.RelateUs).withSelectable(false).withEnabled(false),
-                            new PrimaryDrawerItem().withName(R.string.telegram).withIcon(R.drawable.telegram).withSelectable(false),
-                            new PrimaryDrawerItem().withName(R.string.instagram).withIcon(R.drawable.instagram).withSelectable(false))
+                    )//.addStickyDrawerItems(new PrimaryDrawerItem().withName(R.string.RelateUs).withSelectable(false).withEnabled(false),se),
+                            //new PrimaryDrawerItem().withName(R.string.telegram).withIcon(R.drawable.telegram).withSelectable(false),
+                            //new PrimaryDrawerItem().withName(R.string.instagram).withIcon(R.drawable.instagram).withSelectable(false))
                     .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                         @Override
                         public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
@@ -1008,6 +1008,7 @@
             map.put("Time",coursors.getString(coursors.getColumnIndex("StartTime"))+" - "+coursors.getString(coursors.getColumnIndex("EndTime")));
             map.put("Description",coursors.getString(coursors.getColumnIndex("Description")));
             map.put("UserPhone",coursors.getString(coursors.getColumnIndex("UserPhone")));
+            map.put("Emergency",coursors.getString(coursors.getColumnIndex("IsEmergency")));
             valuse.add(map);
         }
         db.close();

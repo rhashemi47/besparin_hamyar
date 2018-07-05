@@ -10,9 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/LinearList"
-        android:orientation="vertical"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp">
+        android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,7 +35,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/LinearNameCustomer"
-            android:background="#fff">
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp">
             <TextView
                 android:id="@+id/txtTitleNameCustomer"
                 android:layout_width="wrap_content"
@@ -60,7 +59,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/LinearDate"
-            android:background="#c3dfe3">
+            android:background="#c3dfe3"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp">
             <TextView
                 android:id="@+id/txtTitleDate"
                 android:layout_width="wrap_content"
@@ -83,7 +84,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/LinearTime"
-            android:background="#fff">
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp">
             <TextView
                 android:id="@+id/txtTitleTime"
                 android:layout_width="wrap_content"
@@ -103,7 +105,7 @@
                 android:layout_weight="1"/>
         </LinearLayout>
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/btnCallFromList"
             android:layout_gravity="center"
@@ -111,6 +113,8 @@
             android:background="@drawable/rounded_button3"
             android:drawableRight="@drawable/phone"
             android:text="@string/CallToCastumer"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:textColor="#000"/>
     </LinearLayout>

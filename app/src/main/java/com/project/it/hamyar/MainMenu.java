@@ -125,6 +125,32 @@ public class MainMenu extends AppCompatActivity {
             throw sqle;
         }
         db=dbh.getReadableDatabase();
+        Cursor cursorDuty = db.rawQuery("SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
+                "LEFT JOIN " +
+                "Servicesdetails ON " +
+                "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode WHERE IsDelete='0'",null);
+        if(cursorDuty.getCount()>0)
+        {
+            btnDuty.setText(String.valueOf(cursorDuty.getCount()));
+        }
+        else
+        {
+            btnDuty.setText("0");
+        }
+        db=dbh.getReadableDatabase();
+        Cursor cursorService = db.rawQuery("SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
+                "LEFT JOIN " +
+                "Servicesdetails ON " +
+                "Servicesdetails.code=BsUserServices.ServiceDetaileCode WHERE 1=1 ",null);
+        if(cursorService.getCount()>0)
+        {
+            btnServices.setText(String.valueOf(cursorService.getCount()));
+        }
+        else
+        {
+            btnServices.setText("0");
+        }
+        db=dbh.getReadableDatabase();
         Cursor coursors = db.rawQuery("SELECT * FROM messages WHERE IsReade='0' AND IsDelete='0'",null);
         if(coursors.getCount()>0)
         {
@@ -509,9 +535,9 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
                         //new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
                         //new SecondaryDrawerItem().withName(R.string.Exit).withIcon(R.drawable.exit).withSelectable(false),
                         new SecondaryDrawerItem().withName(R.string.Logout).withIcon(R.drawable.logout).withSelectable(false)
-                ).addStickyDrawerItems(new PrimaryDrawerItem().withName(R.string.RelateUs).withSelectable(false).withEnabled(false),
-                        new PrimaryDrawerItem().withName(R.string.telegram).withIcon(R.drawable.telegram).withSelectable(false),
-                        new PrimaryDrawerItem().withName(R.string.instagram).withIcon(R.drawable.instagram).withSelectable(false))
+                )//.addStickyDrawerItems(new PrimaryDrawerItem().withName(R.string.RelateUs).withSelectable(false).withEnabled(false),se),
+                        //new PrimaryDrawerItem().withName(R.string.telegram).withIcon(R.drawable.telegram).withSelectable(false),
+                        //new PrimaryDrawerItem().withName(R.string.instagram).withIcon(R.drawable.instagram).withSelectable(false))
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
@@ -617,49 +643,51 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
                                 break;
                             case 9:
 //                                Toast.makeText(MainMenu.this, "تنظیمات", Toast.LENGTH_SHORT).show();
-                                AlertDialog.Builder alertbox = new AlertDialog.Builder(MainMenu.this);
-                                // set the message to display
-                                alertbox.setMessage("تنظیمات پیش فاکتور");
-
-                                // set a negative/no button and create a listener
-                                alertbox.setPositiveButton("مراحل کاری", new DialogInterface.OnClickListener() {
-                                    // do something when the button is clicked
-                                    public void onClick(DialogInterface arg0, int arg1) {
+//                                AlertDialog.Builder alertbox = new AlertDialog.Builder(MainMenu.this);
+//                                // set the message to display
+//                                alertbox.setMessage("تنظیمات پیش فاکتور");
+//
+//                                // set a negative/no button and create a listener
+//                                alertbox.setPositiveButton("مراحل کاری", new DialogInterface.OnClickListener() {
+//                                    // do something when the button is clicked
+//                                    public void onClick(DialogInterface arg0, int arg1) {
                                         db=dbh.getReadableDatabase();
-                                        Cursor  c = db.rawQuery("SELECT * FROM login",null);
+                                        c = db.rawQuery("SELECT * FROM login",null);
                                         if(c.getCount()>0)
                                         {
                                             c.moveToNext();
                                             SyncGetHmFactorService getHmFactorService=new SyncGetHmFactorService(MainMenu.this,guid,hamyarcode);
                                             getHmFactorService.AsyncExecute();
-                                            LoadActivity(StepJob.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
-                                        }
-                                        db.close();
-                                        arg0.dismiss();
-                                    }
-                                });
-
-                                // set a positive/yes button and create a listener
-                                alertbox.setNegativeButton("ملزومات کاری", new DialogInterface.OnClickListener() {
-                                    // do something when the button is clicked
-                                    public void onClick(DialogInterface arg0, int arg1) {
-                                        //Declare Object From Get Internet Connection Status For Check Internet Status
-                                        db=dbh.getReadableDatabase();
-                                        Cursor  c = db.rawQuery("SELECT * FROM login",null);
-                                        if(c.getCount()>0) {
-                                            c.moveToNext();
                                             SyncGetHmFactorTools syncGetHmFactorTools=new SyncGetHmFactorTools(MainMenu.this,guid,hamyarcode);
                                             syncGetHmFactorTools.AsyncExecute();
-                                            LoadActivity(StepJobDetaile.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
+                                            LoadActivity(Setting.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
                                         }
-
                                         db.close();
-                                        arg0.dismiss();
+//                                        arg0.dismiss();
+//                                    }
+//                                });
 
-                                    }
-                                });
-
-                                alertbox.show();
+//                                // set a positive/yes button and create a listener
+//                                alertbox.setNegativeButton("ملزومات کاری", new DialogInterface.OnClickListener() {
+//                                    // do something when the button is clicked
+//                                    public void onClick(DialogInterface arg0, int arg1) {
+//                                        //Declare Object From Get Internet Connection Status For Check Internet Status
+//                                        db=dbh.getReadableDatabase();
+//                                        Cursor  c = db.rawQuery("SELECT * FROM login",null);
+//                                        if(c.getCount()>0) {
+//                                            c.moveToNext();
+//                                            SyncGetHmFactorTools syncGetHmFactorTools=new SyncGetHmFactorTools(MainMenu.this,guid,hamyarcode);
+//                                            syncGetHmFactorTools.AsyncExecute();
+//                                            LoadActivity(StepJobDetaile.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
+//                                        }
+//
+//                                        db.close();
+//                                        arg0.dismiss();
+//
+//                                    }
+//                                });
+//
+//                                alertbox.show();
                                 break;
                             case 10:
                                 db = dbh.getReadableDatabase();

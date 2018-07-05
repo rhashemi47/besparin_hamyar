@@ -82,12 +82,13 @@ public class ViewJob extends AppCompatActivity{
     private String latStr="0";
     private String lonStr="0";
     private String DateStr="";
+    private String swStyle="1";
 //    private TextView ContentShowJob;
 //************************************************************
     private TextView tvNumberService;
     private TextView txtTitleOrder;
-    private TextView txtDateStart;
-    private TextView txtDateEnd;
+    private TextView txtNameCustomer;
+    private TextView txtDate;
     private TextView txtTime;
     private TextView txtPeriodAndEmergency;
     private TextView txtCountHamyar;
@@ -122,11 +123,10 @@ public class ViewJob extends AppCompatActivity{
     //************************************************************
     private LinearLayout LinearIfoHamyar;
     private LinearLayout LinearTitle;
-    private LinearLayout LinearDateStart;
-    private LinearLayout LinearDateEnd;
+    private LinearLayout LinearDate;
+    private LinearLayout LinearNameCustomer;
     private LinearLayout LinearTime;
     private LinearLayout LinearPeriodAndEmergency;
-    private LinearLayout LinearCountHamyar;
     private LinearLayout LinearAddres;
     private LinearLayout LinearDescription;
     private LinearLayout LinearLearning;
@@ -182,11 +182,10 @@ public class ViewJob extends AppCompatActivity{
         btnCallToCustomer.setTypeface(FontMitra);
         //******************************************************
         LinearTitle=(LinearLayout)findViewById(R.id.LinearTitle);
-        LinearDateStart=(LinearLayout)findViewById(R.id.LinearDateStart);
-        LinearDateEnd=(LinearLayout)findViewById(R.id.LinearDateEnd);
+        LinearDate=(LinearLayout)findViewById(R.id.LinearDate);
+        LinearNameCustomer=(LinearLayout)findViewById(R.id.LinearNameCustomer);
         LinearTime=(LinearLayout)findViewById(R.id.LinearTime);
         LinearPeriodAndEmergency=(LinearLayout)findViewById(R.id.LinearPeriodAndEmergency);
-        LinearCountHamyar=(LinearLayout)findViewById(R.id.LinearCountHamyar);
         LinearAddres=(LinearLayout)findViewById(R.id.LinearAddres);
         LinearDescription=(LinearLayout)findViewById(R.id.LinearDescription);
         LinearLearning=(LinearLayout)findViewById(R.id.LinearLearning);
@@ -200,10 +199,10 @@ public class ViewJob extends AppCompatActivity{
         LinearLanguage=(LinearLayout)findViewById(R.id.LinearLanguage);
         LinearStatus=(LinearLayout)findViewById(R.id.LinearStatus);
         //*********************************************************************
-        tvNumberService=(TextView)findViewById(R.id.tvNumberService);
+        tvNumberService=(TextView)findViewById(R.id.txtNumberService);
         txtTitleOrder=(TextView)findViewById(R.id.txtTitleOrder);
-        txtDateStart=(TextView)findViewById(R.id.txtDateStart);
-        txtDateEnd=(TextView)findViewById(R.id.txtDateEnd);
+        txtDate=(TextView)findViewById(R.id.txtDate);
+        txtNameCustomer=(TextView)findViewById(R.id.txtNameCustomer);
         txtTime=(TextView)findViewById(R.id.txtTime);
         txtPeriodAndEmergency=(TextView)findViewById(R.id.txtPeriodAndEmergency);
         txtCountHamyar=(TextView)findViewById(R.id.txtCountHamyar);
@@ -280,9 +279,9 @@ public class ViewJob extends AppCompatActivity{
                 coursors.moveToNext();
                 latStr=coursors.getString(coursors.getColumnIndex("Lat"));
                 lonStr=coursors.getString(coursors.getColumnIndex("Lng"));
-                String Content="";
                 try
                 {
+                    LinearTitle.setVisibility(View.VISIBLE);
                     tvNumberService.setText(coursors.getString(coursors.getColumnIndex("Code")));
                 }
                 catch (Exception ex)
@@ -291,7 +290,7 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    Content+="سرویس درخواستی: "+coursors.getString(coursors.getColumnIndex("name"))+"\n";
+                    txtTitleOrder.setText(coursors.getString(coursors.getColumnIndex("name")));
                 }
                 catch (Exception ex)
                 {
@@ -299,7 +298,9 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    Content+="نام متقاضی: "+coursors.getString(coursors.getColumnIndex("UserName"))+" "+coursors.getString(coursors.getColumnIndex("UserFamily"))+"\n";
+                    LinearNameCustomer.setVisibility(View.VISIBLE);
+                    LinearNameCustomer.setBackgroundColor(getStyleLinear());
+                    txtNameCustomer.setText(coursors.getString(coursors.getColumnIndex("UserName"))+" "+coursors.getString(coursors.getColumnIndex("UserFamily")));
                 }
                 catch (Exception ex)
                 {
@@ -307,7 +308,9 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    Content+="تاریخ شروع: "+coursors.getString(coursors.getColumnIndex("StartDate"))+"\n";
+                   LinearDate.setVisibility(View.VISIBLE);
+                   LinearDate.setBackgroundColor(getStyleLinear());
+                   txtDate.setText(coursors.getString(coursors.getColumnIndex("StartDate"))+" - "+coursors.getString(coursors.getColumnIndex("EndDate")));
                 }
                 catch (Exception ex)
                 {
@@ -315,23 +318,9 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    Content+="تاریخ پایان: "+coursors.getString(coursors.getColumnIndex("EndDate"))+"\n";
-                }
-                catch (Exception ex)
-                {
-                    //todo
-                }
-                try
-                {
-                    Content+="از ساعت: "+coursors.getString(coursors.getColumnIndex("StartTime"))+"\n";
-                }
-                catch (Exception ex)
-                {
-                    //todo
-                }
-                try
-                {
-                    Content+="تا ساعت: "+coursors.getString(coursors.getColumnIndex("EndTime"))+"\n";
+                    LinearTime.setVisibility(View.VISIBLE);
+                    LinearTime.setBackgroundColor(getStyleLinear());
+                    txtTime.setText(coursors.getString(coursors.getColumnIndex("StartTime"))+" - "+coursors.getString(coursors.getColumnIndex("EndTime")));
                 }
                 catch (Exception ex)
                 {
@@ -341,19 +330,27 @@ public class ViewJob extends AppCompatActivity{
                 {
                     if(coursors.getString(coursors.getColumnIndex("PeriodicServices")).toString().compareTo("1")==0)
                     {
-                        Content+="خدمت دوره ای: "+"روزانه"+"\n";
+                        LinearPeriodAndEmergency.setVisibility(View.VISIBLE);
+                        LinearPeriodAndEmergency.setBackgroundColor(getStyleLinear());
+                        txtPeriodAndEmergency.setText("روزانه");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("PeriodicServices")).toString().compareTo("2")==0)
                     {
-                        Content+="خدمت دوره ای: "+"هفتگی"+"\n";
+                        LinearPeriodAndEmergency.setVisibility(View.VISIBLE);
+                        LinearPeriodAndEmergency.setBackgroundColor(getStyleLinear());
+                        txtPeriodAndEmergency.setText("هفتگی");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("PeriodicServices")).toString().compareTo("3")==0)
                     {
-                        Content+="خدمت دوره ای: "+"هفته در میان"+"\n";
+                        LinearPeriodAndEmergency.setVisibility(View.VISIBLE);
+                        LinearPeriodAndEmergency.setBackgroundColor(getStyleLinear());
+                        txtPeriodAndEmergency.setText("هفته در میان");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("PeriodicServices")).toString().compareTo("4")==0)
                     {
-                        Content+="خدمت دوره ای: "+"ماهانه"+"\n";
+                        LinearPeriodAndEmergency.setVisibility(View.VISIBLE);
+                        LinearPeriodAndEmergency.setBackgroundColor(getStyleLinear());
+                        txtPeriodAndEmergency.setText("ماهانه");
                     }
 
                 }
@@ -363,39 +360,10 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    if(coursors.getString(coursors.getColumnIndex("MaleCount")).toString().compareTo("0")!=0) {
-                        Content += "تعداد همیار مرد: " + coursors.getString(coursors.getColumnIndex("MaleCount")) + "\n";
-                    }
-                }
-                catch (Exception ex)
-                {
-                    //todo
-                }
-                try
-                {
-                    if(coursors.getString(coursors.getColumnIndex("FemaleCount")).toString().compareTo("0")!=0) {
-                        Content += "تعداد همیار زن: " + coursors.getString(coursors.getColumnIndex("FemaleCount")) + "\n";
-                    }
-                }
-                catch (Exception ex)
-                {
-                    //todo
-                }
-                try
-                {
-                    if(coursors.getString(coursors.getColumnIndex("HamyarCount")).toString().compareTo("0")!=0) {
-                        Content += "تعداد همیار: " + coursors.getString(coursors.getColumnIndex("HamyarCount")) + "\n";
-                    }
-                }
-                catch (Exception ex)
-                {
-                    //todo
-                }
-                try
-                {
-                    String EducationTitle=coursors.getString(coursors.getColumnIndex("EducationTitle"));
-                    if(EducationTitle.compareTo("0")!=0) {
-                        Content += "عنوان آموزش: " + coursors.getString(coursors.getColumnIndex("EducationTitle")) + "\n";
+                    if(coursors.getString(coursors.getColumnIndex("EducationTitle")).compareTo("0")!=0) {
+                        LinearLearning.setVisibility(View.VISIBLE);
+                        LinearLearning.setBackgroundColor(getStyleLinear());
+                        txtLearning.setText(coursors.getString(coursors.getColumnIndex("EducationTitle")));
                     }
                 }
                 catch (Exception ex)
@@ -405,7 +373,9 @@ public class ViewJob extends AppCompatActivity{
                 try
                 {
                     if(coursors.getString(coursors.getColumnIndex("EducationGrade")).toString().compareTo("0")!=0) {
-                        Content += "پایه تحصیلی: " + coursors.getString(coursors.getColumnIndex("EducationGrade")) + "\n";
+                        LinearGraid.setVisibility(View.VISIBLE);
+                        LinearGraid.setBackgroundColor(getStyleLinear());
+                        txtGraid.setText(coursors.getString(coursors.getColumnIndex("EducationGrade")));
                     }
                 }
                 catch (Exception ex)
@@ -414,20 +384,31 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
+
                     if(coursors.getString(coursors.getColumnIndex("FieldOfStudy")).toString().compareTo("1")==0) {
-                        Content += "رشته تحصیلی: " + "ابتدایی" + "\n";
+                        LinearFieldEducation.setVisibility(View.VISIBLE);
+                        LinearFieldEducation.setBackgroundColor(getStyleLinear());
+                        txtFieldEducation.setText("ابتدایی");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("FieldOfStudy")).toString().compareTo("2")==0) {
-                        Content += "رشته تحصیلی: " + "متوسطه اول" + "\n";
+                        LinearFieldEducation.setVisibility(View.VISIBLE);
+                        LinearFieldEducation.setBackgroundColor(getStyleLinear());
+                        txtFieldEducation.setText("متوسطه اول");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("FieldOfStudy")).toString().compareTo("3")==0) {
-                        Content += "رشته تحصیلی: " + "علوم تجربی" + "\n";
+                        LinearFieldEducation.setVisibility(View.VISIBLE);
+                        LinearFieldEducation.setBackgroundColor(getStyleLinear());
+                        txtFieldEducation.setText("علوم تجربی");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("FieldOfStudy")).toString().compareTo("4")==0) {
-                        Content += "رشته تحصیلی: " + "ریاضی و فیزیک" + "\n";
+                        LinearFieldEducation.setVisibility(View.VISIBLE);
+                        LinearFieldEducation.setBackgroundColor(getStyleLinear());
+                        txtFieldEducation.setText("ریاضی و فیزیک");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("FieldOfStudy")).toString().compareTo("5")==0) {
-                        Content += "رشته تحصیلی: " + "انسانی" + "\n";
+                        LinearFieldEducation.setVisibility(View.VISIBLE);
+                        LinearFieldEducation.setBackgroundColor(getStyleLinear());
+                        txtFieldEducation.setText("انسانی");
                     }
                 }
                 catch (Exception ex)
@@ -438,30 +419,28 @@ public class ViewJob extends AppCompatActivity{
                 {
                     if(coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("0")!=0)
                     {
+                        LinearFieldArt.setVisibility(View.VISIBLE);
+                        LinearFieldArt.setBackgroundColor(getStyleLinear());
                         if(coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("2")==0) {
-                            Content += "رشته هنری: " + "موسیقی" + "\n";
+                            txtFieldArt.setText("موسیقی");
                         }
                         else if(coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("3")==0) {
-                            Content += "رشته هنری: " + "موسیقی" + "\n";
+                            txtFieldArt.setText("طراحی و نقاشی");
                         }
                         else if(coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("4")==0) {
-                            Content += "رشته هنری: " + "موسیقی" + "\n";
+                            txtFieldArt.setText("خوشنویسی");
                         }
                         else if(coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("5")==0) {
-                            Content += "رشته هنری: " + "موسیقی" + "\n";
+                            txtFieldArt.setText("عکاسی");
                         }
                         else if(coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("6")==0) {
-                            Content += "رشته هنری: " + "موسیقی" + "\n";
+                            txtFieldArt.setText("بافندگی");
                         }
                         else if(coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("7")==0) {
-                            Content += "رشته هنری: " + "موسیقی" + "\n";
+                            txtFieldArt.setText("خیاطی");
                         }
                         else if(coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("7")==0) {
-                            Content += "رشته هنری: " + "موسیقی" + "\n";
-                        }
-                        else
-                        {
-                            Content += "رشته هنری: " + coursors.getString(coursors.getColumnIndex("ArtField")) + "\n";
+                            txtFieldArt.setText("سایر");
                         }
                     }
                 }
@@ -472,22 +451,34 @@ public class ViewJob extends AppCompatActivity{
                 try
                 {
                     if(coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("1")==0) {
-                        Content += "زبان: " + "انگلیسی" + "\n";
+                        LinearLanguage.setVisibility(View.VISIBLE);
+                        LinearLanguage.setBackgroundColor(getStyleLinear());
+                        txtLanguage.setText("انگلیسی");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("2")==0) {
-                        Content += "زبان: " + "روسی" + "\n";
+                        LinearLanguage.setVisibility(View.VISIBLE);
+                        LinearLanguage.setBackgroundColor(getStyleLinear());
+                        txtLanguage.setText("روسی");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("3")==0) {
-                        Content += "زبان: " + "آلمانی" + "\n";
+                        LinearLanguage.setVisibility(View.VISIBLE);
+                        LinearLanguage.setBackgroundColor(getStyleLinear());
+                        txtLanguage.setText("آلمانی");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("4")==0) {
-                        Content += "زبان: " + "فرانسه" + "\n";
+                        LinearLanguage.setVisibility(View.VISIBLE);
+                        LinearLanguage.setBackgroundColor(getStyleLinear());
+                        txtLanguage.setText("فرانسه");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("5")==0) {
-                        Content += "زبان: " + "ترکی" + "\n";
+                        LinearLanguage.setVisibility(View.VISIBLE);
+                        LinearLanguage.setBackgroundColor(getStyleLinear());
+                        txtLanguage.setText("ترکی");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("6")==0) {
-                        Content += "زبان: " + "عربی" + "\n";
+                        LinearLanguage.setVisibility(View.VISIBLE);
+                        LinearLanguage.setBackgroundColor(getStyleLinear());
+                        txtLanguage.setText("عربی");
                     }
                 }
                 catch (Exception ex)
@@ -497,10 +488,14 @@ public class ViewJob extends AppCompatActivity{
                 try
                 {
                     if(coursors.getString(coursors.getColumnIndex("StudentGender")).toString().compareTo("1")==0) {
-                        Content += "جنسیت دانش آموز: " + "زن" + "\n";
+                        LinearGenderStudent.setVisibility(View.VISIBLE);
+                        LinearGenderStudent.setBackgroundColor(getStyleLinear());
+                        txtGenderStudent.setText("زن");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("StudentGender")).toString().compareTo("2")==0) {
-                        Content += "جنسیت دانش آموز: " + "مرد" + "\n";
+                        LinearGenderStudent.setVisibility(View.VISIBLE);
+                        LinearGenderStudent.setBackgroundColor(getStyleLinear());
+                        txtGenderStudent.setText("مرد");
                     }
                 }
                 catch (Exception ex)
@@ -510,10 +505,14 @@ public class ViewJob extends AppCompatActivity{
                 try
                 {
                     if(coursors.getString(coursors.getColumnIndex("CarWashType")).toString().compareTo("1")==0) {
-                        Content += "نوع سرویس: " + "روشویی" + "\n";
+                        LinearCarWash.setVisibility(View.VISIBLE);
+                        LinearCarWash.setBackgroundColor(getStyleLinear());
+                        txtCarWash.setText("روشویی");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("CarWashType")).toString().compareTo("2")==0) {
-                        Content += "نوع سرویس: " + "روشویی و توشویی" + "\n";
+                        LinearCarWash.setVisibility(View.VISIBLE);
+                        LinearCarWash.setBackgroundColor(getStyleLinear());
+                        txtCarWash.setText("روشویی و توشویی");
                     }
                 }
                 catch (Exception ex)
@@ -523,15 +522,20 @@ public class ViewJob extends AppCompatActivity{
                 try
                 {
                     if(coursors.getString(coursors.getColumnIndex("CarType")).toString().compareTo("1")==0) {
-                        Content+="نوع خودرو: "+"سواری"+"\n";
+                        LinearCarType.setVisibility(View.VISIBLE);
+                        LinearCarType.setBackgroundColor(getStyleLinear());
+                        txtCarType.setText("سواری");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("CarType")).toString().compareTo("2")==0) {
-                        Content += "نوع سرویس: " + "شاسی و نیم شاسی" + "\n";
+                        LinearCarType.setVisibility(View.VISIBLE);
+                        LinearCarType.setBackgroundColor(getStyleLinear());
+                        txtCarType.setText("شاسی و نیم شاسی");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("CarType")).toString().compareTo("3")==0) {
-                        Content += "نوع سرویس: " + "ون" + "\n";
+                        LinearCarType.setVisibility(View.VISIBLE);
+                        LinearCarType.setBackgroundColor(getStyleLinear());
+                        txtCarType.setText("ون");
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -539,7 +543,9 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    Content+="توضیحات: "+coursors.getString(coursors.getColumnIndex("Description"))+"\n";
+                    LinearDescription.setVisibility(View.VISIBLE);
+                    LinearDescription.setBackgroundColor(getStyleLinear());
+                    txtDescription.setText(coursors.getString(coursors.getColumnIndex("Description")));
                 }
                 catch (Exception ex)
                 {
@@ -547,7 +553,9 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    Content+="آدرس: "+coursors.getString(coursors.getColumnIndex("AddressText"))+"\n";
+                    LinearAddres.setVisibility(View.VISIBLE);
+                    LinearAddres.setBackgroundColor(getStyleLinear());
+                    txtAddres.setText(coursors.getString(coursors.getColumnIndex("AddressText")));
                 }
                 catch (Exception ex)
                 {
@@ -555,15 +563,14 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    Content+="وضعیت: "+((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0")==0? "عادی":"فوری"));
+                    LinearStatus.setVisibility(View.VISIBLE);
+                    LinearStatus.setBackgroundColor(getStyleLinear());
+                    txtStatus.setText(((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0")==0? "عادی":"فوری")));
                 }
                 catch (Exception ex)
                 {
                     //todo
                 }
-                ContentShowJob.setText(Content);
-                ContentShowJob.setTypeface(FontMitra);
-                ContentShowJob.setTextSize(18);
             }
         }
         else
@@ -580,7 +587,8 @@ public class ViewJob extends AppCompatActivity{
                 String Content="";
                 try
                 {
-                    Content+="شماره درخواست: "+coursors.getString(coursors.getColumnIndex("Code"))+"\n";
+                    LinearTitle.setVisibility(View.VISIBLE);
+                    tvNumberService.setText(coursors.getString(coursors.getColumnIndex("Code")));
                 }
                 catch (Exception ex)
                 {
@@ -588,7 +596,7 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    Content+="سرویس درخواستی: "+coursors.getString(coursors.getColumnIndex("name"))+"\n";
+                    txtTitleOrder.setText(coursors.getString(coursors.getColumnIndex("name")));
                 }
                 catch (Exception ex)
                 {
@@ -596,7 +604,9 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    Content+="نام متقاضی: "+coursors.getString(coursors.getColumnIndex("UserName"))+" "+coursors.getString(coursors.getColumnIndex("UserFamily"))+"\n";
+                    LinearNameCustomer.setVisibility(View.VISIBLE);
+                    LinearNameCustomer.setBackgroundColor(getStyleLinear());
+                    txtNameCustomer.setText(coursors.getString(coursors.getColumnIndex("UserName"))+" "+coursors.getString(coursors.getColumnIndex("UserFamily")));
                 }
                 catch (Exception ex)
                 {
@@ -604,7 +614,9 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    Content+="تاریخ شروع: "+coursors.getString(coursors.getColumnIndex("StartDate"))+"\n";
+                    LinearDate.setVisibility(View.VISIBLE);
+                    LinearDate.setBackgroundColor(getStyleLinear());
+                    txtDate.setText(coursors.getString(coursors.getColumnIndex("StartDate"))+" - "+coursors.getString(coursors.getColumnIndex("EndDate")));
                 }
                 catch (Exception ex)
                 {
@@ -612,23 +624,9 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    Content+="تاریخ پایان: "+coursors.getString(coursors.getColumnIndex("EndDate"))+"\n";
-                }
-                catch (Exception ex)
-                {
-                    //todo
-                }
-                try
-                {
-                    Content+="از ساعت: "+coursors.getString(coursors.getColumnIndex("StartTime"))+"\n";
-                }
-                catch (Exception ex)
-                {
-                    //todo
-                }
-                try
-                {
-                    Content+="تا ساعت: "+coursors.getString(coursors.getColumnIndex("EndTime"))+"\n";
+                    LinearTime.setVisibility(View.VISIBLE);
+                    LinearTime.setBackgroundColor(getStyleLinear());
+                    txtTime.setText(coursors.getString(coursors.getColumnIndex("StartTime"))+" - "+coursors.getString(coursors.getColumnIndex("EndTime")));
                 }
                 catch (Exception ex)
                 {
@@ -638,19 +636,27 @@ public class ViewJob extends AppCompatActivity{
                 {
                     if(coursors.getString(coursors.getColumnIndex("PeriodicServices")).toString().compareTo("1")==0)
                     {
-                        Content+="خدمت دوره ای: "+"روزانه"+"\n";
+                        LinearPeriodAndEmergency.setVisibility(View.VISIBLE);
+                        LinearPeriodAndEmergency.setBackgroundColor(getStyleLinear());
+                        txtPeriodAndEmergency.setText("روزانه");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("PeriodicServices")).toString().compareTo("2")==0)
                     {
-                        Content+="خدمت دوره ای: "+"هفتگی"+"\n";
+                        LinearPeriodAndEmergency.setVisibility(View.VISIBLE);
+                        LinearPeriodAndEmergency.setBackgroundColor(getStyleLinear());
+                        txtPeriodAndEmergency.setText("هفتگی");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("PeriodicServices")).toString().compareTo("3")==0)
                     {
-                        Content+="خدمت دوره ای: "+"هفته در میان"+"\n";
+                        LinearPeriodAndEmergency.setVisibility(View.VISIBLE);
+                        LinearPeriodAndEmergency.setBackgroundColor(getStyleLinear());
+                        txtPeriodAndEmergency.setText("هفته در میان");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("PeriodicServices")).toString().compareTo("4")==0)
                     {
-                        Content+="خدمت دوره ای: "+"ماهانه"+"\n";
+                        LinearPeriodAndEmergency.setVisibility(View.VISIBLE);
+                        LinearPeriodAndEmergency.setBackgroundColor(getStyleLinear());
+                        txtPeriodAndEmergency.setText("ماهانه");
                     }
 
                 }
@@ -660,39 +666,10 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    if(coursors.getString(coursors.getColumnIndex("MaleCount")).toString().compareTo("0")!=0) {
-                        Content += "تعداد همیار مرد: " + coursors.getString(coursors.getColumnIndex("MaleCount")) + "\n";
-                    }
-                }
-                catch (Exception ex)
-                {
-                    //todo
-                }
-                try
-                {
-                    if(coursors.getString(coursors.getColumnIndex("FemaleCount")).toString().compareTo("0")!=0) {
-                        Content += "تعداد همیار زن: " + coursors.getString(coursors.getColumnIndex("FemaleCount")) + "\n";
-                    }
-                }
-                catch (Exception ex)
-                {
-                    //todo
-                }
-                try
-                {
-                    if(coursors.getString(coursors.getColumnIndex("HamyarCount")).toString().compareTo("0")!=0) {
-                        Content += "تعداد همیار: " + coursors.getString(coursors.getColumnIndex("HamyarCount")) + "\n";
-                    }
-                }
-                catch (Exception ex)
-                {
-                    //todo
-                }
-                try
-                {
-                    String EducationTitle=coursors.getString(coursors.getColumnIndex("EducationTitle"));
-                    if(EducationTitle.compareTo("0")!=0) {
-                        Content += "عنوان آموزش: " + coursors.getString(coursors.getColumnIndex("EducationTitle")) + "\n";
+                    if(coursors.getString(coursors.getColumnIndex("EducationTitle")).compareTo("0")!=0) {
+                        LinearLearning.setVisibility(View.VISIBLE);
+                        LinearLearning.setBackgroundColor(getStyleLinear());
+                        txtLearning.setText(coursors.getString(coursors.getColumnIndex("EducationTitle")));
                     }
                 }
                 catch (Exception ex)
@@ -702,7 +679,9 @@ public class ViewJob extends AppCompatActivity{
                 try
                 {
                     if(coursors.getString(coursors.getColumnIndex("EducationGrade")).toString().compareTo("0")!=0) {
-                        Content += "پایه تحصیلی: " + coursors.getString(coursors.getColumnIndex("EducationGrade")) + "\n";
+                        LinearGraid.setVisibility(View.VISIBLE);
+                        LinearGraid.setBackgroundColor(getStyleLinear());
+                        txtGraid.setText(coursors.getString(coursors.getColumnIndex("EducationGrade")));
                     }
                 }
                 catch (Exception ex)
@@ -712,19 +691,29 @@ public class ViewJob extends AppCompatActivity{
                 try
                 {
                     if(coursors.getString(coursors.getColumnIndex("FieldOfStudy")).toString().compareTo("1")==0) {
-                        Content += "رشته تحصیلی: " + "ابتدایی" + "\n";
+                        LinearFieldEducation.setVisibility(View.VISIBLE);
+                        LinearFieldEducation.setBackgroundColor(getStyleLinear());
+                        txtFieldEducation.setText("ابتدایی");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("FieldOfStudy")).toString().compareTo("2")==0) {
-                        Content += "رشته تحصیلی: " + "متوسطه اول" + "\n";
+                        LinearFieldEducation.setVisibility(View.VISIBLE);
+                        LinearFieldEducation.setBackgroundColor(getStyleLinear());
+                        txtFieldEducation.setText("متوسطه اول");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("FieldOfStudy")).toString().compareTo("3")==0) {
-                        Content += "رشته تحصیلی: " + "علوم تجربی" + "\n";
+                        LinearFieldEducation.setVisibility(View.VISIBLE);
+                        LinearFieldEducation.setBackgroundColor(getStyleLinear());
+                        txtFieldEducation.setText("علوم تجربی");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("FieldOfStudy")).toString().compareTo("4")==0) {
-                        Content += "رشته تحصیلی: " + "ریاضی و فیزیک" + "\n";
+                        LinearFieldEducation.setVisibility(View.VISIBLE);
+                        LinearFieldEducation.setBackgroundColor(getStyleLinear());
+                        txtFieldEducation.setText("ریاضی و فیزیک");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("FieldOfStudy")).toString().compareTo("5")==0) {
-                        Content += "رشته تحصیلی: " + "انسانی" + "\n";
+                        LinearFieldEducation.setVisibility(View.VISIBLE);
+                        LinearFieldEducation.setBackgroundColor(getStyleLinear());
+                        txtFieldEducation.setText("انسانی");
                     }
                 }
                 catch (Exception ex)
@@ -735,30 +724,28 @@ public class ViewJob extends AppCompatActivity{
                 {
                     if(coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("0")!=0)
                     {
+                        LinearFieldArt.setVisibility(View.VISIBLE);
+                        LinearFieldArt.setBackgroundColor(getStyleLinear());
                         if(coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("2")==0) {
-                            Content += "رشته هنری: " + "موسیقی" + "\n";
+                            txtFieldArt.setText("موسیقی");
                         }
                         else if(coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("3")==0) {
-                            Content += "رشته هنری: " + "موسیقی" + "\n";
+                            txtFieldArt.setText("طراحی و نقاشی");
                         }
                         else if(coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("4")==0) {
-                            Content += "رشته هنری: " + "موسیقی" + "\n";
+                            txtFieldArt.setText("خوشنویسی");
                         }
                         else if(coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("5")==0) {
-                            Content += "رشته هنری: " + "موسیقی" + "\n";
+                            txtFieldArt.setText("عکاسی");
                         }
                         else if(coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("6")==0) {
-                            Content += "رشته هنری: " + "موسیقی" + "\n";
+                            txtFieldArt.setText("بافندگی");
                         }
                         else if(coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("7")==0) {
-                            Content += "رشته هنری: " + "موسیقی" + "\n";
+                            txtFieldArt.setText("خیاطی");
                         }
                         else if(coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("7")==0) {
-                            Content += "رشته هنری: " + "موسیقی" + "\n";
-                        }
-                       else
-                        {
-                            Content += "رشته هنری: " + coursors.getString(coursors.getColumnIndex("ArtField")) + "\n";
+                            txtFieldArt.setText("سایر");
                         }
                     }
                 }
@@ -769,22 +756,33 @@ public class ViewJob extends AppCompatActivity{
                 try
                 {
                     if(coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("1")==0) {
-                        Content += "زبان: " + "انگلیسی" + "\n";
+                        LinearLanguage.setVisibility(View.VISIBLE);
+                        LinearLanguage.setBackgroundColor(getStyleLinear());
+                        txtLanguage.setText("انگلیسی");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("2")==0) {
-                        Content += "زبان: " + "روسی" + "\n";
+                        LinearLanguage.setVisibility(View.VISIBLE);
+                        LinearLanguage.setBackgroundColor(getStyleLinear());
+                        txtLanguage.setText("روسی");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("3")==0) {
-                        Content += "زبان: " + "آلمانی" + "\n";
+                        LinearLanguage.setVisibility(View.VISIBLE);
+                        LinearLanguage.setBackgroundColor(getStyleLinear());
+                        txtLanguage.setText("آلمانی");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("4")==0) {
-                        Content += "زبان: " + "فرانسه" + "\n";
+                        LinearLanguage.setVisibility(View.VISIBLE);
+                        LinearLanguage.setBackgroundColor(getStyleLinear());
+                        txtLanguage.setText("فرانسه");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("5")==0) {
-                        Content += "زبان: " + "ترکی" + "\n";
+                        LinearLanguage.setVisibility(View.VISIBLE);
+                        txtLanguage.setText("ترکی");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("6")==0) {
-                        Content += "زبان: " + "عربی" + "\n";
+                        LinearLanguage.setVisibility(View.VISIBLE);
+                        LinearLanguage.setBackgroundColor(getStyleLinear());
+                        txtLanguage.setText("عربی");
                     }
                 }
                 catch (Exception ex)
@@ -794,10 +792,14 @@ public class ViewJob extends AppCompatActivity{
                 try
                 {
                     if(coursors.getString(coursors.getColumnIndex("StudentGender")).toString().compareTo("1")==0) {
-                        Content += "جنسیت دانش آموز: " + "زن" + "\n";
+                        LinearGenderStudent.setVisibility(View.VISIBLE);
+                        LinearGenderStudent.setBackgroundColor(getStyleLinear());
+                        txtGenderStudent.setText("زن");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("StudentGender")).toString().compareTo("2")==0) {
-                        Content += "جنسیت دانش آموز: " + "مرد" + "\n";
+                        LinearGenderStudent.setVisibility(View.VISIBLE);
+                        LinearGenderStudent.setBackgroundColor(getStyleLinear());
+                        txtGenderStudent.setText("مرد");
                     }
                 }
                 catch (Exception ex)
@@ -807,10 +809,14 @@ public class ViewJob extends AppCompatActivity{
                 try
                 {
                     if(coursors.getString(coursors.getColumnIndex("CarWashType")).toString().compareTo("1")==0) {
-                        Content += "نوع سرویس: " + "روشویی" + "\n";
+                        LinearCarWash.setVisibility(View.VISIBLE);
+                        LinearCarWash.setBackgroundColor(getStyleLinear());
+                        txtCarWash.setText("روشویی");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("CarWashType")).toString().compareTo("2")==0) {
-                        Content += "نوع سرویس: " + "روشویی و توشویی" + "\n";
+                        LinearCarWash.setVisibility(View.VISIBLE);
+                        LinearCarWash.setBackgroundColor(getStyleLinear());
+                        txtCarWash.setText("روشویی و توشویی");
                     }
                 }
                 catch (Exception ex)
@@ -820,15 +826,20 @@ public class ViewJob extends AppCompatActivity{
                 try
                 {
                     if(coursors.getString(coursors.getColumnIndex("CarType")).toString().compareTo("1")==0) {
-                        Content+="نوع خودرو: "+"سواری"+"\n";
+                        LinearCarType.setVisibility(View.VISIBLE);
+                        LinearCarType.setBackgroundColor(getStyleLinear());
+                        txtCarType.setText("سواری");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("CarType")).toString().compareTo("2")==0) {
-                        Content += "نوع سرویس: " + "شاسی و نیم شاسی" + "\n";
+                        LinearCarType.setVisibility(View.VISIBLE);
+                        LinearCarType.setBackgroundColor(getStyleLinear());
+                        txtCarType.setText("شاسی و نیم شاسی");
                     }
                     else if(coursors.getString(coursors.getColumnIndex("CarType")).toString().compareTo("3")==0) {
-                        Content += "نوع سرویس: " + "ون" + "\n";
+                        LinearCarType.setVisibility(View.VISIBLE);
+                        LinearCarType.setBackgroundColor(getStyleLinear());
+                        txtCarType.setText("ون");
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -836,7 +847,9 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    Content+="توضیحات: "+coursors.getString(coursors.getColumnIndex("Description"))+"\n";
+                    LinearDescription.setVisibility(View.VISIBLE);
+                    LinearDescription.setBackgroundColor(getStyleLinear());
+                    txtDescription.setText(coursors.getString(coursors.getColumnIndex("Description")));
                 }
                 catch (Exception ex)
                 {
@@ -844,7 +857,9 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    Content+="آدرس: "+coursors.getString(coursors.getColumnIndex("AddressText"))+"\n";
+                    LinearAddres.setVisibility(View.VISIBLE);
+                    LinearAddres.setBackgroundColor(getStyleLinear());
+                    txtAddres.setText(coursors.getString(coursors.getColumnIndex("AddressText")));
                 }
                 catch (Exception ex)
                 {
@@ -852,15 +867,14 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    Content+="وضعیت: "+((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0")==0? "عادی":"فوری"));
+                    LinearStatus.setVisibility(View.VISIBLE);
+                    LinearStatus.setBackgroundColor(getStyleLinear());
+                    txtStatus.setText(((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0")==0? "عادی":"فوری")));
                 }
                 catch (Exception ex)
                 {
                     //todo
                 }
-                ContentShowJob.setText(Content);
-                ContentShowJob.setTypeface(FontMitra);
-                ContentShowJob.setTextSize(18);
                 status=coursors.getString(coursors.getColumnIndex("Status"));
             }
             db.close();
@@ -1315,9 +1329,9 @@ public class ViewJob extends AppCompatActivity{
                         //new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
                         //new SecondaryDrawerItem().withName(R.string.Exit).withIcon(R.drawable.exit).withSelectable(false),
                         new SecondaryDrawerItem().withName(R.string.Logout).withIcon(R.drawable.logout).withSelectable(false)
-                ).addStickyDrawerItems(new PrimaryDrawerItem().withName(R.string.RelateUs).withSelectable(false).withEnabled(false),
-                        new PrimaryDrawerItem().withName(R.string.telegram).withIcon(R.drawable.telegram).withSelectable(false),
-                        new PrimaryDrawerItem().withName(R.string.instagram).withIcon(R.drawable.instagram).withSelectable(false))
+                )//.addStickyDrawerItems(new PrimaryDrawerItem().withName(R.string.RelateUs).withSelectable(false).withEnabled(false),se),
+                        //new PrimaryDrawerItem().withName(R.string.telegram).withIcon(R.drawable.telegram).withSelectable(false),
+                        //new PrimaryDrawerItem().withName(R.string.instagram).withIcon(R.drawable.instagram).withSelectable(false))
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
@@ -1730,5 +1744,19 @@ public class ViewJob extends AppCompatActivity{
             }
         });
         picker.show();
+    }
+    public int getStyleLinear()
+    {
+        if(swStyle.compareTo("0")==0)
+        {
+            swStyle="1";
+
+            return Color.LTGRAY;
+        }
+        else
+        {
+            swStyle="0";
+            return Color.TRANSPARENT;
+        }
     }
 }

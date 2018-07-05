@@ -9,6 +9,6 @@
         android:bottomLeftRadius="10dp"
         android:topLeftRadius="10dp"
         android:topRightRadius="10dp"/>
-    <padding android:left="110dp" android:right="110dp" android:top="5dp" android:bottom="5dp"/>
+    <padding android:left="70dp" android:right="70dp" android:top="5dp" android:bottom="5dp"/>
     <!--<stroke android:width="2dp" android:color="#ffff"/>-->
 </shape>
