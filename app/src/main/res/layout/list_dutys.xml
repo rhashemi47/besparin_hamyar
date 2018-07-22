@@ -18,7 +18,7 @@
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:title="@string/Duty"
-            app:titleTextColor="#000000"
+            app:titleTextColor="#fff"
             android:background="@drawable/background_actionbar"/>
     </android.support.design.widget.AppBarLayout>
     <LinearLayout
@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="55dp"
-            android:dividerHeight="10sp"
+            android:dividerHeight="15sp"
             android:divider="@color/transparent">
 
         </ListView>

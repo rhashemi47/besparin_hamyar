@@ -75,22 +75,22 @@ public class AdapterDutys extends BaseAdapter {
             holder.LinearList = (LinearLayout) convertView.findViewById(R.id.LinearList);
             holder.btnNumberPhone = (Button) convertView.findViewById(R.id.btnCallFromList);
             holder.btnNumberPhone.setTypeface(faceh);
-            holder.btnNumberPhone.setTextSize(20);
+            holder.btnNumberPhone.setTextSize(16);
             holder.txtTitleService = (TextView) convertView.findViewById(R.id.txtTitleService);
             holder.txtTitleService.setTypeface(faceh);
-            holder.txtTitleService.setTextSize(20);
+            holder.txtTitleService.setTextSize(16);
             holder.txtEmergency = (TextView) convertView.findViewById(R.id.txtEmergency);
             holder.txtEmergency.setTypeface(faceh);
-            holder.txtEmergency.setTextSize(20);
+            holder.txtEmergency.setTextSize(16);
             holder.txtNameCustomer = (TextView) convertView.findViewById(R.id.txtNameCustomer);
             holder.txtNameCustomer.setTypeface(faceh);
-            holder.txtNameCustomer.setTextSize(20);
+            holder.txtNameCustomer.setTextSize(16);
             holder.txtDate = (TextView) convertView.findViewById(R.id.txtDate);
             holder.txtDate.setTypeface(faceh);
-            holder.txtDate.setTextSize(20);
+            holder.txtDate.setTextSize(16);
             holder.txtTime = (TextView) convertView.findViewById(R.id.txtTime);
             holder.txtTime.setTypeface(faceh);
-            holder.txtTime.setTextSize(20);
+            holder.txtTime.setTextSize(16);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -111,8 +111,8 @@ public class AdapterDutys extends BaseAdapter {
         }
         else
         {
-            holder.txtTitleService.setTextColor(Color.RED);
-            holder.txtEmergency.setTextColor(Color.RED);
+            holder.txtTitleService.setTextColor(Color.parseColor("#a01711"));
+            holder.txtEmergency.setTextColor(Color.parseColor("#a01711"));
         }
         holder.txtNameCustomer.setText(NameCustomer);
         holder.txtDate.setText(Date);

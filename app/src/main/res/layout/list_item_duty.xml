@@ -21,6 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#000000"
+                android:layout_marginRight="10dp"
                 android:layout_weight="1"/>
             <TextView
                 android:id="@+id/txtEmergency"
@@ -29,6 +30,7 @@
                 android:textColor="#000000"
                 android:layout_gravity="left"
                 android:gravity="left"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"/>
         </LinearLayout>
         <LinearLayout
@@ -44,7 +46,7 @@
                 android:textColor="#000000"
                 android:text="@string/NameCustomer"
                 android:layout_gravity="right"
-                android:textSize="22sp"
+                android:textSize="16sp"
                 android:layout_weight="1"/>
             <TextView
                 android:id="@+id/txtNameCustomer"
@@ -59,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/LinearDate"
-            android:background="#c3dfe3"
+            android:background="#c4e0e4"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp">
             <TextView
@@ -69,7 +71,7 @@
                 android:textColor="#000000"
                 android:text="@string/Date"
                 android:layout_gravity="right"
-                android:textSize="22sp"
+                android:textSize="16sp"
                 android:layout_weight="1"/>
             <TextView
                 android:id="@+id/txtDate"
@@ -93,7 +95,7 @@
                 android:textColor="#000000"
                 android:layout_gravity="right"
                 android:text="@string/Time"
-                android:textSize="22sp"
+                android:textSize="16sp"
                 android:layout_weight="1"/>
             <TextView
                 android:id="@+id/txtTime"

@@ -20,7 +20,7 @@
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:title="@string/Job"
-            app:titleTextColor="#000000"
+            app:titleTextColor="#fff"
             android:background="@drawable/background_actionbar"/>
     </android.support.design.widget.AppBarLayout>
     <!--<LinearLayout-->
@@ -162,7 +162,9 @@
             android:id="@+id/listViewServices"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="80dp">
+            android:layout_marginBottom="80dp"
+            android:dividerHeight="15dp"
+            android:divider="@color/mdtp_transparent">
 
         </ListView>
     </LinearLayout>

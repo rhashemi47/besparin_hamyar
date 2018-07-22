@@ -75,19 +75,19 @@ public class AdapterServices extends BaseAdapter {
             holder.LinearTitle = (LinearLayout) convertView.findViewById(R.id.LinearTitle);
 //            holder.btnNumberPhone = (Button) convertView.findViewById(R.id.btnCallFromList);
 //            holder.btnNumberPhone.setTypeface(faceh);
-//            holder.btnNumberPhone.setTextSize(18);
+//            holder.btnNumberPhone.setTextSize(16);
             holder.txtLocationService = (TextView) convertView.findViewById(R.id.txtLocationService);
             holder.txtLocationService.setTypeface(faceh);
-            holder.txtLocationService.setTextSize(18);
+            holder.txtLocationService.setTextSize(16);
             holder.txtDate = (TextView) convertView.findViewById(R.id.txtDate);
             holder.txtDate.setTypeface(faceh);
-            holder.txtDate.setTextSize(18);
+            holder.txtDate.setTextSize(16);
             holder.txtTime = (TextView) convertView.findViewById(R.id.txtTime);
             holder.txtTime.setTypeface(faceh);
-            holder.txtTime.setTextSize(18);
+            holder.txtTime.setTextSize(16);
             holder.txtDescription = (TextView) convertView.findViewById(R.id.txtDescription);
             holder.txtDescription.setTypeface(faceh);
-            holder.txtDescription.setTextSize(18);
+            holder.txtDescription.setTextSize(16);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -101,11 +101,11 @@ public class AdapterServices extends BaseAdapter {
 //        String UserPhone = map.get("UserPhone");
         if(Emergency.compareTo("عادی")==0)
         {
-            holder.LinearTitle.setBackgroundColor(Color.rgb(212,212,212));
+            holder.LinearTitle.setBackgroundColor(Color.parseColor("#95d1db"));
         }
         else
         {
-            holder.LinearTitle.setBackgroundColor(Color.rgb(219,125,118));
+            holder.LinearTitle.setBackgroundColor(Color.parseColor("#db7c76"));
         }
         holder.txtLocationService.setText(LocationService);
         holder.txtDate.setText(Date);
