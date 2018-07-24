@@ -62,7 +62,7 @@ public class ShowMessage extends Activity{
     private String Day;
     private String code;
     private String Isread;
-    private Button btnCredit;
+    private TextView btnCredit;
     private Button btnDutyToday;
     private Button btnServices_at_the_turn;
     private Button btnHome;
@@ -74,7 +74,7 @@ public class ShowMessage extends Activity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.show_message);
-        btnCredit=(Button)findViewById(R.id.btnCredit);
+        btnCredit=(TextView)findViewById(R.id.btnCredit);
         btnServices_at_the_turn=(Button)findViewById(R.id.btnServices_at_the_turn);
         btnDutyToday=(Button)findViewById(R.id.btnDutyToday);
         btnHome=(Button)findViewById(R.id.btnHome);
@@ -117,6 +117,27 @@ public class ShowMessage extends Activity{
             db.close();
         }
         //****************************************************************************************
+        TextView tvAmountCredit=(TextView) findViewById(R.id.tvAmountCredit);
+        db=dbh.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM AmountCredit", null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToNext();
+            String splitStr[] = cursor.getString(cursor.getColumnIndex("Amount")).toString().split("\\.");
+            if(splitStr.length>=2)
+            {
+                if (splitStr[1].compareTo("00") == 0) {
+                    tvAmountCredit.setText(PersianDigitConverter.PerisanNumber(splitStr[0]));
+                } else
+                {
+                    tvAmountCredit.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("Amount"))));
+                }
+            }
+            else
+            {
+                tvAmountCredit.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("Amount"))));
+            }
+        }
+        //****************************************************************************************
         db=dbh.getReadableDatabase();
         Cursor coursors = db.rawQuery("SELECT * FROM messages WHERE IsReade='0' AND IsDelete='0'",null);
         if(coursors.getCount()>0)
@@ -137,7 +158,7 @@ public class ShowMessage extends Activity{
         code=getIntent().getStringExtra("Code").toString();
         db=dbh.getReadableDatabase();
         query="SELECT * FROM messages WHERE Code='"+code+"'";
-        Cursor cursor= db.rawQuery(query,null);
+        cursor= db.rawQuery(query,null);
         if(cursor.getCount()>0) {
             cursor.moveToNext();
             content.setText(cursor.getString(cursor.getColumnIndex("Content")));
@@ -157,12 +178,12 @@ public class ShowMessage extends Activity{
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                db=dbh.getWritableDatabase();
                 String query=null;
                 query="UPDATE  messages" +
                         " SET  IsDelete='1' " +
                         "WHERE Code='"+getIntent().getStringExtra("Code") + "'";
                 db.execSQL(query);
-
                 db.close();
                 LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
             }
@@ -176,13 +197,13 @@ public class ShowMessage extends Activity{
         btnDutyToday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
+                LoadActivity(ListServiceAtTheTurn.class, "guid", guid, "hamyarcode", hamyarcode);
             }
         });
         btnServices_at_the_turn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
+                LoadActivity(ListServiceAtTheTurn.class, "guid", guid, "hamyarcode", hamyarcode);
             }
         });
         btnHome.setOnClickListener(new View.OnClickListener() {

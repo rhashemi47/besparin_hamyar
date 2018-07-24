@@ -36,6 +36,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.flaviofaria.kenburnsview.RandomTransitionGenerator;
@@ -69,7 +70,7 @@ public class MainMenu extends AppCompatActivity {
     private String countVisit;
     private Button btnDuty;
     private Button btnServices;
-    private Button btnCredit;
+    private TextView btnCredit;
     private Button btnDutyToday;
     private Button btnServices_at_the_turn;
     private Button btnHome;
@@ -100,7 +101,8 @@ public class MainMenu extends AppCompatActivity {
         btnServices.setTextSize(18);
         //****************************************************************
 
-        btnCredit=(Button)findViewById(R.id.btnCredit);
+
+        btnCredit=(TextView)findViewById(R.id.btnCredit);
         btnServices_at_the_turn=(Button)findViewById(R.id.btnServices_at_the_turn);
         btnDutyToday=(Button)findViewById(R.id.btnDutyToday);
         btnHome=(Button)findViewById(R.id.btnHome);
@@ -124,11 +126,55 @@ public class MainMenu extends AppCompatActivity {
 
             throw sqle;
         }
+        //****************************************************************************************
+        TextView tvAmountCredit=(TextView) findViewById(R.id.tvAmountCredit);
         db=dbh.getReadableDatabase();
-        Cursor cursorDuty = db.rawQuery("SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
+        Cursor cursor = db.rawQuery("SELECT * FROM AmountCredit", null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToNext();
+            String splitStr[] = cursor.getString(cursor.getColumnIndex("Amount")).toString().split("\\.");
+            if(splitStr.length>=2)
+            {
+                if (splitStr[1].compareTo("00") == 0) {
+                    tvAmountCredit.setText(PersianDigitConverter.PerisanNumber(splitStr[0]));
+                } else
+                {
+                    tvAmountCredit.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("Amount"))));
+                }
+            }
+            else
+            {
+                tvAmountCredit.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("Amount"))));
+            }
+        }
+        db.close();
+        //****************************************************************************************
+        ir.hamsaa.persiandatepicker.util.PersianCalendar calNow=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
+        db=dbh.getReadableDatabase();
+        String year,mon,day,query;
+        year=String.valueOf(calNow.getPersianYear());
+        if(calNow.getPersianMonth()<10)
+        {
+            mon="0"+String.valueOf(calNow.getPersianMonth());
+        }
+        else
+        {
+            mon=String.valueOf(calNow.getPersianMonth());
+        }
+        if(calNow.getPersianDay()<10)
+        {
+            day="0"+String.valueOf(calNow.getPersianDay());
+        }
+        else
+        {
+            day=String.valueOf(calNow.getPersianDay());
+        }
+        query="SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
                 "LEFT JOIN " +
                 "Servicesdetails ON " +
-                "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode WHERE IsDelete='0'",null);
+                "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode WHERE IsDelete='0' AND StartDate='"+
+                year+"/"+mon+"/"+day+"'";
+        Cursor cursorDuty = db.rawQuery(query,null);
         if(cursorDuty.getCount()>0)
         {
             btnDuty.setText(String.valueOf(cursorDuty.getCount()));
@@ -165,7 +211,7 @@ public class MainMenu extends AppCompatActivity {
         {
             String status="0";
             db = dbh.getReadableDatabase();
-            Cursor cursor = db.rawQuery("SELECT * FROM Profile", null);
+            cursor = db.rawQuery("SELECT * FROM Profile", null);
             if (cursor.getCount() > 0) {
                 cursor.moveToNext();
                 try {
@@ -174,18 +220,22 @@ public class MainMenu extends AppCompatActivity {
                         if (status.compareTo("0") == 0) {
                             status = "غیرفعال";
                             PublicVariable.IsActive=false;
+                            IsActive=false;
                         } else {
                             status = "فعال";
                             PublicVariable.IsActive=true;
+                            IsActive=true;
                         }
                     } else {
                         status = "غیرفعال";
                         PublicVariable.IsActive=false;
+                        IsActive=false;
                     }
 
                 } catch (Exception ex) {
                     status = "غیرفعال";
                     PublicVariable.IsActive=false;
+                    IsActive=false;
                 }
             }
             hamyarcode = getIntent().getStringExtra("hamyarcode");
@@ -281,13 +331,14 @@ public class MainMenu extends AppCompatActivity {
         btnDutyToday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
+
+                LoadActivity(List_Dutys.class, "guid", guid, "hamyarcode", hamyarcode);
             }
         });
         btnServices_at_the_turn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
+                LoadActivity(ListServiceAtTheTurn.class, "guid", guid, "hamyarcode", hamyarcode);
             }
         });
         btnHome.setOnClickListener(new View.OnClickListener() {

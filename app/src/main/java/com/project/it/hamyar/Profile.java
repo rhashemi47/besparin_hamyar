@@ -118,7 +118,7 @@ public class Profile extends Activity {
 		imgUser=(ImageView) findViewById(R.id.imgUser);
 		btnSendProfile=(Button) findViewById(R.id.btnSendProfile);
 		//***************************************************************
-//		btnCredit=(Button)findViewById(R.id.btnCredit);
+//		btnCredit=(TextView)findViewById(R.id.btnCredit);
 //		btnOrders=(Button)findViewById(R.id.btnOrders);
 //		btnHome=(Button)findViewById(R.id.btnHome);
 		tvProfileRegentCode=(TextView)findViewById(R.id.tvCodeMoaref);
@@ -290,7 +290,7 @@ public class Profile extends Activity {
 //		btnOrders.setOnClickListener(new View.OnClickListener() {
 //			@Override
 //			public void onClick(View v) {
-//				LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
+//				LoadActivity(ListServiceAtTheTurn.class, "guid", guid, "hamyarcode", hamyarcode);
 //			}
 //		});
 //		btnHome.setOnClickListener(new View.OnClickListener() {

@@ -197,7 +197,7 @@ public class SyncGetSelectJobsForService {
 
 
 	public void InsertDataFromWsToDb(String AllRecord) {
-	/*	String[] res;
+		String[] res;
 		String[] value;
 		String query = null;
 		String LastHamyarUserServiceCode = null;
@@ -292,7 +292,7 @@ public class SyncGetSelectJobsForService {
 
 			}
 		}
-		db.close();*/
+		db.close();
 	}
 	public boolean checkStatus(String codeStr,String statusStr)
 	{
@@ -374,18 +374,18 @@ public class SyncGetSelectJobsForService {
 		NotificationClass notifi=new NotificationClass();
 		notifi.Notificationm(this.activity,title,getDetailname(detail)+" "+ StrStatus,OrderCode,id,Cls);
 	}
-//	public boolean IsFristInsert()
-//	{
-//		db=dbh.getReadableDatabase();
-//		String query = "SELECT * FROM BsHamyarSelectServices";
-//		Cursor cursor= db.rawQuery(query,null);
-//		if(cursor.getCount()>0)
-//		{
-//			return false;
-//		}
-//		else
-//		{
-//			return true;
-//		}
-//	}
+	public boolean IsFristInsert()
+	{
+		db=dbh.getReadableDatabase();
+		String query = "SELECT * FROM BsHamyarSelectServices";
+		Cursor cursor= db.rawQuery(query,null);
+		if(cursor.getCount()>0)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
 }

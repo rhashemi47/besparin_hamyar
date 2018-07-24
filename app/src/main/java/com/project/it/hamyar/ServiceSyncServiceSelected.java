@@ -36,6 +36,7 @@ public class ServiceSyncServiceSelected extends Service {
         if(createthread) {
             mHandler = new Handler();
             new Thread(new Runnable() {
+                public String LastHamyarUserServiceCode;
                 @Override
                 public void run() {
                     // TODO Auto-generated method stub
@@ -72,7 +73,16 @@ public class ServiceSyncServiceSelected extends Service {
                                         guid=coursors.getString(coursors.getColumnIndex("guid"));
                                     }
                                     db.close();
-                                    SyncGetSelectJobsForService syncGetSelectJobsForService =new SyncGetSelectJobsForService(getApplicationContext(),guid,hamyarcode,"0");
+                                    db=dbh.getReadableDatabase();
+                                    Cursor cursors = db.rawQuery("SELECT ifnull(MAX(CAST (code AS INT)),0)as code FROM BsHamyarSelectServices", null);
+                                    if(cursors.getCount()>0)
+                                    {
+                                        cursors.moveToNext();
+                                        LastHamyarUserServiceCode=cursors.getString(cursors.getColumnIndex("code"));
+                                    }
+
+                                    db.close();
+                                    SyncGetSelectJobsForService syncGetSelectJobsForService =new SyncGetSelectJobsForService(getApplicationContext(),guid,hamyarcode,LastHamyarUserServiceCode);
                                     syncGetSelectJobsForService.AsyncExecute();
                                 }
                             });

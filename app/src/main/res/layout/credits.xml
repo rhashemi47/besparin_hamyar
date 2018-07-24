@@ -57,22 +57,27 @@
                 android:text="@string/RecentCredit"
                 android:textSize="18dp"
                 android:textColor="#000000"/>
+
             <TextView
                 android:id="@+id/tvLine"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:lineSpacingExtra="4dp"
                 android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="-20dp"
                 android:gravity="center"
+                android:lineSpacingExtra="4dp"
                 android:text="@string/Line"
-                android:textSize="18sp"
-                android:textColor="#000000"/>
+                android:textColor="#000000"
+                android:textSize="18sp" />
             <TextView
                 android:id="@+id/tvRecentCreditsValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="-10dp"
                 android:lineSpacingExtra="4dp"
                 android:textSize="18sp"
                 android:text="0"
@@ -101,6 +106,8 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/rounded_edittext"
                 android:inputType="number"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:textSize="18sp"
                 android:textColor="#000000"/>
             <TextView
@@ -120,24 +127,24 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="10,000"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:layout_margin="10dp"/>
+                    android:layout_margin="10dp"
+                    android:id="@+id/tvOne"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="20,000"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:layout_margin="10dp"/>
+                    android:layout_margin="10dp"
+                    android:id="@+id/tvTwo"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="30,000"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:layout_margin="10dp"/>
+                    android:layout_margin="10dp"
+                    android:id="@+id/tvThree"/>
             </LinearLayout>
             <Button
                 android:layout_width="match_parent"
@@ -172,7 +179,9 @@
                 android:id="@+id/etCurrencyInsertEtebar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="-10dp"
                 android:background="@drawable/rounded_edittext"
                 android:inputType="number"
                 android:text="0"
@@ -222,42 +231,46 @@
     </LinearLayout>
     </LinearLayout>
     </ScrollView>
-    <LinearLayout
-        android:layout_width="match_parent"
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:gravity="center">-->
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:id="@+id/btnHome"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/rounded_button_bottom"-->
+            <!--android:drawableTop="@drawable/home"-->
+            <!--android:text="@string/home"/>-->
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:id="@+id/btnDutyToday"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/rounded_button_bottom"-->
+            <!--android:drawableTop="@drawable/calendar"-->
+            <!--android:text="@string/DutyToday"/>-->
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:id="@+id/btnServices_at_the_turn"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/rounded_button_bottom"-->
+            <!--android:drawableTop="@drawable/clock"-->
+            <!--android:text="@string/Services_at_the_turn"/>-->
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:id="@+id/btnCredit"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/rounded_button_bottom"-->
+            <!--android:text="@string/credite"/>-->
+    <!--</LinearLayout>-->
+    <include layout="@layout/bottom_button"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:gravity="center">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/btnHome"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_button_bottom"
-            android:drawableTop="@drawable/home"
-            android:text="@string/home"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/btnDutyToday"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_button_bottom"
-            android:drawableTop="@drawable/calendar"
-            android:text="@string/DutyToday"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/btnServices_at_the_turn"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_button_bottom"
-            android:drawableTop="@drawable/clock"
-            android:text="@string/Services_at_the_turn"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/btnCredit"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_button_bottom"
-            android:text="@string/credite"/>
-    </LinearLayout>
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"/>
 </RelativeLayout>

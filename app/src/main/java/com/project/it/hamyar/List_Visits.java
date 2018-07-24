@@ -25,6 +25,7 @@
     import android.view.View;
     import android.widget.Button;
     import android.widget.ListView;
+    import android.widget.TextView;
     import android.widget.Toast;
 
     import com.mikepenz.materialdrawer.AccountHeader;
@@ -52,7 +53,7 @@
         private ListView lvVisit;
         private DatabaseHelper dbh;
         private SQLiteDatabase db;
-        private Button btnCredit;
+        private TextView btnCredit;
         private Button btnDutyToday;
         private Button btnServices_at_the_turn;
         private Button btnHome;
@@ -62,7 +63,7 @@
         protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_visits);
-            btnCredit=(Button)findViewById(R.id.btnCredit);
+            btnCredit=(TextView)findViewById(R.id.btnCredit);
             btnServices_at_the_turn=(Button)findViewById(R.id.btnServices_at_the_turn);
             btnDutyToday=(Button)findViewById(R.id.btnDutyToday);
             btnHome=(Button)findViewById(R.id.btnHome);
@@ -103,6 +104,28 @@
             db.close();
         }
             //****************************************************************************************
+            TextView tvAmountCredit=(TextView) findViewById(R.id.tvAmountCredit);
+            db=dbh.getReadableDatabase();
+            Cursor cursor = db.rawQuery("SELECT * FROM AmountCredit", null);
+            if (cursor.getCount() > 0) {
+                cursor.moveToNext();
+                String splitStr[] = cursor.getString(cursor.getColumnIndex("Amount")).toString().split("\\.");
+                if(splitStr.length>=2)
+                {
+                    if (splitStr[1].compareTo("00") == 0) {
+                        tvAmountCredit.setText(PersianDigitConverter.PerisanNumber(splitStr[0]));
+                    } else
+                    {
+                        tvAmountCredit.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("Amount"))));
+                    }
+                }
+                else
+                {
+                    tvAmountCredit.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("Amount"))));
+                }
+            }
+            //****************************************************************************************
+            //****************************************************************************************
             db=dbh.getReadableDatabase();
             Cursor coursors = db.rawQuery("SELECT * FROM messages WHERE IsReade='0' AND IsDelete='0'",null);
             if(coursors.getCount()>0)
@@ -128,16 +151,23 @@
             for(int i=0;i<coursors.getCount();i++){
                 coursors.moveToNext();
                 HashMap<String, String> map = new HashMap<String, String>();
-                map.put("name","شماره درخواست: "+coursors.getString(coursors.getColumnIndex("Code"))+"\n"+
-                        "موضوع: "+coursors.getString(coursors.getColumnIndex("name"))+"\n"
-                        +"نام متقاضی: "+coursors.getString(coursors.getColumnIndex("UserName"))+
-                        " "+coursors.getString(coursors.getColumnIndex("UserFamily"))+"\n"+
-                        "تاریخ حضور: "+coursors.getString(coursors.getColumnIndex("StartDate"))+"\n"+
-                        "ساعت حضور: "+coursors.getString(coursors.getColumnIndex("StartTime"))+"\n"+
-                        "تاریخ ثبت بازدید: "+coursors.getString(coursors.getColumnIndex("VisitDate"))+"\n"+
-                        "ساعت بازدید: "+coursors.getString(coursors.getColumnIndex("VisitTime"))+"\n"+
-                        "وضعیت: "+((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0")==1? "عادی":"فوری")));
-                map.put("Code",coursors.getString(coursors.getColumnIndex("Code")));
+//                map.put("name","شماره درخواست: "+coursors.getString(coursors.getColumnIndex("Code"))+"\n"+
+//                        "موضوع: "+coursors.getString(coursors.getColumnIndex("name"))+"\n"
+//                        +"نام متقاضی: "+coursors.getString(coursors.getColumnIndex("UserName"))+
+//                        " "+coursors.getString(coursors.getColumnIndex("UserFamily"))+"\n"+
+//                        "تاریخ حضور: "+coursors.getString(coursors.getColumnIndex("StartDate"))+"\n"+
+//                        "ساعت حضور: "+coursors.getString(coursors.getColumnIndex("StartTime"))+"\n"+
+//                        "تاریخ ثبت بازدید: "+coursors.getString(coursors.getColumnIndex("VisitDate"))+"\n"+
+//                        "ساعت بازدید: "+coursors.getString(coursors.getColumnIndex("VisitTime"))+"\n"+
+//                        "وضعیت: "+((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0")==1? "عادی":"فوری")));
+//                map.put("Code",coursors.getString(coursors.getColumnIndex("Code")));
+                map.put("Code",coursors.getString(coursors.getColumnIndex("BsHamyarSelectServices.Code")));
+                map.put("UserPhone",coursors.getString(coursors.getColumnIndex("UserPhone")));
+                map.put("TitleService",coursors.getString(coursors.getColumnIndex("name")));
+                map.put("Emergency",((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0")==1? "عادی":"فوری")));
+                map.put("NameCustomer",coursors.getString(coursors.getColumnIndex("UserName"))+" "+coursors.getString(coursors.getColumnIndex("UserFamily")));
+                map.put("Date",coursors.getString(coursors.getColumnIndex("StartDate"))+" "+coursors.getString(coursors.getColumnIndex("EndDate")));
+                map.put("Time",coursors.getString(coursors.getColumnIndex("StartTime"))+" "+coursors.getString(coursors.getColumnIndex("EndTime")));
                 valuse.add(map);
             }
             AdapterVisit dataAdapter=new AdapterVisit(List_Visits.this,valuse,guid,hamyarcode);
@@ -153,13 +183,14 @@
             btnDutyToday.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
+
+                    LoadActivity(List_Dutys.class, "guid", guid, "hamyarcode", hamyarcode);
                 }
             });
             btnServices_at_the_turn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
+                    LoadActivity(ListServiceAtTheTurn.class, "guid", guid, "hamyarcode", hamyarcode);
                 }
             });
             btnHome.setOnClickListener(new View.OnClickListener() {

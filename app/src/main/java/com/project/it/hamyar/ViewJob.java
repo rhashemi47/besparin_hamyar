@@ -116,7 +116,7 @@ public class ViewJob extends AppCompatActivity{
     private Button btnFinal;
     private Button btnCallToCustomer;
     private Cursor coursors;
-    private Button btnCredit;
+    private TextView btnCredit;
     private Button btnDutyToday;
     private Button btnServices_at_the_turn;
     private Button btnHome;
@@ -155,7 +155,7 @@ public class ViewJob extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.viewjob);
         final Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
-        btnCredit=(Button)findViewById(R.id.btnCredit);
+        btnCredit=(TextView)findViewById(R.id.btnCredit);
         btnServices_at_the_turn=(Button)findViewById(R.id.btnServices_at_the_turn);
         btnDutyToday=(Button)findViewById(R.id.btnDutyToday);
         btnHome=(Button)findViewById(R.id.btnHome);
@@ -249,6 +249,27 @@ public class ViewJob extends AppCompatActivity{
         } catch (SQLException sqle) {
 
             throw sqle;
+        }
+        //****************************************************************************************
+        TextView tvAmountCredit=(TextView) findViewById(R.id.tvAmountCredit);
+        db=dbh.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM AmountCredit", null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToNext();
+            String splitStr[] = cursor.getString(cursor.getColumnIndex("Amount")).toString().split("\\.");
+            if(splitStr.length>=2)
+            {
+                if (splitStr[1].compareTo("00") == 0) {
+                    tvAmountCredit.setText(PersianDigitConverter.PerisanNumber(splitStr[0]));
+                } else
+                {
+                    tvAmountCredit.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("Amount"))));
+                }
+            }
+            else
+            {
+                tvAmountCredit.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("Amount"))));
+            }
         }
         //****************************************************************************************
         db=dbh.getReadableDatabase();
@@ -1005,7 +1026,7 @@ public class ViewJob extends AppCompatActivity{
             @Override
             public void onClick(View v)
             {
-                SyncSelecteJob syncSelecteJob=new SyncSelecteJob(ViewJob.this,guid,hamyarcode,coursors.getString(coursors.getColumnIndex("Code")));
+                SyncSelecteJob syncSelecteJob=new SyncSelecteJob(ViewJob.this,guid,hamyarcode,BsUserServicesID);
                 syncSelecteJob.AsyncExecute();
             }
         });
@@ -1027,7 +1048,7 @@ public class ViewJob extends AppCompatActivity{
                                     public void onClick(DialogInterface dialog,int id) {
                                         // get user input and set it to result
                                         // edit text
-                                        SyncCanselJob syncCanselJob=new SyncCanselJob(ViewJob.this,guid,hamyarcode,coursors.getString(coursors.getColumnIndex("Code")),
+                                        SyncCanselJob syncCanselJob=new SyncCanselJob(ViewJob.this,guid,hamyarcode,BsUserServicesID,
                                         coursors.getString(coursors.getColumnIndex("id")),descriptionCansel.getText().toString());
                                         syncCanselJob.AsyncExecute();
                                     }
@@ -1186,13 +1207,14 @@ public class ViewJob extends AppCompatActivity{
         btnDutyToday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
+
+                LoadActivity(List_Dutys.class, "guid", guid, "hamyarcode", hamyarcode);
             }
         });
         btnServices_at_the_turn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
+                LoadActivity(ListServiceAtTheTurn.class, "guid", guid, "hamyarcode", hamyarcode);
             }
         });
         btnHome.setOnClickListener(new View.OnClickListener() {

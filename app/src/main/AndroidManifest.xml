@@ -79,6 +79,9 @@
             android:name="com.project.it.hamyar.History"
             android:noHistory="false"/>
         <activity
+            android:name="com.project.it.hamyar.Credit_History"
+            android:noHistory="false"/>
+        <activity
             android:name="com.project.it.hamyar.List_Dutys"
             android:noHistory="false"/>
         <activity
@@ -86,6 +89,9 @@
             android:noHistory="false"/>
         <activity
             android:name="com.project.it.hamyar.Setting"
+            android:noHistory="false"/>
+        <activity
+            android:name="com.project.it.hamyar.ListServiceAtTheTurn"
             android:noHistory="false"/>
         <service android:name=".ServiceGetNewJob">
 

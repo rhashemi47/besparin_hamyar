@@ -58,14 +58,18 @@ public class Credit extends Activity {
 	private boolean IsActive;
 	private DatabaseHelper dbh;
 //	private TextView txtContent;
-	private TextView tvRecentCreditsValue;
+	private TextView tvOne;
+	private TextView tvTwo;
+	private TextView tvThree;
 	private SQLiteDatabase db;
 	private Button btnIncreseCredit;
-	private ListView lstHistoryCredit;
-	private Button btnCredit;
+//	private ListView lstHistoryCredit;
+	private TextView btnCredit;
 	private Button btnDutyToday;
 	private Button btnServices_at_the_turn;
 	private Button btnHome;
+	private Button btnCreditHistory;
+	private TextView tvRecentCreditsValue;
 	private EditText etCurrencyInsertCredit;
 	private ArrayList<HashMap<String ,String>> valuse=new ArrayList<HashMap<String, String>>();
 	@Override
@@ -77,12 +81,22 @@ public class Credit extends Activity {
 protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.credits);
-	btnCredit=(Button)findViewById(R.id.btnCredit);
+	btnCredit=(TextView)findViewById(R.id.btnCredit);
 	btnServices_at_the_turn=(Button)findViewById(R.id.btnServices_at_the_turn);
 	btnDutyToday=(Button)findViewById(R.id.btnDutyToday);
 	btnHome=(Button)findViewById(R.id.btnHome);
+	btnCreditHistory=(Button)findViewById(R.id.btnCreditHistory);
+	tvRecentCreditsValue=(TextView)findViewById(R.id.tvRecentCreditsValue);
 	etCurrencyInsertCredit=(EditText)findViewById(R.id.etCurrencyInsertCredit);
 	etCurrencyInsertCredit.addTextChangedListener(new NumberTextWatcherForThousand(etCurrencyInsertCredit));
+
+	tvOne=(TextView)findViewById(R.id.tvOne);
+	tvTwo=(TextView)findViewById(R.id.tvTwo);
+	tvThree=(TextView)findViewById(R.id.tvThree);
+
+	tvOne.setText(PersianDigitConverter.PerisanNumber("10,000"));
+	tvTwo.setText(PersianDigitConverter.PerisanNumber("20,000"));
+	tvThree.setText(PersianDigitConverter.PerisanNumber("30,000"));
 	dbh=new DatabaseHelper(getApplicationContext());
 	try {
 
@@ -120,6 +134,28 @@ protected void onCreate(Bundle savedInstanceState) {
 	}
 
 	//****************************************************************************************
+	TextView tvAmountCredit=(TextView) findViewById(R.id.tvAmountCredit);
+	db=dbh.getReadableDatabase();
+	Cursor cursor = db.rawQuery("SELECT * FROM AmountCredit", null);
+	if (cursor.getCount() > 0) {
+		cursor.moveToNext();
+		String splitStr[] = cursor.getString(cursor.getColumnIndex("Amount")).toString().split("\\.");
+		if(splitStr.length>=2)
+		{
+			if (splitStr[1].compareTo("00") == 0) {
+				tvAmountCredit.setText(PersianDigitConverter.PerisanNumber(splitStr[0]));
+			} else
+			{
+				tvAmountCredit.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("Amount"))));
+			}
+		}
+		else
+		{
+			tvAmountCredit.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("Amount"))));
+		}
+	}
+	//****************************************************************************************
+	//****************************************************************************************
 	db=dbh.getReadableDatabase();
 	Cursor coursors = db.rawQuery("SELECT * FROM messages WHERE IsReade='0' AND IsDelete='0'",null);
 	if(coursors.getCount()>0)
@@ -136,15 +172,14 @@ protected void onCreate(Bundle savedInstanceState) {
 	CreateMenu(toolbar);
 	//***************************************************************************************************************************
 	btnIncreseCredit=(Button)findViewById(R.id.btnIncresCredit);
-	lstHistoryCredit=(ListView) findViewById(R.id.lstHistoryCredit);
+//	lstHistoryCredit=(ListView) findViewById(R.id.lstHistoryCredit);
 	Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
 //	txtContent=(TextView)findViewById(R.id.tvHistoryCredits);
 //	txtContent.setTypeface(FontMitra);
-	tvRecentCreditsValue=(TextView)findViewById(R.id.tvRecentCreditsValue);
-	tvRecentCreditsValue.setTypeface(FontMitra);
 	try
 	{
 		String Content="";
+		db=dbh.getReadableDatabase();
 		coursors = db.rawQuery("SELECT * FROM AmountCredit", null);
 		if (coursors.getCount() > 0) {
 			coursors.moveToNext();
@@ -160,7 +195,7 @@ protected void onCreate(Bundle savedInstanceState) {
 		}
 		else
 		{
-			lstHistoryCredit.setVisibility(View.GONE);
+//			lstHistoryCredit.setVisibility(View.GONE);
 		}
 		if(Content.compareTo("")==0){
 			tvRecentCreditsValue.setText("0"+" ریال");
@@ -171,54 +206,46 @@ protected void onCreate(Bundle savedInstanceState) {
 	}
 	catch (Exception ex)
 	{
-		tvRecentCreditsValue.setText("0"+" ریال");
-		lstHistoryCredit.setVisibility(View.GONE);
+		tvRecentCreditsValue.setText(PersianDigitConverter.PerisanNumber("0"+" ریال"));
+//		lstHistoryCredit.setVisibility(View.GONE);
 	}
-	try
-	{
-		coursors = db.rawQuery("SELECT * FROM credits", null);
-		String Content="";
-		for (int i=0;i<coursors.getCount();i++) {
-			coursors.moveToNext();
-			HashMap<String, String> map = new HashMap<String, String>();
-			map.put("name","مبلغ: " +coursors.getString(coursors.getColumnIndex("Price"))+" ریال " +"\n"
-			+"عملیات: " + coursors.getString(coursors.getColumnIndex("TransactionType"))+ "\n"
-			+"نوع تراکنش: " + coursors.getString(coursors.getColumnIndex("PaymentMethod"))+ "\n"
-			+"تاریخ: " + coursors.getString(coursors.getColumnIndex("TransactionDate"))+ "\n"
-			+"شماره سند: " + coursors.getString(coursors.getColumnIndex("DocNumber"))+ "\n"
-			+"توضیحات: " + coursors.getString(coursors.getColumnIndex("Description")));
-			map.put("Code",coursors.getString(coursors.getColumnIndex("Code")));
-			valuse.add(map);
+	tvOne.setOnClickListener(new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			etCurrencyInsertCredit.setText(PersianDigitConverter.PerisanNumber("10000"));
 		}
-		AdapterCredit dataAdapter=new AdapterCredit(this,valuse,guid,hamyarcode);
-		lstHistoryCredit.setAdapter(dataAdapter);
-		if(valuse.size()==0){
-			lstHistoryCredit.setVisibility(View.GONE);
-//			txtContent.setVisibility(View.VISIBLE);
-//			txtContent.setText("موردی جهت نمایش وجود ندارد");
+	});
+	tvTwo.setOnClickListener(new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			etCurrencyInsertCredit.setText(PersianDigitConverter.PerisanNumber("20000"));
 		}
-		else
-		{
-			lstHistoryCredit.setVisibility(View.VISIBLE);
-//			txtContent.setVisibility(View.GONE);
+	});
+	tvThree.setOnClickListener(new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			etCurrencyInsertCredit.setText(PersianDigitConverter.PerisanNumber("30000"));
 		}
-	}
-	catch (Exception ex){
-		lstHistoryCredit.setVisibility(View.GONE);
-//		txtContent.setVisibility(View.VISIBLE);
-		tvRecentCreditsValue.setText("موردی جهت نمایش وجود ندارد");
-	}
+	});
 	btnIncreseCredit.setOnClickListener(new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			if(etCurrencyInsertCredit.getText().length()>0) {
-				SyncInsertHamyarCredit syncInsertHamyarCredit = new SyncInsertHamyarCredit(Credit.this,etCurrencyInsertCredit.getText().toString().replace(",","") , hamyarcode, "1", "10004", "تست");
+				String price=etCurrencyInsertCredit.getText().toString().replace(",","");
+				price=PersianDigitConverter.EnglishNumber(price);
+				SyncInsertHamyarCredit syncInsertHamyarCredit = new SyncInsertHamyarCredit(Credit.this,price , hamyarcode, "1", "10004", "تست");
 				syncInsertHamyarCredit.AsyncExecute();
 			}
 			else
 			{
 				Toast.makeText(Credit.this, "لطفا مبلغ مورد نظر خود را به ریال وارد نمایید", Toast.LENGTH_SHORT).show();
 			}
+		}
+	});
+	btnCreditHistory.setOnClickListener(new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			LoadActivity(Credit_History.class, "guid",  guid, "hamyarcode", hamyarcode);
 		}
 	});
 	btnCredit.setOnClickListener(new View.OnClickListener() {
@@ -230,13 +257,14 @@ protected void onCreate(Bundle savedInstanceState) {
 	btnDutyToday.setOnClickListener(new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
+
+			LoadActivity(List_Dutys.class, "guid", guid, "hamyarcode", hamyarcode);
 		}
 	});
 	btnServices_at_the_turn.setOnClickListener(new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
+			LoadActivity(ListServiceAtTheTurn.class, "guid", guid, "hamyarcode", hamyarcode);
 		}
 	});
 	btnHome.setOnClickListener(new View.OnClickListener() {

@@ -18,26 +18,33 @@
             android:layout_height="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:title="@string/Help"
-            app:titleTextColor="#000000"
+            app:title="@string/Services_at_the_turn"
+            app:titleTextColor="#fff"
             android:background="@drawable/background_actionbar"/>
     </android.support.design.widget.AppBarLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="80dp"
+        android:layout_below="@+id/appbar"
         android:orientation="vertical">
-        <LinearLayout
+        <TextView
+            android:id="@+id/tvHistory"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/rounded_layout_select_job_body">
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:lineSpacingExtra="4dp"
+            android:textSize="18dp" />
 
-        </LinearLayout>
+        <ListView
+            android:id="@+id/lstHistory"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:dividerHeight="10dp"
+            android:divider="@color/transparent"
+            android:layout_marginBottom="85dp">
 
+        </ListView>
     </LinearLayout>
     <include layout="@layout/bottom_button"
         android:layout_height="wrap_content"

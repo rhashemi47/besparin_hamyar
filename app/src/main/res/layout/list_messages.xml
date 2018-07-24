@@ -44,55 +44,8 @@
             android:background="@drawable/rounded_listview_message">
         </ListView>
     </LinearLayout>
-    <!--<FrameLayout-->
-        <!--android:id="@+id/frame"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@drawable/background_actionbar" />-->
-
-    <!--<android.support.design.widget.BottomNavigationView-->
-        <!--android:id="@+id/bottomNavigationView"-->
-        <!--style="@style/BottomNavigation"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:menu="@menu/bottom_menu"-->
-        <!--android:layout_alignParentBottom="true"/>-->
-    <LinearLayout
-        android:layout_width="match_parent"
+    <include layout="@layout/bottom_button"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:gravity="center">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/btnHome"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_button_bottom"
-            android:drawableTop="@drawable/home"
-            android:text="@string/home"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/btnDutyToday"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_button_bottom"
-            android:drawableTop="@drawable/calendar"
-            android:text="@string/DutyToday"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/btnServices_at_the_turn"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_button_bottom"
-            android:drawableTop="@drawable/clock"
-            android:text="@string/Services_at_the_turn"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/btnCredit"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_button_bottom"
-            android:text="@string/credite"/>
-    </LinearLayout>
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"/>
 </RelativeLayout>
