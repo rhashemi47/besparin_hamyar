@@ -1,4 +1,4 @@
-package com.project.it.hamyar;
+package com.besparina.it.hamyar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,8 +15,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.project.it.hamyar.R;
-import com.project.it.hamyar.ViewJob;
+import com.besparina.it.hamyar.R;
+import com.besparina.it.hamyar.ViewJob;
 
 @SuppressLint("NewApi")
 public class AdapterMessage extends BaseAdapter {

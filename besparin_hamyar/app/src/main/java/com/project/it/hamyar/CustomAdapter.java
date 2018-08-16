@@ -1,4 +1,4 @@
-package com.project.it.hamyar;
+package com.besparina.it.hamyar;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -21,7 +21,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.project.it.hamyar.Date.ChangeDate;
+import com.besparina.it.hamyar.Date.ChangeDate;
 
 @SuppressLint("NewApi")
 public class CustomAdapter extends BaseAdapter {

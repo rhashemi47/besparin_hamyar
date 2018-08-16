@@ -3,13 +3,14 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId 'com.project.it.hamyar'
+        applicationId 'com.besparina.it.hamyar'
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+
     }
     buildTypes {
         release {
@@ -19,25 +20,43 @@ android {
     }
     productFlavors {
     }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+    }
 }
 
 dependencies {
     //compile files('lib/ksoap2-android-assembly-2.5.8-jar-with-dependencies.jar')
     compile fileTree(include: ['*.jar'], dir: 'libs')
     //implementation fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:26.+'
-    compile 'com.android.support:design:26.+'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    //noinspection GradleCompatible
+    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.android.support:design:26.1.0'
+    compile 'com.android.support:support-annotations:27.1.1'
+    compile 'com.android.support.constraint:constraint-layout:1.1.2'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     compile('com.mikepenz:materialdrawer:4.4.4@aar') {
         transitive = true
     }
     compile 'com.mohamadamin:persianmaterialdatetimepicker:1.2.1'
-    compile 'com.google.android.gms:play-services:11.8.0'
+    compile 'com.google.android.gms:play-services:12.0.1'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     compile 'com.flaviofaria:kenburnsview:1.0.7'
-    compile 'uk.co.chrisjenx:calligraphy:2.3.0'
+    implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
     compile 'com.github.hamsaadev:Persian-Date-Picker-Dialog:V1.2'
+    compile 'com.android.support:multidex:1.0.3'
+//    compile 'com.google.android.gms:play-services-analytics:16.0.1'
+    compile (group:'org.apache.httpcomponents',name:'httpmime',version:'4.3.5') {
+        exclude module:'org.apache.httpcomponents:httpclient'
+    }
+
 }

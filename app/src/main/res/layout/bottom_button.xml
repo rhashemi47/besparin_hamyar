@@ -11,7 +11,7 @@
             android:layout_height="match_parent"
             android:id="@+id/btnHome"
             android:layout_weight="1"
-            android:background="#fff"
+            android:background="#ffffff"
             android:divider="@color/transparent"
             android:drawableBottom="@drawable/home"
             android:text="@string/home"/>
@@ -29,7 +29,7 @@
             android:layout_height="match_parent"
             android:id="@+id/btnServices_at_the_turn"
             android:layout_weight="1"
-            android:background="#fff"
+            android:background="#ffffff"
             android:divider="@color/transparent"
             android:drawableBottom="@drawable/clock"
             android:text="@string/Services_at_the_turn"/>
@@ -61,7 +61,7 @@
                     android:textSize="14sp"
                     android:id="@+id/tvAmountCredit"
                     android:text="0"
-                    android:background="#fff"
+                    android:background="#ffffff"
                     android:layout_marginTop="-10dp"/>
         </LinearLayout>
 </LinearLayout>

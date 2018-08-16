@@ -126,7 +126,7 @@
     <string name="Expert">تخصص</string>
     <string name="Filter">فیلتر</string>
     <string name="LoginGuest">ورود مهمان</string>
-    <string name="SignUpOrLogin">ثبت نام</string>
+    <string name="SignUpOrLogin">ثبت نام / ورود</string>
     <string name="Gender">جنسیت</string>
     <string name="man">مرد</string>
     <string name="woman">زن</string>

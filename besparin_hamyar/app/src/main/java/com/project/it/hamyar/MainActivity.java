@@ -1,4 +1,4 @@
-package com.project.it.hamyar;
+package com.besparina.it.hamyar;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;

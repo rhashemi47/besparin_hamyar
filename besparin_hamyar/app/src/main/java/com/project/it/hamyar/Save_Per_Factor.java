@@ -1,4 +1,4 @@
-package com.project.it.hamyar;
+package com.besparina.it.hamyar;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -25,7 +25,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.project.it.hamyar.Date.ChangeDate;
+import com.besparina.it.hamyar.Date.ChangeDate;
 
 import java.io.IOException;
 import java.util.ArrayList;

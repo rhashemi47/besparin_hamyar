@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.project.it.hamyar.MainActivity"
+    tools:context="com.besparina.it.hamyar.MainActivity"
     android:background="@drawable/menu_body"
     >
 

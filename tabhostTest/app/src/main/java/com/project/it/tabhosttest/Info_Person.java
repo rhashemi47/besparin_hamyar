@@ -1,4 +1,4 @@
-package com.project.it.hamyar;
+package com.besparina.it.hamyar;
 
 import android.app.Activity;
 import android.database.Cursor;
@@ -136,7 +136,7 @@ public class Info_Person extends Activity {
         // preparing list data
         prepareListData();
  
-        listAdapter = new com.project.it.hamyar.ExpandableListAdapter(this, listDataHeader, listDataChild);
+        listAdapter = new com.besparina.it.hamyar.ExpandableListAdapter(this, listDataHeader, listDataChild);
 
  
         // setting list adapter

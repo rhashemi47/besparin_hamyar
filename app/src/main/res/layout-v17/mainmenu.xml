@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/appbar"
         android:id="@+id/LinearSlidShow">
-        <com.project.it.hamyar.Custom_ViewFlipper
+        <com.besparina.it.hamyar.Custom_ViewFlipper
             android:layout_width="match_parent"
             android:layout_height="220dp"
             android:inAnimation="@anim/right_in"
@@ -45,7 +45,7 @@
             android:autoStart="true"
             android:id="@+id/vf">
 
-        </com.project.it.hamyar.Custom_ViewFlipper>
+        </com.besparina.it.hamyar.Custom_ViewFlipper>
     </LinearLayout>
 
     <LinearLayout

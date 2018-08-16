@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.project.it.hamyar.MainActivity"
+            android:name="com.besparina.it.hamyar.MainActivity"
             android:label="@string/Logo_name"
             android:theme="@style/AppTheme.NoActionBar"
             android:noHistory="true" >
@@ -21,55 +21,55 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.project.it.hamyar.Login"
+            android:name="com.besparina.it.hamyar.Login"
             android:noHistory="true" />
         <activity
-            android:name="com.project.it.hamyar.Info_Person"
+            android:name="com.besparina.it.hamyar.Info_Person"
             android:noHistory="true" />
         <activity
-            android:name="com.project.it.hamyar.Accept_code"
+            android:name="com.besparina.it.hamyar.Accept_code"
             android:noHistory="true"/>
         <activity
-            android:name="com.project.it.hamyar.Profile"
+            android:name="com.besparina.it.hamyar.Profile"
             android:noHistory="true"/>
         <activity
-            android:name="com.project.it.hamyar.About"
+            android:name="com.besparina.it.hamyar.About"
             android:noHistory="true"/>
         <activity
-            android:name="com.project.it.hamyar.Contact"
+            android:name="com.besparina.it.hamyar.Contact"
             android:noHistory="true"/>
         <activity
-            android:name="com.project.it.hamyar.GiftBank"
+            android:name="com.besparina.it.hamyar.GiftBank"
             android:noHistory="true"/>
         <activity
-            android:name="com.project.it.hamyar.Help"
+            android:name="com.besparina.it.hamyar.Help"
             android:noHistory="true"/>
         <activity
-            android:name="com.project.it.hamyar.List_Messages"
+            android:name="com.besparina.it.hamyar.List_Messages"
             android:noHistory="true"/>
         <activity
-            android:name="com.project.it.hamyar.OurCommitment"
+            android:name="com.besparina.it.hamyar.OurCommitment"
             android:noHistory="true"/>
         <activity
-            android:name="com.project.it.hamyar.StepJob"
+            android:name="com.besparina.it.hamyar.StepJob"
             android:noHistory="true"/>
         <activity
-            android:name="com.project.it.hamyar.YourCommitment"
+            android:name="com.besparina.it.hamyar.YourCommitment"
             android:noHistory="true"/>
         <activity
-            android:name="com.project.it.hamyar.ViewJob"
+            android:name="com.besparina.it.hamyar.ViewJob"
             android:noHistory="true"/>
         <activity
-            android:name="com.project.it.hamyar.StepJobDetaile"
+            android:name="com.besparina.it.hamyar.StepJobDetaile"
             android:noHistory="true"/>
         <activity
-            android:name="com.project.it.hamyar.ShowMessage"
+            android:name="com.besparina.it.hamyar.ShowMessage"
             android:noHistory="true"/>
         <activity
-            android:name="com.project.it.hamyar.List_Visits"
+            android:name="com.besparina.it.hamyar.List_Visits"
             android:noHistory="true"/>
         <activity
-            android:name="com.project.it.hamyar.Save_Per_Factor"
+            android:name="com.besparina.it.hamyar.Save_Per_Factor"
             android:noHistory="true"/>
         <service android:name=".ServiceGetNewJob">
 
@@ -81,7 +81,7 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-        <receiver android:name="com.project.it.hamyar.SMSReseiver" android:enabled="true" android:exported="true">
+        <receiver android:name="com.besparina.it.hamyar.SMSReseiver" android:enabled="true" android:exported="true">
             <intent-filter android:priority="2147483647">
                 <action android:name=
                     "android.provider.Telephony.SMS_RECEIVED" />
