@@ -25,14 +25,6 @@
             app:titleTextAppearance="@style/TextAppearance.Medium"
             android:layout_gravity="right"
             android:gravity="right">
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/logo2"
-                android:layout_gravity="left"
-                android:layout_marginLeft="10dp"
-                android:layout_marginBottom="5dp"
-                tools:ignore="RtlHardcoded" />
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 

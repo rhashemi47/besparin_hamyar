@@ -105,7 +105,7 @@ public class WsDownLoadUpdate {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
                 String	VersionFromWeb = reader.readLine().toString();
                 String sp[]=CuAppVersion.split("\\.");
-                if(Integer.parseInt(sp[0])<=Integer.parseInt(VersionFromWeb))
+                if(Integer.parseInt(sp[0])>=Integer.parseInt(VersionFromWeb))
                     IsUpTodate = false;
                 else
                     IsUpTodate = true;

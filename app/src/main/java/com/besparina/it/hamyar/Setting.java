@@ -170,7 +170,7 @@
             Cursor cursor = db.rawQuery("SELECT * FROM AmountCredit", null);
             if (cursor.getCount() > 0) {
                 cursor.moveToNext();
-                String splitStr[] = cursor.getString(cursor.getColumnIndex("Amount")).toString().split("\\.");
+                String splitStr[] = (cursor.getString(cursor.getColumnIndex("Amount")).toString()).split("\\.");
                 if(splitStr.length>=2)
                 {
                     if (splitStr[1].compareTo("00") == 0) {

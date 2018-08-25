@@ -37,7 +37,6 @@ public class Credit_History extends Activity {
 	private Button btnDutyToday;
 	private Button btnServices_at_the_turn;
 	private Button btnHome;
-	private TextView tvRecentCreditsValue;
 	private ArrayList<HashMap<String ,String>> valuse=new ArrayList<HashMap<String, String>>();
 	@Override
 	protected void attachBaseContext(Context newBase) {
@@ -52,8 +51,6 @@ protected void onCreate(Bundle savedInstanceState) {
 	btnServices_at_the_turn=(Button)findViewById(R.id.btnServices_at_the_turn);
 	btnDutyToday=(Button)findViewById(R.id.btnDutyToday);
 	btnHome=(Button)findViewById(R.id.btnHome);
-	tvRecentCreditsValue=(TextView)findViewById(R.id.tvRecentCreditsValue);
-	tvRecentCreditsValue.setTypeface(FontMitra);
 	dbh=new DatabaseHelper(getApplicationContext());
 	try {
 
@@ -148,7 +145,6 @@ protected void onCreate(Bundle savedInstanceState) {
 	catch (Exception ex){
 		lstHistoryCredit.setVisibility(View.GONE);
 //		txtContent.setVisibility(View.VISIBLE);
-		tvRecentCreditsValue.setText("موردی جهت نمایش وجود ندارد");
 	}
 
 

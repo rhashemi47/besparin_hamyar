@@ -33,13 +33,16 @@
     </style>
 
     <style name="TextAppearance.Small">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">10sp</item>
         <item name="android:typeface">@font/iransans</item>
     </style>
 
     <style name="TextAppearance">TextAppearance</style>
 
     <style name="MySpinnerLook" parent="@android:TextAppearance.Widget.TextView.SpinnerItem">
+        <item name="android:textSize">22sp</item>
+    </style>
+    <style name="TextAppearance.Larg">
         <item name="android:textSize">22sp</item>
     </style>
 </resources>
