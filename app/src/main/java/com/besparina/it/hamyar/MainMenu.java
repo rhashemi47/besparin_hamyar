@@ -18,6 +18,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -712,18 +713,18 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
 //                                alertbox.setPositiveButton("مراحل کاری", new DialogInterface.OnClickListener() {
 //                                    // do something when the button is clicked
 //                                    public void onClick(DialogInterface arg0, int arg1) {
-                                        db=dbh.getReadableDatabase();
-                                        c = db.rawQuery("SELECT * FROM login",null);
-                                        if(c.getCount()>0)
-                                        {
-                                            c.moveToNext();
-                                            SyncGetHmFactorService getHmFactorService=new SyncGetHmFactorService(MainMenu.this,guid,hamyarcode);
-                                            getHmFactorService.AsyncExecute();
-                                            SyncGetHmFactorTools syncGetHmFactorTools=new SyncGetHmFactorTools(MainMenu.this,guid,hamyarcode);
-                                            syncGetHmFactorTools.AsyncExecute();
-                                            LoadActivity(Setting.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
-                                        }
-                                        db.close();
+                                db=dbh.getReadableDatabase();
+                                c = db.rawQuery("SELECT * FROM login",null);
+                                if(c.getCount()>0)
+                                {
+                                    c.moveToNext();
+                                    SyncGetHmFactorService getHmFactorService=new SyncGetHmFactorService(MainMenu.this,guid,hamyarcode);
+                                    getHmFactorService.AsyncExecute();
+                                    SyncGetHmFactorTools syncGetHmFactorTools=new SyncGetHmFactorTools(MainMenu.this,guid,hamyarcode);
+                                    syncGetHmFactorTools.AsyncExecute();
+                                    LoadActivity(Setting.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
+                                }
+                                db.close();
 //                                        arg0.dismiss();
 //                                    }
 //                                });
@@ -942,57 +943,36 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
             startActivity(intent);
         }
     }
+
     @Override
     public void onBackPressed() {
-//        if (doubleBackToExitPressedOnce) {
-//            startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-//            Intent startMain = new Intent(Intent.ACTION_MAIN);
-//
-//
-//            startMain.addCategory(Intent.CATEGORY_HOME);
-//
-////                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//
-//            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//
-//            startActivity(startMain);
-//
-//            finish();
-//            super.onBackPressed();
-//            return;
-//        }
-//        drawer.closeDrawer();
-//        this.doubleBackToExitPressedOnce = true;
-//
-////        Snackbar.make(findViewById(R.id.background_place_holder_image_view), "Please click BACK again to exit", Snackbar.LENGTH_SHORT).show();
-//        Toast.makeText(this, "جهت خروج از برنامه مجددا دکمه برگشت را لمس کنید", Toast.LENGTH_SHORT).show();
-//
-//        new Handler().postDelayed(new Runnable() {
-//
-//            @Override
-//            public void run() {
-//                doubleBackToExitPressedOnce=false;
-//            }
-//        }, 2000);
         if (drawer.isDrawerOpen()) {
             drawer.closeDrawer();
-
         }
-        else {
+        else
+        {
+            if (doubleBackToExitPressedOnce) {
+                startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+                Intent startMain = new Intent(Intent.ACTION_MAIN);
 
-            //super.onBackPressed();
-            Intent startMain = new Intent(Intent.ACTION_MAIN);
+                startMain.addCategory(Intent.CATEGORY_HOME);
 
-            startMain.addCategory(Intent.CATEGORY_HOME);
+                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(startMain);
 
-            startActivity(startMain);
-
-            finish();
-            super.onBackPressed();
-            return;
+                finish();
+                super.onBackPressed();
+                return;
+            }
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "جهت خروج از برنامه مجددا دکمه برگشت را لمس کنید", Toast.LENGTH_SHORT).show();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce=false;
+                }
+            }, 2000);
         }
     }
     public void Check_Login(String hamyarcode,String guid,String status)

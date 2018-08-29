@@ -302,7 +302,8 @@ public class SyncNewJob {
                 if (coursors.getCount() > 0 && i < 10)//Just show 10 Notification
                 {
                     coursors.moveToNext();
-                    runNotification("بسپارینا", coursors.getString(coursors.getColumnIndex("name")), i, value[0], ViewJob.class);
+                    String TitleStr=coursors.getString(coursors.getColumnIndex("name")) + " کد سرویس: " + value[0];
+                    runNotification("بسپارینا",TitleStr , i, value[0], ViewJob.class);
                 }
             }
         }

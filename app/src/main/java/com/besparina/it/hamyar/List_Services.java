@@ -28,9 +28,11 @@
     import android.view.LayoutInflater;
     import android.view.View;
     import android.view.ViewGroup;
+    import android.widget.ArrayAdapter;
     import android.widget.Button;
     import android.widget.EditText;
     import android.widget.ListView;
+    import android.widget.Spinner;
     import android.widget.TextView;
     import android.widget.TimePicker;
     import android.widget.Toast;
@@ -53,6 +55,8 @@
     import java.util.HashMap;
     import java.util.List;
 
+    import ir.hamsaa.persiandatepicker.Listener;
+    import ir.hamsaa.persiandatepicker.PersianDatePickerDialog;
     import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
     public class List_Services extends Activity {
@@ -81,6 +85,9 @@
         private ArrayList<HashMap<String, String>> valuse ;
         Handler mHandler;
         private boolean continue_or_stop=true;
+        private Button btnSearch;
+        private Spinner spExpert;
+        private EditText etArea;
 
         @Override
         protected void attachBaseContext(Context newBase) {
@@ -91,27 +98,7 @@
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.list_services);
-            //************************************************************************
-            LayoutInflater layoutInflater=getLayoutInflater();
-            getWindow().addContentView(layoutInflater.inflate(R.layout.sliding_filter,null),new
-                    ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,ViewGroup.LayoutParams.FILL_PARENT));
-            //************************************************************************
-
-            btnCredit=(TextView)findViewById(R.id.btnCredit);
-            btnServices_at_the_turn=(Button)findViewById(R.id.btnServices_at_the_turn);
-            btnDutyToday=(Button)findViewById(R.id.btnDutyToday);
-            btnHome=(Button)findViewById(R.id.btnHome);
-            //************************************************************
-            etFromDate = (EditText) findViewById(R.id.etFromDate);
-            etToDate = (EditText) findViewById(R.id.etToDate);
-            etFromTime = (EditText) findViewById(R.id.etFromTime);
-            etToTime = (EditText) findViewById(R.id.etToTime);
-//            etArea = (EditText) findViewById(R.id.etArea);
-//            spExpert = (Spinner) findViewById(R.id.spExpert);
-            //************************************************************
-            lvServices = (ListView) findViewById(R.id.listViewServices);
-            dbh = new DatabaseHelper(getApplicationContext());
+            setContentView(R.layout.list_services); dbh = new DatabaseHelper(getApplicationContext());
             try {
 
                 dbh.createDataBase();
@@ -158,22 +145,40 @@
             IsActive=PublicVariable.IsActive;
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             CreateMenu(toolbar);
-            //***************************************************************************************************************************
-//*********************************************************
-//            labelssp=new ArrayList<>();
-//            labelssp.add("");
-//            db = dbh.getReadableDatabase();
-//            Cursor cursors = db.rawQuery("SELECT * FROM servicesdetails ", null);
-//            String str;
-//            for (int i = 0; i < cursors.getCount(); i++) {
-//                cursors.moveToNext();
-//                str = cursors.getString(cursors.getColumnIndex("name"));
-//                labelssp.add(str);
-//            }
-//            ArrayAdapter<String> dataAdaptersp = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, labelssp);
-//            dataAdaptersp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//            spExpert.setAdapter(dataAdaptersp);
-//            db.close();
+
+            //************************************************************************
+            LayoutInflater layoutInflater=getLayoutInflater();
+            getWindow().addContentView(layoutInflater.inflate(R.layout.sliding_filter,null),new
+                    ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
+            //************************************************************************
+            btnCredit=(TextView)findViewById(R.id.btnCredit);
+            btnServices_at_the_turn=(Button)findViewById(R.id.btnServices_at_the_turn);
+            btnDutyToday=(Button)findViewById(R.id.btnDutyToday);
+            btnHome=(Button)findViewById(R.id.btnHome);
+            btnSearch=(Button)findViewById(R.id.btnSearch);
+            //************************************************************
+            etFromDate = (EditText) findViewById(R.id.etFromDate);
+            etToDate = (EditText) findViewById(R.id.etToDate);
+            etFromTime = (EditText) findViewById(R.id.etFromTime);
+            etToTime = (EditText) findViewById(R.id.etToTime);
+            etArea = (EditText) findViewById(R.id.etArea);
+            spExpert = (Spinner) findViewById(R.id.spExpert);
+            //************************************************************
+            lvServices = (ListView) findViewById(R.id.listViewServices);
+            labelssp=new ArrayList<>();
+            labelssp.add("");
+            db = dbh.getReadableDatabase();
+            Cursor cursors = db.rawQuery("SELECT * FROM servicesdetails ", null);
+            String str;
+            for (int i = 0; i < cursors.getCount(); i++) {
+                cursors.moveToNext();
+                str = cursors.getString(cursors.getColumnIndex("name"));
+                labelssp.add(str);
+            }
+            ArrayAdapter<String> dataAdaptersp = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, labelssp);
+            dataAdaptersp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spExpert.setAdapter(dataAdaptersp);
+            db.close();
 //*********************************************************
             mHandler = new Handler();
             new Thread(new Runnable() {
@@ -194,324 +199,206 @@
                     }
                 }
             }).start();
-//*********************************************************
+            //*********************************************************
             etFromDate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    ir.hamsaa.persiandatepicker.util.PersianCalendar calNow=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
+                    calNow.setPersianDate(calNow.getPersianYear(),calNow.getPersianMonth()+1,calNow.getPersianDay());
+                    //  initDate.setPersianDate(1370, 3, 13);
+                    PersianDatePickerDialog picker = new PersianDatePickerDialog(List_Services.this);
+                    picker.setPositiveButtonString("تایید");
+                    picker.setNegativeButton("انصراف");
+                    picker.setTodayButton("امروز");
+                    picker.setTodayButtonVisible(true);
+                    //  picker.setInitDate(initDate);
+                    picker.setMaxYear(PersianDatePickerDialog.THIS_YEAR);
+                    picker.setMinYear(calNow.getPersianYear());
+                    picker.setActionTextColor(Color.GRAY);
+                    //picker.setTypeFace(FontMitra);
+                    picker.setListener(new Listener() {
 
-                    PersianCalendar now = new PersianCalendar();
-                    DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
-                            new DatePickerDialog.OnDateSetListener() {
-                                @Override
-                                public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-                                    String StrMon,StrDay;
-                                    if((monthOfYear+1)<10)
-                                    {
-                                        StrMon="0"+String.valueOf(monthOfYear + 1);
-                                    }
-                                    else {
-                                        StrMon=String.valueOf(monthOfYear + 1);
-                                    }
-                                    if((dayOfMonth)<10)
-                                    {
-                                        StrDay="0"+String.valueOf(dayOfMonth);
-                                    }
-                                    else {
-                                        StrDay=String.valueOf(dayOfMonth);
-                                    }
-                                    etFromDate.setText(String.valueOf(year) + "/" + StrMon + "/" + StrDay);
-                                }
-                            }, now.getPersianYear(),
-                            now.getPersianMonth(),
-                            now.getPersianDay());
-                    datePickerDialog.setThemeDark(true);
-                    datePickerDialog.show(getFragmentManager(), "tpd");
+                        @Override
+                        public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
+                            //Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
+                            etFromDate.setText(String.valueOf(persianCalendar.getPersianYear()) + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay());
+                        }
+
+                        @Override
+                        public void onDismissed() {
+
+                        }
+                    });
+                    picker.show();
 
                 }
 
             });
-//            etFromDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//                @Override
-//                public void onFocusChange(View v, boolean hasFocus) {
-//                    if (hasFocus) {
-//                        PersianCalendar now = new PersianCalendar();
-//                        DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
-//                                new DatePickerDialog.OnDateSetListener() {
-//                                    @Override
-//                                    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-//                                        etFromDate.setText(String.valueOf(year) + "/" + String.valueOf(monthOfYear + 1) + "/" + String.valueOf(dayOfMonth));
-//                                    }
-//                                }, now.getPersianYear(),
-//                                now.getPersianMonth(),
-//                                now.getPersianDay());
-//                        datePickerDialog.setThemeDark(true);
-//                        datePickerDialog.show(getFragmentManager(), "tpd");
-//                    }
-//                }
-//            });
-
-            etFromDate.addTextChangedListener(new TextWatcher() {
+            etFromDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                public void onFocusChange(View v, boolean hasFocus) {
+                    ir.hamsaa.persiandatepicker.util.PersianCalendar calNow=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
+                    calNow.setPersianDate(calNow.getPersianYear(),calNow.getPersianMonth()+1,calNow.getPersianDay());
+                    //  initDate.setPersianDate(1370, 3, 13);
+                    PersianDatePickerDialog picker = new PersianDatePickerDialog(List_Services.this);
+                    picker.setPositiveButtonString("تایید");
+                    picker.setNegativeButton("انصراف");
+                    picker.setTodayButton("امروز");
+                    picker.setTodayButtonVisible(true);
+                    //  picker.setInitDate(initDate);
+                    picker.setMaxYear(PersianDatePickerDialog.THIS_YEAR);
+                    picker.setMinYear(calNow.getPersianYear());
+                    picker.setActionTextColor(Color.GRAY);
+                    //picker.setTypeFace(FontMitra);
+                    picker.setListener(new Listener() {
 
-                }
+                        @Override
+                        public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
+                            //Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
+                            etFromDate.setText(String.valueOf(persianCalendar.getPersianYear()) + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay());
+                        }
 
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        @Override
+                        public void onDismissed() {
 
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    setListServices();
+                        }
+                    });
+                    picker.show();
                 }
             });
-//*********************************************************
             etToDate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    PersianCalendar now = new PersianCalendar();
-                    DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
-                            new DatePickerDialog.OnDateSetListener() {
-                                @Override
-                                public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-                                    String StrMon,StrDay;
-                                    if((monthOfYear+1)<10)
-                                    {
-                                        StrMon="0"+String.valueOf(monthOfYear + 1);
-                                    }
-                                    else {
-                                        StrMon=String.valueOf(monthOfYear + 1);
-                                    }
-                                    if((dayOfMonth)<10)
-                                    {
-                                        StrDay="0"+String.valueOf(dayOfMonth);
-                                    }
-                                    else {
-                                        StrDay=String.valueOf(dayOfMonth);
-                                    }
-                                    etToDate.setText(String.valueOf(year) + "/" + StrMon + "/" + StrDay);
-                                }
-                            }, now.getPersianYear(),
-                            now.getPersianMonth(),
-                            now.getPersianDay());
-                    datePickerDialog.setThemeDark(true);
-                    datePickerDialog.show(getFragmentManager(), "tpd");
+                    ir.hamsaa.persiandatepicker.util.PersianCalendar calNow=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
+                    calNow.setPersianDate(calNow.getPersianYear(),calNow.getPersianMonth()+1,calNow.getPersianDay());
+                    //  initDate.setPersianDate(1370, 3, 13);
+                    PersianDatePickerDialog picker = new PersianDatePickerDialog(List_Services.this);
+                    picker.setPositiveButtonString("تایید");
+                    picker.setNegativeButton("انصراف");
+                    picker.setTodayButton("امروز");
+                    picker.setTodayButtonVisible(true);
+                    //  picker.setInitDate(initDate);
+                    picker.setMaxYear(PersianDatePickerDialog.THIS_YEAR);
+                    picker.setMinYear(calNow.getPersianYear());
+                    picker.setActionTextColor(Color.GRAY);
+                    //picker.setTypeFace(FontMitra);
+                    picker.setListener(new Listener() {
+
+                        @Override
+                        public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
+                            //Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
+                            etToDate.setText(String.valueOf(persianCalendar.getPersianYear()) + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay());
+                        }
+
+                        @Override
+                        public void onDismissed() {
+
+                        }
+                    });
+                    picker.show();
 
                 }
 
             });
-//            etToDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//                @Override
-//                public void onFocusChange(View v, boolean hasFocus) {
-//                    if (hasFocus) {
-//                        PersianCalendar now = new PersianCalendar();
-//                        DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
-//                                new DatePickerDialog.OnDateSetListener() {
-//                                    @Override
-//                                    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-//                                        etToDate.setText(String.valueOf(year) + "/" + String.valueOf(monthOfYear + 1) + "/" + String.valueOf(dayOfMonth));
-//                                    }
-//                                }, now.getPersianYear(),
-//                                now.getPersianMonth(),
-//                                now.getPersianDay());
-//                        datePickerDialog.setThemeDark(true);
-//                        datePickerDialog.show(getFragmentManager(), "tpd");
-//                    }
-//                }
-//            });
-
-            etToDate.addTextChangedListener(new TextWatcher() {
+            etToDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                public void onFocusChange(View v, boolean hasFocus) {
+                    ir.hamsaa.persiandatepicker.util.PersianCalendar calNow=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
+                    calNow.setPersianDate(calNow.getPersianYear(),calNow.getPersianMonth()+1,calNow.getPersianDay());
+                    //  initDate.setPersianDate(1370, 3, 13);
+                    PersianDatePickerDialog picker = new PersianDatePickerDialog(List_Services.this);
+                    picker.setPositiveButtonString("تایید");
+                    picker.setNegativeButton("انصراف");
+                    picker.setTodayButton("امروز");
+                    picker.setTodayButtonVisible(true);
+                    //  picker.setInitDate(initDate);
+                    picker.setMaxYear(PersianDatePickerDialog.THIS_YEAR);
+                    picker.setMinYear(calNow.getPersianYear());
+                    picker.setActionTextColor(Color.GRAY);
+                    //picker.setTypeFace(FontMitra);
+                    picker.setListener(new Listener() {
 
-                }
+                        @Override
+                        public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
+                            //Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
+                            etToDate.setText(String.valueOf(persianCalendar.getPersianYear()) + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay());
+                        }
 
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        @Override
+                        public void onDismissed() {
 
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    setListServices();
+                        }
+                    });
+                    picker.show();
                 }
             });
-//*********************************************************
             etFromTime.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-                    Calendar mcurrentTime = Calendar.getInstance();
-                    int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-                    int minute = mcurrentTime.get(Calendar.MINUTE);
-
-                    TimePickerDialog mTimePicker;
-                    mTimePicker = new TimePickerDialog(List_Services.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT,new TimePickerDialog.OnTimeSetListener() {
-                        @SuppressLint("SetTextI18n")
+                    Calendar now = Calendar.getInstance();
+                    Alert_Clock alert_clock=new Alert_Clock(List_Services.this, new Alert_Clock.OnTimeSetListener() {
                         @Override
-                        public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                            String AM_PM;
-                            if (selectedHour >= 0 && selectedHour < 12) {
-                                AM_PM = "AM";
-                            } else {
-                                AM_PM = "PM";
-                            }
-                            String StrHour,StrMin;
-                            if(selectedHour<10)
-                            {
-                                StrHour="0"+String.valueOf(selectedHour);
-                            }
-                            else {
-                                StrHour=String.valueOf(selectedHour);
-                            }
-                            if(selectedMinute<10)
-                            {
-                                StrMin="0"+String.valueOf(selectedMinute);
-                            }
-                            else {
-                                StrMin=String.valueOf(selectedMinute);
-                            }
-                            etFromTime.setText(StrHour + ":" + StrMin);
+                        public void onTimeSet(String hourOfDay, String minute) {
+                            db=dbh.getWritableDatabase();
+                            etFromTime.setText(hourOfDay + ":" + minute);
                         }
-                    }, hour, minute, false);
-                    mTimePicker.setTitle("از ساعت");
-                    mTimePicker.show();
+                    }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
+                    alert_clock.show();
 
                 }
 
             });
-//            etFromTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//                @Override
-//                public void onFocusChange(View v, boolean hasFocus) {
-//                    if (hasFocus) {
-//                        Calendar mcurrentTime = Calendar.getInstance();
-//                        int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-//                        int minute = mcurrentTime.get(Calendar.MINUTE);
-//
-//                        TimePickerDialog mTimePicker;
-//                        mTimePicker = new TimePickerDialog(List_Services.this, new TimePickerDialog.OnTimeSetListener() {
-//                            @Override
-//                            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-//                                String AM_PM;
-//                                if (selectedHour >= 0 && selectedHour < 12) {
-//                                    AM_PM = "AM";
-//                                } else {
-//                                    AM_PM = "PM";
-//                                }
-//                                etFromTime.setText(String.valueOf(selectedHour) + ":" + String.valueOf(selectedMinute));
-//                            }
-//                        }, hour, minute, false);
-//                        mTimePicker.setTitle("Select Time");
-//                        mTimePicker.show();
-//                    }
-//                }
-//            });
-            etFromTime.addTextChangedListener(new TextWatcher() {
+            etFromTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    setListServices();
+                public void onFocusChange(View v, boolean hasFocus) {
+                    Calendar now = Calendar.getInstance();
+                    Alert_Clock alert_clock=new Alert_Clock(List_Services.this, new Alert_Clock.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(String hourOfDay, String minute) {
+                            db=dbh.getWritableDatabase();
+                            etFromTime.setText(hourOfDay + ":" + minute);
+                        }
+                    }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
+                    alert_clock.show();
                 }
             });
-//*********************************************************
             etToTime.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-                    Calendar mcurrentTime = Calendar.getInstance();
-                    int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-                    int minute = mcurrentTime.get(Calendar.MINUTE);
-
-                    TimePickerDialog mTimePicker;
-                    mTimePicker = new TimePickerDialog(List_Services.this, new TimePickerDialog.OnTimeSetListener() {
+                    Calendar now = Calendar.getInstance();
+                    Alert_Clock alert_clock=new Alert_Clock(List_Services.this, new Alert_Clock.OnTimeSetListener() {
                         @Override
-                        public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                            String AM_PM;
-                            if (selectedHour >= 0 && selectedHour < 12) {
-                                AM_PM = "AM";
-                            } else {
-                                AM_PM = "PM";
-                            }
-                            String StrHour,StrMin;
-                            if(selectedHour<10)
-                            {
-                                StrHour="0"+String.valueOf(selectedHour);
-                            }
-                            else {
-                                StrHour=String.valueOf(selectedHour);
-                            }
-                            if(selectedMinute<10)
-                            {
-                                StrMin="0"+String.valueOf(selectedMinute);
-                            }
-                            else {
-                                StrMin=String.valueOf(selectedMinute);
-                            }
-                            etToTime.setText(StrHour + ":" + StrMin);
+                        public void onTimeSet(String hourOfDay, String minute) {
+                            db=dbh.getWritableDatabase();
+                            etToTime.setText(hourOfDay + ":" + minute);
                         }
-
-                    }, hour, minute, false);
-                    mTimePicker.setTitle("تا ساعت");
-                    mTimePicker.show();
+                    }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
+                    alert_clock.show();
 
                 }
 
             });
-//            etToTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//                @Override
-//                public void onFocusChange(View v, boolean hasFocus) {
-//                    if (hasFocus) {
-//                        Calendar mcurrentTime = Calendar.getInstance();
-//                        int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-//                        int minute = mcurrentTime.get(Calendar.MINUTE);
-//
-//                        TimePickerDialog mTimePicker;
-//                        mTimePicker = new TimePickerDialog(List_Services.this, new TimePickerDialog.OnTimeSetListener() {
-//                            @Override
-//                            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-//                                String AM_PM;
-//                                if (selectedHour >= 0 && selectedHour < 12) {
-//                                    AM_PM = "AM";
-//                                } else {
-//                                    AM_PM = "PM";
-//                                }
-//                                etToTime.setText(String.valueOf(selectedHour) + ":" + String.valueOf(selectedMinute));
-//                            }
-//                        }, hour, minute, false);
-//                        mTimePicker.setTitle("Select Time");
-//                        mTimePicker.show();
-//
-//                    }
-//                }
-//            });
-            etToTime.addTextChangedListener(new TextWatcher() {
+            etToTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                public void onFocusChange(View v, boolean hasFocus) {
+                    Calendar now = Calendar.getInstance();
+                    Alert_Clock alert_clock=new Alert_Clock(List_Services.this, new Alert_Clock.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(String hourOfDay, String minute) {
+                            db=dbh.getWritableDatabase();
+                            etToTime.setText(hourOfDay + ":" + minute);
+                        }
+                    }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
+                    alert_clock.show();
                 }
-
+            });
+            btnSearch.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
+                public void onClick(View v) {
                     setListServices();
                 }
             });
-
             //****************************************************************************************
             TextView tvAmountCredit=(TextView) findViewById(R.id.tvAmountCredit);
             db=dbh.getReadableDatabase();
@@ -795,50 +682,52 @@
                                     }
                                     break;
                                 case 9:
-//                                Toast.makeText(Contact.this, "تنظیمات", Toast.LENGTH_SHORT).show();
-                                    AlertDialog.Builder alertbox = new AlertDialog.Builder(List_Services.this);
-                                    // set the message to display
-                                    alertbox.setMessage("تنظیمات پیش فاکتور");
+//                                Toast.makeText(MainMenu.this, "تنظیمات", Toast.LENGTH_SHORT).show();
+//                                AlertDialog.Builder alertbox = new AlertDialog.Builder(MainMenu.this);
+//                                // set the message to display
+//                                alertbox.setMessage("تنظیمات پیش فاکتور");
+//
+//                                // set a negative/no button and create a listener
+//                                alertbox.setPositiveButton("مراحل کاری", new DialogInterface.OnClickListener() {
+//                                    // do something when the button is clicked
+//                                    public void onClick(DialogInterface arg0, int arg1) {
+                                    db=dbh.getReadableDatabase();
+                                    c = db.rawQuery("SELECT * FROM login",null);
+                                    if(c.getCount()>0)
+                                    {
+                                        c.moveToNext();
+                                        SyncGetHmFactorService getHmFactorService=new SyncGetHmFactorService(List_Services.this,guid,hamyarcode);
+                                        getHmFactorService.AsyncExecute();
+                                        SyncGetHmFactorTools syncGetHmFactorTools=new SyncGetHmFactorTools(List_Services.this,guid,hamyarcode);
+                                        syncGetHmFactorTools.AsyncExecute();
+                                        LoadActivity(Setting.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
+                                    }
+                                    db.close();
+//                                        arg0.dismiss();
+//                                    }
+//                                });
 
-                                    // set a negative/no button and create a listener
-                                    alertbox.setPositiveButton("مراحل کاری", new DialogInterface.OnClickListener() {
-                                        // do something when the button is clicked
-                                        public void onClick(DialogInterface arg0, int arg1) {
-                                            db=dbh.getReadableDatabase();
-                                            Cursor  c = db.rawQuery("SELECT * FROM login",null);
-                                            if(c.getCount()>0)
-                                            {
-                                                c.moveToNext();
-                                                SyncGetHmFactorService getHmFactorService=new SyncGetHmFactorService(List_Services.this,guid,hamyarcode);
-                                                getHmFactorService.AsyncExecute();
-                                                LoadActivity(StepJob.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
-                                            }
-                                            db.close();
-                                            arg0.dismiss();
-                                        }
-                                    });
-
-                                    // set a positive/yes button and create a listener
-                                    alertbox.setNegativeButton("ملزومات کاری", new DialogInterface.OnClickListener() {
-                                        // do something when the button is clicked
-                                        public void onClick(DialogInterface arg0, int arg1) {
-                                            //Declare Object From Get Internet Connection Status For Check Internet Status
-                                            db=dbh.getReadableDatabase();
-                                            Cursor  c = db.rawQuery("SELECT * FROM login",null);
-                                            if(c.getCount()>0) {
-                                                c.moveToNext();
-                                                SyncGetHmFactorTools syncGetHmFactorTools=new SyncGetHmFactorTools(List_Services.this,guid,hamyarcode);
-                                                syncGetHmFactorTools.AsyncExecute();
-                                                LoadActivity(StepJobDetaile.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
-                                            }
-
-                                            db.close();
-                                            arg0.dismiss();
-
-                                        }
-                                    });
-
-                                    alertbox.show();
+//                                // set a positive/yes button and create a listener
+//                                alertbox.setNegativeButton("ملزومات کاری", new DialogInterface.OnClickListener() {
+//                                    // do something when the button is clicked
+//                                    public void onClick(DialogInterface arg0, int arg1) {
+//                                        //Declare Object From Get Internet Connection Status For Check Internet Status
+//                                        db=dbh.getReadableDatabase();
+//                                        Cursor  c = db.rawQuery("SELECT * FROM login",null);
+//                                        if(c.getCount()>0) {
+//                                            c.moveToNext();
+//                                            SyncGetHmFactorTools syncGetHmFactorTools=new SyncGetHmFactorTools(MainMenu.this,guid,hamyarcode);
+//                                            syncGetHmFactorTools.AsyncExecute();
+//                                            LoadActivity(StepJobDetaile.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
+//                                        }
+//
+//                                        db.close();
+//                                        arg0.dismiss();
+//
+//                                    }
+//                                });
+//
+//                                alertbox.show();
                                     break;
                                 case 10:
                                     db = dbh.getReadableDatabase();
@@ -1027,6 +916,7 @@
 //        if(spExpert.getSelectedItem().toString().compareTo("")!=0) {
 //            query = query + " AND " + spExpert.getSelectedItem().toString();
 //        }
+        query=query+" ORDER BY CAST(BsUserServices.Code as int) DESC";
         db=dbh.getReadableDatabase();
         Cursor coursors = db.rawQuery(query,null);
         for(int i=0;i<coursors.getCount();i++){

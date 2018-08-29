@@ -169,4 +169,10 @@
     <string name="LocationTitle">محله:</string>
     <string name="Period">خدمات دوره ای:</string>
     <string name="DetailePage">جزئیات فرصت شغلی</string>
+    <string name="Time2">ساعت:</string>
+    <string name="Location2">محله:</string>
+    <string name="search">جستجو</string>
+    <string name="Description2">توضیحات:</string>
+    <string name="SelectTime">امتخاب زمان</string>
+    <string name="Accept">تایید</string>
 </resources>

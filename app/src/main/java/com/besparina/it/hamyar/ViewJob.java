@@ -1063,6 +1063,7 @@ public class ViewJob extends AppCompatActivity{
                 }
                 else
                 {
+                    continue_or_stop=false;
                     SyncSelecteJob syncSelecteJob=new SyncSelecteJob(ViewJob.this,guid,hamyarcode,BsUserServicesID);
                     syncSelecteJob.AsyncExecute();
                 }
@@ -1087,9 +1088,15 @@ public class ViewJob extends AppCompatActivity{
                                     public void onClick(DialogInterface dialog,int id) {
                                         // get user input and set it to result
                                         // edit text
-                                        SyncCanselJob syncCanselJob=new SyncCanselJob(ViewJob.this,guid,hamyarcode,BsUserServicesID,
-                                        coursors.getString(coursors.getColumnIndex("id")),descriptionCansel.getText().toString());
-                                        syncCanselJob.AsyncExecute();
+                                        if(descriptionCansel.getText().length()>0) {
+                                            SyncCanselJob syncCanselJob = new SyncCanselJob(ViewJob.this, guid, hamyarcode, BsUserServicesID,
+                                                    coursors.getString(coursors.getColumnIndex("id")), descriptionCansel.getText().toString());
+                                            syncCanselJob.AsyncExecute();
+                                        }
+                                        else
+                                        {
+                                            Toast.makeText(ViewJob.this,"لطفا علت لغو را اعلام فرمایید",Toast.LENGTH_LONG).show();
+                                        }
                                     }
                                 })
                         .setNegativeButton("خیر",
@@ -1497,50 +1504,52 @@ public class ViewJob extends AppCompatActivity{
                                 }
                                 break;
                             case 9:
-//                                Toast.makeText(About.this, "تنظیمات", Toast.LENGTH_SHORT).show();
-                                AlertDialog.Builder alertbox = new AlertDialog.Builder(ViewJob.this);
-                                // set the message to display
-                                alertbox.setMessage("تنظیمات پیش فاکتور");
+//                                Toast.makeText(MainMenu.this, "تنظیمات", Toast.LENGTH_SHORT).show();
+//                                AlertDialog.Builder alertbox = new AlertDialog.Builder(MainMenu.this);
+//                                // set the message to display
+//                                alertbox.setMessage("تنظیمات پیش فاکتور");
+//
+//                                // set a negative/no button and create a listener
+//                                alertbox.setPositiveButton("مراحل کاری", new DialogInterface.OnClickListener() {
+//                                    // do something when the button is clicked
+//                                    public void onClick(DialogInterface arg0, int arg1) {
+                                db=dbh.getReadableDatabase();
+                                c = db.rawQuery("SELECT * FROM login",null);
+                                if(c.getCount()>0)
+                                {
+                                    c.moveToNext();
+                                    SyncGetHmFactorService getHmFactorService=new SyncGetHmFactorService(ViewJob.this,guid,hamyarcode);
+                                    getHmFactorService.AsyncExecute();
+                                    SyncGetHmFactorTools syncGetHmFactorTools=new SyncGetHmFactorTools(ViewJob.this,guid,hamyarcode);
+                                    syncGetHmFactorTools.AsyncExecute();
+                                    LoadActivity(Setting.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
+                                }
+                                db.close();
+//                                        arg0.dismiss();
+//                                    }
+//                                });
 
-                                // set a negative/no button and create a listener
-                                alertbox.setPositiveButton("مراحل کاری", new DialogInterface.OnClickListener() {
-                                    // do something when the button is clicked
-                                    public void onClick(DialogInterface arg0, int arg1) {
-                                        db=dbh.getReadableDatabase();
-                                        Cursor  c = db.rawQuery("SELECT * FROM login",null);
-                                        if(c.getCount()>0)
-                                        {
-                                            c.moveToNext();
-                                            SyncGetHmFactorService getHmFactorService=new SyncGetHmFactorService(ViewJob.this,guid,hamyarcode);
-                                            getHmFactorService.AsyncExecute();
-                                            LoadActivity(StepJob.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
-                                        }
-                                        db.close();
-                                        arg0.dismiss();
-                                    }
-                                });
-
-                                // set a positive/yes button and create a listener
-                                alertbox.setNegativeButton("ملزومات کاری", new DialogInterface.OnClickListener() {
-                                    // do something when the button is clicked
-                                    public void onClick(DialogInterface arg0, int arg1) {
-                                        //Declare Object From Get Internet Connection Status For Check Internet Status
-                                        db=dbh.getReadableDatabase();
-                                        Cursor  c = db.rawQuery("SELECT * FROM login",null);
-                                        if(c.getCount()>0) {
-                                            c.moveToNext();
-                                            SyncGetHmFactorTools syncGetHmFactorTools=new SyncGetHmFactorTools(ViewJob.this,guid,hamyarcode);
-                                            syncGetHmFactorTools.AsyncExecute();
-                                            LoadActivity(StepJobDetaile.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
-                                        }
-
-                                        db.close();
-                                        arg0.dismiss();
-
-                                    }
-                                });
-
-                                alertbox.show();
+//                                // set a positive/yes button and create a listener
+//                                alertbox.setNegativeButton("ملزومات کاری", new DialogInterface.OnClickListener() {
+//                                    // do something when the button is clicked
+//                                    public void onClick(DialogInterface arg0, int arg1) {
+//                                        //Declare Object From Get Internet Connection Status For Check Internet Status
+//                                        db=dbh.getReadableDatabase();
+//                                        Cursor  c = db.rawQuery("SELECT * FROM login",null);
+//                                        if(c.getCount()>0) {
+//                                            c.moveToNext();
+//                                            SyncGetHmFactorTools syncGetHmFactorTools=new SyncGetHmFactorTools(MainMenu.this,guid,hamyarcode);
+//                                            syncGetHmFactorTools.AsyncExecute();
+//                                            LoadActivity(StepJobDetaile.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
+//                                        }
+//
+//                                        db.close();
+//                                        arg0.dismiss();
+//
+//                                    }
+//                                });
+//
+//                                alertbox.show();
                                 break;
                             case 10:
                                 db = dbh.getReadableDatabase();
@@ -1724,44 +1733,58 @@ public class ViewJob extends AppCompatActivity{
     }
     public void GetTime()
     {
-        Calendar mcurrentTime = Calendar.getInstance();
-        int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-        int minute = mcurrentTime.get(Calendar.MINUTE);
-
-         //****************************
-        TimePickerDialog mTimePicker;
-        mTimePicker = new TimePickerDialog(ViewJob.this,  new TimePickerDialog.OnTimeSetListener() {
+        Calendar now = Calendar.getInstance();//
+        Alert_Clock alert_clock=new Alert_Clock(ViewJob.this, new Alert_Clock.OnTimeSetListener() {
             @Override
-            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                String AM_PM;
-                if (selectedHour >=0 && selectedHour < 12){
-                    AM_PM = "AM";
-                } else
-                {
-                    AM_PM = "PM";
-                }
-//                 db=dbh.getWritableDatabase();
-//                String query="UPDATE  DateTB SET Time = '" +String.valueOf(selectedHour)+":"+String.valueOf(selectedMinute)+"'";
-//                db.execSQL(query);
-//                db=dbh.getReadableDatabase();
-//                query="SELECT * FROM DateTB";
-//                Cursor c=db.rawQuery(query,null);
-//                if(c.getCount()>0)
-//                {
-//                    c.moveToNext();
-//                    String[] DateTB = c.getString(c.getColumnIndex("Date")).split("/");
-//                    String[] TimeTB = c.getString(c.getColumnIndex("Time")).split(":");
+            public void onTimeSet(String hourOfDay, String minute) {
+                db=dbh.getWritableDatabase();
                     String[] DateTB = DateStr.split("/");
-                    SyncVisitJob syncVisitJob = new SyncVisitJob(ViewJob.this, guid, hamyarcode, coursors.getString(coursors.getColumnIndex("Code")), DateTB[0], DateTB[1], DateTB[2], String.valueOf(selectedHour), String.valueOf(selectedMinute));
+                    SyncVisitJob syncVisitJob = new SyncVisitJob(ViewJob.this, guid, hamyarcode, coursors.getString(coursors.getColumnIndex("Code")), DateTB[0], DateTB[1], DateTB[2], hourOfDay, minute);
                     syncVisitJob.AsyncExecute();
-//                }
             }
-        }, hour, minute, true);
-        mTimePicker.setTitle("");
-
-        mTimePicker.show();
-
+        }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
+        alert_clock.show();
     }
+//    public void GetTime()
+//    {
+//        Calendar mcurrentTime = Calendar.getInstance();
+//        int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+//        int minute = mcurrentTime.get(Calendar.MINUTE);
+//
+//         //****************************
+//        TimePickerDialog mTimePicker;
+//        mTimePicker = new TimePickerDialog(ViewJob.this,  new TimePickerDialog.OnTimeSetListener() {
+//            @Override
+//            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+//                String AM_PM;
+//                if (selectedHour >=0 && selectedHour < 12){
+//                    AM_PM = "AM";
+//                } else
+//                {
+//                    AM_PM = "PM";
+//                }
+////                 db=dbh.getWritableDatabase();
+////                String query="UPDATE  DateTB SET Time = '" +String.valueOf(selectedHour)+":"+String.valueOf(selectedMinute)+"'";
+////                db.execSQL(query);
+////                db=dbh.getReadableDatabase();
+////                query="SELECT * FROM DateTB";
+////                Cursor c=db.rawQuery(query,null);
+////                if(c.getCount()>0)
+////                {
+////                    c.moveToNext();
+////                    String[] DateTB = c.getString(c.getColumnIndex("Date")).split("/");
+////                    String[] TimeTB = c.getString(c.getColumnIndex("Time")).split(":");
+//                    String[] DateTB = DateStr.split("/");
+//                    SyncVisitJob syncVisitJob = new SyncVisitJob(ViewJob.this, guid, hamyarcode, coursors.getString(coursors.getColumnIndex("Code")), DateTB[0], DateTB[1], DateTB[2], String.valueOf(selectedHour), String.valueOf(selectedMinute));
+//                    syncVisitJob.AsyncExecute();
+////                }
+//            }
+//        }, hour, minute, true);
+//        mTimePicker.setTitle("");
+//
+//        mTimePicker.show();
+//
+//    }
     public void dialContactPhone(String phoneNumber) {
         //startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null)));
         Intent callIntent = new Intent(Intent.ACTION_CALL);

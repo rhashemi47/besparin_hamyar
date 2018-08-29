@@ -581,50 +581,52 @@ public class Profile extends Activity {
 								}
 								break;
 							case 9:
-//                                Toast.makeText(About.this, "تنظیمات", Toast.LENGTH_SHORT).show();
-								AlertDialog.Builder alertbox = new AlertDialog.Builder(Profile.this);
-								// set the message to display
-								alertbox.setMessage("تنظیمات پیش فاکتور");
+//                                Toast.makeText(MainMenu.this, "تنظیمات", Toast.LENGTH_SHORT).show();
+//                                AlertDialog.Builder alertbox = new AlertDialog.Builder(MainMenu.this);
+//                                // set the message to display
+//                                alertbox.setMessage("تنظیمات پیش فاکتور");
+//
+//                                // set a negative/no button and create a listener
+//                                alertbox.setPositiveButton("مراحل کاری", new DialogInterface.OnClickListener() {
+//                                    // do something when the button is clicked
+//                                    public void onClick(DialogInterface arg0, int arg1) {
+								db=dbh.getReadableDatabase();
+								c = db.rawQuery("SELECT * FROM login",null);
+								if(c.getCount()>0)
+								{
+									c.moveToNext();
+									SyncGetHmFactorService getHmFactorService=new SyncGetHmFactorService(Profile.this,guid,hamyarcode);
+									getHmFactorService.AsyncExecute();
+									SyncGetHmFactorTools syncGetHmFactorTools=new SyncGetHmFactorTools(Profile.this,guid,hamyarcode);
+									syncGetHmFactorTools.AsyncExecute();
+									LoadActivity(Setting.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
+								}
+								db.close();
+//                                        arg0.dismiss();
+//                                    }
+//                                });
 
-								// set a negative/no button and create a listener
-								alertbox.setPositiveButton("مراحل کاری", new DialogInterface.OnClickListener() {
-									// do something when the button is clicked
-									public void onClick(DialogInterface arg0, int arg1) {
-										db=dbh.getReadableDatabase();
-										Cursor  c = db.rawQuery("SELECT * FROM login",null);
-										if(c.getCount()>0)
-										{
-											c.moveToNext();
-											SyncGetHmFactorService getHmFactorService=new SyncGetHmFactorService(Profile.this,guid,hamyarcode);
-											getHmFactorService.AsyncExecute();
-											LoadActivity(StepJob.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
-										}
-										db.close();
-										arg0.dismiss();
-									}
-								});
-
-								// set a positive/yes button and create a listener
-								alertbox.setNegativeButton("ملزومات کاری", new DialogInterface.OnClickListener() {
-									// do something when the button is clicked
-									public void onClick(DialogInterface arg0, int arg1) {
-										//Declare Object From Get Internet Connection Status For Check Internet Status
-										db=dbh.getReadableDatabase();
-										Cursor  c = db.rawQuery("SELECT * FROM login",null);
-										if(c.getCount()>0) {
-											c.moveToNext();
-											SyncGetHmFactorTools syncGetHmFactorTools=new SyncGetHmFactorTools(Profile.this,guid,hamyarcode);
-											syncGetHmFactorTools.AsyncExecute();
-											LoadActivity(StepJobDetaile.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
-										}
-
-										db.close();
-										arg0.dismiss();
-
-									}
-								});
-
-								alertbox.show();
+//                                // set a positive/yes button and create a listener
+//                                alertbox.setNegativeButton("ملزومات کاری", new DialogInterface.OnClickListener() {
+//                                    // do something when the button is clicked
+//                                    public void onClick(DialogInterface arg0, int arg1) {
+//                                        //Declare Object From Get Internet Connection Status For Check Internet Status
+//                                        db=dbh.getReadableDatabase();
+//                                        Cursor  c = db.rawQuery("SELECT * FROM login",null);
+//                                        if(c.getCount()>0) {
+//                                            c.moveToNext();
+//                                            SyncGetHmFactorTools syncGetHmFactorTools=new SyncGetHmFactorTools(MainMenu.this,guid,hamyarcode);
+//                                            syncGetHmFactorTools.AsyncExecute();
+//                                            LoadActivity(StepJobDetaile.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
+//                                        }
+//
+//                                        db.close();
+//                                        arg0.dismiss();
+//
+//                                    }
+//                                });
+//
+//                                alertbox.show();
 								break;
 							case 10:
 								db = dbh.getReadableDatabase();

@@ -38,7 +38,7 @@
         android:id="@+id/LinearSlidShow">
         <com.besparina.it.hamyar.Custom_ViewFlipper
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="230dp"
             android:inAnimation="@anim/right_in"
             android:outAnimation="@anim/left_out"
             android:flipInterval="5000"

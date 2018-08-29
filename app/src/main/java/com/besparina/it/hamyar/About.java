@@ -15,7 +15,9 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.RequiresApi;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
@@ -65,6 +67,8 @@ public class About extends AppCompatActivity {
 	private GoogleMap map;
 	private Typeface FontMitra;
 	private LatLng point;
+	private boolean doubleBackToExitPressedOnce=false;
+
 	@Override
 	protected void attachBaseContext(Context newBase) {
 		super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -425,50 +429,52 @@ protected void onCreate(Bundle savedInstanceState) {
 								}
 								break;
 							case 9:
-//                                Toast.makeText(About.this, "تنظیمات", Toast.LENGTH_SHORT).show();
-								AlertDialog.Builder alertbox = new AlertDialog.Builder(About.this);
-								// set the message to display
-								alertbox.setMessage("تنظیمات پیش فاکتور");
+//                                Toast.makeText(MainMenu.this, "تنظیمات", Toast.LENGTH_SHORT).show();
+//                                AlertDialog.Builder alertbox = new AlertDialog.Builder(MainMenu.this);
+//                                // set the message to display
+//                                alertbox.setMessage("تنظیمات پیش فاکتور");
+//
+//                                // set a negative/no button and create a listener
+//                                alertbox.setPositiveButton("مراحل کاری", new DialogInterface.OnClickListener() {
+//                                    // do something when the button is clicked
+//                                    public void onClick(DialogInterface arg0, int arg1) {
+								db=dbh.getReadableDatabase();
+								c = db.rawQuery("SELECT * FROM login",null);
+								if(c.getCount()>0)
+								{
+									c.moveToNext();
+									SyncGetHmFactorService getHmFactorService=new SyncGetHmFactorService(About.this,guid,hamyarcode);
+									getHmFactorService.AsyncExecute();
+									SyncGetHmFactorTools syncGetHmFactorTools=new SyncGetHmFactorTools(About.this,guid,hamyarcode);
+									syncGetHmFactorTools.AsyncExecute();
+									LoadActivity(Setting.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
+								}
+								db.close();
+//                                        arg0.dismiss();
+//                                    }
+//                                });
 
-								// set a negative/no button and create a listener
-								alertbox.setPositiveButton("مراحل کاری", new DialogInterface.OnClickListener() {
-									// do something when the button is clicked
-									public void onClick(DialogInterface arg0, int arg1) {
-										db=dbh.getReadableDatabase();
-										Cursor  c = db.rawQuery("SELECT * FROM login",null);
-										if(c.getCount()>0)
-										{
-											c.moveToNext();
-											SyncGetHmFactorService getHmFactorService=new SyncGetHmFactorService(About.this,guid,hamyarcode);
-											getHmFactorService.AsyncExecute();
-											LoadActivity(StepJob.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
-										}
-										db.close();
-										arg0.dismiss();
-									}
-								});
-
-								// set a positive/yes button and create a listener
-								alertbox.setNegativeButton("ملزومات کاری", new DialogInterface.OnClickListener() {
-									// do something when the button is clicked
-									public void onClick(DialogInterface arg0, int arg1) {
-										//Declare Object From Get Internet Connection Status For Check Internet Status
-										db=dbh.getReadableDatabase();
-										Cursor  c = db.rawQuery("SELECT * FROM login",null);
-										if(c.getCount()>0) {
-											c.moveToNext();
-											SyncGetHmFactorTools syncGetHmFactorTools=new SyncGetHmFactorTools(About.this,guid,hamyarcode);
-											syncGetHmFactorTools.AsyncExecute();
-											LoadActivity(StepJobDetaile.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
-										}
-
-										db.close();
-										arg0.dismiss();
-
-									}
-								});
-
-								alertbox.show();
+//                                // set a positive/yes button and create a listener
+//                                alertbox.setNegativeButton("ملزومات کاری", new DialogInterface.OnClickListener() {
+//                                    // do something when the button is clicked
+//                                    public void onClick(DialogInterface arg0, int arg1) {
+//                                        //Declare Object From Get Internet Connection Status For Check Internet Status
+//                                        db=dbh.getReadableDatabase();
+//                                        Cursor  c = db.rawQuery("SELECT * FROM login",null);
+//                                        if(c.getCount()>0) {
+//                                            c.moveToNext();
+//                                            SyncGetHmFactorTools syncGetHmFactorTools=new SyncGetHmFactorTools(MainMenu.this,guid,hamyarcode);
+//                                            syncGetHmFactorTools.AsyncExecute();
+//                                            LoadActivity(StepJobDetaile.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
+//                                        }
+//
+//                                        db.close();
+//                                        arg0.dismiss();
+//
+//                                    }
+//                                });
+//
+//                                alertbox.show();
 								break;
 							case 10:
 								db = dbh.getReadableDatabase();
@@ -613,14 +619,20 @@ protected void onCreate(Bundle savedInstanceState) {
 		alertbox.show();
 	}
 
-@Override
-public boolean onKeyDown( int keyCode, KeyEvent event )  {
-    if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
-    	LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
-    }
+	@Override
+	public void onBackPressed() {
 
-    return super.onKeyDown( keyCode, event );
-}
+		if (drawer.isDrawerOpen()) {
+
+			drawer.closeDrawer();
+
+		}
+		else
+		{
+			LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
+		}
+
+	}
 public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2)
 	{
 		Intent intent = new Intent(getApplicationContext(),Cls);
