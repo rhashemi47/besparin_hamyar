@@ -175,4 +175,5 @@
     <string name="Description2">توضیحات:</string>
     <string name="SelectTime">امتخاب زمان</string>
     <string name="Accept">تایید</string>
+    <string name="showfactor">نمایش فاکتور</string>
 </resources>
