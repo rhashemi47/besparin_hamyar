@@ -219,7 +219,7 @@ public class SyncPauseJob {
 		String query=null;
 		db=dbh.getWritableDatabase();
 		query="UPDATE  BsHamyarSelectServices" +
-				" SET  Status='2' " +
+				" SET  Status='13' " +
 				"WHERE Code='"+UserServiceCode+"'";
 		db.execSQL(query);
 

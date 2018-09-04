@@ -334,9 +334,9 @@ public class SyncGetSelectJobsForService {
 			case "1":
 				StrStatus="در نوبت انجام قرار گرفت";
 				break;
-			case "2":
-				StrStatus="در حال انجام است";
-				break;
+//			case "2":
+//				StrStatus="در حال انجام است";
+//				break;
 			case "3":
 				db = dbh.getWritableDatabase();
 				db.execSQL("UPDATE BsHamyarSelectServices SET IsDelete='1' WHERE Code='"+OrderCode+"'");
@@ -376,9 +376,9 @@ public class SyncGetSelectJobsForService {
 				db.close();
 				StrStatus="متوقف و تسویه شده است";
 				break;
-			case "13":
-				StrStatus="متوقف و تسویه نشده است";
-				break;
+//			case "13":
+//				StrStatus="متوقف و تسویه نشده است";
+//				break;
 		}
 		NotificationClass notifi=new NotificationClass();
 		notifi.Notificationm(this.activity,title,getDetailname(detail)+" "+ StrStatus,OrderCode,id,Cls);

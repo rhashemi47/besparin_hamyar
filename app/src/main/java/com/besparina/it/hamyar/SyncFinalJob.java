@@ -121,7 +121,6 @@ public class SyncFinalJob {
 	            }
 				else if(WsResponse.toString().compareTo("1") == 0)
 				{
-					Toast.makeText(this.activity.getApplicationContext(), "کار پایان یافت", Toast.LENGTH_LONG).show();
 					InsertDataFromWsToDb();
 				}
 				else if(WsResponse.toString().compareTo("2") == 0)
@@ -219,11 +218,13 @@ public class SyncFinalJob {
 		String query=null;
 		db=dbh.getWritableDatabase();
 		query="UPDATE  BsHamyarSelectServices" +
-				" SET IsDelete='1',Status='7' " +
+				" SET IsDelete='1',Status='14' " +
 				"WHERE Code='"+UserServiceCode+"'";
 		db.execSQL(query);
 
 		db.close();
+
+		Toast.makeText(this.activity.getApplicationContext(), "کار پایان یافت", Toast.LENGTH_LONG).show();
 		LoadActivity(MainMenu.class,"guid", guid,"hamyarcode",hamyarcode,"tab","1","BsUserServicesID",UserServiceCode);
 	}
 	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2, String VariableName3, String VariableValue3, String VariableName4, String VariableValue4)
