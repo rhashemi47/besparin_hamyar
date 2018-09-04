@@ -63,11 +63,19 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Unit1"
+                android:layout_marginLeft="5dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginStart="5dp" />
+            <TextView
                 android:id="@+id/tvUnit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/Unit"
                 android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:layout_marginStart="5dp" />
@@ -183,10 +191,19 @@
             android:layout_marginTop="10dp"
             android:id="@+id/LinerBrand">
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/TitleBrand"
+                android:layout_marginStart="5dp" />
+            <TextView
                 android:id="@+id/tvBrand"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/Brand"

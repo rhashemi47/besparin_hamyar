@@ -136,7 +136,6 @@ public class SyncInsertFaktorUserDetailes {
         	}
         	else
         	{
-        		//Toast.makeText(this.activity, "ط®ط·ط§ ط¯ط± ط§طھطµط§ظ„ ط¨ظ‡ ط³ط±ظˆط±", Toast.LENGTH_SHORT).show();
         	}
             try
             {

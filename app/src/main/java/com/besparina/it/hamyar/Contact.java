@@ -1,10 +1,15 @@
 package com.besparina.it.hamyar;
 
+import android.*;
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -19,11 +24,14 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.Toolbar;
+import android.telephony.SmsManager;
 import android.util.Base64;
+import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +46,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -50,6 +59,7 @@ public class Contact extends Activity {
 	private boolean IsActive;
 	private DatabaseHelper dbh;
 	private SQLiteDatabase db;
+	private EditText etSendMessage;
 	private TextView btnCredit;
 	private Button btnDutyToday;
 	private Button btnServices_at_the_turn;
@@ -66,6 +76,7 @@ public class Contact extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.contact);
 		btnCredit=(TextView)findViewById(R.id.btnCredit);
+		etSendMessage=(EditText)findViewById(R.id.etSendMessage);
 		btnServices_at_the_turn=(Button)findViewById(R.id.btnServices_at_the_turn);
 		btnDutyToday=(Button)findViewById(R.id.btnDutyToday);
 		btnHome=(Button)findViewById(R.id.btnHome);
@@ -162,6 +173,20 @@ public class Contact extends Activity {
 				if (cursorPhone.getCount() > 0) {
 					cursorPhone.moveToNext();
 					dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+				}
+				db.close();
+			}
+		});
+		btnSendMessage.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				db = dbh.getReadableDatabase();
+				Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
+				if (cursorPhone.getCount() > 0) {
+					cursorPhone.moveToNext();
+					String MessageStr="کد کاربر: "+hamyarcode+"\n"+etSendMessage.getText().toString();
+					SendMessage(MessageStr, cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+//					SendMessage(MessageStr,"09155210697");
 				}
 				db.close();
 			}
@@ -646,5 +671,86 @@ public class Contact extends Activity {
 			return;
 		}
 		this.startActivity(callIntent);
+	}
+	public void SendMessage(String message ,String phoneNumber) {
+		if (ActivityCompat.checkSelfPermission(Contact.this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+			// TODO: Consider calling
+			//    ActivityCompat#requestPermissions
+			// here to request the missing permissions, and then overriding
+			//   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+			//                                          int[] grantResults)
+			// to handle the case where the user grants the permission. See the documentation
+			// for ActivityCompat#requestPermissions for more details.
+			Toast.makeText(Contact.this,"اجازه دسترسی به ارسال پیام داده نشده است",Toast.LENGTH_LONG).show();
+			return;
+		} else {
+			SmsManager smsManager = SmsManager.getDefault();
+			String SENT = "SMS_SENT";
+			String DELIVERED = "SMS_DELIVERED";
+
+			SmsManager sms = SmsManager.getDefault();
+			ArrayList<String> parts = sms.divideMessage(message);
+			int messageCount = parts.size();
+
+			ArrayList<PendingIntent> deliveryIntents = new ArrayList<PendingIntent>();
+			ArrayList<PendingIntent> sentIntents = new ArrayList<PendingIntent>();
+
+			PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent(SENT), 0);
+			PendingIntent deliveredPI = PendingIntent.getBroadcast(this, 0, new Intent(DELIVERED), 0);
+			for (int j = 0; j < messageCount; j++) {
+				sentIntents.add(sentPI);
+				deliveryIntents.add(deliveredPI);
+			}
+
+			// ---when the SMS has been sent---
+			registerReceiver(new BroadcastReceiver() {
+				@Override
+				public void onReceive(Context arg0, Intent arg1) {
+					switch (getResultCode()) {
+						case Activity.RESULT_OK:
+
+							Toast.makeText(getBaseContext(), "پیام ارسال شد",
+									Toast.LENGTH_SHORT).show();
+							break;
+						case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+							Toast.makeText(getBaseContext(), "ارسال پیام با خطا مواجه شد",
+									Toast.LENGTH_SHORT).show();
+							break;
+						case SmsManager.RESULT_ERROR_NO_SERVICE:
+							Toast.makeText(getBaseContext(), "سرویس ارسال پیامک در دسترس نیست",
+									Toast.LENGTH_SHORT).show();
+							break;
+						case SmsManager.RESULT_ERROR_NULL_PDU:
+							Toast.makeText(getBaseContext(), "خظایی رخ داده است",
+									Toast.LENGTH_SHORT).show();
+							break;
+						case SmsManager.RESULT_ERROR_RADIO_OFF:
+							Toast.makeText(getBaseContext(), "آنتن ضعیف است",
+									Toast.LENGTH_SHORT).show();
+							break;
+					}
+				}
+			}, new IntentFilter(SENT));
+
+			// ---when the SMS has been delivered---
+			registerReceiver(new BroadcastReceiver() {
+				@Override
+				public void onReceive(Context arg0, Intent arg1) {
+					switch (getResultCode()) {
+
+						case Activity.RESULT_OK:
+							Toast.makeText(getBaseContext(), "پیام تحویل شد",
+									Toast.LENGTH_SHORT).show();
+							break;
+						case Activity.RESULT_CANCELED:
+							Toast.makeText(getBaseContext(), "پیام تحویل نشد",
+									Toast.LENGTH_SHORT).show();
+							break;
+					}
+				}
+			}, new IntentFilter(DELIVERED));
+			smsManager.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);
+           /* sms.sendMultipartTextMessage(phoneNumber, null, parts, sentIntents, deliveryIntents); */
+		}
 	}
 }

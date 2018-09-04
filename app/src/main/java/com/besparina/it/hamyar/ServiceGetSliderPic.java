@@ -63,7 +63,11 @@ public class ServiceGetSliderPic extends Service {
 
                                 @Override
                                 public void run() {
-
+                                    if(db!=null) {
+                                        if (db.isOpen()) {
+                                            db.close();
+                                        }
+                                    }
                                     db=dbh.getReadableDatabase();
                                     Cursor coursors = db.rawQuery("SELECT * FROM login",null);
                                     for(int i=0;i<coursors.getCount();i++){
@@ -76,10 +80,20 @@ public class ServiceGetSliderPic extends Service {
                                         SyncSliderPic syncSliderPic = new SyncSliderPic(getApplicationContext(), guid, hamyarcode);
                                         syncSliderPic.AsyncExecute();
                                     }
-                                    db.close();
+
+                                    if(db!=null) {
+                                        if (db.isOpen()) {
+                                            db.close();
+                                        }
+                                    }
 
                                 }
                             });
+                            if(db!=null) {
+                                if (db.isOpen()) {
+                                    db.close();
+                                }
+                            }
                             db=dbh.getReadableDatabase();
                             Cursor cursor = db.rawQuery("SELECT * FROM Slider",null);
                             if(cursor.getCount()>0) {
@@ -89,7 +103,12 @@ public class ServiceGetSliderPic extends Service {
                                 Thread.sleep(6000); // every 12 hour
                             }
 
-                            db.close();
+
+                            if(db!=null) {
+                                if (db.isOpen()) {
+                                    db.close();
+                                }
+                            }
                         }
                         catch (Exception e) {
                             String error="";

@@ -66,6 +66,11 @@ public class ServiceGetNewJobNotNotifi extends Service {
 
                                         throw sqle;
                                     }
+                                    if(db!=null) {
+                                        if (db.isOpen()) {
+                                            db.close();
+                                        }
+                                    }
                                     db=dbh.getReadableDatabase();
                                     Cursor coursors = db.rawQuery("SELECT * FROM login",null);
                                     for(int i=0;i<coursors.getCount();i++){
@@ -82,7 +87,11 @@ public class ServiceGetNewJobNotNotifi extends Service {
                                         LastHamyarUserServiceCode=cursors.getString(cursors.getColumnIndex("code"));
                                     }
 
-                                    db.close();
+                                    if(db!=null) {
+                                        if (db.isOpen()) {
+                                            db.close();
+                                        }
+                                    }
                                     SyncNewJob syncNewJob=new SyncNewJob(getApplicationContext(),guid,hamyarcode,LastHamyarUserServiceCode,false);
                                     syncNewJob.AsyncExecute();
                                 }

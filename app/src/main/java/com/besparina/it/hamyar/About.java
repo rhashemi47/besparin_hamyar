@@ -163,7 +163,7 @@ protected void onCreate(Bundle savedInstanceState) {
 
 		public void onMapReady(GoogleMap googleMap) {
 			map = googleMap;
-			point = new LatLng(0, 0);
+			point = new LatLng(36.30781906006661, 59.59622842793897);
 			map.addMarker(new MarkerOptions().position(point).title("بسپارینا").icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
 			map.moveCamera(CameraUpdateFactory.newLatLngZoom(point,17));
 			map.getUiSettings().setZoomControlsEnabled(true);

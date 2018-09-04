@@ -381,7 +381,7 @@ public class SyncGetSelectJobsForService {
 				break;
 		}
 		NotificationClass notifi=new NotificationClass();
-		notifi.Notificationm(this.activity,title,getDetailname(detail)+" "+ StrStatus,OrderCode,id,Cls);
+		notifi.Notificationm(this.activity,title,getDetailname(detail)+" "+ StrStatus,OrderCode,"0",id,Cls);
 	}
 	public boolean IsFristInsert()
 	{

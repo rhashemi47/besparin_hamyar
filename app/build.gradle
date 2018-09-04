@@ -54,6 +54,7 @@ dependencies {
     implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
     compile 'com.github.hamsaadev:Persian-Date-Picker-Dialog:V1.2'
     compile 'com.android.support:multidex:1.0.3'
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.12'
 //    compile 'com.google.android.gms:play-services-analytics:16.0.1'
     compile (group:'org.apache.httpcomponents',name:'httpmime',version:'4.3.5') {
         exclude module:'org.apache.httpcomponents:httpclient'

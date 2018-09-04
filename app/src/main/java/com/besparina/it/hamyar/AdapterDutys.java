@@ -135,6 +135,7 @@ public class AdapterDutys extends BaseAdapter {
             intent.putExtra("hamyarcode",hamyarcode);
             intent.putExtra("BsUserServicesID",BsUserServicesID);
             intent.putExtra("tab","0");
+            intent.putExtra("back_activity","ListDuty");
             activity.startActivity(intent);
         }
     };

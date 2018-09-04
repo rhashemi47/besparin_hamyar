@@ -66,6 +66,11 @@ public class ServiceDeleteJob extends Service {
 
                                         throw sqle;
                                     }
+                                    if(db!=null) {
+                                        if (db.isOpen()) {
+                                            db.close();
+                                        }
+                                    }
                                     db=dbh.getReadableDatabase();
                                     Cursor coursors = db.rawQuery("SELECT * FROM login",null);
                                     for(int i=0;i<coursors.getCount();i++){
@@ -89,10 +94,15 @@ public class ServiceDeleteJob extends Service {
                                         }
 
                                     }
-
-                                    db.close();
-                                    SyncGetUserServiceForHamyarDeleted syncGetUserServiceForHamyarDeleted=new SyncGetUserServiceForHamyarDeleted(getApplicationContext(),guid,hamyarcode,ListServiceCode);
-                                    syncGetUserServiceForHamyarDeleted.AsyncExecute();
+                                    if(db!=null) {
+                                        if (db.isOpen()) {
+                                            db.close();
+                                        }
+                                    }
+                                    if(!ListServiceCode.isEmpty()) {
+                                        SyncGetUserServiceForHamyarDeleted syncGetUserServiceForHamyarDeleted = new SyncGetUserServiceForHamyarDeleted(getApplicationContext(), guid, hamyarcode, ListServiceCode);
+                                        syncGetUserServiceForHamyarDeleted.AsyncExecute();
+                                    }
                                 }
                             });
                         } catch (Exception e) {

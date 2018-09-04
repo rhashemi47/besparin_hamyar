@@ -31,6 +31,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +49,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -67,11 +69,13 @@ public class MainMenu extends AppCompatActivity {
     private Button btnHome;
     private boolean doubleBackToExitPressedOnce = false;
     private boolean IsActive;
+    private ListView ListDutyNow;
     ArrayList<String> slides;
     ImageView imageView;
     Custom_ViewFlipper viewFlipper;
     GestureDetector mGestureDetector;
     private String AppVersion;
+    private ArrayList<HashMap<String ,String>> valuse=new ArrayList<HashMap<String, String>>();
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -87,6 +91,7 @@ public class MainMenu extends AppCompatActivity {
         Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
         btnDuty=(Button)findViewById(R.id.btnDuty);
         btnServices=(Button)findViewById(R.id.btnServices);
+        ListDutyNow=(ListView) findViewById(R.id.ListDutyNow);
         //****************************************************************
         btnDuty.setTypeface(FontMitra);
         btnServices.setTypeface(FontMitra);
@@ -154,41 +159,10 @@ public class MainMenu extends AppCompatActivity {
             }
         }
         db.close();
-        //****************************************************************************************
-        ir.hamsaa.persiandatepicker.util.PersianCalendar calNow=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
-        db=dbh.getReadableDatabase();
-        String year,mon,day,query;
-        year=String.valueOf(calNow.getPersianYear());
-        if(calNow.getPersianMonth()<10)
-        {
-            mon="0"+String.valueOf(calNow.getPersianMonth());
-        }
-        else
-        {
-            mon=String.valueOf(calNow.getPersianMonth());
-        }
-        if(calNow.getPersianDay()<10)
-        {
-            day="0"+String.valueOf(calNow.getPersianDay());
-        }
-        else
-        {
-            day=String.valueOf(calNow.getPersianDay());
-        }
-        query="SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
-                "LEFT JOIN " +
-                "Servicesdetails ON " +
-                "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode WHERE IsDelete='0' AND StartDate='"+
-                year+"/"+mon+"/"+day+"'";
-        Cursor cursorDuty = db.rawQuery(query,null);
-        if(cursorDuty.getCount()>0)
-        {
-            btnDuty.setText(String.valueOf(cursorDuty.getCount()));
-        }
-        else
-        {
-            btnDuty.setText("0");
-        }
+
+        //************************************************************************************
+
+        //************************************************************************************
         db=dbh.getReadableDatabase();
         Cursor cursorService = db.rawQuery("SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
                 "LEFT JOIN " +
@@ -232,6 +206,7 @@ public class MainMenu extends AppCompatActivity {
                             PublicVariable.IsActive=true;
                             IsActive=true;
                             startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+                            startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
                             //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
                             startService(new Intent(getBaseContext(), ServiceGetLocation.class));
                             startService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
@@ -260,7 +235,68 @@ public class MainMenu extends AppCompatActivity {
         {
             throw new Error("Error Opne Activity");
         }
-
+        //****************************************************************************************
+        if(guid==null || hamyarcode==null)
+        {
+            db=dbh.getReadableDatabase();
+            Cursor c = db.rawQuery("SELECT * FROM login",null);
+           if(c.getCount()>0){
+                c.moveToNext();
+                guid=c.getString(c.getColumnIndex("guid"));
+                hamyarcode=c.getString(c.getColumnIndex("hamyarcode"));
+            }
+            if(db.isOpen()) {
+                db.close();
+            }
+            c.close();
+        }
+        ir.hamsaa.persiandatepicker.util.PersianCalendar calNow=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
+        db=dbh.getReadableDatabase();
+        String year,mon,day,query;
+        year=String.valueOf(calNow.getPersianYear());
+        if(calNow.getPersianMonth()<10)
+        {
+            mon="0"+String.valueOf(calNow.getPersianMonth());
+        }
+        else
+        {
+            mon=String.valueOf(calNow.getPersianMonth());
+        }
+        if(calNow.getPersianDay()<10)
+        {
+            day="0"+String.valueOf(calNow.getPersianDay());
+        }
+        else
+        {
+            day=String.valueOf(calNow.getPersianDay());
+        }
+        query="SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
+                "LEFT JOIN " +
+                "Servicesdetails ON " +
+                "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode WHERE IsDelete='0' AND StartDate='"+
+                year+"/"+mon+"/"+day+"'";
+        Cursor cursorDuty = db.rawQuery(query,null);
+        if(cursorDuty.getCount()>0)
+        {
+            btnDuty.setText(String.valueOf(cursorDuty.getCount()));
+        }
+        else
+        {
+            btnDuty.setText("0");
+        }
+        for(int i=0;i<cursorDuty.getCount();i++)
+        {
+            cursorDuty.moveToNext();
+            HashMap<String, String> map = new HashMap<String, String>();
+            map.put("BsUserServicesID",cursorDuty.getString(cursorDuty.getColumnIndex("BsHamyarSelectServices.Code")));
+            map.put("ContentService","ساعت شروع: "+cursorDuty.getString(cursorDuty.getColumnIndex("StartTime"))+ " - " +
+                    "کاربر: " + cursorDuty.getString(cursorDuty.getColumnIndex("UserName"))+ " - " +
+                    "تا ساعت: " + cursorDuty.getString(cursorDuty.getColumnIndex("EndTime")));
+            valuse.add(map);
+        }
+        db.close();
+        AdapterListServiceNow dataAdapter=new AdapterListServiceNow(this,valuse,guid,hamyarcode);
+        ListDutyNow.setAdapter(dataAdapter);
         //**************************************************************************
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -425,6 +461,7 @@ public class MainMenu extends AppCompatActivity {
                 stopService(new Intent(getBaseContext(), ServiceSyncServiceSelected.class));
                 stopService(new Intent(getBaseContext(), ServiceGetJobUpdate.class));
                 stopService(new Intent(getBaseContext(), ServiceDeleteJob.class));
+                stopService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
                 db = dbh.getWritableDatabase();
                 db.execSQL("DELETE FROM AmountCredit");
                 db.execSQL("DELETE FROM android_metadata");
@@ -868,6 +905,7 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
 
         super.onStart();
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+        startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
         //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
 
     }
@@ -875,6 +913,7 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
 
         super.onResume();
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+        startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
         try
         {
             String status="0";
@@ -914,18 +953,21 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
         super.onStop();
         //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+        startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
     }
     protected void onPause() {
 
         super.onPause();
         //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+        startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
     }
     protected void onDestroy() {
 
         super.onDestroy();
         //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+        startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
     }
     void sharecode(String shareStr)
     {

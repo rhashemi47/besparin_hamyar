@@ -66,6 +66,11 @@ public class ServiceGetJobUpdate extends Service {
 
                                         throw sqle;
                                     }
+                                    if(db!=null) {
+                                        if (db.isOpen()) {
+                                            db.close();
+                                        }
+                                    }
                                     db=dbh.getReadableDatabase();
                                     Cursor coursors = db.rawQuery("SELECT * FROM login",null);
                                     for(int i=0;i<coursors.getCount();i++){
@@ -90,9 +95,16 @@ public class ServiceGetJobUpdate extends Service {
 
                                     }
 
-                                    db.close();
-                                    SyncGetUserServiceForHamyarUpdated syncGetUserServiceForHamyarUpdated=new SyncGetUserServiceForHamyarUpdated(getApplicationContext(),guid,hamyarcode,ListServiceCode);
-                                    syncGetUserServiceForHamyarUpdated.AsyncExecute();
+
+                                    if(db!=null) {
+                                        if (db.isOpen()) {
+                                            db.close();
+                                        }
+                                    }
+                                    if(!ListServiceCode.isEmpty()) {
+                                        SyncGetUserServiceForHamyarUpdated syncGetUserServiceForHamyarUpdated = new SyncGetUserServiceForHamyarUpdated(getApplicationContext(), guid, hamyarcode, ListServiceCode);
+                                        syncGetUserServiceForHamyarUpdated.AsyncExecute();
+                                    }
                                 }
                             });
                         } catch (Exception e) {

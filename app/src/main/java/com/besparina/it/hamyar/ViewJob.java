@@ -139,6 +139,7 @@ public class ViewJob extends AppCompatActivity{
     private ir.hamsaa.persiandatepicker.util.PersianCalendar initDate;
     Handler mHandler;
     private boolean continue_or_stop=true;
+    private String back_activity;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -220,12 +221,41 @@ public class ViewJob extends AppCompatActivity{
         {
             hamyarcode = getIntent().getStringExtra("hamyarcode").toString();
             guid = getIntent().getStringExtra("guid").toString();
-            BsUserServicesID = getIntent().getStringExtra("BsUserServicesID").toString();
+        }
+        catch (Exception e)
+        {
+            db = dbh.getReadableDatabase();
+            Cursor c = db.rawQuery("SELECT * FROM login",null);
+            if(c.getCount()>0) {
+                c.moveToNext();
+                guid=c.getString(c.getColumnIndex("guid"));
+                hamyarcode=c.getString(c.getColumnIndex("hamyarcode"));
+            }
+            db.close();
+        }
+        try
+        {
             tab = getIntent().getStringExtra("tab").toString();
         }
         catch (Exception e)
         {
             tab ="1";
+        }
+        try
+        {
+            BsUserServicesID = getIntent().getStringExtra("BsUserServicesID").toString();
+        }
+        catch (Exception e)
+        {
+            BsUserServicesID ="0";
+        }
+        try
+        {
+            back_activity = getIntent().getStringExtra("back_activity").toString();
+        }
+        catch (Exception e)
+        {
+            back_activity ="MainMenu";
         }
         dbh=new DatabaseHelper(getApplicationContext());
         try {
@@ -301,12 +331,18 @@ public class ViewJob extends AppCompatActivity{
                                     Cursor coursors = db.rawQuery(query,null);
                                     if(coursors.getCount()<=0)
                                     {
-                                        continue_or_stop=false;
-                                        finish();
-                                        Toast.makeText(ViewJob.this,"کاربر سرویس را لغو کرد",Toast.LENGTH_LONG).show();
-                                        LoadActivity(List_Services.class, "guid", guid, "hamyarcode", hamyarcode);
+                                        query="SELECT * FROM BsHamyarSelectServices WHERE Code='"+BsUserServicesID+"'";
+                                        Cursor c = db.rawQuery(query,null);
+                                        if(c.getCount()<=0) {
+                                            continue_or_stop = false;
+                                            finish();
+                                            Toast.makeText(ViewJob.this, "کاربر سرویس را لغو کرد", Toast.LENGTH_LONG).show();
+                                            LoadActivity(List_Services.class, "guid", guid, "hamyarcode", hamyarcode);
+                                        }
                                     }
-                                    db.close();
+                                    if(db.isOpen()) {
+                                        db.close();
+                                    }
                                 }
 
                             });
@@ -624,7 +660,8 @@ public class ViewJob extends AppCompatActivity{
             String query = "SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
                     "LEFT JOIN " +
                     "Servicesdetails ON " +
-                    "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode WHERE BsHamyarSelectServices.Code=" + BsUserServicesID;
+                    "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode WHERE BsHamyarSelectServices.Code='" + BsUserServicesID+"'";
+            db=dbh.getReadableDatabase();
             coursors = db.rawQuery(query, null);
             for (int i = 0; i < coursors.getCount(); i++) {
                 coursors.moveToNext();
@@ -1189,9 +1226,48 @@ public class ViewJob extends AppCompatActivity{
             @Override
             public void onClick(View v)
             {
-                SyncFinalJob syncFinalJob=new SyncFinalJob(ViewJob.this,guid,hamyarcode,coursors.getString(coursors.getColumnIndex("Code")),
-                        coursors.getString(coursors.getColumnIndex("id")));
-                syncFinalJob.AsyncExecute();
+                db=dbh.getReadableDatabase();
+                Cursor c=db.rawQuery("SELECT * FROM HeadFactor WHERE UserServiceCode='"+BsUserServicesID+"'",null);
+                if(c.getCount()>0)
+                {
+                    c.moveToNext();
+                    if(c.getString(c.getColumnIndex("Type")).compareTo("0")==0)
+                    {
+                       if(c.getString(c.getColumnIndex("Status")).compareTo("3")==0)
+                       {
+                           Toast.makeText(ViewJob.this,"در انتظار تایید پیش فاکتور توسط کاربر می باشد",Toast.LENGTH_LONG).show();
+                       }
+                       else if(c.getString(c.getColumnIndex("Status")).compareTo("0")==0)
+                       {
+                           Toast.makeText(ViewJob.this,"پیش فاکتور تایید نشده است",Toast.LENGTH_LONG).show();
+                       }
+                       else
+                       {
+                           Toast.makeText(ViewJob.this,"پیش فاکتور تایید شده است لطفا فاکتور نهایی را ارسال نمایید",Toast.LENGTH_LONG).show();
+                       }
+                    }
+                    else
+                    {
+                        if(c.getString(c.getColumnIndex("Status")).compareTo("3")==0)
+                        {
+                            Toast.makeText(ViewJob.this,"در انتظار تایید فاکتور توسط کاربر می باشد",Toast.LENGTH_LONG).show();
+                        }
+                        else if(c.getString(c.getColumnIndex("Status")).compareTo("0")==0)
+                        {
+                            Toast.makeText(ViewJob.this," فاکتور تایید نشده است",Toast.LENGTH_LONG).show();
+                        }
+                        else
+                        {
+                            SyncFinalJob syncFinalJob=new SyncFinalJob(ViewJob.this,guid,hamyarcode,coursors.getString(coursors.getColumnIndex("Code")),
+                                    coursors.getString(coursors.getColumnIndex("id")));
+                            syncFinalJob.AsyncExecute();
+                        }
+                    }
+                }
+                else {
+                    Toast.makeText(ViewJob.this,"برای شروع به کار ابتدا باید پیش فاکتور ثبت نمایید ",Toast.LENGTH_LONG).show();
+                }
+
             }
         });
         btnPerFactor.setOnClickListener(new View.OnClickListener() {
@@ -1206,7 +1282,7 @@ public class ViewJob extends AppCompatActivity{
                 coursors = db.rawQuery(query, null);
                 if (coursors.getCount()>0) {
                     coursors.moveToNext();
-                    LoadActivity_PerFactor(Save_Per_Factor.class,"tab",tab,"BsUserServicesID",BsUserServicesID,"ServiceDetaileCode",coursors.getString(coursors.getColumnIndex("ServiceDetaileCode")));
+                    LoadActivity_PerFactor(Save_Per_Factor.class,"tab",tab,"BsUserServicesID",BsUserServicesID,"ServiceDetaileCode",coursors.getString(coursors.getColumnIndex("ServiceDetaileCode")),"back_activity",back_activity);
                 }
 
                 db.close();
@@ -1699,14 +1775,24 @@ public class ViewJob extends AppCompatActivity{
     public boolean onKeyDown( int keyCode, KeyEvent event )  {
         if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
             continue_or_stop=false;
-            if(tab.compareTo("0")==0)
+            if(back_activity.compareTo("ListServices")==0)
             {
-
+                LoadActivity(List_Services.class, "guid", guid, "hamyarcode", hamyarcode);
+            }
+            else if(back_activity.compareTo("ListDuty")==0)
+            {
                 LoadActivity(List_Dutys.class, "guid", guid, "hamyarcode", hamyarcode);
+            }
+            else if(back_activity.compareTo("ServiceAtTurn")==0)
+            {
+                LoadActivity(ListServiceAtTheTurn.class, "guid", guid, "hamyarcode", hamyarcode);
+            }
+            else if(back_activity.compareTo("ListVisit")==0){
+                LoadActivity(List_Visits.class, "guid", guid, "hamyarcode", hamyarcode);
             }
             else
             {
-                LoadActivity(List_Services.class, "guid", guid, "hamyarcode", hamyarcode);
+                LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
             }
 
         }
@@ -1722,13 +1808,14 @@ public class ViewJob extends AppCompatActivity{
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         ViewJob.this.startActivity(intent);
     }
-    public void LoadActivity_PerFactor(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2, String VariableName3, String VariableValue3)
+    public void LoadActivity_PerFactor(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2, String VariableName3, String VariableValue3, String VariableName4, String VariableValue4)
     {
         continue_or_stop=false;
         Intent intent = new Intent(getApplicationContext(),Cls);
         intent.putExtra(VariableName, VariableValue);
         intent.putExtra(VariableName2, VariableValue2);
         intent.putExtra(VariableName3, VariableValue3);
+        intent.putExtra(VariableName4, VariableValue4);
         ViewJob.this.startActivity(intent);
     }
     public void GetTime()
