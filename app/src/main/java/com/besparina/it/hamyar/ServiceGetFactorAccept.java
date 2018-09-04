@@ -14,7 +14,7 @@ import java.io.IOException;
  * Created by hashemi on 02/18/2018.
  */
 
-public class ServiceGetNewJob extends Service {
+public class ServiceGetFactorAccept extends Service {
     Handler mHandler;
     boolean continue_or_stop = true;
     boolean createthread=true;
@@ -40,10 +40,8 @@ public class ServiceGetNewJob extends Service {
                     // TODO Auto-generated method stub
                     while (continue_or_stop) {
                         try {
-                            Thread.sleep(6000); // every 60 seconds
+                            Thread.sleep(6000); // every 6 seconds
                             mHandler.post(new Runnable() {
-
-                                public String LastHamyarUserServiceCode;
 
                                 @Override
                                 public void run() {
@@ -74,22 +72,48 @@ public class ServiceGetNewJob extends Service {
                                     db=dbh.getReadableDatabase();
                                     Cursor coursors = db.rawQuery("SELECT * FROM login",null);
                                     for(int i=0;i<coursors.getCount();i++){
+
                                         coursors.moveToNext();
                                         guid=coursors.getString(coursors.getColumnIndex("guid"));
                                         hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
                                     }
-                                    Cursor cursors = db.rawQuery("SELECT ifnull(MAX(CAST (code AS INT)),0)as code FROM BsUserServices", null);
-                                    if(cursors.getCount()>0)
+                                    if(db!=null) {
+                                        if (db.isOpen()) {
+                                            db.close();
+                                        }
+                                    }
+                                    db=dbh.getReadableDatabase();
+                                    Cursor cursors = db.rawQuery("SELECT Code FROM BsHamyarSelectServices WHERE IsDelete='0'", null);
+                                    for(int i=0;i<cursors.getCount();i++)
                                     {
                                         cursors.moveToNext();
-                                        LastHamyarUserServiceCode=cursors.getString(cursors.getColumnIndex("code"));
+                                        Cursor c= db.rawQuery("SELECT * FROM HeadFactor WHERE UserServiceCode='"+cursors.getString(cursors.getColumnIndex("Code"))+"'", null);
+                                        if(c.getCount()>0) {
+                                            c.moveToNext();
+                                            if(c.getString(c.getColumnIndex("Type")).compareTo("0")==0)
+                                            {
+                                                SyncGetPreInvoiceAccept syncGetPreInvoiceAccept = new SyncGetPreInvoiceAccept(getApplicationContext(), guid, hamyarcode, c.getString(c.getColumnIndex("Code")),cursors.getString(cursors.getColumnIndex("Code")));
+                                                syncGetPreInvoiceAccept.AsyncExecute();
+                                                c.close();
+                                            }
+                                            else
+                                            {
+                                                SyncGetInvoiceAccept syncGetInvoiceAccept = new SyncGetInvoiceAccept(getApplicationContext(), guid, hamyarcode, c.getString(c.getColumnIndex("Code")),cursors.getString(cursors.getColumnIndex("Code")));
+                                                syncGetInvoiceAccept.AsyncExecute();
+                                                c.close();
+                                            }
+                                        }
                                     }
-                                    SyncNewJob syncNewJob=new SyncNewJob(getApplicationContext(),guid,hamyarcode,LastHamyarUserServiceCode,true);
-                                    syncNewJob.AsyncExecute();
-                                    if(db.isOpen())
-                                    {
-                                        db.close();
+
+                                    if(db!=null) {
+                                        if (db.isOpen()) {
+                                            db.close();
+                                        }
                                     }
+                                    if(!cursors.isClosed()) {
+                                        cursors.close();
+                                    }
+
                                 }
                             });
                         } catch (Exception e) {

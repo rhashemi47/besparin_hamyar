@@ -313,6 +313,6 @@ public class SyncNewJob {
     public void runNotification(String title,String detail,int id,String BsUserServicesID,Class<?> Cls)
     {
         NotificationClass notifi=new NotificationClass();
-        notifi.Notificationm(this.activity,title,detail,BsUserServicesID,id,Cls);
+        notifi.Notificationm(this.activity,title,detail,BsUserServicesID,"1",id,Cls);
     }
 }

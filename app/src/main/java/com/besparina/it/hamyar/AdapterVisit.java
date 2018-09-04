@@ -135,6 +135,7 @@ public class AdapterVisit extends BaseAdapter {
             intent.putExtra("hamyarcode",hamyarcode);
             intent.putExtra("BsUserServicesID",BsUserServicesID);
             intent.putExtra("tab","0");
+            intent.putExtra("back_activity","ListVisit");
             activity.startActivity(intent);
         }
     };

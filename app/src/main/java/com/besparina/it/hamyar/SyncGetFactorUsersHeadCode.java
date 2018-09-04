@@ -281,16 +281,17 @@ public class SyncGetFactorUsersHeadCode {
 
 	public void InsertDataFromWsToDb()
 	{
-		String query=null;
+		String query;
 		db=dbh.getWritableDatabase();
-		query="INSERT INTO  HeadFactor (Code,UserServiceCode,Date,Description) VALUES ('"
+		db.execSQL("DELETE FROM HeadFactor WHERE UserServiceCode='"+UserServiceCode+"'");
+		query="INSERT INTO HeadFactor (Code,UserServiceCode,Date,Description) VALUES ('"
 				+WsResponse+"','"
 				+UserServiceCode+"','"
 				+Year+"/"+Month+"/"+Day+"','"
 				+Description+"')";
 		db.execSQL(query);
 		db=dbh.getReadableDatabase();
-		query="SELECT *  FROM HmFactorService WHERE Code='"+StepCode+"'";
+		query="SELECT * FROM HmFactorService WHERE Code='"+StepCode+"'";
 		Cursor c= db.rawQuery(query,null);
 		if(c.getCount()>0) {
 			c.moveToNext();
@@ -319,7 +320,6 @@ public class SyncGetFactorUsersHeadCode {
 							cDetail.getString(cDetail.getColumnIndex("Amount")).replace(",","."));
 					UserDetailes.AsyncExecute();
 					Toast.makeText(activity, "مقدار "+ (i+1) +" ثبت شد", Toast.LENGTH_SHORT).show();
-
 				}
 			}
 		}

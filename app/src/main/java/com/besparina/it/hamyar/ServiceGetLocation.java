@@ -67,6 +67,11 @@ public class ServiceGetLocation extends Service {
 
                                         throw sqle;
                                     }
+                                    if(db!=null) {
+                                        if (db.isOpen()) {
+                                            db.close();
+                                        }
+                                    }
                                     GPSTracker gps = new GPSTracker(getApplicationContext());
 
                                     // check if GPS enabled
@@ -98,7 +103,12 @@ public class ServiceGetLocation extends Service {
                                             }
                                         }
 
-                                        db.close();
+
+                                        if(db!=null) {
+                                            if (db.isOpen()) {
+                                                db.close();
+                                            }
+                                        }
                                     }
 
                                 }

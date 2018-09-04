@@ -66,6 +66,11 @@ public class ServiceSyncProfile extends Service {
 
                                         throw sqle;
                                     }
+                                    if(db!=null) {
+                                        if (db.isOpen()) {
+                                            db.close();
+                                        }
+                                    }
                                     db=dbh.getReadableDatabase();
                                     Cursor coursors = db.rawQuery("SELECT * FROM login",null);
                                     for(int i=0;i<coursors.getCount();i++){
@@ -75,7 +80,12 @@ public class ServiceSyncProfile extends Service {
                                     }
                                     SyncProfileForService syncProfile=new SyncProfileForService(getApplicationContext(),guid,hamyarcode);
                                     syncProfile.AsyncExecute();
-                                    db.close();
+
+                                    if(db!=null) {
+                                        if (db.isOpen()) {
+                                            db.close();
+                                        }
+                                    }
                                 }
                             });
                         } catch (Exception e) {

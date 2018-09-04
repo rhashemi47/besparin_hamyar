@@ -18,6 +18,7 @@
     import android.os.Build;
     import android.os.Bundle;
     import android.os.Handler;
+    import android.os.Parcelable;
     import android.support.annotation.RequiresApi;
     import android.support.v7.widget.Toolbar;
     import android.text.Editable;
@@ -893,6 +894,7 @@
         }
     public void setListServices()
     {
+        Parcelable state = lvServices.onSaveInstanceState();
         valuse = new ArrayList<HashMap<String, String>>();
         String query="SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
                 "LEFT JOIN " +
@@ -934,5 +936,9 @@
         db.close();
         AdapterServices dataAdapter=new AdapterServices(this,valuse,guid,hamyarcode);
         lvServices.setAdapter(dataAdapter);
+        if(state!=null)
+        {
+            lvServices.onRestoreInstanceState(state);
+        }
     }
 }

@@ -36,7 +36,7 @@ public class ServiceSyncServiceSelected extends Service {
         if(createthread) {
             mHandler = new Handler();
             new Thread(new Runnable() {
-                public String LastHamyarUserServiceCode;
+//                public String LastHamyarUserServiceCode;
                 @Override
                 public void run() {
                     // TODO Auto-generated method stub
@@ -64,6 +64,11 @@ public class ServiceSyncServiceSelected extends Service {
 
                                         throw sqle;
                                     }
+                                    if(db!=null) {
+                                        if (db.isOpen()) {
+                                            db.close();
+                                        }
+                                    }
                                     db=dbh.getReadableDatabase();
                                     Cursor coursors = db.rawQuery("SELECT * FROM login",null);
                                     for(int i=0;i<coursors.getCount();i++){
@@ -73,15 +78,19 @@ public class ServiceSyncServiceSelected extends Service {
                                         guid=coursors.getString(coursors.getColumnIndex("guid"));
                                     }
                                     db.close();
-                                    db=dbh.getReadableDatabase();
-                                    Cursor cursors = db.rawQuery("SELECT ifnull(MAX(CAST (code AS INT)),0)as code FROM BsHamyarSelectServices", null);
-                                    if(cursors.getCount()>0)
-                                    {
-                                        cursors.moveToNext();
-                                        LastHamyarUserServiceCode=cursors.getString(cursors.getColumnIndex("code"));
-                                    }
-
-                                    db.close();
+//                                    db=dbh.getReadableDatabase();
+//                                    Cursor cursors = db.rawQuery("SELECT * FROM BsHamyarSelectServices WHERE IsDelete='0'", null);
+//                                    if(cursors.getCount()>0)
+//                                    {
+//                                        cursors.moveToNext();
+//                                        LastHamyarUserServiceCode=cursors.getString(cursors.getColumnIndex("code"));
+//                                    }
+//
+//                                    if(db!=null) {
+//                                        if (db.isOpen()) {
+//                                            db.close();
+//                                        }
+//                                    }
                                     SyncGetSelectJobsForService syncGetSelectJobsForService =new SyncGetSelectJobsForService(getApplicationContext(),guid,hamyarcode,"0");
                                     syncGetSelectJobsForService.AsyncExecute();
                                 }

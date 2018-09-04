@@ -92,6 +92,8 @@ public class Save_Per_Factor extends Activity {
     private Button btnDutyToday;
     private Button btnServices_at_the_turn;
     private Button btnHome;
+    private String back_activity;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -232,6 +234,7 @@ public class Save_Per_Factor extends Activity {
             BsUserServicesID = getIntent().getStringExtra("BsUserServicesID").toString();
             tab = getIntent().getStringExtra("tab").toString();
             ServiceDetaileCode = getIntent().getStringExtra("ServiceDetaileCode").toString();
+            back_activity = getIntent().getStringExtra("back_activity").toString();
         }
         catch (Exception e)
         {
@@ -462,7 +465,7 @@ public class Save_Per_Factor extends Activity {
             db.execSQL(query);
 
             db.close();
-            Save_Per_Factor.this.LoadActivity_Select(ViewJob.class, "guid", guid, "hamyarcode", hamyarcode,"BsUserServicesID", BsUserServicesID, "tab", tab);
+            Save_Per_Factor.this.LoadActivity_Select(ViewJob.class, "guid", guid, "hamyarcode", hamyarcode,"BsUserServicesID", BsUserServicesID, "tab", tab,"back_activity",back_activity);
         }
 
         return super.onKeyDown( keyCode, event );
@@ -474,13 +477,14 @@ public class Save_Per_Factor extends Activity {
         intent.putExtra(VariableName2, VariableValue2);
         Save_Per_Factor.this.startActivity(intent);
     }
-    public void LoadActivity_Select(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2, String VariableName3, String VariableValue3, String VariableName4, String VariableValue4)
+    public void LoadActivity_Select(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2, String VariableName3, String VariableValue3, String VariableName4, String VariableValue4, String VariableName5, String VariableValue5)
     {
         Intent intent = new Intent(getApplicationContext(),Cls);
         intent.putExtra(VariableName, VariableValue);
         intent.putExtra(VariableName2, VariableValue2);
         intent.putExtra(VariableName3, VariableValue3);
         intent.putExtra(VariableName4, VariableValue4);
+        intent.putExtra(VariableName5, VariableValue5);
         Save_Per_Factor.this.startActivity(intent);
     }
     public void FillSpinnerStep(){
@@ -561,16 +565,6 @@ public class Save_Per_Factor extends Activity {
         String Year=DateSp[0];
         String Mounth=DateSp[1];
         String Day=DateSp[2];
-        String StrAmount;
-//        if(CheckTitleTools.isChecked())
-//        {
-//            StrAmount=Amont;
-//        }
-//        else
-//        {
-//            StrAmount="0";
-//        }
-
         try {
                     SyncGetFactorUsersHeadCode syncGetFactorUsersHeadCode = new SyncGetFactorUsersHeadCode(Save_Per_Factor.this,
                             guid,
@@ -615,7 +609,7 @@ public class Save_Per_Factor extends Activity {
             TitleTool = SPTitleTools.getSelectedItem().toString();
             BrandName = tvBrand.getText().toString();
             Price=tvPriceTools.getText().toString();
-            Amont=EtToolValuePrice.getText().toString();
+            Amont=EtToolValuePrice.getText().toString().replace(",","");
             float FAmount=Float.parseFloat(Amont);
             Amont=Float.toString(FAmount);
             if (Amont.compareTo("0.0")==0 || Amont.length()<=0) {

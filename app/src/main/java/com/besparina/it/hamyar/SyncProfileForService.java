@@ -253,7 +253,7 @@ public class SyncProfileForService {
 					title="شما فعال شده اید";
 				}
 				NotificationClass notifi=new NotificationClass();
-				notifi.Notificationm(this.activity,"بسپارینا",title,"0",10,MainMenu.class);
+				notifi.Notificationm(this.activity,"بسپارینا",title,"0","1",10,MainMenu.class);
 			}
 		}
 		catch (Exception ex)

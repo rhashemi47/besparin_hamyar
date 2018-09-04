@@ -18,7 +18,7 @@ public class NotificationClass {
         private String guid;
         private DatabaseHelper dbh;
         private SQLiteDatabase db;
-	public void Notificationm(Context context, String Title, String Detils,String BsUserServicesID,int notificationID,Class<?> Cls){
+	public void Notificationm(Context context, String Title, String Detils,String BsUserServicesID,String Tab,int notificationID,Class<?> Cls){
             dbh=new DatabaseHelper(context);
             try {
 
@@ -59,7 +59,7 @@ public class NotificationClass {
             Intent intent = new Intent(context, Cls);
             intent.putExtra("guid", guid);
             intent.putExtra("hamyarcode", hamyarcode);
-            intent.putExtra("tab", "1");
+            intent.putExtra("tab", Tab);
             intent.putExtra("BsUserServicesID", BsUserServicesID);
             PendingIntent pIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, 0);
             mBuilder.setContentIntent(pIntent);

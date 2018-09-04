@@ -1,10 +1,13 @@
 package com.besparina.it.hamyar;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.PropertyInfo;
@@ -14,9 +17,8 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 import java.io.IOException;
-import java.util.regex.Pattern;
 
-public class SyncSliderPic {
+public class SyncGetPreInvoiceAccept {
 
 	//Primary Variable
 	DatabaseHelper dbh;
@@ -27,16 +29,22 @@ public class SyncSliderPic {
 	private String guid;
 	private String hamyarcode;
 	private String WsResponse;
-	private boolean CuShowDialog=false;
+	private String invoicecode;
+	private String ServiceCode;
+	//private String acceptcode;
+	private boolean CuShowDialog = false;
+
 	//Contractor
-	public SyncSliderPic(Context activity, String guid, String hamyarcode) {
+	public SyncGetPreInvoiceAccept(Context activity, String guid, String hamyarcode, String invoicecode, String ServiceCode) {
 		this.activity = activity;
 		this.guid = guid;
-		this.hamyarcode=hamyarcode;
+		this.invoicecode = invoicecode;
+		this.hamyarcode = hamyarcode;
+		this.ServiceCode = ServiceCode;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
 
-		dbh=new DatabaseHelper(this.activity.getApplicationContext());
+		dbh = new DatabaseHelper(this.activity.getApplicationContext());
 		try {
 
 			dbh.createDataBase();
@@ -57,22 +65,16 @@ public class SyncSliderPic {
 		}
 	}
 
-	public void AsyncExecute()
-	{
-		if(IC.isConnectingToInternet()==true)
-		{
-			try
-			{
+	public void AsyncExecute() {
+		if (IC.isConnectingToInternet() == true) {
+			try {
 				AsyncCallWS task = new AsyncCallWS(this.activity);
 				task.execute();
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 
 				e.printStackTrace();
 			}
-		}
-		else
-		{
+		} else {
 			//Toast.makeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
 		}
 	}
@@ -84,18 +86,16 @@ public class SyncSliderPic {
 
 		public AsyncCallWS(Context activity) {
 			this.activity = activity;
-			this.dialog = new ProgressDialog(activity);
-			this.dialog.setCanceledOnTouchOutside(false);
+//			this.dialog = new ProgressDialog(this.activity);
+//			this.dialog.setCanceledOnTouchOutside(false);
 		}
 
 		@Override
 		protected String doInBackground(String... params) {
 			String result = null;
-			try
-			{
-				CallWsMethod("GetHamyarSlider");
-			}
-			catch (Exception e) {
+			try {
+				CallWsMethod("GetPreInvoiceAccept");
+			} catch (Exception e) {
 				result = e.getMessage().toString();
 			}
 			return result;
@@ -103,43 +103,31 @@ public class SyncSliderPic {
 
 		@Override
 		protected void onPostExecute(String result) {
-			if(result == null)
-			{
-				if(WsResponse.toString().compareTo("ER") == 0)
-				{
+			if (result == null) {
+				String res[] = WsResponse.split("##");
+				if (res[1].compareTo("ER") == 0) {
 					//Toast.makeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();
 				}
-				else if(WsResponse.toString().compareTo("0") == 0)
-				{
-					//Toast.makeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();
-					//LoadActivity(MainMenu.class,"karbarCode",karbarCode,"updateflag","1");
-				}
-				else if(WsResponse.toString().compareTo("2") == 0)
-				{
-					//Toast.makeText(this.activity.getApplicationContext(), "کاربر شناسایی نشد!", Toast.LENGTH_LONG).show();
+				else if (res[1].compareTo("-1") == 0) {
 				}
 				else
 				{
 					InsertDataFromWsToDb(WsResponse);
 				}
+			} else {
+				////Toast.makeText(this.activity, "ط®ط·ط§ ط¯ط± ط§طھطµط§ظ„ ط¨ظ‡ ط³ط±ظˆط±", Toast.LENGTH_SHORT).show();
 			}
-			else
-			{
-				//Toast.makeText(this.activity, "ط®ط·ط§ ط¯ط± ط§طھطµط§ظ„ ط¨ظ‡ ط³ط±ظˆط±", Toast.LENGTH_SHORT).show();
-			}
-			try
-			{
+			try {
 				if (this.dialog.isShowing()) {
 					this.dialog.dismiss();
 				}
+			} catch (Exception e) {
 			}
-			catch (Exception e) {}
 		}
 
 		@Override
 		protected void onPreExecute() {
-			if(CuShowDialog)
-			{
+			if (CuShowDialog) {
 				this.dialog.setMessage("در حال پردازش");
 				this.dialog.show();
 			}
@@ -175,7 +163,15 @@ public class SyncSliderPic {
 		//Add the property to request object
 		request.addProperty(HamyarCodePI);
 		//*****************************************************
-
+		PropertyInfo invoicecodePI = new PropertyInfo();
+		//Set Name
+		invoicecodePI.setName("InvoiceCode");
+		//Set Value
+		invoicecodePI.setValue(this.invoicecode);
+		//Set dataType
+		invoicecodePI.setType(String.class);
+		//Add the property to request object
+		request.addProperty(invoicecodePI);
 		//Create envelope
 		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
 				SoapEnvelope.VER11);
@@ -186,12 +182,12 @@ public class SyncSliderPic {
 		HttpTransportSE androidHttpTransport = new HttpTransportSE(PV.URL);
 		try {
 			//Invoke web service
-			androidHttpTransport.call("http://tempuri.org/"+METHOD_NAME, envelope);
+			androidHttpTransport.call("http://tempuri.org/" + METHOD_NAME, envelope);
 			//Get the response
 			SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
 			//Assign it to FinalResultForCheck static variable
 			WsResponse = response.toString();
-			if(WsResponse == null) WsResponse="ER";
+			if (WsResponse == null) WsResponse = "ER";
 		} catch (Exception e) {
 			WsResponse = "ER";
 			e.printStackTrace();
@@ -199,19 +195,42 @@ public class SyncSliderPic {
 	}
 
 
-	public void InsertDataFromWsToDb(String AllRecord)
-	{
+	public void InsertDataFromWsToDb(String AllRecord) {
+		String query;
 		String[] res;
 		String[] value;
-		res=WsResponse.split(Pattern.quote("[Besparina@@]"));
-		String query=null;
-		db=dbh.getWritableDatabase();
-		db.execSQL("DELETE FROM Slider");
-		for(int i=0;i<res.length;i++){
-			value=res[i].split(Pattern.quote("[Besparina##]"));
-			query="INSERT INTO Slider (Code,Pic) VALUES('"+value[0]+"','"+value[1]+"')";
-			db.execSQL(query);
+		res = WsResponse.split("@@");
+		for (int i = 0; i < res.length; i++) {
+			value = res[i].split("##");
+			String Title;
+			db = dbh.getReadableDatabase();
+			Cursor c = db.rawQuery("SELECT * FROM HeadFactor WHERE Code='" + invoicecode + "'", null);
+			if (c.getCount() > 0) {
+				c.moveToNext();
+				if (c.getString(c.getColumnIndex("Status")).compareTo(value[1]) != 0) {
+					if (value[1].compareTo("0") == 0) {
+						Title = "پیش فاکتور سرویس " + c.getString(c.getColumnIndex("UserServiceCode")) + "تایید نشد";
+						db = dbh.getWritableDatabase();
+						query = "UPDATE HeadFactor SET Type='0',Status='" + value[1] + "' WHERE Code='" + invoicecode + "'";
+						db.execSQL(query);
+					} else {
+						Title = "پیش فاکتور سرویس " + c.getString(c.getColumnIndex("UserServiceCode")) + "تایید شد";
+						db = dbh.getWritableDatabase();
+						query = "UPDATE HeadFactor SET Type='0',Status='" + value[1] + "',AcceptDate='" + value[2] + "' WHERE Code='" + invoicecode + "'";
+						db.execSQL(query);
+					}
+					runNotification("بسپارینا", Title, i, ServiceCode, ViewJob.class);
+				}
+			}
 		}
-		db.close();
+		if(db.isOpen())
+		{
+			db.close();
+		}
+	}
+	public void runNotification(String title,String detail,int id,String BsUserServicesID,Class<?> Cls)
+	{
+		NotificationClass notifi=new NotificationClass();
+		notifi.Notificationm(this.activity,title,detail,BsUserServicesID,"0",id,Cls);
 	}
 }
