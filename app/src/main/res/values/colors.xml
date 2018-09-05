@@ -7,4 +7,5 @@
     <color name="colorbuttonview">#ffffff</color>
     <color name="colortab1">#ffd117</color>
     <color name="transparent">#00000000</color>
+    <color name="mdtp_transparent">#00000000</color>
 </resources>

@@ -1013,17 +1013,17 @@ public class ViewJob extends AppCompatActivity{
                 btnSelect.setEnabled(false);
                 btnResume.setEnabled(false);
             }
-            else if(status.compareTo("2")==0)//Pause
+            else if(status.compareTo("13")==0)//Pause
             {
                 btnResume.setEnabled(true);
-                btnCansel.setEnabled(true);
+                btnCansel.setEnabled(false);
                 btnPause.setEnabled(false);
                 btnSelect.setEnabled(false);
-                btnPerFactor.setEnabled(false);
+                btnPerFactor.setEnabled(true);
                 btnVisit.setEnabled(false);
                 btnFinal.setEnabled(false);
             }
-            else if(status.compareTo("3")==0)//pause
+            else if(status.compareTo("2")==0)//Resume
             {
                 btnVisit.setEnabled(true);
                 btnFinal.setEnabled(true);
@@ -1031,7 +1031,7 @@ public class ViewJob extends AppCompatActivity{
                 btnPause.setEnabled(true);
                 btnSelect.setEnabled(false);
                 btnResume.setEnabled(false);
-                btnPerFactor.setEnabled(false);
+                btnPerFactor.setEnabled(true);
             }
             else if(status.compareTo("4")==0)//cansel
             {
@@ -1049,7 +1049,7 @@ public class ViewJob extends AppCompatActivity{
                 btnCansel.setEnabled(true);
                 btnFinal.setEnabled(true);
                 btnResume.setEnabled(false);
-                btnPause.setEnabled(false);
+                btnPause.setEnabled(true);
                 btnSelect.setEnabled(false);
                 btnVisit.setEnabled(true);
             }
@@ -1825,9 +1825,11 @@ public class ViewJob extends AppCompatActivity{
             @Override
             public void onTimeSet(String hourOfDay, String minute) {
                 db=dbh.getWritableDatabase();
-                    String[] DateTB = DateStr.split("/");
-                    SyncVisitJob syncVisitJob = new SyncVisitJob(ViewJob.this, guid, hamyarcode, coursors.getString(coursors.getColumnIndex("Code")), DateTB[0], DateTB[1], DateTB[2], hourOfDay, minute);
-                    syncVisitJob.AsyncExecute();
+                String[] DateTB = DateStr.split("/");
+                String min=PersianDigitConverter.EnglishNumber(minute.replace("00","0"));
+                String hour=PersianDigitConverter.EnglishNumber(hourOfDay);
+                SyncVisitJob syncVisitJob = new SyncVisitJob(ViewJob.this, guid, hamyarcode, coursors.getString(coursors.getColumnIndex("Code")), DateTB[0], DateTB[1], DateTB[2], hour, min);
+                syncVisitJob.AsyncExecute();
             }
         }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
         alert_clock.show();

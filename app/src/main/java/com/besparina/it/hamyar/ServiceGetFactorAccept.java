@@ -84,10 +84,11 @@ public class ServiceGetFactorAccept extends Service {
                                     }
                                     db=dbh.getReadableDatabase();
                                     Cursor cursors = db.rawQuery("SELECT Code FROM BsHamyarSelectServices WHERE IsDelete='0'", null);
+                                    Cursor c;
                                     for(int i=0;i<cursors.getCount();i++)
                                     {
                                         cursors.moveToNext();
-                                        Cursor c= db.rawQuery("SELECT * FROM HeadFactor WHERE UserServiceCode='"+cursors.getString(cursors.getColumnIndex("Code"))+"'", null);
+                                        c= db.rawQuery("SELECT * FROM HeadFactor WHERE UserServiceCode='"+cursors.getString(cursors.getColumnIndex("Code"))+"'", null);
                                         if(c.getCount()>0) {
                                             c.moveToNext();
                                             if(c.getString(c.getColumnIndex("Type")).compareTo("0")==0)
