@@ -173,7 +173,7 @@
             for(int i=0;i<coursors.getCount();i++){
                 coursors.moveToNext();
                 HashMap<String, String> map = new HashMap<String, String>();
-                map.put("Code",coursors.getString(coursors.getColumnIndex("BsHamyarSelectServices.Code")));
+                map.put("Code",coursors.getString(coursors.getColumnIndex("Code")));
                 map.put("UserPhone",coursors.getString(coursors.getColumnIndex("UserPhone")));
                 map.put("TitleService",coursors.getString(coursors.getColumnIndex("name")));
                 map.put("Emergency",((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0")==1? "عادی":"فوری")));
