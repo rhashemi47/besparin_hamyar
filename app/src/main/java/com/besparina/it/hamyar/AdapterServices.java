@@ -99,7 +99,7 @@ public class AdapterServices extends BaseAdapter {
         String Emergency = map.get("Emergency");
         String Description = map.get("Description");
 //        String UserPhone = map.get("UserPhone");
-        if(Emergency.compareTo("عادی")==0)
+        if(Emergency.compareTo("0")==0)
         {
             holder.LinearTitle.setBackgroundColor(Color.parseColor("#95d1db"));
         }

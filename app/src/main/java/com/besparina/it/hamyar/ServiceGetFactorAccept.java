@@ -22,6 +22,9 @@ public class ServiceGetFactorAccept extends Service {
     private SQLiteDatabase db;
     private String hamyarcode;
     private String guid;
+    private Cursor cursors;
+    private Cursor coursors;
+
     @Override
     public IBinder onBind(Intent arg0) {
         return null;
@@ -70,7 +73,7 @@ public class ServiceGetFactorAccept extends Service {
                                         }
                                     }
                                     db=dbh.getReadableDatabase();
-                                    Cursor coursors = db.rawQuery("SELECT * FROM login",null);
+                                    coursors = db.rawQuery("SELECT * FROM login",null);
                                     for(int i=0;i<coursors.getCount();i++){
 
                                         coursors.moveToNext();
@@ -83,11 +86,15 @@ public class ServiceGetFactorAccept extends Service {
                                         }
                                     }
                                     db=dbh.getReadableDatabase();
-                                    Cursor cursors = db.rawQuery("SELECT Code FROM BsHamyarSelectServices WHERE IsDelete='0'", null);
+                                    cursors = db.rawQuery("SELECT Code FROM BsHamyarSelectServices WHERE IsDelete='0'", null);
                                     Cursor c;
                                     for(int i=0;i<cursors.getCount();i++)
                                     {
                                         cursors.moveToNext();
+                                        if(!db.isOpen())
+                                        {
+                                            db=dbh.getReadableDatabase();
+                                        }
                                         c= db.rawQuery("SELECT * FROM HeadFactor WHERE UserServiceCode='"+cursors.getString(cursors.getColumnIndex("Code"))+"'", null);
                                         if(c.getCount()>0) {
                                             c.moveToNext();

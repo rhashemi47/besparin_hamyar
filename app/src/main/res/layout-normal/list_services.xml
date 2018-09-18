@@ -25,9 +25,10 @@
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:src="@drawable/search"
+                android:src="@drawable/places_ic_search"
+                android:layout_marginRight="20dp"
                 android:id="@+id/imgSearch"
-                android:layout_marginRight="160dp"/>
+                />
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 

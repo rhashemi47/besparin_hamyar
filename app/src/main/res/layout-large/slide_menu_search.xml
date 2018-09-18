@@ -8,30 +8,28 @@
     android:id="@+id/drawer_layout"
     android:layoutDirection="rtl"
     android:background="@color/mdtp_transparent"
-    tools:openDrawer="start" >
+    tools:openDrawer="end" >
     <include layout="@layout/list_services"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
     <android.support.design.widget.NavigationView
         android:layout_width="wrap_content"
-        android:layout_height="450dp"
-        android:layout_gravity="start"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
         android:layoutDirection="rtl"
         android:id="@+id/navigation_view"
-        android:background="#252525"
+        android:background="#00252525"
+        android:layout_marginTop="50dp"
         app:itemIconTint="@android:color/white"
         app:itemTextColor="#ffffff">
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="450dp"
-                android:orientation="vertical"
-                android:id="@+id/LinearFilterSearch"
-                android:background="@drawable/menu_body"
-                android:layout_marginTop="10dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/LinearFilterSearch"
+            android:background="@drawable/rounded_linear_search"
+            android:layout_marginTop="10dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -64,7 +62,7 @@
                         android:checked="true"/>
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:layout_weight="1">
                         <TextView
@@ -78,11 +76,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/etFromDate"
+                            android:textSize="14sp"
+                            android:layout_gravity="center"
+                            android:gravity="center"
                             android:layout_weight="1"/>
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:layout_weight="1">
                         <TextView
@@ -96,6 +97,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/etToDate"
+                            android:textSize="14sp"
+                            android:layout_gravity="center"
+                            android:gravity="center"
                             android:layout_weight="1"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -146,6 +150,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/etFromTime"
+                            android:textSize="14sp"
+                            android:layout_gravity="center"
+                            android:gravity="center"
                             android:layout_weight="1"/>
                     </LinearLayout>
                     <LinearLayout
@@ -164,6 +171,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/etToTime"
+                            android:textSize="14sp"
+                            android:layout_gravity="center"
+                            android:gravity="center"
                             android:layout_weight="1"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -189,7 +199,7 @@
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:orientation="horizontal"
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"
@@ -199,15 +209,14 @@
                         android:layout_height="wrap_content"
                         android:checked="true"/>
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:layout_weight="1">
+                        android:orientation="horizontal">
                         <EditText
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/etArea"
-                            android:layout_weight="1"/>
+                            android:textSize="14sp"/>
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
@@ -260,13 +269,13 @@
                         android:layout_height="50dp"
                         android:id="@+id/btnSearch"
                         android:text="@string/search"
-                        android:paddingLeft="120dp"
-                        android:paddingRight="120dp"
+                        android:paddingLeft="80dp"
+                        android:paddingRight="80dp"
                         android:textSize="16sp"
+                        android:layout_marginBottom="20dp"
                         android:drawableRight="@drawable/search"
-                        android:background="#fda101"/>
+                        android:background="@drawable/rounded_button_search"/>
                 </LinearLayout>
             </LinearLayout>
-        </ScrollView>
     </android.support.design.widget.NavigationView>
 </android.support.v4.widget.DrawerLayout>

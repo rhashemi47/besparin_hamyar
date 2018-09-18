@@ -1270,8 +1270,7 @@ public class ViewJob extends AppCompatActivity{
                 }
                 else
                 {
-                    SyncStartJob syncStartJob = new SyncStartJob(ViewJob.this, guid, hamyarcode, coursors.getString(coursors.getColumnIndex("Code")),
-                            coursors.getString(coursors.getColumnIndex("id")));
+                    SyncStartJob syncStartJob = new SyncStartJob(ViewJob.this, guid, hamyarcode, coursors.getString(coursors.getColumnIndex("Code")));
                     syncStartJob.AsyncExecute();
                 }
             }

@@ -21,14 +21,11 @@
     import android.support.v4.view.GravityCompat;
     import android.support.v4.widget.DrawerLayout;
     import android.support.v7.widget.Toolbar;
-    import android.text.Editable;
-    import android.text.TextWatcher;
     import android.util.Base64;
     import android.view.Gravity;
     import android.view.KeyEvent;
-    import android.view.LayoutInflater;
     import android.view.View;
-    import android.view.ViewGroup;
+    import android.widget.AdapterView;
     import android.widget.ArrayAdapter;
     import android.widget.Button;
     import android.widget.EditText;
@@ -36,9 +33,7 @@
     import android.widget.ListView;
     import android.widget.Spinner;
     import android.widget.TextView;
-    import android.widget.TimePicker;
     import android.widget.Toast;
-
     import com.mikepenz.materialdrawer.AccountHeader;
     import com.mikepenz.materialdrawer.AccountHeaderBuilder;
     import com.mikepenz.materialdrawer.Drawer;
@@ -48,8 +43,6 @@
     import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
     import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
     import com.mikepenz.materialdrawer.model.interfaces.IProfile;
-    import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog;
-    import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
 
     import java.io.IOException;
     import java.util.ArrayList;
@@ -81,8 +74,6 @@
         private EditText etToDate;
         private EditText etFromTime;
         private EditText etToTime;
-//        private EditText etArea;
-//        private Spinner spExpert;
         private List<String> labelssp;
         //*****************************************************
         private ArrayList<HashMap<String, String>> valuse ;
@@ -158,11 +149,6 @@
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             CreateMenu(toolbar);
 
-            //************************************************************************
-//            LayoutInflater layoutInflater=getLayoutInflater();
-//            getWindow().addContentView(layoutInflater.inflate(R.layout.sliding_filter,null),new
-//                    ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT));
-            //************************************************************************
             btnCredit=(TextView)findViewById(R.id.btnCredit);
             btnServices_at_the_turn=(Button)findViewById(R.id.btnServices_at_the_turn);
             btnDutyToday=(Button)findViewById(R.id.btnDutyToday);
@@ -201,7 +187,11 @@
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    setListServices();
+                                    if(etArea.length()==0 && etFromDate.length()==0
+                                            && etToDate.length()==0 && etFromTime.length()==0
+                                            && etToTime.length()==0 && spExpert.getSelectedItem().toString().compareTo("")==0) {
+                                        setListServices();
+                                    }
                                 }
 
                             });
@@ -212,203 +202,228 @@
                 }
             }).start();
             //*********************************************************
-            etFromDate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ir.hamsaa.persiandatepicker.util.PersianCalendar calNow=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
-                    calNow.setPersianDate(calNow.getPersianYear(),calNow.getPersianMonth()+1,calNow.getPersianDay());
-                    //  initDate.setPersianDate(1370, 3, 13);
-                    PersianDatePickerDialog picker = new PersianDatePickerDialog(List_Services.this);
-                    picker.setPositiveButtonString("تایید");
-                    picker.setNegativeButton("انصراف");
-                    picker.setTodayButton("امروز");
-                    picker.setTodayButtonVisible(true);
-                    //  picker.setInitDate(initDate);
-                    picker.setMaxYear(PersianDatePickerDialog.THIS_YEAR);
-                    picker.setMinYear(calNow.getPersianYear());
-                    picker.setActionTextColor(Color.GRAY);
-                    //picker.setTypeFace(FontMitra);
-                    picker.setListener(new Listener() {
-
-                        @Override
-                        public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
-                            //Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
-                            etFromDate.setText(String.valueOf(persianCalendar.getPersianYear()) + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay());
-                        }
-
-                        @Override
-                        public void onDismissed() {
-
-                        }
-                    });
-                    picker.show();
-
-                }
-
-            });
+//            etFromDate.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    ir.hamsaa.persiandatepicker.util.PersianCalendar calNow=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
+//                    calNow.setPersianDate(calNow.getPersianYear(),calNow.getPersianMonth()+1,calNow.getPersianDay());
+//                    //  initDate.setPersianDate(1370, 3, 13);
+//                    PersianDatePickerDialog picker = new PersianDatePickerDialog(List_Services.this);
+//                    picker.setPositiveButtonString("تایید");
+//                    picker.setNegativeButton("انصراف");
+//                    picker.setTodayButton("امروز");
+//                    picker.setTodayButtonVisible(true);
+//                    //  picker.setInitDate(initDate);
+//                    picker.setMaxYear(PersianDatePickerDialog.THIS_YEAR);
+//                    picker.setMinYear(calNow.getPersianYear());
+//                    picker.setActionTextColor(Color.GRAY);
+//                    //picker.setTypeFace(FontMitra);
+//                    picker.setListener(new Listener() {
+//
+//                        @Override
+//                        public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
+//                            //Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
+//                            etFromDate.setText(String.valueOf(persianCalendar.getPersianYear()) + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay());
+//                        }
+//
+//                        @Override
+//                        public void onDismissed() {
+//
+//                        }
+//                    });
+//                    picker.show();
+//
+//                }
+//
+//            });
             etFromDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
-                    ir.hamsaa.persiandatepicker.util.PersianCalendar calNow=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
-                    calNow.setPersianDate(calNow.getPersianYear(),calNow.getPersianMonth()+1,calNow.getPersianDay());
-                    //  initDate.setPersianDate(1370, 3, 13);
-                    PersianDatePickerDialog picker = new PersianDatePickerDialog(List_Services.this);
-                    picker.setPositiveButtonString("تایید");
-                    picker.setNegativeButton("انصراف");
-                    picker.setTodayButton("امروز");
-                    picker.setTodayButtonVisible(true);
-                    //  picker.setInitDate(initDate);
-                    picker.setMaxYear(PersianDatePickerDialog.THIS_YEAR);
-                    picker.setMinYear(calNow.getPersianYear());
-                    picker.setActionTextColor(Color.GRAY);
-                    //picker.setTypeFace(FontMitra);
-                    picker.setListener(new Listener() {
+                    if (hasFocus) {
+                        ir.hamsaa.persiandatepicker.util.PersianCalendar calNow = new ir.hamsaa.persiandatepicker.util.PersianCalendar();
+                        calNow.setPersianDate(calNow.getPersianYear(), calNow.getPersianMonth() + 1, calNow.getPersianDay());
+                        //  initDate.setPersianDate(1370, 3, 13);
+                        PersianDatePickerDialog picker = new PersianDatePickerDialog(List_Services.this);
+                        picker.setPositiveButtonString("تایید");
+                        picker.setNegativeButton("انصراف");
+                        picker.setTodayButton("امروز");
+                        picker.setTodayButtonVisible(true);
+                        //  picker.setInitDate(initDate);
+                        picker.setMaxYear(PersianDatePickerDialog.THIS_YEAR);
+                        picker.setMinYear(calNow.getPersianYear());
+                        picker.setActionTextColor(Color.GRAY);
+                        //picker.setTypeFace(FontMitra);
+                        picker.setListener(new Listener() {
+                            @Override
+                            public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
+                                //Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
+                                etFromDate.setText(String.valueOf(persianCalendar.getPersianYear()) + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay());
+                            }
 
-                        @Override
-                        public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
-                            //Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
-                            etFromDate.setText(String.valueOf(persianCalendar.getPersianYear()) + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay());
-                        }
+                            @Override
+                            public void onDismissed() {
 
-                        @Override
-                        public void onDismissed() {
-
-                        }
-                    });
-                    picker.show();
+                            }
+                        });
+                        picker.show();
+                    }
                 }
             });
-            etToDate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    ir.hamsaa.persiandatepicker.util.PersianCalendar calNow=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
-                    calNow.setPersianDate(calNow.getPersianYear(),calNow.getPersianMonth()+1,calNow.getPersianDay());
-                    //  initDate.setPersianDate(1370, 3, 13);
-                    PersianDatePickerDialog picker = new PersianDatePickerDialog(List_Services.this);
-                    picker.setPositiveButtonString("تایید");
-                    picker.setNegativeButton("انصراف");
-                    picker.setTodayButton("امروز");
-                    picker.setTodayButtonVisible(true);
-                    //  picker.setInitDate(initDate);
-                    picker.setMaxYear(PersianDatePickerDialog.THIS_YEAR);
-                    picker.setMinYear(calNow.getPersianYear());
-                    picker.setActionTextColor(Color.GRAY);
-                    //picker.setTypeFace(FontMitra);
-                    picker.setListener(new Listener() {
-
-                        @Override
-                        public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
-                            //Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
-                            etToDate.setText(String.valueOf(persianCalendar.getPersianYear()) + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay());
-                        }
-
-                        @Override
-                        public void onDismissed() {
-
-                        }
-                    });
-                    picker.show();
-
-                }
-
-            });
+//            etToDate.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//
+//                    ir.hamsaa.persiandatepicker.util.PersianCalendar calNow=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
+//                    calNow.setPersianDate(calNow.getPersianYear(),calNow.getPersianMonth()+1,calNow.getPersianDay());
+//                    //  initDate.setPersianDate(1370, 3, 13);
+//                    PersianDatePickerDialog picker = new PersianDatePickerDialog(List_Services.this);
+//                    picker.setPositiveButtonString("تایید");
+//                    picker.setNegativeButton("انصراف");
+//                    picker.setTodayButton("امروز");
+//                    picker.setTodayButtonVisible(true);
+//                    //  picker.setInitDate(initDate);
+//                    picker.setMaxYear(PersianDatePickerDialog.THIS_YEAR);
+//                    picker.setMinYear(calNow.getPersianYear());
+//                    picker.setActionTextColor(Color.GRAY);
+//                    //picker.setTypeFace(FontMitra);
+//                    picker.setListener(new Listener() {
+//
+//                        @Override
+//                        public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
+//                            //Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
+//                            etToDate.setText(String.valueOf(persianCalendar.getPersianYear()) + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay());
+//                        }
+//
+//                        @Override
+//                        public void onDismissed() {
+//
+//                        }
+//                    });
+//                    picker.show();
+//
+//                }
+//
+//            });
             etToDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
-                    ir.hamsaa.persiandatepicker.util.PersianCalendar calNow=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
-                    calNow.setPersianDate(calNow.getPersianYear(),calNow.getPersianMonth()+1,calNow.getPersianDay());
-                    //  initDate.setPersianDate(1370, 3, 13);
-                    PersianDatePickerDialog picker = new PersianDatePickerDialog(List_Services.this);
-                    picker.setPositiveButtonString("تایید");
-                    picker.setNegativeButton("انصراف");
-                    picker.setTodayButton("امروز");
-                    picker.setTodayButtonVisible(true);
-                    //  picker.setInitDate(initDate);
-                    picker.setMaxYear(PersianDatePickerDialog.THIS_YEAR);
-                    picker.setMinYear(calNow.getPersianYear());
-                    picker.setActionTextColor(Color.GRAY);
-                    //picker.setTypeFace(FontMitra);
-                    picker.setListener(new Listener() {
+                    if (hasFocus) {
+                        ir.hamsaa.persiandatepicker.util.PersianCalendar calNow = new ir.hamsaa.persiandatepicker.util.PersianCalendar();
+                        calNow.setPersianDate(calNow.getPersianYear(), calNow.getPersianMonth() + 1, calNow.getPersianDay());
+                        //  initDate.setPersianDate(1370, 3, 13);
+                        PersianDatePickerDialog picker = new PersianDatePickerDialog(List_Services.this);
+                        picker.setPositiveButtonString("تایید");
+                        picker.setNegativeButton("انصراف");
+                        picker.setTodayButton("امروز");
+                        picker.setTodayButtonVisible(true);
+                        //  picker.setInitDate(initDate);
+                        picker.setMaxYear(PersianDatePickerDialog.THIS_YEAR);
+                        picker.setMinYear(calNow.getPersianYear());
+                        picker.setActionTextColor(Color.GRAY);
+                        //picker.setTypeFace(FontMitra);
+                        picker.setListener(new Listener() {
 
-                        @Override
-                        public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
-                            //Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
-                            etToDate.setText(String.valueOf(persianCalendar.getPersianYear()) + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay());
-                        }
+                            @Override
+                            public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
+                                //Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
+                                etToDate.setText(String.valueOf(persianCalendar.getPersianYear()) + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay());
+                            }
 
-                        @Override
-                        public void onDismissed() {
+                            @Override
+                            public void onDismissed() {
 
-                        }
-                    });
-                    picker.show();
+                            }
+                        });
+                        picker.show();
+                    }
                 }
             });
-            etFromTime.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Calendar now = Calendar.getInstance();
-                    Alert_Clock alert_clock=new Alert_Clock(List_Services.this, new Alert_Clock.OnTimeSetListener() {
-                        @Override
-                        public void onTimeSet(String hourOfDay, String minute) {
-                            db=dbh.getWritableDatabase();
-                            etFromTime.setText(hourOfDay + ":" + minute);
-                        }
-                    }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
-                    alert_clock.show();
-
-                }
-
-            });
+//            etFromTime.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Calendar now = Calendar.getInstance();
+//                    Alert_Clock alert_clock=new Alert_Clock(List_Services.this, new Alert_Clock.OnTimeSetListener() {
+//                        @Override
+//                        public void onTimeSet(String hourOfDay, String minute) {
+//                            db=dbh.getWritableDatabase();
+//                            etFromTime.setText(hourOfDay + ":" + minute);
+//                        }
+//                    }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
+//                    alert_clock.show();
+//
+//                }
+//
+//            });
             etFromTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
-                    Calendar now = Calendar.getInstance();
-                    Alert_Clock alert_clock=new Alert_Clock(List_Services.this, new Alert_Clock.OnTimeSetListener() {
-                        @Override
-                        public void onTimeSet(String hourOfDay, String minute) {
-                            db=dbh.getWritableDatabase();
-                            etFromTime.setText(hourOfDay + ":" + minute);
-                        }
-                    }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
-                    alert_clock.show();
+                    if(hasFocus) {
+                        Calendar now = Calendar.getInstance();
+                        Alert_Clock alert_clock = new Alert_Clock(List_Services.this, new Alert_Clock.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(String hourOfDay, String minute) {
+                                db = dbh.getWritableDatabase();
+                                etFromTime.setText(hourOfDay + ":" + minute);
+                            }
+                        }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
+                        alert_clock.show();
+                    }
                 }
             });
-            etToTime.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Calendar now = Calendar.getInstance();
-                    Alert_Clock alert_clock=new Alert_Clock(List_Services.this, new Alert_Clock.OnTimeSetListener() {
-                        @Override
-                        public void onTimeSet(String hourOfDay, String minute) {
-                            db=dbh.getWritableDatabase();
-                            etToTime.setText(hourOfDay + ":" + minute);
-                        }
-                    }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
-                    alert_clock.show();
-
-                }
-
-            });
+//            etToTime.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Calendar now = Calendar.getInstance();
+//                    Alert_Clock alert_clock=new Alert_Clock(List_Services.this, new Alert_Clock.OnTimeSetListener() {
+//                        @Override
+//                        public void onTimeSet(String hourOfDay, String minute) {
+//                            db=dbh.getWritableDatabase();
+//                            etToTime.setText(hourOfDay + ":" + minute);
+//                        }
+//                    }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
+//                    alert_clock.show();
+//
+//                }
+//
+//            });
             etToTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
-                    Calendar now = Calendar.getInstance();
-                    Alert_Clock alert_clock=new Alert_Clock(List_Services.this, new Alert_Clock.OnTimeSetListener() {
-                        @Override
-                        public void onTimeSet(String hourOfDay, String minute) {
-                            db=dbh.getWritableDatabase();
-                            etToTime.setText(hourOfDay + ":" + minute);
-                        }
-                    }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
-                    alert_clock.show();
+                    if(hasFocus) {
+                        Calendar now = Calendar.getInstance();
+                        Alert_Clock alert_clock = new Alert_Clock(List_Services.this, new Alert_Clock.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(String hourOfDay, String minute) {
+                                db = dbh.getWritableDatabase();
+                                etToTime.setText(hourOfDay + ":" + minute);
+                            }
+                        }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
+                        alert_clock.show();
+                    }
                 }
             });
             btnSearch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setListServices();
+                    String ErrorStr="";
+                    if (etFromDate.getText().toString().length() > 0) {
+                        String spStr[] = etFromDate.getText().toString().split("/");
+                        if (spStr[0].length() < 4) {
+                            ErrorStr = "سال، از تاریخ اشتباه وارد شده است!";
+                        }
+                    }
+                    if (etToDate.getText().toString().length() > 0) {
+                        String spStr[] = etToDate.getText().toString().split("/");
+                        if (spStr[0].length() < 4) {
+                            ErrorStr = "سال، تا تاریخ اشتباه وارد شده است!";
+                        }
+                    }
+                    if(ErrorStr.length()==0) {
+                        setListServices();
+                    }
+                    else{
+                        Toast.makeText(List_Services.this,ErrorStr,Toast.LENGTH_LONG).show();
+                    }
                 }
             });
             //****************************************************************************************
@@ -885,15 +900,21 @@
 
             alertbox.show();
         }
-    @Override
-    public boolean onKeyDown( int keyCode, KeyEvent event )  {
-        if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
-            continue_or_stop=false;
-            List_Services.this.LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
+        @Override
+        public void onBackPressed() {
+            if (drawer.isDrawerOpen()) {
+                drawer.closeDrawer();
+            }
+            else if(mDrawer.isDrawerOpen(Gravity.END))
+            {
+                mDrawer.closeDrawers();
+            }
+            else
+            {
+                continue_or_stop=false;
+                List_Services.this.LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
+            }
         }
-
-        return super.onKeyDown( keyCode, event );
-    }
     public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2)
         {
             continue_or_stop=false;
@@ -903,53 +924,119 @@
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             List_Services.this.startActivity(intent);
         }
-    public void setListServices()
-    {
+        //********************************************************************************
+    public void setListServices() {
         Parcelable state = lvServices.onSaveInstanceState();
         valuse = new ArrayList<HashMap<String, String>>();
-        String query="SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
+        String query = "SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
                 "LEFT JOIN " +
                 "Servicesdetails ON " +
                 "Servicesdetails.code=BsUserServices.ServiceDetaileCode WHERE 1=1 ";
-        if(etFromDate.getText().toString().length()>0) {
-            query = query + " AND StartDate>='" + etFromDate.getText().toString()+"'";
+        if (etFromDate.getText().toString().length() > 0) {
+            String spStr[] = etFromDate.getText().toString().split("/");
+            if (spStr[1].length() < 2) {
+                spStr[1] = "0" + spStr[1];
+            }
+            if (spStr[2].length() < 2) {
+                spStr[2] = "0" + spStr[2];
+            }
+                query = query + " AND StartDate>='" + spStr[0] + "/" + spStr[1] + "/" + spStr[2] + "'";
         }
-        if(etToDate.getText().toString().length()>0) {
-            query = query + " AND EndDate<='" + etToDate.getText().toString()+"'";
+        if (etToDate.getText().toString().length() > 0) {
+            String spStr[] = etToDate.getText().toString().split("/");
+            if (spStr[1].length() < 2) {
+                spStr[1] = "0" + spStr[1];
+            }
+            if (spStr[2].length() < 2) {
+                spStr[2] = "0" + spStr[2];
+            }
+                query = query + " AND EndDate<='" + spStr[0] + "/" + spStr[1] + "/" + spStr[2] + "'";
         }
-        if(etFromTime.getText().toString().length()>0) {
-            query = query + " AND StartTime>='" + etFromTime.getText().toString()+"'";
+        if (etFromTime.getText().toString().length() > 0) {
+            String spStr[] = etFromTime.getText().toString().split(":");
+            if (spStr[0].length() < 2) {
+                spStr[0] = "0" + spStr[0];
+            }
+            if (spStr[1].length() < 2) {
+                spStr[1] = "0" + spStr[1];
+            }
+            query = query + " AND StartTime>='" +faToEn(spStr[0] + ":" + spStr[1])+ "'";
         }
-        if(etToTime.getText().toString().length()>0) {
-            query = query + " AND EndTime<='" + etToTime.getText().toString()+"'";
+        if (etToTime.getText().toString().length() > 0) {
+            String spStr[] = etToTime.getText().toString().split(":");
+            if (spStr[0].length() < 2) {
+                spStr[0] = "0" + spStr[0];
+            }
+            if (spStr[1].length() < 2) {
+                spStr[1] = "0" + spStr[1];
+            }
+            query = query + " AND EndTime<='" + faToEn(spStr[0] + ":" + spStr[1]) + "'";
         }
-//        if(etArea.getText().toString().length()>0) {
-//            query = query + " AND AddressText LIKE '%" + etArea.getText().toString()+"%'";
-//        }
-//        if(spExpert.getSelectedItem().toString().compareTo("")!=0) {
-//            query = query + " AND " + spExpert.getSelectedItem().toString();
-//        }
-        query=query+" ORDER BY CAST(BsUserServices.Code as int) DESC";
-        db=dbh.getReadableDatabase();
-        Cursor coursors = db.rawQuery(query,null);
-        for(int i=0;i<coursors.getCount();i++){
-            coursors.moveToNext();
-            HashMap<String, String> map = new HashMap<String, String>();
-            map.put("Code",coursors.getString(coursors.getColumnIndex("Code")));
-            map.put("LocationService",coursors.getString(coursors.getColumnIndex("AddressText")));
-            map.put("Date",coursors.getString(coursors.getColumnIndex("StartDate"))+" - "+coursors.getString(coursors.getColumnIndex("EndDate")));
-            map.put("Time",coursors.getString(coursors.getColumnIndex("StartTime"))+" - "+coursors.getString(coursors.getColumnIndex("EndTime")));
-            map.put("Description",coursors.getString(coursors.getColumnIndex("Description")));
-            map.put("UserPhone",coursors.getString(coursors.getColumnIndex("UserPhone")));
-            map.put("Emergency",coursors.getString(coursors.getColumnIndex("IsEmergency")));
-            valuse.add(map);
+        if(etArea.getText().toString().length()>0) {
+            query = query + " AND AddressText LIKE '%" + etArea.getText().toString()+"%'";
         }
-        db.close();
-        AdapterServices dataAdapter=new AdapterServices(this,valuse,guid,hamyarcode);
-        lvServices.setAdapter(dataAdapter);
-        if(state!=null)
-        {
-            lvServices.onRestoreInstanceState(state);
+        if(spExpert.getSelectedItem().toString().compareTo("")!=0) {
+            if(!db.isOpen())
+            {
+                db=dbh.getReadableDatabase();
+            }
+            String q="SELECT * FROM servicesdetails WHERE name='"+spExpert.getSelectedItem().toString()+"'";
+            Cursor cursor=db.rawQuery(q,null);
+            if(cursor.getCount()>0) {
+             cursor.moveToNext();
+                query = query + " AND ServiceDetaileCode='" + cursor.getString(cursor.getColumnIndex("code"))+ "'";
+            }
+            else
+            {
+                query = query + " AND ServiceDetaileCode='0'";
+            }
         }
+            query = query + " ORDER BY CAST(BsUserServices.Code as int) DESC";
+            db = dbh.getReadableDatabase();
+            Cursor coursors = db.rawQuery(query, null);
+            for (int i = 0; i < coursors.getCount(); i++) {
+                coursors.moveToNext();
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put("Code", coursors.getString(coursors.getColumnIndex("Code")));
+                map.put("LocationService", coursors.getString(coursors.getColumnIndex("AddressText")));
+                map.put("Date", coursors.getString(coursors.getColumnIndex("StartDate")) + " - " + coursors.getString(coursors.getColumnIndex("EndDate")));
+                map.put("Time", coursors.getString(coursors.getColumnIndex("StartTime")) + " - " + coursors.getString(coursors.getColumnIndex("EndTime")));
+                map.put("Description", coursors.getString(coursors.getColumnIndex("Description")));
+                map.put("UserPhone", coursors.getString(coursors.getColumnIndex("UserPhone")));
+                map.put("Emergency", coursors.getString(coursors.getColumnIndex("IsEmergency")));
+                valuse.add(map);
+            }
+            db.close();
+            AdapterServices dataAdapter = new AdapterServices(this, valuse, guid, hamyarcode);
+            lvServices.setAdapter(dataAdapter);
+            if (state != null) {
+                lvServices.onRestoreInstanceState(state);
+            }
     }
+        public static String faToEn(String num) {
+            return num
+                    .replace("۰", "0")
+                    .replace("۱", "1")
+                    .replace("۲", "2")
+                    .replace("۳", "3")
+                    .replace("۴", "4")
+                    .replace("۵", "5")
+                    .replace("۶", "6")
+                    .replace("۷", "7")
+                    .replace("۸", "8")
+                    .replace("۹", "9");
+        }
+        public static String EnToFa(String num) {
+            return num
+                    .replace("0", "۰")
+                    .replace("1", "۱")
+                    .replace("2", "۲")
+                    .replace("3", "۳")
+                    .replace("4", "۴")
+                    .replace("5", "۵")
+                    .replace("6", "۶")
+                    .replace("7", "۷")
+                    .replace("8", "۸")
+                    .replace("9", "۹");
+        }
 }

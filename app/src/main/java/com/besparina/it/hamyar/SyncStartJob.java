@@ -29,16 +29,13 @@ public class SyncStartJob {
 	private String hamyarcode;
 	private String WsResponse;
 	private String UserServiceCode;
-	private String RowID;
-	//private String acceptcode;
 	private boolean CuShowDialog=true;
 	//Contractor
-	public SyncStartJob(Activity activity, String guid, String hamyarcode, String UserServiceCode, String rowid) {
+	public SyncStartJob(Activity activity, String guid, String hamyarcode, String BsUserServiceCode) {
 		this.activity = activity;
 		this.guid = guid;
-		this.UserServiceCode=UserServiceCode;
+		this.UserServiceCode=BsUserServiceCode;
 		this.hamyarcode=hamyarcode;
-		this.RowID=rowid;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
 		
@@ -98,7 +95,7 @@ public class SyncStartJob {
         	String result = null;
         	try
         	{
-        		CallWsMethod("InsertStart");
+        		CallWsMethod("InsertUserServiceStartDate");
         	}
 	    	catch (Exception e) {
 	    		result = e.getMessage().toString();
@@ -215,16 +212,7 @@ public class SyncStartJob {
 
 	public void InsertDataFromWsToDb()
 	{
-		String query=null;
-		db=dbh.getWritableDatabase();
-		query="UPDATE  BsHamyarSelectServices" +
-				" SET Status='2' " +
-				"WHERE Code='"+UserServiceCode+"'";
-		db.execSQL(query);
-
-		db.close();
-
-		Toast.makeText(this.activity.getApplicationContext(), "کار پایان یافت", Toast.LENGTH_LONG).show();
+		Toast.makeText(this.activity.getApplicationContext(), "پس از تایید کاربر شروع به کار محاسبه خواهد شد", Toast.LENGTH_LONG).show();
 		LoadActivity(MainMenu.class,"guid", guid,"hamyarcode",hamyarcode,"tab","1","BsUserServicesID",UserServiceCode);
 	}
 	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2, String VariableName3, String VariableValue3, String VariableName4, String VariableValue4)

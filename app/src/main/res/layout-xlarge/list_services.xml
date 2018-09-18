@@ -27,7 +27,7 @@
                 android:layout_height="25dp"
                 android:src="@drawable/search"
                 android:id="@+id/imgSearch"
-                android:layout_marginRight="540dp"/>
+                android:layout_marginRight="520dp"/>
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 
