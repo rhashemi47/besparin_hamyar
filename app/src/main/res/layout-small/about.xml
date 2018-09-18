@@ -64,23 +64,28 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/media"/>
+                    android:background="@drawable/media"
+                    android:id="@+id/imgEmail"/>
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/facebook"/>
+                    android:background="@drawable/facebook"
+                    android:id="@+id/imgWathsUp"/>
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/instagram"/>
+                    android:background="@drawable/instagram"
+                    android:id="@+id/imgInstagram"/>
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/in"/>
+                    android:background="@drawable/in"
+                    android:id="@+id/imgSkyp"/>
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/telegram"/>
+                    android:background="@drawable/telegram"
+                    android:id="@+id/imgTelegram"/>
             </LinearLayout>
             <fragment xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/map3"

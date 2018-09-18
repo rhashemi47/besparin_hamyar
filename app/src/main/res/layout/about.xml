@@ -62,27 +62,30 @@
                 android:layout_gravity="center"
                 android:gravity="center">
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:background="@drawable/media"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/media"
+                    android:id="@+id/imgEmail"/>
                 <ImageView
-                    android:layout_width="55dp"
-                    android:layout_height="50dp"
-                    android:background="@drawable/facebook"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/facebook"
+                    android:id="@+id/imgWathsUp"/>
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:background="@drawable/instagram"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/instagram"
+                    android:id="@+id/imgInstagram"/>
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:id="@+id/imgSkype"
-                    android:background="@drawable/in"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/in"
+                    android:id="@+id/imgSkyp"/>
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:id="@+id/imgTelegram"
-                    android:background="@drawable/telegram"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/telegram"
+                    android:id="@+id/imgTelegram"/>
             </LinearLayout>
             <fragment xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/map3"

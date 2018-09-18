@@ -55,7 +55,6 @@
             android:textSize="18sp"
             android:paddingEnd="10dp"
             android:paddingStart="10dp"
-            tools:ignore="RtlHardcoded"
             android:layout_marginLeft="5dp" />
     </LinearLayout>
 </RelativeLayout>

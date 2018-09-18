@@ -103,8 +103,8 @@
         android:layout_marginTop="10dp"
         android:gravity="center">
         <pl.droidsonroids.gif.GifImageView
-            android:layout_width="200dp"
-            android:layout_height="50dp"
+            android:layout_width="400dp"
+            android:layout_height="100dp"
             android:id="@+id/gifImageView"
             android:src="@drawable/wating"
             />
@@ -113,27 +113,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/LinearTextServiceNow"
+        android:orientation="vertical"
         android:layout_below="@+id/LinearGif">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/serviceNow"
-            android:textSize="30sp"
             android:layout_gravity="center"
             android:gravity="center"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="5dp"
-        android:layout_below="@+id/LinearTextServiceNow"
-        android:layout_marginBottom="50dp"
-        android:background="#AF66b6cb">
-        <ListView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/ListDutyNow"/>
+            android:layout_height="70dp"
+            android:layout_marginTop="10dp"
+            android:background="#AF66b6cb">
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:id="@+id/ListDutyNow"/>
+        </LinearLayout>
     </LinearLayout>
     <include layout="@layout/bottom_button"
         android:layout_height="wrap_content"

@@ -77,6 +77,7 @@ public class ViewJob extends AppCompatActivity{
     private String lonStr="0";
     private String DateStr="";
     private String swStyle="1";
+    private int swStartOrFinal=0;
 //    private TextView ContentShowJob;
 //************************************************************
     private TextView tvNumberService;
@@ -1010,6 +1011,8 @@ public class ViewJob extends AppCompatActivity{
                 btnPerFactor.setEnabled(true);
                 btnVisit.setEnabled(true);
                 btnFinal.setEnabled(true);
+                btnFinal.setText("شروع به کار");
+                swStartOrFinal=0;
                 btnSelect.setEnabled(false);
                 btnResume.setEnabled(false);
             }
@@ -1027,6 +1030,8 @@ public class ViewJob extends AppCompatActivity{
             {
                 btnVisit.setEnabled(true);
                 btnFinal.setEnabled(true);
+                btnFinal.setText("اتمام کار");
+                swStartOrFinal=1;
                 btnCansel.setEnabled(true);
                 btnPause.setEnabled(true);
                 btnSelect.setEnabled(false);
@@ -1048,6 +1053,8 @@ public class ViewJob extends AppCompatActivity{
                 btnPerFactor.setEnabled(true);
                 btnCansel.setEnabled(true);
                 btnFinal.setEnabled(true);
+                btnFinal.setText("اتمام کار");
+                swStartOrFinal=1;
                 btnResume.setEnabled(false);
                 btnPause.setEnabled(true);
                 btnSelect.setEnabled(false);
@@ -1169,9 +1176,16 @@ public class ViewJob extends AppCompatActivity{
                                     public void onClick(DialogInterface dialog,int id) {
                                         // get user input and set it to result
                                         // edit text
-                                        SyncPauseJob syncPauseJob=new SyncPauseJob(ViewJob.this,guid,hamyarcode,coursors.getString(coursors.getColumnIndex("Code")),
-                                                coursors.getString(coursors.getColumnIndex("id")));
-                                        syncPauseJob.AsyncExecute();
+                                        if(descriptionCansel.getText().length()>0) {
+                                            SyncPauseJob syncPauseJob=new SyncPauseJob(ViewJob.this,guid,hamyarcode,coursors.getString(coursors.getColumnIndex("Code")),
+                                                    coursors.getString(coursors.getColumnIndex("id")));
+                                            syncPauseJob.AsyncExecute();
+                                        }
+                                        else
+                                        {
+                                            Toast.makeText(ViewJob.this,"لطفا علت وقفه را اعلام فرمایید",Toast.LENGTH_LONG).show();
+                                        }
+
                                     }
                                 })
                         .setNegativeButton("خیر",
@@ -1224,67 +1238,60 @@ public class ViewJob extends AppCompatActivity{
         });
         btnFinal.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                db=dbh.getReadableDatabase();
-                Cursor c=db.rawQuery("SELECT * FROM HeadFactor WHERE UserServiceCode='"+BsUserServicesID+"'",null);
-                if(c.getCount()>0)
-                {
-                    c.moveToNext();
-                    if(c.getString(c.getColumnIndex("Type")).compareTo("0")==0)
-                    {
-                       if(c.getString(c.getColumnIndex("Status")).compareTo("3")==0)
-                       {
-                           Toast.makeText(ViewJob.this,"در انتظار تایید پیش فاکتور توسط کاربر می باشد",Toast.LENGTH_LONG).show();
-                       }
-                       else if(c.getString(c.getColumnIndex("Status")).compareTo("0")==0)
-                       {
-                           Toast.makeText(ViewJob.this,"پیش فاکتور تایید نشده است",Toast.LENGTH_LONG).show();
-                       }
-                       else
-                       {
-                           Toast.makeText(ViewJob.this,"پیش فاکتور تایید شده است لطفا فاکتور نهایی را ارسال نمایید",Toast.LENGTH_LONG).show();
-                       }
+            public void onClick(View v) {
+                if (swStartOrFinal == 1) {
+                    db = dbh.getReadableDatabase();
+                    Cursor c = db.rawQuery("SELECT * FROM HeadFactor WHERE UserServiceCode='" + BsUserServicesID + "'", null);
+                    if (c.getCount() > 0) {
+                        c.moveToNext();
+                        if (c.getString(c.getColumnIndex("Type")).compareTo("0") == 0) {
+                            if (c.getString(c.getColumnIndex("Status")).compareTo("3") == 0) {
+                                Toast.makeText(ViewJob.this, "در انتظار تایید پیش فاکتور توسط کاربر می باشد", Toast.LENGTH_LONG).show();
+                            } else if (c.getString(c.getColumnIndex("Status")).compareTo("0") == 0) {
+                                Toast.makeText(ViewJob.this, "پیش فاکتور تایید نشده است", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(ViewJob.this, "پیش فاکتور تایید شده است لطفا فاکتور نهایی را ارسال نمایید", Toast.LENGTH_LONG).show();
+                            }
+                        } else {
+                            if (c.getString(c.getColumnIndex("Status")).compareTo("3") == 0) {
+                                Toast.makeText(ViewJob.this, "در انتظار تایید فاکتور توسط کاربر می باشد", Toast.LENGTH_LONG).show();
+                            } else if (c.getString(c.getColumnIndex("Status")).compareTo("0") == 0) {
+                                Toast.makeText(ViewJob.this, " فاکتور تایید نشده است", Toast.LENGTH_LONG).show();
+                            } else {
+                                SyncFinalJob syncFinalJob = new SyncFinalJob(ViewJob.this, guid, hamyarcode, coursors.getString(coursors.getColumnIndex("Code")),
+                                        coursors.getString(coursors.getColumnIndex("id")));
+                                syncFinalJob.AsyncExecute();
+                            }
+                        }
+                    } else {
+                        Toast.makeText(ViewJob.this, "برای شروع به کار ابتدا باید پیش فاکتور ثبت نمایید ", Toast.LENGTH_LONG).show();
                     }
-                    else
-                    {
-                        if(c.getString(c.getColumnIndex("Status")).compareTo("3")==0)
-                        {
-                            Toast.makeText(ViewJob.this,"در انتظار تایید فاکتور توسط کاربر می باشد",Toast.LENGTH_LONG).show();
-                        }
-                        else if(c.getString(c.getColumnIndex("Status")).compareTo("0")==0)
-                        {
-                            Toast.makeText(ViewJob.this," فاکتور تایید نشده است",Toast.LENGTH_LONG).show();
-                        }
-                        else
-                        {
-                            SyncFinalJob syncFinalJob=new SyncFinalJob(ViewJob.this,guid,hamyarcode,coursors.getString(coursors.getColumnIndex("Code")),
-                                    coursors.getString(coursors.getColumnIndex("id")));
-                            syncFinalJob.AsyncExecute();
-                        }
-                    }
-                }
-                else {
-                    Toast.makeText(ViewJob.this,"برای شروع به کار ابتدا باید پیش فاکتور ثبت نمایید ",Toast.LENGTH_LONG).show();
-                }
 
+                }
+                else
+                {
+                    SyncStartJob syncStartJob = new SyncStartJob(ViewJob.this, guid, hamyarcode, coursors.getString(coursors.getColumnIndex("Code")),
+                            coursors.getString(coursors.getColumnIndex("id")));
+                    syncStartJob.AsyncExecute();
+                }
             }
+
         });
         btnPerFactor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
-                String query = "SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
+                String query = "SELECT BsHamyarSelectServices.*,Servicesdetails.code FROM BsHamyarSelectServices " +
                         "LEFT JOIN " +
                         "Servicesdetails ON " +
-                        "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode AND BsHamyarSelectServices.Code=" + BsUserServicesID;
+                        "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode WHERE BsHamyarSelectServices.Code=" + BsUserServicesID;
                 db=dbh.getReadableDatabase();
                 coursors = db.rawQuery(query, null);
                 if (coursors.getCount()>0) {
                     coursors.moveToNext();
                     LoadActivity_PerFactor(Save_Per_Factor.class,"tab",tab,"BsUserServicesID",BsUserServicesID,"ServiceDetaileCode",coursors.getString(coursors.getColumnIndex("ServiceDetaileCode")),"back_activity",back_activity);
                 }
-
+                coursors.close();
                 db.close();
             }
         });

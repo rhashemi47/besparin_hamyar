@@ -1,6 +1,8 @@
 package com.besparina.it.hamyar;
 
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,10 +23,12 @@ import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,6 +71,11 @@ public class About extends AppCompatActivity {
 	private GoogleMap map;
 	private Typeface FontMitra;
 	private LatLng point;
+	private ImageView imgEmail;
+	private ImageView imgWathsUp;
+	private ImageView imgInstagram;
+	private ImageView imgSkyp;
+	private ImageView imgTelegram;
 	private boolean doubleBackToExitPressedOnce=false;
 
 	@Override
@@ -83,6 +92,11 @@ protected void onCreate(Bundle savedInstanceState) {
 	btnDutyToday=(Button)findViewById(R.id.btnDutyToday);
 	btnHome=(Button)findViewById(R.id.btnHome);
 	tvAmountCredit=(TextView) findViewById(R.id.tvAmountCredit);
+	imgEmail=(ImageView) findViewById(R.id.imgEmail);
+	imgWathsUp=(ImageView) findViewById(R.id.imgWathsUp);
+	imgInstagram=(ImageView) findViewById(R.id.imgInstagram);
+	imgSkyp=(ImageView) findViewById(R.id.imgSkyp);
+	imgTelegram=(ImageView) findViewById(R.id.imgTelegram);
 	dbh=new DatabaseHelper(getApplicationContext());
 	try {
 
@@ -192,6 +206,59 @@ protected void onCreate(Bundle savedInstanceState) {
 		@Override
 		public void onClick(View v) {
 			LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
+		}
+	});
+	imgEmail.setOnClickListener(new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			imgEmail.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(Intent.ACTION_SEND);
+					intent.setType("plain/text");
+					intent.putExtra(Intent.EXTRA_EMAIL, new String[] { "info@besparin.ir" });
+					intent.putExtra(Intent.EXTRA_SUBJECT, "");
+					intent.putExtra(Intent.EXTRA_TEXT, "");
+					startActivity(Intent.createChooser(intent, ""));
+				}
+			});
+		}
+	});
+	imgInstagram.setOnClickListener(new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			openWebPage("https://www.instagram.com/besparina");
+		}
+	});
+	imgSkyp.setOnClickListener(new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			try {
+				//Intent sky = new Intent("android.intent.action.CALL_PRIVILEGED");
+				//the above line tries to create an intent for which the skype app doesn't supply public api
+
+				Intent sky = new Intent("android.intent.action.VIEW");
+				sky.setData(Uri.parse("skype:" + "besparina.official"));
+				startActivity(sky);
+			} catch (ActivityNotFoundException e) {
+				Log.e("SKYPE CALL", "Skype failed", e);
+			}
+		}
+	});
+	imgTelegram.setOnClickListener(new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			openWebPage("https://telegram.me/besparina");
+		}
+	});
+	imgWathsUp.setOnClickListener(new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			//openWebPage("09335678976");
+			Intent sendIntent = new Intent("android.intent.action.MAIN");
+			sendIntent.setComponent(new ComponentName("com.whatsapp", "com.whatsapp.Conversation"));
+			sendIntent.putExtra("jid", "09335678976" + "@s.whatsapp.net");
+			startActivity(sendIntent);
 		}
 	});
 }

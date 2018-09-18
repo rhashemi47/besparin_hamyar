@@ -15,6 +15,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,6 +72,7 @@ public class MainMenu extends AppCompatActivity {
     private boolean doubleBackToExitPressedOnce = false;
     private boolean IsActive;
     private ListView ListDutyNow;
+    private LinearLayout LinearTextServiceNow;
     ArrayList<String> slides;
     ImageView imageView;
     Custom_ViewFlipper viewFlipper;
@@ -92,6 +95,7 @@ public class MainMenu extends AppCompatActivity {
         btnDuty=(Button)findViewById(R.id.btnDuty);
         btnServices=(Button)findViewById(R.id.btnServices);
         ListDutyNow=(ListView) findViewById(R.id.ListDutyNow);
+        LinearTextServiceNow=(LinearLayout) findViewById(R.id.LinearTextServiceNow);
         //****************************************************************
         btnDuty.setTypeface(FontMitra);
         btnServices.setTypeface(FontMitra);
@@ -273,8 +277,9 @@ public class MainMenu extends AppCompatActivity {
         query="SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
                 "LEFT JOIN " +
                 "Servicesdetails ON " +
-                "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode WHERE IsDelete='0' AND StartDate='"+
-                year+"/"+mon+"/"+day+"'";
+                "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode WHERE IsDelete='0' AND " +
+                "Status='2'";
+//                "StartDate='"+year+"/"+mon+"/"+day+"'";
         Cursor cursorDuty = db.rawQuery(query,null);
         if(cursorDuty.getCount()>0)
         {
@@ -284,19 +289,34 @@ public class MainMenu extends AppCompatActivity {
         {
             btnDuty.setText("0");
         }
-        for(int i=0;i<cursorDuty.getCount();i++)
+        //************************************************************************************
+        query="SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
+                "LEFT JOIN " +
+                "Servicesdetails ON " +
+                "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode WHERE IsDelete='0' AND " +
+                "Status='2'";
+//                "StartDate='"+year+"/"+mon+"/"+day+"'";
+        Cursor cursorServiceNow = db.rawQuery(query,null);
+        for(int i=0;i<cursorServiceNow.getCount();i++)
         {
-            cursorDuty.moveToNext();
+            cursorServiceNow.moveToNext();
             HashMap<String, String> map = new HashMap<String, String>();
-            map.put("BsUserServicesID",cursorDuty.getString(cursorDuty.getColumnIndex("BsHamyarSelectServices.Code")));
-            map.put("ContentService","ساعت شروع: "+cursorDuty.getString(cursorDuty.getColumnIndex("StartTime"))+ " - " +
-                    "کاربر: " + cursorDuty.getString(cursorDuty.getColumnIndex("UserName"))+ " - " +
-                    "تا ساعت: " + cursorDuty.getString(cursorDuty.getColumnIndex("EndTime")));
+            map.put("BsUserServicesID",cursorServiceNow.getString(cursorServiceNow.getColumnIndex("BsHamyarSelectServices.Code")));
+            map.put("ContentService","ساعت شروع: "+cursorServiceNow.getString(cursorServiceNow.getColumnIndex("StartTime"))+ " - " +
+                    "کاربر: " + cursorServiceNow.getString(cursorServiceNow.getColumnIndex("UserName"))+ " - " +
+                    "تا ساعت: " + cursorServiceNow.getString(cursorServiceNow.getColumnIndex("EndTime")));
             valuse.add(map);
         }
         db.close();
-        AdapterListServiceNow dataAdapter=new AdapterListServiceNow(this,valuse,guid,hamyarcode);
-        ListDutyNow.setAdapter(dataAdapter);
+        if(valuse.size()>0) {
+            LinearTextServiceNow.setVisibility(View.VISIBLE);
+            AdapterListServiceNow dataAdapter = new AdapterListServiceNow(this, valuse, guid, hamyarcode);
+            ListDutyNow.setAdapter(dataAdapter);
+        }
+        else
+        {
+            LinearTextServiceNow.setVisibility(View.GONE);
+        }
         //**************************************************************************
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 

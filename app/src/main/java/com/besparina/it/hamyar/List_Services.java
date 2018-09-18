@@ -1,9 +1,7 @@
 	package com.besparina.it.hamyar;
 
-    import android.annotation.SuppressLint;
     import android.app.Activity;
     import android.app.AlertDialog;
-    import android.app.TimePickerDialog;
     import android.content.Context;
     import android.content.DialogInterface;
     import android.content.Intent;
@@ -20,6 +18,8 @@
     import android.os.Handler;
     import android.os.Parcelable;
     import android.support.annotation.RequiresApi;
+    import android.support.v4.view.GravityCompat;
+    import android.support.v4.widget.DrawerLayout;
     import android.support.v7.widget.Toolbar;
     import android.text.Editable;
     import android.text.TextWatcher;
@@ -32,6 +32,7 @@
     import android.widget.ArrayAdapter;
     import android.widget.Button;
     import android.widget.EditText;
+    import android.widget.ImageView;
     import android.widget.ListView;
     import android.widget.Spinner;
     import android.widget.TextView;
@@ -74,6 +75,7 @@
         private Button btnDutyToday;
         private Button btnServices_at_the_turn;
         private Button btnHome;
+        private DrawerLayout mDrawer;
         //*****************************************************
         private EditText etFromDate;
         private EditText etToDate;
@@ -89,6 +91,7 @@
         private Button btnSearch;
         private Spinner spExpert;
         private EditText etArea;
+        private ImageView imgSearch;
 
         @Override
         protected void attachBaseContext(Context newBase) {
@@ -99,7 +102,15 @@
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.list_services); dbh = new DatabaseHelper(getApplicationContext());
+            setContentView(R.layout.slide_menu_search); dbh = new DatabaseHelper(getApplicationContext());
+            imgSearch=(ImageView) findViewById(R.id.imgSearch);
+            mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            imgSearch.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDrawer.openDrawer(GravityCompat.END);
+                }
+            });
             try {
 
                 dbh.createDataBase();
@@ -148,9 +159,9 @@
             CreateMenu(toolbar);
 
             //************************************************************************
-            LayoutInflater layoutInflater=getLayoutInflater();
-            getWindow().addContentView(layoutInflater.inflate(R.layout.sliding_filter,null),new
-                    ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
+//            LayoutInflater layoutInflater=getLayoutInflater();
+//            getWindow().addContentView(layoutInflater.inflate(R.layout.sliding_filter,null),new
+//                    ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT));
             //************************************************************************
             btnCredit=(TextView)findViewById(R.id.btnCredit);
             btnServices_at_the_turn=(Button)findViewById(R.id.btnServices_at_the_turn);

@@ -22,6 +22,9 @@ public class ServiceGetJobUpdate extends Service {
     private SQLiteDatabase db;
     private String hamyarcode;
     private String guid;
+    private  Cursor coursors;
+    private  Cursor cursors;
+
     @Override
     public IBinder onBind(Intent arg0) {
         return null;
@@ -72,15 +75,16 @@ public class ServiceGetJobUpdate extends Service {
                                         }
                                     }
                                     db=dbh.getReadableDatabase();
-                                    Cursor coursors = db.rawQuery("SELECT * FROM login",null);
+                                    coursors = db.rawQuery("SELECT * FROM login",null);
                                     for(int i=0;i<coursors.getCount();i++){
 
                                         coursors.moveToNext();
                                         guid=coursors.getString(coursors.getColumnIndex("guid"));
                                         hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
                                     }
-
-                                    Cursor cursors = db.rawQuery("SELECT Code FROM BsUserServices", null);
+                                    if(!coursors.isClosed())
+                                        coursors.close();
+                                     cursors = db.rawQuery("SELECT Code FROM BsUserServices", null);
                                     for(int i=0;i<cursors.getCount();i++)
                                     {
                                         cursors.moveToNext();
@@ -94,7 +98,8 @@ public class ServiceGetJobUpdate extends Service {
                                         }
 
                                     }
-
+                                    if(!cursors.isClosed())
+                                        cursors.close();
 
                                     if(db!=null) {
                                         if (db.isOpen()) {
