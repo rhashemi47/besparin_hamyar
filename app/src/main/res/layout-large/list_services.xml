@@ -27,133 +27,10 @@
                 android:layout_height="25dp"
                 android:src="@drawable/search"
                 android:id="@+id/imgSearch"
-                android:layout_marginRight="340dp"/>
+                android:layout_marginRight="300dp"/>
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:orientation="vertical"-->
-    <!--android:id="@+id/LinearFilterSearch"-->
-    <!--android:layout_below="@+id/appbar"-->
-    <!--android:layout_marginTop="10dp">-->
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:orientation="horizontal">-->
-    <!--<LinearLayout-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:orientation="horizontal"-->
-    <!--android:layout_weight="1">-->
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:text="@string/FromDate"-->
-    <!--android:id="@+id/tvFromDate"/>-->
-    <!--<EditText-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:id="@+id/etFromDate"-->
-    <!--android:layout_weight="1"/>-->
-    <!--</LinearLayout>-->
-    <!--<LinearLayout-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:orientation="horizontal"-->
-    <!--android:layout_weight="1">-->
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:text="@string/ToDate"-->
-    <!--android:id="@+id/tvToDate"/>-->
-    <!--<EditText-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:id="@+id/etToDate"-->
-    <!--android:layout_weight="1"/>-->
-    <!--</LinearLayout>-->
-    <!--</LinearLayout>-->
 
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:orientation="horizontal">-->
-    <!--<LinearLayout-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:orientation="horizontal"-->
-    <!--android:layout_weight="1">-->
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:text="@string/FromTime"-->
-    <!--android:id="@+id/tvFromTime"/>-->
-    <!--<EditText-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:id="@+id/etFromTime"-->
-    <!--android:layout_weight="1"/>-->
-    <!--</LinearLayout>-->
-    <!--<LinearLayout-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:orientation="horizontal"-->
-    <!--android:layout_weight="1">-->
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:text="@string/ToTime"-->
-    <!--android:id="@+id/tvToTime"/>-->
-    <!--<EditText-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:id="@+id/etToTime"-->
-    <!--android:layout_weight="1"/>-->
-    <!--</LinearLayout>-->
-    <!--</LinearLayout>-->
-
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:orientation="horizontal">-->
-    <!--<LinearLayout-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:orientation="horizontal"-->
-    <!--android:layout_weight="1">-->
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:text="@string/Area"-->
-    <!--android:id="@+id/tvArea"/>-->
-    <!--<EditText-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:id="@+id/etArea"-->
-    <!--android:layout_weight="1"/>-->
-    <!--</LinearLayout>-->
-    <!--<LinearLayout-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:orientation="horizontal"-->
-    <!--android:layout_weight="1">-->
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:text="@string/Expert"-->
-    <!--android:id="@+id/tvExpert"/>-->
-    <!--<Spinner-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:id="@+id/spExpert"-->
-    <!--android:layout_weight="1">-->
-
-    <!--</Spinner>-->
-    <!--</LinearLayout>-->
-    <!--</LinearLayout>-->
-
-    <!--</LinearLayout>-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -173,11 +50,6 @@
             android:divider="@color/mdtp_transparent">
         </ListView>
     </LinearLayout>
-    <!--<include layout="@layout/sliding_filter"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:id="@+id/sliding_filterSearch"-->
-    <!--android:layout_below="@+id/appbar"/>-->
     <include layout="@layout/bottom_button"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
