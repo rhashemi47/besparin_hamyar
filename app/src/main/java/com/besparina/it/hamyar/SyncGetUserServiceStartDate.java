@@ -189,14 +189,14 @@ public class SyncGetUserServiceStartDate {
 							value[5] + "')";
 					db.execSQL(query);
 					String message="برای سرویس به شماره: " + value[1] +"اعلام شروع به کار شده است";
-						runNotification("بسپارینا", "سرویس به شماره ", i, value[1], Service_Request_Saved.class, value[32]);
+						runNotification("بسپارینا", message, i, value[1], ViewJob.class);
 		}
 		db.close();
 	}
-	public void runNotification(String title,String detail,int id,String OrderCode,Class<?> Cls,String status)
+	public void runNotification(String title,String detail,int id,String OrderCode,Class<?> Cls)
 	{
 		NotificationClass notifi=new NotificationClass();
-		notifi.Notificationm(this.activity,title,detail,OrderCode,id,Cls);
+		notifi.Notificationm(this.activity,title,detail,OrderCode,"0",id,Cls);
 	}
 
 }
