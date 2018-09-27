@@ -43,36 +43,38 @@ public class ServiceGetUserServiceStartDate extends Service {
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    dbh=new DatabaseHelper(getApplicationContext());
-                                    try {
+                                    if (PublicVariable.theard_GetUserServiceStartDate) {
+                                        dbh = new DatabaseHelper(getApplicationContext());
+                                        try {
 
-                                        dbh.createDataBase();
+                                            dbh.createDataBase();
 
-                                    } catch (IOException ioe) {
+                                        } catch (IOException ioe) {
 
-                                        throw new Error("Unable to create database");
+                                            throw new Error("Unable to create database");
 
+                                        }
+
+                                        try {
+
+                                            dbh.openDataBase();
+
+                                        } catch (SQLException sqle) {
+
+                                            throw sqle;
+                                        }
+                                        db = dbh.getReadableDatabase();
+                                        Cursor coursors = db.rawQuery("SELECT * FROM OrdersService A WHERE A.Status='1' AND " +
+                                                "A.Code NOT IN (SELECT BsUserServiceCode FROM StartDateService)", null);
+                                        for (int i = 0; i < coursors.getCount(); i++) {
+                                            coursors.moveToNext();
+
+                                            pUserServiceCode = coursors.getString(coursors.getColumnIndex("Code"));
+                                        }
+                                        db.close();
+                                        SyncGetUserServiceStartDate syncGetUserServiceStartDate = new SyncGetUserServiceStartDate(getApplicationContext(), pUserServiceCode);
+                                        syncGetUserServiceStartDate.AsyncExecute();
                                     }
-
-                                    try {
-
-                                        dbh.openDataBase();
-
-                                    } catch (SQLException sqle) {
-
-                                        throw sqle;
-                                    }
-                                    db=dbh.getReadableDatabase();
-                                    Cursor coursors = db.rawQuery("SELECT * FROM OrdersService A WHERE A.Status='1' AND " +
-                                            "A.Code NOT IN (SELECT BsUserServiceCode FROM StartDateService)",null);
-                                    for(int i=0;i<coursors.getCount();i++){
-                                        coursors.moveToNext();
-
-                                        pUserServiceCode=coursors.getString(coursors.getColumnIndex("Code"));
-                                    }
-                                    db.close();
-                                    SyncGetUserServiceStartDate syncGetUserServiceStartDate=new SyncGetUserServiceStartDate(getApplicationContext(),pUserServiceCode);
-                                    syncGetUserServiceStartDate.AsyncExecute();
                                 }
                             });
                             Thread.sleep(6000); // every 6 seconds

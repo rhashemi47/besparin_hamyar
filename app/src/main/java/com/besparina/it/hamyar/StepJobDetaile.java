@@ -84,7 +84,7 @@
             tvPriceTools = (TextView) findViewById(R.id.tvPriceTools);
             //*******************************************************************
 
-            Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");
+            Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");
             //**********************************************************************************
             tvtitleServiDetailNameTool.setTypeface(FontMitra);
             tvtitleStepServiseTool.setTypeface(FontMitra);
@@ -164,7 +164,7 @@
                     public View getView(int position, View convertView, ViewGroup parent) {
                         View v = super.getView(position, convertView, parent);
 
-                        Typeface typeface=Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");
+                        Typeface typeface=Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");
                         ((TextView) v).setTypeface(typeface);
 
                         return v;
@@ -174,7 +174,7 @@
                         View v =super.getDropDownView(position, convertView, parent);
 
 
-                        Typeface typeface=Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");
+                        Typeface typeface=Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");
                         ((TextView) v).setTypeface(typeface);
 
                         return v;
@@ -292,7 +292,7 @@
                                     public View getView(int position, View convertView, ViewGroup parent) {
                                         View v = super.getView(position, convertView, parent);
 
-                                        Typeface typeface = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");
+                                        Typeface typeface = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");
                                         ((TextView) v).setTypeface(typeface);
 
                                         return v;
@@ -302,7 +302,7 @@
                                         View v = super.getDropDownView(position, convertView, parent);
 
 
-                                        Typeface typeface = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");
+                                        Typeface typeface = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");
                                         ((TextView) v).setTypeface(typeface);
 
                                         return v;
@@ -339,7 +339,7 @@
                                 public View getView(int position, View convertView, ViewGroup parent) {
                                     View v = super.getView(position, convertView, parent);
 
-                                    Typeface typeface = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");
+                                    Typeface typeface = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");
                                     ((TextView) v).setTypeface(typeface);
 
                                     return v;
@@ -349,7 +349,7 @@
                                     View v = super.getDropDownView(position, convertView, parent);
 
 
-                                    Typeface typeface = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");
+                                    Typeface typeface = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");
                                     ((TextView) v).setTypeface(typeface);
 
                                     return v;

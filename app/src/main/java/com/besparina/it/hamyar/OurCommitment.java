@@ -140,7 +140,7 @@
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             CreateMenu(toolbar);
             //***************************************************************************************************************************
-            Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
+            Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");//set font for page
             txtContent=(TextView)findViewById(R.id.tvTextOurcommitment);
             txtContent.setTypeface(FontMitra);
 

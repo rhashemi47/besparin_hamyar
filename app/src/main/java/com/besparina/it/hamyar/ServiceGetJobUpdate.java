@@ -40,7 +40,6 @@ public class ServiceGetJobUpdate extends Service {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    // TODO Auto-generated method stub
                     while (continue_or_stop) {
                         try {
                             Thread.sleep(6000); // every 6 seconds
@@ -50,65 +49,63 @@ public class ServiceGetJobUpdate extends Service {
 
                                 @Override
                                 public void run() {
-                                    dbh=new DatabaseHelper(getApplicationContext());
-                                    try {
+                                    if (PublicVariable.theard_GetJobUpdate) {
+                                        dbh = new DatabaseHelper(getApplicationContext());
+                                        try {
 
-                                        dbh.createDataBase();
+                                            dbh.createDataBase();
 
-                                    } catch (IOException ioe) {
+                                        } catch (IOException ioe) {
 
-                                        throw new Error("Unable to create database");
+                                            throw new Error("Unable to create database");
 
-                                    }
-
-                                    try {
-
-                                        dbh.openDataBase();
-
-                                    } catch (SQLException sqle) {
-
-                                        throw sqle;
-                                    }
-                                    if(db!=null) {
-                                        if (db.isOpen()) {
-                                            db.close();
-                                        }
-                                    }
-                                    db=dbh.getReadableDatabase();
-                                    coursors = db.rawQuery("SELECT * FROM login",null);
-                                    for(int i=0;i<coursors.getCount();i++){
-
-                                        coursors.moveToNext();
-                                        guid=coursors.getString(coursors.getColumnIndex("guid"));
-                                        hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
-                                    }
-                                    if(!coursors.isClosed())
-                                        coursors.close();
-                                     cursors = db.rawQuery("SELECT Code FROM BsUserServices", null);
-                                    for(int i=0;i<cursors.getCount();i++)
-                                    {
-                                        cursors.moveToNext();
-                                        if(i==0)
-                                        {
-                                            ListServiceCode = cursors.getString(cursors.getColumnIndex("Code"));
-                                        }
-                                        else
-                                        {
-                                            ListServiceCode = ListServiceCode + "," + cursors.getString(cursors.getColumnIndex("Code"));
                                         }
 
-                                    }
-                                    if(!cursors.isClosed())
-                                        cursors.close();
+                                        try {
 
-                                    if(db!=null) {
-                                        if (db.isOpen()) {
-                                            db.close();
+                                            dbh.openDataBase();
+
+                                        } catch (SQLException sqle) {
+
+                                            throw sqle;
                                         }
-                                    }
-                                    if(!ListServiceCode.isEmpty()) {
-                                        SyncGetUserServiceForHamyarUpdated syncGetUserServiceForHamyarUpdated = new SyncGetUserServiceForHamyarUpdated(getApplicationContext(), guid, hamyarcode, ListServiceCode);
-                                        syncGetUserServiceForHamyarUpdated.AsyncExecute();
+                                        if (db != null) {
+                                            if (db.isOpen()) {
+                                                db.close();
+                                            }
+                                        }
+                                        db = dbh.getReadableDatabase();
+                                        coursors = db.rawQuery("SELECT * FROM login", null);
+                                        for (int i = 0; i < coursors.getCount(); i++) {
+
+                                            coursors.moveToNext();
+                                            guid = coursors.getString(coursors.getColumnIndex("guid"));
+                                            hamyarcode = coursors.getString(coursors.getColumnIndex("hamyarcode"));
+                                        }
+                                        if (!coursors.isClosed())
+                                            coursors.close();
+                                        cursors = db.rawQuery("SELECT Code FROM BsUserServices", null);
+                                        for (int i = 0; i < cursors.getCount(); i++) {
+                                            cursors.moveToNext();
+                                            if (i == 0) {
+                                                ListServiceCode = cursors.getString(cursors.getColumnIndex("Code"));
+                                            } else {
+                                                ListServiceCode = ListServiceCode + "," + cursors.getString(cursors.getColumnIndex("Code"));
+                                            }
+
+                                        }
+                                        if (!cursors.isClosed())
+                                            cursors.close();
+
+                                        if (db != null) {
+                                            if (db.isOpen()) {
+                                                db.close();
+                                            }
+                                        }
+                                        if (!ListServiceCode.isEmpty()) {
+                                            SyncGetUserServiceForHamyarUpdated syncGetUserServiceForHamyarUpdated = new SyncGetUserServiceForHamyarUpdated(getApplicationContext(), guid, hamyarcode, ListServiceCode);
+                                            syncGetUserServiceForHamyarUpdated.AsyncExecute();
+                                        }
                                     }
                                 }
                             });

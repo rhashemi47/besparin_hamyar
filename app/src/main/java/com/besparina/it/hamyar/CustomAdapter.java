@@ -92,7 +92,7 @@ public class CustomAdapter extends BaseAdapter {
         HashMap<String, String> map = list.get(position);
         if (convertView == null) {
             holder = new ViewHolder();
-            Typeface faceh = Typeface.createFromAsset(activity.getAssets(), "font/BMitra.ttf");
+            Typeface faceh = Typeface.createFromAsset(activity.getAssets(), "font/IRANSans.ttf");
 
             if(check_tab==0)
             {

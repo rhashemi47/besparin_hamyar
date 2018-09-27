@@ -102,7 +102,7 @@ public class Save_Per_Factor extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.save_per_factor);
-        Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
+        Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");//set font for page
         //********************************************************************
 
         btnCredit=(TextView)findViewById(R.id.btnCredit);
@@ -503,7 +503,7 @@ public class Save_Per_Factor extends Activity {
                 public View getView(int position, View convertView, ViewGroup parent) {
                     View v = super.getView(position, convertView, parent);
 
-                    Typeface typeface=Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");
+                    Typeface typeface=Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");
                     ((TextView) v).setTypeface(typeface);
 
                     return v;
@@ -513,7 +513,7 @@ public class Save_Per_Factor extends Activity {
                     View v =super.getDropDownView(position, convertView, parent);
 
 
-                    Typeface typeface=Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");
+                    Typeface typeface=Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");
                     ((TextView) v).setTypeface(typeface);
 
                     return v;
@@ -540,7 +540,7 @@ public class Save_Per_Factor extends Activity {
                 public View getView(int position, View convertView, ViewGroup parent) {
                     View v = super.getView(position, convertView, parent);
 
-                    Typeface typeface=Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");
+                    Typeface typeface=Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");
                     ((TextView) v).setTypeface(typeface);
 
                     return v;
@@ -550,7 +550,7 @@ public class Save_Per_Factor extends Activity {
                     View v =super.getDropDownView(position, convertView, parent);
 
 
-                    Typeface typeface=Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");
+                    Typeface typeface=Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");
                     ((TextView) v).setTypeface(typeface);
 
                     return v;

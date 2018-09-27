@@ -91,7 +91,7 @@ public class MainMenu extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.mainmenu);
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-        Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
+        Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");//set font for page
         btnDuty=(Button)findViewById(R.id.btnDuty);
         btnServices=(Button)findViewById(R.id.btnServices);
         ListDutyNow=(ListView) findViewById(R.id.ListDutyNow);
@@ -301,7 +301,7 @@ public class MainMenu extends AppCompatActivity {
         {
             cursorServiceNow.moveToNext();
             HashMap<String, String> map = new HashMap<String, String>();
-            map.put("BsUserServicesID",cursorServiceNow.getString(cursorServiceNow.getColumnIndex("BsHamyarSelectServices.Code")));
+            map.put("BsUserServicesID",cursorServiceNow.getString(cursorServiceNow.getColumnIndex("Code")));
             map.put("ContentService","ساعت شروع: "+cursorServiceNow.getString(cursorServiceNow.getColumnIndex("StartTime"))+ " - " +
                     "کاربر: " + cursorServiceNow.getString(cursorServiceNow.getColumnIndex("UserName"))+ " - " +
                     "تا ساعت: " + cursorServiceNow.getString(cursorServiceNow.getColumnIndex("EndTime")));

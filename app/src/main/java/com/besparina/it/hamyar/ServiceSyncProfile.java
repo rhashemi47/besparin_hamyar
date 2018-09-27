@@ -47,43 +47,45 @@ public class ServiceSyncProfile extends Service {
 
                                 @Override
                                 public void run() {
-                                    dbh=new DatabaseHelper(getApplicationContext());
-                                    try {
+                                    if (PublicVariable.theard_Profile) {
+                                        dbh = new DatabaseHelper(getApplicationContext());
+                                        try {
 
-                                        dbh.createDataBase();
+                                            dbh.createDataBase();
 
-                                    } catch (IOException ioe) {
+                                        } catch (IOException ioe) {
 
-                                        throw new Error("Unable to create database");
+                                            throw new Error("Unable to create database");
 
-                                    }
-
-                                    try {
-
-                                        dbh.openDataBase();
-
-                                    } catch (SQLException sqle) {
-
-                                        throw sqle;
-                                    }
-                                    if(db!=null) {
-                                        if (db.isOpen()) {
-                                            db.close();
                                         }
-                                    }
-                                    db=dbh.getReadableDatabase();
-                                    Cursor coursors = db.rawQuery("SELECT * FROM login",null);
-                                    for(int i=0;i<coursors.getCount();i++){
-                                        coursors.moveToNext();
-                                        guid=coursors.getString(coursors.getColumnIndex("guid"));
-                                        hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
-                                    }
-                                    SyncProfileForService syncProfile=new SyncProfileForService(getApplicationContext(),guid,hamyarcode);
-                                    syncProfile.AsyncExecute();
 
-                                    if(db!=null) {
-                                        if (db.isOpen()) {
-                                            db.close();
+                                        try {
+
+                                            dbh.openDataBase();
+
+                                        } catch (SQLException sqle) {
+
+                                            throw sqle;
+                                        }
+                                        if (db != null) {
+                                            if (db.isOpen()) {
+                                                db.close();
+                                            }
+                                        }
+                                        db = dbh.getReadableDatabase();
+                                        Cursor coursors = db.rawQuery("SELECT * FROM login", null);
+                                        for (int i = 0; i < coursors.getCount(); i++) {
+                                            coursors.moveToNext();
+                                            guid = coursors.getString(coursors.getColumnIndex("guid"));
+                                            hamyarcode = coursors.getString(coursors.getColumnIndex("hamyarcode"));
+                                        }
+                                        SyncProfileForService syncProfile = new SyncProfileForService(getApplicationContext(), guid, hamyarcode);
+                                        syncProfile.AsyncExecute();
+
+                                        if (db != null) {
+                                            if (db.isOpen()) {
+                                                db.close();
+                                            }
                                         }
                                     }
                                 }

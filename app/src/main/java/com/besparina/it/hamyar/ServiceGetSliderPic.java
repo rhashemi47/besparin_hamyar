@@ -63,30 +63,33 @@ public class ServiceGetSliderPic extends Service {
 
                                 @Override
                                 public void run() {
-                                    if(db!=null) {
-                                        if (db.isOpen()) {
-                                            db.close();
+                                    if (PublicVariable.theard_GetSliderPic) {
+                                        if (db != null) {
+                                            if (db.isOpen()) {
+                                                db.close();
+                                            }
                                         }
-                                    }
-                                    db=dbh.getReadableDatabase();
-                                    Cursor coursors = db.rawQuery("SELECT * FROM login",null);
-                                    for(int i=0;i<coursors.getCount();i++){
-                                        coursors.moveToNext();
-                                        guid=coursors.getString(coursors.getColumnIndex("guid"));
-                                        hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
-                                    }
-                                    coursors.close();
-                                    if(guid.compareTo("0")!=0 && hamyarcode.compareTo("0")!=0) {
-                                        SyncSliderPic syncSliderPic = new SyncSliderPic(getApplicationContext(), guid, hamyarcode);
-                                        syncSliderPic.AsyncExecute();
-                                    }
-
-                                    if(db!=null) {
-                                        if (db.isOpen()) {
-                                            db.close();
+                                        db = dbh.getReadableDatabase();
+                                        Cursor coursors = db.rawQuery("SELECT * FROM login", null);
+                                        for (int i = 0; i < coursors.getCount(); i++) {
+                                            coursors.moveToNext();
+                                            guid = coursors.getString(coursors.getColumnIndex("guid"));
+                                            hamyarcode = coursors.getString(coursors.getColumnIndex("hamyarcode"));
                                         }
-                                    }
+                                        coursors.close();
+                                        if (guid.compareTo("0") != 0 && hamyarcode.compareTo("0") != 0) {
+                                            SyncSliderPic syncSliderPic = new SyncSliderPic(getApplicationContext(), guid, hamyarcode);
+                                            syncSliderPic.AsyncExecute();
+                                        }
 
+                                        if (db != null) {
+                                            if (db.isOpen()) {
+                                                db.close();
+                                            }
+                                        }
+
+
+                                    }
                                 }
                             });
                             if(db!=null) {

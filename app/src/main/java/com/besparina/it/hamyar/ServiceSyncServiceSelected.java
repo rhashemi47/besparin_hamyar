@@ -45,39 +45,40 @@ public class ServiceSyncServiceSelected extends Service {
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    dbh=new DatabaseHelper(getApplicationContext());
-                                    try {
+                                    if (PublicVariable.theard_ServiceSelected) {
+                                        dbh = new DatabaseHelper(getApplicationContext());
+                                        try {
 
-                                        dbh.createDataBase();
+                                            dbh.createDataBase();
 
-                                    } catch (IOException ioe) {
+                                        } catch (IOException ioe) {
 
-                                        throw new Error("Unable to create database");
+                                            throw new Error("Unable to create database");
 
-                                    }
-
-                                    try {
-
-                                        dbh.openDataBase();
-
-                                    } catch (SQLException sqle) {
-
-                                        throw sqle;
-                                    }
-                                    if(db!=null) {
-                                        if (db.isOpen()) {
-                                            db.close();
                                         }
-                                    }
-                                    db=dbh.getReadableDatabase();
-                                    Cursor coursors = db.rawQuery("SELECT * FROM login",null);
-                                    for(int i=0;i<coursors.getCount();i++){
-                                        coursors.moveToNext();
 
-                                        hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
-                                        guid=coursors.getString(coursors.getColumnIndex("guid"));
-                                    }
-                                    db.close();
+                                        try {
+
+                                            dbh.openDataBase();
+
+                                        } catch (SQLException sqle) {
+
+                                            throw sqle;
+                                        }
+                                        if (db != null) {
+                                            if (db.isOpen()) {
+                                                db.close();
+                                            }
+                                        }
+                                        db = dbh.getReadableDatabase();
+                                        Cursor coursors = db.rawQuery("SELECT * FROM login", null);
+                                        for (int i = 0; i < coursors.getCount(); i++) {
+                                            coursors.moveToNext();
+
+                                            hamyarcode = coursors.getString(coursors.getColumnIndex("hamyarcode"));
+                                            guid = coursors.getString(coursors.getColumnIndex("guid"));
+                                        }
+                                        db.close();
 //                                    db=dbh.getReadableDatabase();
 //                                    Cursor cursors = db.rawQuery("SELECT * FROM BsHamyarSelectServices WHERE IsDelete='0'", null);
 //                                    if(cursors.getCount()>0)
@@ -91,8 +92,9 @@ public class ServiceSyncServiceSelected extends Service {
 //                                            db.close();
 //                                        }
 //                                    }
-                                    SyncGetSelectJobsForService syncGetSelectJobsForService =new SyncGetSelectJobsForService(getApplicationContext(),guid,hamyarcode,"0");
-                                    syncGetSelectJobsForService.AsyncExecute();
+                                        SyncGetSelectJobsForService syncGetSelectJobsForService = new SyncGetSelectJobsForService(getApplicationContext(), guid, hamyarcode, "0");
+                                        syncGetSelectJobsForService.AsyncExecute();
+                                    }
                                 }
                             });
                             Thread.sleep(60000); // every 60 seconds

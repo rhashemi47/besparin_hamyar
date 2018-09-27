@@ -96,7 +96,7 @@ public class Accept_code extends Activity {
 
 			throw sqle;
 		}
-		Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
+		Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");//set font for page
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//remive page title
 		acceptcode=(EditText)findViewById(R.id.etAcceptcode);
 		btnSendAcceptcode=(Button)findViewById(R.id.btnSendAcceptCode);

@@ -113,7 +113,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 	public void prepareData()
 	{
 		String ContentStr="";
-		Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
+		Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");//set font for page
 		db = dbh.getReadableDatabase();
 		String query="SELECT * FROM BsFaktorUsersHead WHERE Status='1' AND UserServiceCode="+OrderCode;
 		Cursor cursor = db.rawQuery(query,null);

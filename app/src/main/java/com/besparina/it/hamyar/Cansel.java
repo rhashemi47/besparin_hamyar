@@ -60,7 +60,7 @@ protected void onCreate(Bundle savedInstanceState) {
 
 		db.close();
 	}
-	Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
+	Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");//set font for page
 	tvcansel=(TextView)findViewById(R.id.tvTextCansel);
 	tvcansel.setTypeface(FontMitra);
 	etcansel=(EditText) findViewById(R.id.etCansel);

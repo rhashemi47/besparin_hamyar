@@ -65,7 +65,7 @@ protected void onPause() {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 		AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-        Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
+        Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");//set font for page
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//remive page title
         dbh=new DatabaseHelper(getApplicationContext());
 		try {

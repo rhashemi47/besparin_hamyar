@@ -43,7 +43,7 @@ public class SyncGetInvoiceAccept {
 		this.hamyarcode = hamyarcode;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
-
+		PublicVariable.theard_GetFactorAccept=false;
 		dbh = new DatabaseHelper(this.activity.getApplicationContext());
 		try {
 
@@ -104,6 +104,7 @@ public class SyncGetInvoiceAccept {
 		@Override
 		protected void onPostExecute(String result) {
 			if (result == null) {
+				PublicVariable.theard_GetFactorAccept=true;
 				String res[] = WsResponse.split("##");
 				if (res[1].compareTo("ER") == 0) {
 					//Toast.makeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();

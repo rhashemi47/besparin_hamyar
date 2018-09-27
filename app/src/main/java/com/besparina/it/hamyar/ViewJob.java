@@ -152,7 +152,7 @@ public class ViewJob extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.viewjob);
-        final Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
+        final Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");//set font for page
         btnCredit=(TextView)findViewById(R.id.btnCredit);
         btnServices_at_the_turn=(Button)findViewById(R.id.btnServices_at_the_turn);
         btnDutyToday=(Button)findViewById(R.id.btnDutyToday);

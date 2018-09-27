@@ -37,7 +37,7 @@ public class SyncGetUserServiceForHamyarUpdated {
 		this.UserServiceCode = UserServiceCode;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
-
+		PublicVariable.theard_GetJobUpdate=false;
 		dbh=new DatabaseHelper(this.activity.getApplicationContext());
 		try {
 
@@ -107,6 +107,7 @@ public class SyncGetUserServiceForHamyarUpdated {
         protected void onPostExecute(String result) {
         	if(result == null)
         	{
+        		PublicVariable.theard_GetJobUpdate=true;
 	            if(WsResponse.toString().compareTo("ER") == 0)
 	            {
 	            	//Toast.makeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();

@@ -116,7 +116,7 @@ public class Profile extends Activity {
 //		btnOrders=(Button)findViewById(R.id.btnOrders);
 //		btnHome=(Button)findViewById(R.id.btnHome);
 		tvProfileRegentCode=(TextView)findViewById(R.id.tvCodeMoaref);
-		Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
+		Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");//set font for page
 //		btnCredit.setTypeface(FontMitra);
 //		btnOrders.setTypeface(FontMitra);
 //		btnHome.setTypeface(FontMitra);

@@ -64,7 +64,7 @@ public class AdapterServiceAtTurn extends BaseAdapter {
         ViewHolder holder;
         LayoutInflater inflater = activity.getLayoutInflater();
         HashMap<String, String> map = list.get(position);
-            Typeface faceh = Typeface.createFromAsset(activity.getAssets(), "font/BMitra.ttf");
+            Typeface faceh = Typeface.createFromAsset(activity.getAssets(), "font/IRANSans.ttf");
             convertView = inflater.inflate(R.layout.list_item_service_at_turn, null);
             holder = new ViewHolder();
             holder.LinearList = (LinearLayout) convertView.findViewById(R.id.LinearList);

@@ -67,7 +67,7 @@ protected void onCreate(Bundle savedInstanceState) {
 
 		db.close();
 	}
-	Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
+	Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");//set font for page
 	tvPause=(TextView)findViewById(R.id.tvPauseTitle);
 	tvPause.setTypeface(FontMitra);
 	etPause=(EditText) findViewById(R.id.etCasePause);

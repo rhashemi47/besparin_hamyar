@@ -22,6 +22,7 @@ public class ServiceDeleteJob extends Service {
     private SQLiteDatabase db;
     private String hamyarcode;
     private String guid;
+    private Cursor coursors;
     @Override
     public IBinder onBind(Intent arg0) {
         return null;
@@ -47,61 +48,63 @@ public class ServiceDeleteJob extends Service {
 
                                 @Override
                                 public void run() {
-                                    dbh=new DatabaseHelper(getApplicationContext());
-                                    try {
+                                    if (PublicVariable.theard_DeleteJob) {
+                                        dbh = new DatabaseHelper(getApplicationContext());
+                                        try {
 
-                                        dbh.createDataBase();
+                                            dbh.createDataBase();
 
-                                    } catch (IOException ioe) {
+                                        } catch (IOException ioe) {
 
-                                        throw new Error("Unable to create database");
+                                            throw new Error("Unable to create database");
 
-                                    }
-
-                                    try {
-
-                                        dbh.openDataBase();
-
-                                    } catch (SQLException sqle) {
-
-                                        throw sqle;
-                                    }
-                                    if(db!=null) {
-                                        if (db.isOpen()) {
-                                            db.close();
                                         }
-                                    }
-                                    db=dbh.getReadableDatabase();
-                                    Cursor coursors = db.rawQuery("SELECT * FROM login",null);
-                                    for(int i=0;i<coursors.getCount();i++){
 
-                                        coursors.moveToNext();
-                                        guid=coursors.getString(coursors.getColumnIndex("guid"));
-                                        hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
-                                    }
+                                        try {
 
-                                    Cursor cursors = db.rawQuery("SELECT Code FROM BsUserServices", null);
-                                    for(int i=0;i<cursors.getCount();i++)
-                                    {
-                                        cursors.moveToNext();
-                                        if(i==0)
+                                            dbh.openDataBase();
+
+                                        } catch (SQLException sqle) {
+
+                                            throw sqle;
+                                        }
+                                        if (db != null) {
+                                            if (db.isOpen()) {
+                                                db.close();
+                                            }
+                                        }
+                                        db = dbh.getReadableDatabase();
+                                        coursors = db.rawQuery("SELECT * FROM login", null);
+                                        for (int i = 0; i < coursors.getCount(); i++) {
+
+                                            coursors.moveToNext();
+                                            guid = coursors.getString(coursors.getColumnIndex("guid"));
+                                            hamyarcode = coursors.getString(coursors.getColumnIndex("hamyarcode"));
+                                        }
+
+                                        Cursor cursors = db.rawQuery("SELECT Code FROM BsUserServices", null);
+                                        for (int i = 0; i < cursors.getCount(); i++) {
+                                            cursors.moveToNext();
+                                            if (i == 0) {
+                                                ListServiceCode = cursors.getString(cursors.getColumnIndex("Code"));
+                                            } else {
+                                                ListServiceCode = ListServiceCode + "," + cursors.getString(cursors.getColumnIndex("Code"));
+                                            }
+
+                                        }
+                                        if (db != null) {
+                                            if (db.isOpen()) {
+                                                db.close();
+                                            }
+                                        }
+                                        if(!coursors.isClosed())
                                         {
-                                            ListServiceCode = cursors.getString(cursors.getColumnIndex("Code"));
+                                            coursors.close();
                                         }
-                                        else
-                                        {
-                                            ListServiceCode = ListServiceCode + "," + cursors.getString(cursors.getColumnIndex("Code"));
+                                        if (!ListServiceCode.isEmpty()) {
+                                            SyncGetUserServiceForHamyarDeleted syncGetUserServiceForHamyarDeleted = new SyncGetUserServiceForHamyarDeleted(getApplicationContext(), guid, hamyarcode, ListServiceCode);
+                                            syncGetUserServiceForHamyarDeleted.AsyncExecute();
                                         }
-
-                                    }
-                                    if(db!=null) {
-                                        if (db.isOpen()) {
-                                            db.close();
-                                        }
-                                    }
-                                    if(!ListServiceCode.isEmpty()) {
-                                        SyncGetUserServiceForHamyarDeleted syncGetUserServiceForHamyarDeleted = new SyncGetUserServiceForHamyarDeleted(getApplicationContext(), guid, hamyarcode, ListServiceCode);
-                                        syncGetUserServiceForHamyarDeleted.AsyncExecute();
                                     }
                                 }
                             });

@@ -26,6 +26,7 @@ public class ServiceGetLocation extends Service {
     private String guid;
     private double latitude;
     private double longitude;
+    private Cursor c;
     @Override
     public IBinder onBind(Intent arg0) {
         return null;
@@ -48,69 +49,70 @@ public class ServiceGetLocation extends Service {
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    dbh=new DatabaseHelper(getApplicationContext());
-                                    try {
+                                    if (PublicVariable.theard_GetLocation) {
+                                        dbh = new DatabaseHelper(getApplicationContext());
+                                        try {
 
-                                        dbh.createDataBase();
+                                            dbh.createDataBase();
 
-                                    } catch (IOException ioe) {
+                                        } catch (IOException ioe) {
 
-                                        throw new Error("Unable to create database");
+                                            throw new Error("Unable to create database");
 
-                                    }
-
-                                    try {
-
-                                        dbh.openDataBase();
-
-                                    } catch (SQLException sqle) {
-
-                                        throw sqle;
-                                    }
-                                    if(db!=null) {
-                                        if (db.isOpen()) {
-                                            db.close();
-                                        }
-                                    }
-                                    GPSTracker gps = new GPSTracker(getApplicationContext());
-
-                                    // check if GPS enabled
-                                    if(gps.canGetLocation()){
-                                        db=dbh.getReadableDatabase();
-                                        Cursor coursors = db.rawQuery("SELECT * FROM Profile",null);
-                                        if(coursors.getCount()>0) {
-                                            Cursor c = db.rawQuery("SELECT * FROM login",null);
-                                            if(c.getCount()>0)
-                                            {
-                                                c.moveToNext();
-                                                guid=c.getString(c.getColumnIndex("guid"));
-                                                hamyarcode=c.getString(c.getColumnIndex("hamyarcode"));
-                                                latitude = gps.getLatitude();
-                                                longitude = gps.getLongitude();
-                                                String query = "UPDATE Profile SET Lat='" + Double.toString(latitude) + "',Lon='" + Double.toString(longitude) + "'";
-                                                db = dbh.getWritableDatabase();
-                                                db.execSQL(query);
-                                                String[] DateSp = ChangeDate.getCurrentDate().split("/");
-                                                String Yearobj = DateSp[0];
-                                                String Monthobj = DateSp[1];
-                                                String Dayobj = DateSp[2];
-                                                String[] TimeSp = ChangeDate.getCurrentTime().split(":");
-                                                String Hourobj = TimeSp[0];
-                                                String Minuteobj = TimeSp[1];
-                                                SyncInsertHamyarLocation syncInsertHamyarLocation = new SyncInsertHamyarLocation(getApplicationContext(),
-                                                        guid, hamyarcode, Yearobj, Monthobj, Dayobj, Hourobj, Minuteobj, Double.toString(latitude), Double.toString(longitude));
-                                                syncInsertHamyarLocation.AsyncExecute();
-                                            }
                                         }
 
+                                        try {
 
-                                        if(db!=null) {
+                                            dbh.openDataBase();
+
+                                        } catch (SQLException sqle) {
+
+                                            throw sqle;
+                                        }
+                                        if (db != null) {
                                             if (db.isOpen()) {
                                                 db.close();
                                             }
                                         }
-                                    }
+                                        GPSTracker gps = new GPSTracker(getApplicationContext());
 
+                                        // check if GPS enabled
+                                        if (gps.canGetLocation()) {
+                                            db = dbh.getReadableDatabase();
+                                            Cursor coursors = db.rawQuery("SELECT * FROM Profile", null);
+                                            if (coursors.getCount() > 0) {
+                                                c = db.rawQuery("SELECT * FROM login", null);
+                                                if (c.getCount() > 0) {
+                                                    c.moveToNext();
+                                                    guid = c.getString(c.getColumnIndex("guid"));
+                                                    hamyarcode = c.getString(c.getColumnIndex("hamyarcode"));
+                                                    latitude = gps.getLatitude();
+                                                    longitude = gps.getLongitude();
+                                                    String query = "UPDATE Profile SET Lat='" + Double.toString(latitude) + "',Lon='" + Double.toString(longitude) + "'";
+                                                    db = dbh.getWritableDatabase();
+                                                    db.execSQL(query);
+                                                    String[] DateSp = ChangeDate.getCurrentDate().split("/");
+                                                    String Yearobj = DateSp[0];
+                                                    String Monthobj = DateSp[1];
+                                                    String Dayobj = DateSp[2];
+                                                    String[] TimeSp = ChangeDate.getCurrentTime().split(":");
+                                                    String Hourobj = TimeSp[0];
+                                                    String Minuteobj = TimeSp[1];
+                                                    SyncInsertHamyarLocation syncInsertHamyarLocation = new SyncInsertHamyarLocation(getApplicationContext(),
+                                                            guid, hamyarcode, Yearobj, Monthobj, Dayobj, Hourobj, Minuteobj, Double.toString(latitude), Double.toString(longitude));
+                                                    syncInsertHamyarLocation.AsyncExecute();
+                                                }
+                                            }
+
+
+                                            if (db != null) {
+                                                if (db.isOpen()) {
+                                                    db.close();
+                                                }
+                                            }
+                                        }
+
+                                    }
                                 }
                             });
                         } catch (Exception e) {

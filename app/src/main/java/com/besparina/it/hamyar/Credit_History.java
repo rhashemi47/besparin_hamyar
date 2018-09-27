@@ -46,7 +46,7 @@ public class Credit_History extends Activity {
 protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.credits_history);
-	Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
+	Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");//set font for page
 	btnCredit=(TextView)findViewById(R.id.btnCredit);
 	btnServices_at_the_turn=(Button)findViewById(R.id.btnServices_at_the_turn);
 	btnDutyToday=(Button)findViewById(R.id.btnDutyToday);

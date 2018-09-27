@@ -37,7 +37,6 @@ public class ServiceGetNewJobNotNotifi extends Service {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    // TODO Auto-generated method stub
                     while (continue_or_stop) {
                         try {
                             Thread.sleep(60000); // every 60 seconds
@@ -47,53 +46,54 @@ public class ServiceGetNewJobNotNotifi extends Service {
 
                                 @Override
                                 public void run() {
-                                    dbh=new DatabaseHelper(getApplicationContext());
-                                    try {
+                                    if (PublicVariable.theard_GetNewJob) {
+                                        dbh = new DatabaseHelper(getApplicationContext());
+                                        try {
 
-                                        dbh.createDataBase();
+                                            dbh.createDataBase();
 
-                                    } catch (IOException ioe) {
+                                        } catch (IOException ioe) {
 
-                                        throw new Error("Unable to create database");
+                                            throw new Error("Unable to create database");
 
-                                    }
-
-                                    try {
-
-                                        dbh.openDataBase();
-
-                                    } catch (SQLException sqle) {
-
-                                        throw sqle;
-                                    }
-                                    if(db!=null) {
-                                        if (db.isOpen()) {
-                                            db.close();
                                         }
-                                    }
-                                    db=dbh.getReadableDatabase();
-                                    Cursor coursors = db.rawQuery("SELECT * FROM login",null);
-                                    for(int i=0;i<coursors.getCount();i++){
 
-                                        coursors.moveToNext();
-                                        guid=coursors.getString(coursors.getColumnIndex("guid"));
-                                        hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
-                                    }
+                                        try {
 
-                                    Cursor cursors = db.rawQuery("SELECT ifnull(MAX(CAST (code AS INT)),0)as code FROM BsUserServices", null);
-                                    if(cursors.getCount()>0)
-                                    {
-                                        cursors.moveToNext();
-                                        LastHamyarUserServiceCode=cursors.getString(cursors.getColumnIndex("code"));
-                                    }
+                                            dbh.openDataBase();
 
-                                    if(db!=null) {
-                                        if (db.isOpen()) {
-                                            db.close();
+                                        } catch (SQLException sqle) {
+
+                                            throw sqle;
                                         }
+                                        if (db != null) {
+                                            if (db.isOpen()) {
+                                                db.close();
+                                            }
+                                        }
+                                        db = dbh.getReadableDatabase();
+                                        Cursor coursors = db.rawQuery("SELECT * FROM login", null);
+                                        for (int i = 0; i < coursors.getCount(); i++) {
+
+                                            coursors.moveToNext();
+                                            guid = coursors.getString(coursors.getColumnIndex("guid"));
+                                            hamyarcode = coursors.getString(coursors.getColumnIndex("hamyarcode"));
+                                        }
+
+                                        Cursor cursors = db.rawQuery("SELECT ifnull(MAX(CAST (code AS INT)),0)as code FROM BsUserServices", null);
+                                        if (cursors.getCount() > 0) {
+                                            cursors.moveToNext();
+                                            LastHamyarUserServiceCode = cursors.getString(cursors.getColumnIndex("code"));
+                                        }
+
+                                        if (db != null) {
+                                            if (db.isOpen()) {
+                                                db.close();
+                                            }
+                                        }
+                                        SyncNewJob syncNewJob = new SyncNewJob(getApplicationContext(), guid, hamyarcode, LastHamyarUserServiceCode, false);
+                                        syncNewJob.AsyncExecute();
                                     }
-                                    SyncNewJob syncNewJob=new SyncNewJob(getApplicationContext(),guid,hamyarcode,LastHamyarUserServiceCode,false);
-                                    syncNewJob.AsyncExecute();
                                 }
                             });
                         } catch (Exception e) {
