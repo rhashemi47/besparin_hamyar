@@ -220,7 +220,7 @@ public class SyncGetUserServiceForHamyarUpdated {
 		db=dbh.getWritableDatabase();
 		for(int i=0;i<res.length;i++) {
 			value = res[i].split("##");
-			if (value[34].compareTo("3") == 0) {
+			if (value[34].compareTo("3") == 0 || value[34].compareTo("1") == 0) {
 				db.execSQL("DELETE FROM BsUserServices WHERE Code=" + value[0]);
 				db.close();
 			} else {

@@ -102,6 +102,7 @@
         <service android:name="com.besparina.it.hamyar.ServiceGetJobUpdate"/>
         <service android:name="com.besparina.it.hamyar.ServiceDeleteJob"/>
         <service android:name="com.besparina.it.hamyar.ServiceGetFactorAccept"/>
+        <service android:name="com.besparina.it.hamyar.ServiceGetUserServiceStartDate"/>
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDnC52D6OdJODkWQpG-7SXrqhZk4ZLRV9M" />

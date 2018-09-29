@@ -64,16 +64,16 @@ public class ServiceGetUserServiceStartDate extends Service {
                                             throw sqle;
                                         }
                                         db = dbh.getReadableDatabase();
-                                        Cursor coursors = db.rawQuery("SELECT * FROM OrdersService A WHERE A.Status='1' AND " +
+                                        Cursor coursors = db.rawQuery("SELECT * FROM BsHamyarSelectServices A WHERE A.Status='1' AND " +
                                                 "A.Code NOT IN (SELECT BsUserServiceCode FROM StartDateService)", null);
                                         for (int i = 0; i < coursors.getCount(); i++) {
                                             coursors.moveToNext();
 
                                             pUserServiceCode = coursors.getString(coursors.getColumnIndex("Code"));
+                                            SyncGetUserServiceStartDate syncGetUserServiceStartDate = new SyncGetUserServiceStartDate(getApplicationContext(), pUserServiceCode);
+                                            syncGetUserServiceStartDate.AsyncExecute();
                                         }
                                         db.close();
-                                        SyncGetUserServiceStartDate syncGetUserServiceStartDate = new SyncGetUserServiceStartDate(getApplicationContext(), pUserServiceCode);
-                                        syncGetUserServiceStartDate.AsyncExecute();
                                     }
                                 }
                             });

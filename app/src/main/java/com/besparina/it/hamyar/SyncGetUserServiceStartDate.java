@@ -84,7 +84,7 @@ public class SyncGetUserServiceStartDate {
 		protected String doInBackground(String... params) {
 			String result = null;
 			try {
-				CallWsMethod("GetUserService");
+				CallWsMethod("GetUserServiceStartDate");
 			} catch (Exception e) {
 				result = e.getMessage().toString();
 			}
@@ -175,22 +175,28 @@ public class SyncGetUserServiceStartDate {
 		db = dbh.getWritableDatabase();
 		for (int i = 0; i < res.length; i++) {
 			value = res[i].split("##");
-			String query = "INSERT INTO OrdersService (" +
-							"Code," +
-							"BsUserServiceCode," +
-							"HamyarCode," +
-							"StartDate," +
-							"UserCode," +
-							"UserConfirmDate) VALUES('" +
-							value[0] + "','" +
-							value[1] + "','" +
-							value[2] + "','" +
-							value[3] + "','" +
-							value[4] + "','" +
-							value[5] + "')";
-					db.execSQL(query);
-					String message="برای سرویس به شماره: " + value[1] +"اعلام شروع به کار شده است";
-						runNotification("بسپارینا", message, i, value[1], ViewJob.class);
+			try {
+				String query = "INSERT INTO StartDateService (" +
+						"Code," +
+						"BsUserServiceCode," +
+						"HamyarCode," +
+						"StartDate," +
+						"UserCode," +
+						"UserConfirmDate) VALUES('" +
+						value[0] + "','" +
+						value[1] + "','" +
+						value[2] + "','" +
+						value[3] + "','" +
+						value[4] + "','" +
+						value[5] + "')";
+				db.execSQL(query);
+				String message = "برای سرویس به شماره: " + value[1] + "اعلام شروع به کار تایید شده است";
+				runNotification("بسپارینا", message, i, value[1], ViewJob.class);
+			}
+			catch (Exception ex)
+			{
+
+			}
 		}
 		db.close();
 	}

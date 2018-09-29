@@ -180,7 +180,7 @@ public class SyncStartJob {
 		//*****************************************************
 		PropertyInfo UserServiceCodePI = new PropertyInfo();
 		//Set Name
-		UserServiceCodePI.setName("UserServiceCode");
+		UserServiceCodePI.setName("BsUserServiceCode");
 		//Set Value
 		UserServiceCodePI.setValue(this.UserServiceCode);
 		//Set dataType

@@ -168,7 +168,8 @@
                     "LEFT JOIN " +
                     "Servicesdetails ON " +
                     "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode WHERE IsDelete='0' AND " +
-                    "Status='2'";
+                    "Status='1'"+
+                    " AND StartDate='"+year+"/"+mon+"/"+day+"'";
             coursors = db.rawQuery(query,null);
             for(int i=0;i<coursors.getCount();i++){
                 coursors.moveToNext();

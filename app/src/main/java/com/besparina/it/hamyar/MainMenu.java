@@ -37,6 +37,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.besparina.it.hamyar.Date.ChangeDate;
+import com.besparina.it.hamyar.Date.ShamsiCalendar;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -46,6 +48,7 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -278,8 +281,8 @@ public class MainMenu extends AppCompatActivity {
                 "LEFT JOIN " +
                 "Servicesdetails ON " +
                 "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode WHERE IsDelete='0' AND " +
-                "Status='2'";
-//                "StartDate='"+year+"/"+mon+"/"+day+"'";
+                "Status='1'"+
+                " AND StartDate='"+year+"/"+mon+"/"+day+"'";
         Cursor cursorDuty = db.rawQuery(query,null);
         if(cursorDuty.getCount()>0)
         {
@@ -296,18 +299,37 @@ public class MainMenu extends AppCompatActivity {
                 "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode WHERE IsDelete='0' AND " +
                 "Status='2'";
 //                "StartDate='"+year+"/"+mon+"/"+day+"'";
+        Cursor Ctime;
         Cursor cursorServiceNow = db.rawQuery(query,null);
         for(int i=0;i<cursorServiceNow.getCount();i++)
         {
             cursorServiceNow.moveToNext();
-            HashMap<String, String> map = new HashMap<String, String>();
-            map.put("BsUserServicesID",cursorServiceNow.getString(cursorServiceNow.getColumnIndex("Code")));
-            map.put("ContentService","ساعت شروع: "+cursorServiceNow.getString(cursorServiceNow.getColumnIndex("StartTime"))+ " - " +
-                    "کاربر: " + cursorServiceNow.getString(cursorServiceNow.getColumnIndex("UserName"))+ " - " +
-                    "تا ساعت: " + cursorServiceNow.getString(cursorServiceNow.getColumnIndex("EndTime")));
-            valuse.add(map);
+            String DateTimeStr= ChangeDate.changeFarsiToMiladi(cursorServiceNow.getString(cursorServiceNow.getColumnIndex("EndDate")))+" "+cursorServiceNow.getString(cursorServiceNow.getColumnIndex("EndTime")) + ":00" ;
+            String GetDateTime="Select Cast ((JulianDay('"+faToEn(DateTimeStr.replace("/","-"))+"') - JulianDay('now'))" +
+                    " * 24 As Integer) time";
+            Ctime=db.rawQuery(GetDateTime,null);
+            if(Ctime.getCount()>0) {
+                Ctime.moveToNext();
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put("BsUserServicesID", cursorServiceNow.getString(cursorServiceNow.getColumnIndex("Code")));
+                map.put("ContentService", "در: " + cursorServiceNow.getString(cursorServiceNow.getColumnIndex("StartDate")) + " - " +
+                        "شروع: " + cursorServiceNow.getString(cursorServiceNow.getColumnIndex("StartTime")) + " - " +
+                        "به مدت: " + Ctime.getString(Ctime.getColumnIndex("time")) + " ساعت " +
+                        "به نام: " + cursorServiceNow.getString(cursorServiceNow.getColumnIndex("UserName")) + " " + cursorServiceNow.getString(cursorServiceNow.getColumnIndex("UserFamily")));
+                valuse.add(map);
+            }
+            if(!Ctime.isClosed())
+            {
+                Ctime.close();
+            }
         }
-        db.close();
+        if(!cursorServiceNow.isClosed())
+        {
+            cursorServiceNow.close();
+        }
+        if(db.isOpen()) {
+            db.close();
+        }
         if(valuse.size()>0) {
             LinearTextServiceNow.setVisibility(View.VISIBLE);
             AdapterListServiceNow dataAdapter = new AdapterListServiceNow(this, valuse, guid, hamyarcode);
@@ -482,6 +504,7 @@ public class MainMenu extends AppCompatActivity {
                 stopService(new Intent(getBaseContext(), ServiceGetJobUpdate.class));
                 stopService(new Intent(getBaseContext(), ServiceDeleteJob.class));
                 stopService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
+                stopService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
                 db = dbh.getWritableDatabase();
                 db.execSQL("DELETE FROM AmountCredit");
                 db.execSQL("DELETE FROM android_metadata");
@@ -926,6 +949,7 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
         super.onStart();
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
         startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
+        startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
         //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
 
     }
@@ -934,6 +958,7 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
         super.onResume();
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
         startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
+        startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
         try
         {
             String status="0";
@@ -974,6 +999,7 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
         //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
         startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
+        startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
     }
     protected void onPause() {
 
@@ -981,6 +1007,7 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
         //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
         startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
+        startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
     }
     protected void onDestroy() {
 
@@ -1015,6 +1042,7 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
         {
             if (doubleBackToExitPressedOnce) {
                 startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+                startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
                 Intent startMain = new Intent(Intent.ACTION_MAIN);
 
                 startMain.addCategory(Intent.CATEGORY_HOME);
@@ -1072,5 +1100,31 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
         }
 
         db.close();
+    }
+    public static String faToEn(String num) {
+        return num
+                .replace("۰", "0")
+                .replace("۱", "1")
+                .replace("۲", "2")
+                .replace("۳", "3")
+                .replace("۴", "4")
+                .replace("۵", "5")
+                .replace("۶", "6")
+                .replace("۷", "7")
+                .replace("۸", "8")
+                .replace("۹", "9");
+    }
+    public static String EnToFa(String num) {
+        return num
+                .replace("0", "۰")
+                .replace("1", "۱")
+                .replace("2", "۲")
+                .replace("3", "۳")
+                .replace("4", "۴")
+                .replace("5", "۵")
+                .replace("6", "۶")
+                .replace("7", "۷")
+                .replace("8", "۸")
+                .replace("9", "۹");
     }
 }
