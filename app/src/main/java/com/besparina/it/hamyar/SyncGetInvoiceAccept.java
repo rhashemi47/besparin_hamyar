@@ -32,7 +32,7 @@ public class SyncGetInvoiceAccept {
 	private String invoicecode;
 	private String ServiceCode;
 	//private String acceptcode;
-	private boolean CuShowDialog = true;
+	private boolean CuShowDialog = false;
 
 	//Contractor
 	public SyncGetInvoiceAccept(Context activity, String guid, String hamyarcode, String invoicecode, String ServiceCode) {
@@ -71,7 +71,7 @@ public class SyncGetInvoiceAccept {
 				AsyncCallWS task = new AsyncCallWS(this.activity);
 				task.execute();
 			} catch (Exception e) {
-
+				PublicVariable.theard_GetFactorAccept=true;
 				e.printStackTrace();
 			}
 		} else {
@@ -86,8 +86,8 @@ public class SyncGetInvoiceAccept {
 
 		public AsyncCallWS(Context activity) {
 			this.activity = activity;
-			this.dialog = new ProgressDialog(this.activity);
-			this.dialog.setCanceledOnTouchOutside(false);
+//			this.dialog = new ProgressDialog(this.activity);
+//			this.dialog.setCanceledOnTouchOutside(false);
 		}
 
 		@Override
@@ -103,8 +103,8 @@ public class SyncGetInvoiceAccept {
 
 		@Override
 		protected void onPostExecute(String result) {
+			PublicVariable.theard_GetFactorAccept=true;
 			if (result == null) {
-				PublicVariable.theard_GetFactorAccept=true;
 				String res[] = WsResponse.split("##");
 				if (res[1].compareTo("ER") == 0) {
 					//Toast.makeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();
@@ -124,8 +124,6 @@ public class SyncGetInvoiceAccept {
 				}
 			} catch (Exception e) {
 			}
-
-			db.close();
 		}
 
 		@Override
@@ -210,16 +208,16 @@ public class SyncGetInvoiceAccept {
 			Cursor c = db.rawQuery("SELECT * FROM HeadFactor WHERE Code='" + invoicecode + "'", null);
 			if (c.getCount() > 0) {
 				c.moveToNext();
-				if (c.getString(c.getColumnIndex("Status")).compareTo(value[1]) != 0) {
+				if (c.getString(c.getColumnIndex("InvocAccept")).compareTo(value[1]) != 0) {
 					if (value[1].compareTo("0") == 0) {
-						Title = "فاکتور  " + invoicecode + "تایید نشد";
+						Title = "فاکتور نهایی شماره  " + invoicecode + "تایید نشد";
 						db = dbh.getWritableDatabase();
-						query = "UPDATE HeadFactor SET Type='1',Status='" + value[1] + "' WHERE Code='" + invoicecode + "'";
+						query = "UPDATE HeadFactor SET Type='2',InvocAccept='" + value[1] + "' WHERE Code='" + invoicecode + "'";
 						db.execSQL(query);
 					} else {
-						Title = "فاکتور  " + invoicecode + "تایید شد";
+						Title = "فاکتور نهایی شماره  " + invoicecode + "تایید شد";
 						db = dbh.getWritableDatabase();
-						query = "UPDATE HeadFactor SET Type='1',Status='" + value[1] + "',AcceptDate='" + value[2] + "' WHERE Code='" + invoicecode + "'";
+						query = "UPDATE HeadFactor SET Type='2',InvocAccept='" + value[1] + "',AcceptDateInvoc='" + value[2] + "' WHERE Code='" + invoicecode + "'";
 						db.execSQL(query);
 					}
 					runNotification("بسپارینا", Title, i, ServiceCode, ViewJob.class);

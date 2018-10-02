@@ -68,10 +68,10 @@ protected void onCreate(Bundle savedInstanceState) {
 		db.close();
 	}
 	Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");//set font for page
-	tvPause=(TextView)findViewById(R.id.tvPauseTitle);
-	tvPause.setTypeface(FontMitra);
-	etPause=(EditText) findViewById(R.id.etCasePause);
-	etPause.setTypeface(FontMitra);
+//	tvPause=(TextView)findViewById(R.id.tvPauseTitle);
+//	tvPause.setTypeface(FontMitra);
+//	etPause=(EditText) findViewById(R.id.etCasePause);
+//	etPause.setTypeface(FontMitra);
 	
 }
 @Override

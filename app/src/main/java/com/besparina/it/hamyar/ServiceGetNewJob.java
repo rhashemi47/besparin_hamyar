@@ -42,7 +42,7 @@ public class ServiceGetNewJob extends Service {
                             Thread.sleep(6000); // every 60 seconds
                             mHandler.post(new Runnable() {
 
-                                public String LastHamyarUserServiceCode;
+//                                public String LastHamyarUserServiceCode;
 
                                 @Override
                                 public void run() {
@@ -78,13 +78,13 @@ public class ServiceGetNewJob extends Service {
                                             guid = coursors.getString(coursors.getColumnIndex("guid"));
                                             hamyarcode = coursors.getString(coursors.getColumnIndex("hamyarcode"));
                                         }
-                                        Cursor cursors = db.rawQuery("SELECT ifnull(MAX(CAST (code AS INT)),0)as code FROM BsUserServices", null);
-                                        if (cursors.getCount() > 0) {
-                                            cursors.moveToNext();
-                                            LastHamyarUserServiceCode = cursors.getString(cursors.getColumnIndex("code"));
-                                        }
-                                        SyncNewJob syncNewJob = new SyncNewJob(getApplicationContext(), guid, hamyarcode, LastHamyarUserServiceCode, true);
-                                        syncNewJob.AsyncExecute();
+//                                        Cursor cursors = db.rawQuery("SELECT ifnull(MAX(CAST (code AS INT)),0)as code FROM BsUserServices", null);
+//                                        if (cursors.getCount() > 0) {
+//                                            cursors.moveToNext();
+//                                            LastHamyarUserServiceCode = cursors.getString(cursors.getColumnIndex("code"));
+//                                        }
+                                        SyncNewJob syncNewJob = new SyncNewJob(getApplicationContext(), guid, hamyarcode, "0", true);
+                                        syncNewJob.AsyncExecute();//Get Allways All Free Services
                                         if (db.isOpen()) {
                                             db.close();
                                         }

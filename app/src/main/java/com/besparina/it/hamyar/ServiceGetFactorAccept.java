@@ -98,10 +98,12 @@ public class ServiceGetFactorAccept extends Service {
                                             if (!db.isOpen()) {
                                                 db = dbh.getReadableDatabase();
                                             }
-                                            c = db.rawQuery("SELECT * FROM HeadFactor WHERE UserServiceCode='" + cursors.getString(cursors.getColumnIndex("Code")) + "'", null);
+                                            c = db.rawQuery("SELECT * FROM HeadFactor WHERE UserServiceCode='" + cursors.getString(cursors.getColumnIndex("Code")) + "' ORDER BY CAST(Code AS INTEGER) DESC", null);
                                             if (c.getCount() > 0) {
                                                 c.moveToNext();
-                                                if (c.getString(c.getColumnIndex("Type")).compareTo("0") == 0) {
+                                                String Code=c.getString(c.getColumnIndex("Code"));
+                                                String TypeSTR=c.getString(c.getColumnIndex("Type"));
+                                                if (TypeSTR.compareTo("1") == 0) {
                                                     SyncGetPreInvoiceAccept syncGetPreInvoiceAccept = new SyncGetPreInvoiceAccept(getApplicationContext(), guid, hamyarcode, c.getString(c.getColumnIndex("Code")), cursors.getString(cursors.getColumnIndex("Code")));
                                                     syncGetPreInvoiceAccept.AsyncExecute();
                                                     c.close();

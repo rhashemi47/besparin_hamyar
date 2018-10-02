@@ -103,8 +103,8 @@ public class SyncGetPreInvoiceAccept {
 
 		@Override
 		protected void onPostExecute(String result) {
+			PublicVariable.theard_GetFactorAccept=true;
 			if (result == null) {
-				PublicVariable.theard_GetFactorAccept=true;
 				String res[] = WsResponse.split("##");
 				if (res[1].compareTo("ER") == 0) {
 					//Toast.makeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();
@@ -208,16 +208,16 @@ public class SyncGetPreInvoiceAccept {
 			Cursor c = db.rawQuery("SELECT * FROM HeadFactor WHERE Code='" + invoicecode + "'", null);
 			if (c.getCount() > 0) {
 				c.moveToNext();
-				if (c.getString(c.getColumnIndex("Status")).compareTo(value[1]) != 0) {
+				if (c.getString(c.getColumnIndex("PerInvocAccept")).compareTo(value[1]) != 0) {
 					if (value[1].compareTo("0") == 0) {
 						Title = "پیش فاکتور سرویس " + c.getString(c.getColumnIndex("UserServiceCode")) + "تایید نشد";
 						db = dbh.getWritableDatabase();
-						query = "UPDATE HeadFactor SET Type='0',Status='" + value[1] + "' WHERE Code='" + invoicecode + "'";
+						query = "UPDATE HeadFactor SET Type='1',PerInvocAccept='" + value[1] + "' WHERE Code='" + invoicecode + "'";
 						db.execSQL(query);
 					} else {
 						Title = "پیش فاکتور سرویس " + c.getString(c.getColumnIndex("UserServiceCode")) + "تایید شد";
 						db = dbh.getWritableDatabase();
-						query = "UPDATE HeadFactor SET Type='0',Status='" + value[1] + "',AcceptDate='" + value[2] + "' WHERE Code='" + invoicecode + "'";
+						query = "UPDATE HeadFactor SET Type='2',PerInvocAccept='" + value[1] + "',AcceptDatePerInvoc='" + value[2] + "' WHERE Code='" + invoicecode + "'";
 						db.execSQL(query);
 					}
 					runNotification("بسپارینا", Title, i, ServiceCode, ViewJob.class);

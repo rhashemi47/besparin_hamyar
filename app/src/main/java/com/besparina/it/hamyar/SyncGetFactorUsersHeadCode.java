@@ -22,7 +22,7 @@ public class SyncGetFactorUsersHeadCode {
 
 	//Primary Variable
 	DatabaseHelper dbh;
-	SQLiteDatabase db;
+	SQLiteDatabase dbR,dbRW;
 	PublicVariable PV;
     InternetConnection IC;
 	private Activity activity;
@@ -282,17 +282,47 @@ public class SyncGetFactorUsersHeadCode {
 	public void InsertDataFromWsToDb()
 	{
 		String query;
-		db=dbh.getWritableDatabase();
-		db.execSQL("DELETE FROM HeadFactor WHERE UserServiceCode='"+UserServiceCode+"'");
-		query="INSERT INTO HeadFactor (Code,UserServiceCode,Date,Description) VALUES ('"
-				+WsResponse+"','"
-				+UserServiceCode+"','"
-				+Year+"/"+Month+"/"+Day+"','"
-				+Description+"')";
-		db.execSQL(query);
-		db=dbh.getReadableDatabase();
+		dbR=dbh.getReadableDatabase();
+		dbRW=dbh.getWritableDatabase();
+		Cursor c=dbR.rawQuery("SELECT * FROM HeadFactor WHERE UserServiceCode='"+UserServiceCode+"'",null);
+		if(c.getCount()>0)
+		{
+			c.moveToNext();
+			String Status=c.getString(c.getColumnIndex("PerInvocAccept"));
+			if(Status.compareTo("1")==0)
+			{
+				dbRW.execSQL("DELETE FROM HeadFactor WHERE Code='"+WsResponse+"'");
+				query = "INSERT INTO HeadFactor (Code,Type,UserServiceCode,Date,Description) VALUES ('"
+						+ WsResponse + "','"
+						+ "2" + "','"
+						+ UserServiceCode + "','"
+						+ Year + "/" + Month + "/" + Day + "','"
+						+ Description + "')";
+				dbRW.execSQL(query);
+			}
+			else
+			{
+				dbRW.execSQL("DELETE FROM HeadFactor WHERE Code='"+WsResponse+"'");
+				query = "INSERT INTO HeadFactor (Code,Type,UserServiceCode,Date,Description) VALUES ('"
+						+ WsResponse + "','"
+						+ "1" + "','"
+						+ UserServiceCode + "','"
+						+ Year + "/" + Month + "/" + Day + "','"
+						+ Description + "')";
+				dbRW.execSQL(query);
+			}
+		}
+		else {
+			query = "INSERT INTO HeadFactor (Code,UserServiceCode,Date,Description) VALUES ('"
+					+ WsResponse + "','"
+					+ UserServiceCode + "','"
+					+ Year + "/" + Month + "/" + Day + "','"
+					+ Description + "')";
+			dbRW.execSQL(query);
+		}
+		dbR = dbh.getReadableDatabase();
 		query="SELECT * FROM HmFactorService WHERE Code='"+StepCode+"'";
-		Cursor c= db.rawQuery(query,null);
+		c= dbR.rawQuery(query,null);
 		if(c.getCount()>0) {
 			c.moveToNext();
 			SyncInsertFaktorUserDetailes syncInsertFaktorUserDetailes = new SyncInsertFaktorUserDetailes(activity,
@@ -304,9 +334,9 @@ public class SyncGetFactorUsersHeadCode {
 					c.getString(c.getColumnIndex("PricePerUnit")),Amount);
 			syncInsertFaktorUserDetailes.AsyncExecute();
 			if(IsTools) {
-				db=dbh.getReadableDatabase();
+				dbR=dbh.getReadableDatabase();
 				query = "SELECT *  FROM HmFactorTools_List";
-				Cursor cDetail = db.rawQuery(query, null);
+				Cursor cDetail = dbR.rawQuery(query, null);
 				for(int i=0;i<cDetail.getCount();i++)
 				{
 					cDetail.moveToNext();
@@ -324,7 +354,7 @@ public class SyncGetFactorUsersHeadCode {
 			}
 		}
 
-		db.close();
+		dbR.close();
 		LoadActivity(ViewJob.class, "guid", guid, "hamyarcode", hamyarcode,"BsUserServicesID", UserServiceCode, "tab", "0");
 	}
 	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2, String VariableName3, String VariableValue3, String VariableName4, String VariableValue4)

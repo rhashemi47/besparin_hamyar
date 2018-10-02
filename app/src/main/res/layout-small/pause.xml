@@ -3,92 +3,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="200dp"
     android:orientation="vertical"
-    android:background="@drawable/menu_body"
-    android:layoutDirection="rtl">
-   
+    android:layoutDirection="rtl"
+    android:layout_gravity="center"
+    android:gravity="center">
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:id="@+id/LinerTitlePause"
-        android:orientation="vertical">
+        android:id="@+id/LinerQustionCansel">
         <TextView
-            android:id="@+id/tvPauseTitle"
+            android:id="@+id/tvTextCanselQuastion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
-            android:text="ثبت وقفه"
+            android:text="آیا قصد ایجاد وقفه در سرویس انتخابی را دارید؟"
             android:lineSpacingExtra="4dp"
-            android:textSize="10sp"
+            android:textSize="12sp"
             android:layout_marginLeft="10dp" />
-
     </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/LinerTitlePause"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/rounded_layout_select_job_body"
-            android:layout_centerHorizontal="true"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/tvTitleDatePause"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="@string/DatePause"
-                android:layout_gravity="center"
-                android:textSize="10sp"
-                android:layout_marginLeft="10dp" />
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/etDatePause"
-                android:drawableRight="@drawable/calendar2_small"/>
-            <TextView
-                android:id="@+id/tvTitleTimePause"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="10dp"
-                android:text="@string/TimePause"
-                android:layout_gravity="center"
-                android:textSize="10sp"
-                android:layout_marginLeft="10dp" />
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/etTimePause"
-                android:drawableRight="@drawable/clock_small"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/LinerQustionCansel"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/rounded_layout_select_job_body"
+        android:layout_centerHorizontal="true">
 
-            <TextView
-                android:id="@+id/tvTitleCasePause"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/CasePause"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="10sp"
-                android:layout_weight="1"/>
-            <EditText
-                android:id="@+id/etCasePause"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:inputType="text|textMultiLine"
-                android:gravity="top|end"
-                android:textAlignment="gravity"
-                android:textSize="10sp"
-                android:paddingEnd="10dp"
-                android:paddingStart="10dp"
-                android:layout_marginTop="10dp"
-                android:drawableRight="@drawable/edit2"
-                tools:ignore="RtlHardcoded" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tvTextCansel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@string/Description"
+            android:textSize="12sp"
+            android:layout_marginLeft="10dp" />
+        <EditText
+            android:id="@+id/etCansel"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/rounded_edittext2"
+            android:inputType="text|textMultiLine"
+            android:gravity="top|end"
+            android:textAlignment="gravity"
+            android:textSize="12sp"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            android:layout_marginLeft="5dp" />
+    </LinearLayout>
 </RelativeLayout>

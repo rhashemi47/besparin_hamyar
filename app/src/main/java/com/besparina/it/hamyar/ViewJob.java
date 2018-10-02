@@ -1163,7 +1163,7 @@ public class ViewJob extends AppCompatActivity{
             public void onClick(View v)
             {
                 LayoutInflater li = LayoutInflater.from(ViewJob.this);
-                View promptsView = li.inflate(R.layout.cansel, null);
+                View promptsView = li.inflate(R.layout.pause, null);
                 AlertDialog.Builder alertbox = new AlertDialog.Builder(ViewJob.this);
                 //set view
                 alertbox.setView(promptsView);
@@ -1280,18 +1280,50 @@ public class ViewJob extends AppCompatActivity{
             @Override
             public void onClick(View v)
             {
-                String query = "SELECT BsHamyarSelectServices.*,Servicesdetails.code FROM BsHamyarSelectServices " +
-                        "LEFT JOIN " +
-                        "Servicesdetails ON " +
-                        "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode WHERE BsHamyarSelectServices.Code=" + BsUserServicesID;
-                db=dbh.getReadableDatabase();
-                coursors = db.rawQuery(query, null);
-                if (coursors.getCount()>0) {
-                    coursors.moveToNext();
-                    LoadActivity_PerFactor(Save_Per_Factor.class,"tab",tab,"BsUserServicesID",BsUserServicesID,"ServiceDetaileCode",coursors.getString(coursors.getColumnIndex("ServiceDetaileCode")),"back_activity",back_activity);
+                db = dbh.getReadableDatabase();
+                Cursor c = db.rawQuery("SELECT * FROM HeadFactor WHERE UserServiceCode='" + BsUserServicesID + "' ORDER BY CAST(Code AS INTEGER) DESC", null);
+                if (c.getCount() > 0) {
+                    c.moveToNext();
+                    String TypeFactor = c.getString(c.getColumnIndex("Type"));
+                    String InvocAccept = c.getString(c.getColumnIndex("InvocAccept"));
+                    if (TypeFactor.compareTo("2") == 0 && InvocAccept.compareTo("1") == 0) {
+                        Toast.makeText(ViewJob.this,"فاکتور توسط کاربر تایید شده و امکان ارسال مجدد میسر نمی باشد",Toast.LENGTH_LONG).show();
+                    }
+                    else
+                    {
+                        String query = "SELECT BsHamyarSelectServices.*,Servicesdetails.code FROM BsHamyarSelectServices " +
+                                "LEFT JOIN " +
+                                "Servicesdetails ON " +
+                                "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode WHERE BsHamyarSelectServices.Code=" + BsUserServicesID;
+                        db = dbh.getReadableDatabase();
+                        coursors = db.rawQuery(query, null);
+                        if (coursors.getCount() > 0) {
+                            coursors.moveToNext();
+                            LoadActivity_PerFactor(Save_Per_Factor.class, "tab", tab, "BsUserServicesID", BsUserServicesID, "ServiceDetaileCode", coursors.getString(coursors.getColumnIndex("ServiceDetaileCode")), "back_activity", back_activity);
+                        }
+                        coursors.close();
+                        db.close();
+                    }
                 }
-                coursors.close();
-                db.close();
+                else
+                {
+                    String query = "SELECT BsHamyarSelectServices.*,Servicesdetails.code FROM BsHamyarSelectServices " +
+                            "LEFT JOIN " +
+                            "Servicesdetails ON " +
+                            "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode WHERE BsHamyarSelectServices.Code=" + BsUserServicesID;
+                    db = dbh.getReadableDatabase();
+                    coursors = db.rawQuery(query, null);
+                    if (coursors.getCount() > 0) {
+                        coursors.moveToNext();
+                        LoadActivity_PerFactor(Save_Per_Factor.class, "tab", tab, "BsUserServicesID", BsUserServicesID, "ServiceDetaileCode", coursors.getString(coursors.getColumnIndex("ServiceDetaileCode")), "back_activity", back_activity);
+                    }
+                    coursors.close();
+                    db.close();
+                }
+                if(db.isOpen())
+                {
+                    db.close();
+                }
             }
         });
         btnCallToCustomer.setOnClickListener(new View.OnClickListener() {
