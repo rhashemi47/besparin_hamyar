@@ -42,7 +42,7 @@ public class SyncProfileForService {
 			dbh.createDataBase();
 
 		} catch (IOException ioe) {
-
+			PublicVariable.theard_Profile=true;
 			throw new Error("Unable to create database");
 
 		}
@@ -52,7 +52,7 @@ public class SyncProfileForService {
 			dbh.openDataBase();
 
 		} catch (SQLException sqle) {
-
+			PublicVariable.theard_Profile=true;
 			throw sqle;
 		}
 	}
@@ -63,7 +63,7 @@ public class SyncProfileForService {
 				AsyncCallWS task = new AsyncCallWS(this.activity);
 				task.execute();
 			} catch (Exception e) {
-
+				PublicVariable.theard_Profile=true;
 				e.printStackTrace();
 			}
 		} else {
@@ -91,6 +91,7 @@ public class SyncProfileForService {
         		CallWsMethod("GetHamyarProfile");
         	}
 	    	catch (Exception e) {
+				PublicVariable.theard_Profile=true;
 	    		result = e.getMessage().toString();
 			}
 	        return result;
@@ -129,7 +130,7 @@ public class SyncProfileForService {
             		this.dialog.dismiss();
             	}
             }
-            catch (Exception e) {}
+            catch (Exception e) {PublicVariable.theard_Profile=true;}
         }
 
         @Override
@@ -258,7 +259,7 @@ public class SyncProfileForService {
 			}
 		}
 		catch (Exception ex)
-		{
+		{PublicVariable.theard_Profile=true;
 
 		}
 	}

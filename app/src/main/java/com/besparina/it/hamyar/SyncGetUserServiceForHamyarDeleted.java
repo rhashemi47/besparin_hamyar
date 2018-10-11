@@ -43,7 +43,7 @@ public class SyncGetUserServiceForHamyarDeleted {
 			dbh.createDataBase();
 
    		} catch (IOException ioe) {
-
+			PublicVariable.theard_DeleteJob=true;
    			throw new Error("Unable to create database");
 
    		}
@@ -53,7 +53,7 @@ public class SyncGetUserServiceForHamyarDeleted {
    			dbh.openDataBase();
 
    		} catch (SQLException sqle) {
-
+			PublicVariable.theard_DeleteJob=true;
    			throw sqle;
    		}   		
 	}
@@ -68,13 +68,13 @@ public class SyncGetUserServiceForHamyarDeleted {
 				task.execute();
 			}	
 			 catch (Exception e) {
-				//Toast.makeText(this.activity.getApplicationContext(), PersianReshape.reshape("ط¹ط¯ظ… ط¯ط³طھط±ط³غŒ ط¨ظ‡ ط³ط±ظˆط±"), Toast.LENGTH_SHORT).show();
+				 PublicVariable.theard_DeleteJob=true;
 	            e.printStackTrace();
 			 }
 		}
 		else
 		{
-			//Toast.makeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
+			PublicVariable.theard_DeleteJob=true;
 		}
 	}
 	
@@ -97,6 +97,7 @@ public class SyncGetUserServiceForHamyarDeleted {
         		CallWsMethod("GetUserServiceForHamyarDeleted");
         	}
 	    	catch (Exception e) {
+				PublicVariable.theard_DeleteJob=true;
 	    		result = e.getMessage().toString();
 			}
 	        return result;
@@ -130,7 +131,9 @@ public class SyncGetUserServiceForHamyarDeleted {
             		this.dialog.dismiss();
             	}
             }
-            catch (Exception e) {}
+            catch (Exception e) {
+				PublicVariable.theard_DeleteJob=true;
+			}
         }
  
         @Override

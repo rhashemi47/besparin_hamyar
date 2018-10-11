@@ -50,7 +50,7 @@ public class SyncGetInvoiceAccept {
 			dbh.createDataBase();
 
 		} catch (IOException ioe) {
-
+			PublicVariable.theard_GetFactorAccept=true;
 			throw new Error("Unable to create database");
 
 		}
@@ -60,7 +60,7 @@ public class SyncGetInvoiceAccept {
 			dbh.openDataBase();
 
 		} catch (SQLException sqle) {
-
+			PublicVariable.theard_GetFactorAccept=true;
 			throw sqle;
 		}
 	}
@@ -75,7 +75,7 @@ public class SyncGetInvoiceAccept {
 				e.printStackTrace();
 			}
 		} else {
-			//Toast.makeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
+			PublicVariable.theard_GetFactorAccept=true;
 		}
 	}
 
@@ -96,6 +96,7 @@ public class SyncGetInvoiceAccept {
 			try {
 				CallWsMethod("GetInvoiceAccept");
 			} catch (Exception e) {
+				PublicVariable.theard_GetFactorAccept=true;
 				result = e.getMessage().toString();
 			}
 			return result;
@@ -123,6 +124,7 @@ public class SyncGetInvoiceAccept {
 					this.dialog.dismiss();
 				}
 			} catch (Exception e) {
+				PublicVariable.theard_GetFactorAccept=true;
 			}
 		}
 

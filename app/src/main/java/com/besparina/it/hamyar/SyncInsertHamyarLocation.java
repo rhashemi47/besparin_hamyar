@@ -65,7 +65,7 @@ public class SyncInsertHamyarLocation {
 			dbh.createDataBase();
 
    		} catch (IOException ioe) {
-
+			PublicVariable.theard_GetLocation=true;
    			throw new Error("Unable to create database");
 
    		}
@@ -75,7 +75,7 @@ public class SyncInsertHamyarLocation {
    			dbh.openDataBase();
 
    		} catch (SQLException sqle) {
-
+			PublicVariable.theard_GetLocation=true;
    			throw sqle;
    		}   		
 	}
@@ -90,13 +90,13 @@ public class SyncInsertHamyarLocation {
 				task.execute();
 			}	
 			 catch (Exception e) {
-
+				 PublicVariable.theard_GetLocation=true;
 	            e.printStackTrace();
 			 }
 		}
 		else
 		{
-			//Toast.makeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
+			PublicVariable.theard_GetLocation=true;
 		}
 	}
 	
@@ -118,6 +118,7 @@ public class SyncInsertHamyarLocation {
         		CallWsMethod("InsertHamyarLocation");
         	}
 	    	catch (Exception e) {
+				PublicVariable.theard_GetLocation=true;
 	    		result = e.getMessage().toString();
 			}
 	        return result;
@@ -158,7 +159,9 @@ public class SyncInsertHamyarLocation {
             		this.dialog.dismiss();
             	}
             }
-            catch (Exception e) {}
+            catch (Exception e) {
+				PublicVariable.theard_GetLocation=true;
+			}
         }
  
         @Override

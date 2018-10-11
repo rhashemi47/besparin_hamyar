@@ -45,7 +45,7 @@ public class SyncGetSelectJobsForService {
 			dbh.createDataBase();
 
 		} catch (IOException ioe) {
-
+			PublicVariable.theard_ServiceSelected=true;
 			throw new Error("Unable to create database");
 
 		}
@@ -55,7 +55,7 @@ public class SyncGetSelectJobsForService {
 			dbh.openDataBase();
 
 		} catch (SQLException sqle) {
-
+			PublicVariable.theard_ServiceSelected=true;
 			throw sqle;
 		}
 	}
@@ -66,11 +66,11 @@ public class SyncGetSelectJobsForService {
 				AsyncCallWS task = new AsyncCallWS(this.activity);
 				task.execute();
 			} catch (Exception e) {
-
+				PublicVariable.theard_ServiceSelected=true;
 				e.printStackTrace();
 			}
 		} else {
-			//keText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
+			PublicVariable.theard_ServiceSelected=true;
 		}
 	}
 
@@ -91,6 +91,7 @@ public class SyncGetSelectJobsForService {
 			try {
 				CallWsMethod("GetHamyarUserServiceSelect");
 			} catch (Exception e) {
+				PublicVariable.theard_ServiceSelected=true;
 				result = e.getMessage().toString();
 			}
 			return result;
@@ -119,6 +120,7 @@ public class SyncGetSelectJobsForService {
 					this.dialog.dismiss();
 				}
 			} catch (Exception e) {
+				PublicVariable.theard_ServiceSelected=true;
 			}
 		}
 
@@ -287,7 +289,7 @@ public class SyncGetSelectJobsForService {
 
 				}
 			} catch (Exception ex) {
-
+				PublicVariable.theard_ServiceSelected=true;
 			}
 		}
 		db.close();

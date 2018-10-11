@@ -41,7 +41,7 @@ public class SyncGetUserServiceStartDate {
 			dbh.createDataBase();
 
 		} catch (IOException ioe) {
-
+			PublicVariable.theard_GetUserServiceStartDate=true;
 			throw new Error("Unable to create database");
 
 		}
@@ -51,7 +51,7 @@ public class SyncGetUserServiceStartDate {
 			dbh.openDataBase();
 
 		} catch (SQLException sqle) {
-
+			PublicVariable.theard_GetUserServiceStartDate=true;
 			throw sqle;
 		}
 	}
@@ -62,11 +62,12 @@ public class SyncGetUserServiceStartDate {
 				AsyncCallWS task = new AsyncCallWS(this.activity);
 				task.execute();
 			} catch (Exception e) {
+				PublicVariable.theard_GetUserServiceStartDate=true;
 				//akeText(this.activity.getApplicationContext(), PersianReshape.reshape("ط¹ط¯ظ… ط¯ط³طھط±ط³غŒ ط¨ظ‡ ط³ط±ظˆط±"), Toast.LENGTH_SHORT).show();
 				e.printStackTrace();
 			}
 		} else {
-			//akeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
+			PublicVariable.theard_GetUserServiceStartDate=true;
 		}
 	}
 
@@ -86,6 +87,7 @@ public class SyncGetUserServiceStartDate {
 			try {
 				CallWsMethod("GetUserServiceStartDate");
 			} catch (Exception e) {
+				PublicVariable.theard_GetUserServiceStartDate=true;
 				result = e.getMessage().toString();
 			}
 			return result;
@@ -116,6 +118,7 @@ public class SyncGetUserServiceStartDate {
 					this.dialog.dismiss();
 				}
 			} catch (Exception e) {
+				PublicVariable.theard_GetUserServiceStartDate=true;
 			}
 		}
 
@@ -195,7 +198,7 @@ public class SyncGetUserServiceStartDate {
 			}
 			catch (Exception ex)
 			{
-
+				PublicVariable.theard_GetUserServiceStartDate=true;
 			}
 		}
 		db.close();

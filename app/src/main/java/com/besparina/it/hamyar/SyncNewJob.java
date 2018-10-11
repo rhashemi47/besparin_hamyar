@@ -49,7 +49,7 @@ public class SyncNewJob {
             dbh.createDataBase();
 
         } catch (IOException ioe) {
-
+            PublicVariable.theard_GetNewJob=true;
             throw new Error("Unable to create database");
 
         }
@@ -59,7 +59,7 @@ public class SyncNewJob {
             dbh.openDataBase();
 
         } catch (SQLException sqle) {
-
+            PublicVariable.theard_GetNewJob=true;
             throw sqle;
         }
     }
@@ -74,13 +74,13 @@ public class SyncNewJob {
                 task.execute();
             }
             catch (Exception e) {
-
+                PublicVariable.theard_GetNewJob=true;
                 e.printStackTrace();
             }
         }
         else
         {
-            //Toast.makeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
+            PublicVariable.theard_GetNewJob=true;
         }
     }
 
@@ -103,6 +103,7 @@ public class SyncNewJob {
                 CallWsMethod("GetUserServiceForHamyar");
             }
             catch (Exception e) {
+                PublicVariable.theard_GetNewJob=true;
                 result = e.getMessage().toString();
             }
             return result;
@@ -140,7 +141,7 @@ public class SyncNewJob {
                     this.dialog.dismiss();
                 }
             }
-            catch (Exception e) {}
+            catch (Exception e) {PublicVariable.theard_GetNewJob=true;}
         }
 
         @Override

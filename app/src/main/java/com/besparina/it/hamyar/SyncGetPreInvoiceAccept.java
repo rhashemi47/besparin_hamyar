@@ -50,7 +50,7 @@ public class SyncGetPreInvoiceAccept {
 			dbh.createDataBase();
 
 		} catch (IOException ioe) {
-
+			PublicVariable.theard_GetFactorAccept=true;
 			throw new Error("Unable to create database");
 
 		}
@@ -60,7 +60,7 @@ public class SyncGetPreInvoiceAccept {
 			dbh.openDataBase();
 
 		} catch (SQLException sqle) {
-
+			PublicVariable.theard_GetFactorAccept=true;
 			throw sqle;
 		}
 	}
@@ -71,11 +71,11 @@ public class SyncGetPreInvoiceAccept {
 				AsyncCallWS task = new AsyncCallWS(this.activity);
 				task.execute();
 			} catch (Exception e) {
-
+				PublicVariable.theard_GetFactorAccept=true;
 				e.printStackTrace();
 			}
 		} else {
-			//Toast.makeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
+			PublicVariable.theard_GetFactorAccept=true;
 		}
 	}
 
@@ -96,6 +96,7 @@ public class SyncGetPreInvoiceAccept {
 			try {
 				CallWsMethod("GetPreInvoiceAccept");
 			} catch (Exception e) {
+				PublicVariable.theard_GetFactorAccept=true;
 				result = e.getMessage().toString();
 			}
 			return result;
@@ -123,6 +124,7 @@ public class SyncGetPreInvoiceAccept {
 					this.dialog.dismiss();
 				}
 			} catch (Exception e) {
+				PublicVariable.theard_GetFactorAccept=true;
 			}
 		}
 
