@@ -98,7 +98,7 @@ public class ViewJob extends AppCompatActivity{
     private TextView txtCarWash;
     private TextView txtCarType;
     private TextView txtLanguage;
-    private TextView txtStatus;
+//    private TextView txtStatus;
     //************************************************************
     private	DatabaseHelper dbh;
     private SQLiteDatabase db;
@@ -133,7 +133,7 @@ public class ViewJob extends AppCompatActivity{
     private LinearLayout LinearCarWash;
     private LinearLayout LinearCarType;
     private LinearLayout LinearLanguage;
-    private LinearLayout LinearStatus;
+//    private LinearLayout LinearStatus;
 
     //************************************************************
     GoogleMap map;
@@ -195,7 +195,7 @@ public class ViewJob extends AppCompatActivity{
         LinearCarWash=(LinearLayout)findViewById(R.id.LinearCarWash);
         LinearCarType=(LinearLayout)findViewById(R.id.LinearCarType);
         LinearLanguage=(LinearLayout)findViewById(R.id.LinearLanguage);
-        LinearStatus=(LinearLayout)findViewById(R.id.LinearStatus);
+//        LinearStatus=(LinearLayout)findViewById(R.id.LinearStatus);
         //*********************************************************************
         tvNumberService=(TextView)findViewById(R.id.txtNumberService);
         txtTitleOrder=(TextView)findViewById(R.id.txtTitleOrder);
@@ -215,7 +215,7 @@ public class ViewJob extends AppCompatActivity{
         txtCarWash=(TextView)findViewById(R.id.txtCarWash);
         txtCarType=(TextView)findViewById(R.id.txtCarType);
         txtLanguage=(TextView)findViewById(R.id.txtLanguage);
-        txtStatus=(TextView)findViewById(R.id.txtStatus);
+//        txtStatus=(TextView)findViewById(R.id.txtStatus);
         //*********************************************************************
 
         try
@@ -646,9 +646,9 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    LinearStatus.setVisibility(View.VISIBLE);
-                    LinearStatus.setBackgroundColor(getStyleLinear());
-                    txtStatus.setText(((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0")==0? "عادی":"فوری")));
+//                    LinearStatus.setVisibility(View.VISIBLE);
+//                    LinearStatus.setBackgroundColor(getStyleLinear());
+                    txtPeriodAndEmergency.setText(txtPeriodAndEmergency.getText()+"/"+(coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0")==0? "عادی":"فوری"));
                 }
                 catch (Exception ex)
                 {
@@ -951,9 +951,9 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    LinearStatus.setVisibility(View.VISIBLE);
-                    LinearStatus.setBackgroundColor(getStyleLinear());
-                    txtStatus.setText(((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0")==0? "عادی":"فوری")));
+//                    LinearStatus.setVisibility(View.VISIBLE);
+//                    LinearStatus.setBackgroundColor(getStyleLinear());
+                    txtPeriodAndEmergency.setText(txtPeriodAndEmergency.getText()+"/"+(coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0")==0? "عادی":"فوری"));
                 }
                 catch (Exception ex)
                 {

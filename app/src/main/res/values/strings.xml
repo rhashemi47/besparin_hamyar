@@ -180,4 +180,5 @@
     <string name="serviceNow">سرویس فعلی</string>
     <string name="Unit1">واحد سنجش:</string>
     <string name="TitleBrand">عنوان برند:</string>
+    <string name="TypeService">نوع سرویس:</string>
 </resources>

@@ -57,26 +57,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="vertical"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:layout_marginRight="10dp"-->
-            <!--android:background="@drawable/rounded_layout_select_job_body"-->
-            <!--android:id="@+id/contentview"-->
-            <!--android:layout_marginEnd="10dp"-->
-            <!--android:layout_marginStart="10dp">-->
-            <!--<TextView-->
-            <!--android:id="@+id/ContentShowJob"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="15dp"-->
-            <!--android:layout_marginRight="15dp"-->
-            <!--android:lineSpacingExtra="4dp"-->
-            <!--android:layout_marginStart="15dp"-->
-            <!--android:layout_marginEnd="15dp" />-->
-            <!--</LinearLayout>-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -455,32 +435,32 @@
                         android:gravity="left"
                         android:layout_weight="1"/>
                 </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/LinearStatus"
-                    android:visibility="gone"
-                    android:layout_gravity="center"
-                    android:gravity="center">
-                    <TextView
-                        android:id="@+id/txtTitleStatus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#000000"
-                        android:text="@string/Status"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:textSize="16sp"
-                        android:layout_weight="1"/>
-                    <TextView
-                        android:id="@+id/txtStatus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#000000"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:layout_weight="1"/>
-                </LinearLayout>
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/LinearStatus"-->
+                    <!--android:visibility="gone"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:gravity="center">-->
+                    <!--<TextView-->
+                        <!--android:id="@+id/txtTitleStatus"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:textColor="#000000"-->
+                        <!--android:text="@string/Status"-->
+                        <!--android:layout_gravity="center"-->
+                        <!--android:gravity="center"-->
+                        <!--android:textSize="16sp"-->
+                        <!--android:layout_weight="1"/>-->
+                    <!--<TextView-->
+                        <!--android:id="@+id/txtStatus"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:textColor="#000000"-->
+                        <!--android:layout_gravity="center"-->
+                        <!--android:gravity="center"-->
+                        <!--android:layout_weight="1"/>-->
+                <!--</LinearLayout>-->
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"

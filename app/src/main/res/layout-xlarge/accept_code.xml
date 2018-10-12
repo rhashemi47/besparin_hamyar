@@ -15,6 +15,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:id="@+id/LinerInsertAcceptCode">
             <EditText
                 android:id="@+id/etAcceptcode"
@@ -29,18 +31,17 @@
                 android:paddingRight="15dp"
                 android:paddingLeft="15dp"
                 android:ems="10"
-                android:textSize="22sp"
+                android:textSize="16sp"
                 android:hint="کد تایید را وارد نمایید"
                 android:inputType="phone"
                 android:textStyle="normal"
-                android:layout_marginEnd="20dp"
-                android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:orientation="vertical"
             android:id="@+id/LinerBtnSend"
             android:layout_gravity="center"
@@ -51,11 +52,9 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_button4"
                 android:text="@string/Login"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
                 android:drawableRight="@drawable/signin"
                 android:textSize="20sp"
+                android:layout_marginTop="25dp"
                 android:textColor="#000000"/>
             <Button
                 android:id="@+id/btnRefreshAcceptCode"
@@ -64,8 +63,6 @@
                 android:background="@drawable/rounded_button2"
                 android:text="@string/RefreshAcceptCode"
                 android:textSize="12sp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
                 android:layout_marginTop="25dp"
                 android:textColor="#000000"/>
         </LinearLayout>

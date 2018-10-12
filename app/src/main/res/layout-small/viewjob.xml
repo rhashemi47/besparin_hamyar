@@ -470,31 +470,31 @@
                         android:gravity="left"
                         android:layout_weight="1"/>
                 </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/LinearStatus"
-                    android:visibility="gone"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp">
-                    <TextView
-                        android:id="@+id/txtTitleStatus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#000000"
-                        android:text="@string/Status"
-                        android:layout_gravity="right"
-                        android:textSize="10sp"
-                        android:layout_weight="1"/>
-                    <TextView
-                        android:id="@+id/txtStatus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#000000"
-                        android:layout_gravity="left"
-                        android:gravity="left"
-                        android:layout_weight="1"/>
-                </LinearLayout>
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/LinearStatus"-->
+                    <!--android:visibility="gone"-->
+                    <!--android:layout_marginLeft="20dp"-->
+                    <!--android:layout_marginRight="20dp">-->
+                    <!--<TextView-->
+                        <!--android:id="@+id/txtTitleStatus"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:textColor="#000000"-->
+                        <!--android:text="@string/Status"-->
+                        <!--android:layout_gravity="right"-->
+                        <!--android:textSize="10sp"-->
+                        <!--android:layout_weight="1"/>-->
+                    <!--<TextView-->
+                        <!--android:id="@+id/txtStatus"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:textColor="#000000"-->
+                        <!--android:layout_gravity="left"-->
+                        <!--android:gravity="left"-->
+                        <!--android:layout_weight="1"/>-->
+                <!--</LinearLayout>-->
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"

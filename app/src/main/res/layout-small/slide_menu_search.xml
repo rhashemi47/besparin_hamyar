@@ -23,17 +23,21 @@
         android:layout_marginTop="50dp"
         app:itemIconTint="@android:color/white"
         app:itemTextColor="#ffffff">
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:id="@+id/LinearFilterSearch"
-            android:background="@drawable/rounded_linear_search"
-            android:layout_marginTop="10dp">
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:id="@+id/LinearFilterSearch"
+                android:background="@drawable/rounded_linear_search"
+                android:layout_marginTop="10dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp">
                     <View
@@ -233,7 +237,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/Description2"
+                        android:text="@string/TypeService"
                         android:id="@+id/tvDescription"
                         android:textSize="18sp"
                         android:textColor="#2c2e80"
@@ -266,7 +270,7 @@
                     android:layout_marginRight="10dp">
                     <Button
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_height="50dp"
                         android:id="@+id/btnSearch"
                         android:text="@string/search"
                         android:paddingLeft="80dp"
@@ -277,5 +281,6 @@
                         android:background="@drawable/rounded_button_search"/>
                 </LinearLayout>
             </LinearLayout>
+        </ScrollView>
     </android.support.design.widget.NavigationView>
 </android.support.v4.widget.DrawerLayout>
