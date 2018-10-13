@@ -23,6 +23,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.Gravity;
@@ -50,7 +51,7 @@ import ir.hamsaa.persiandatepicker.Listener;
 import ir.hamsaa.persiandatepicker.PersianDatePickerDialog;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class Profile extends Activity {
+public class Profile extends AppCompatActivity {
 	private String hamyarcode;
 	private String guid;
 	private Drawer drawer=null;
@@ -91,7 +92,6 @@ public class Profile extends Activity {
 	protected void attachBaseContext(Context newBase) {
 		super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
 	}
-	@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -347,7 +347,6 @@ public class Profile extends Activity {
         picker.show();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
 	private void CreateMenu(Toolbar toolbar){
 		Bitmap bmp= BitmapFactory.decodeResource(getResources(),R.drawable.useravatar);
 		String name="";
@@ -430,8 +429,10 @@ public class Profile extends Activity {
 
 		int drawerGravity= Gravity.END;
 		Configuration config = getResources().getConfiguration();
-		if(config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
-			drawerGravity= Gravity.START;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+			if(config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
+                drawerGravity= Gravity.START;
+            }
 		}
 
 
