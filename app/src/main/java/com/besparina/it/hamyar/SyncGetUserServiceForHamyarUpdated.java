@@ -224,11 +224,19 @@ public class SyncGetUserServiceForHamyarUpdated {
 		for(int i=0;i<res.length;i++) {
 			value = res[i].split("##");
 			if (value[34].compareTo("0") != 0 ) {
+				if(!db.isOpen())
+				{
+					db=dbh.getWritableDatabase();
+				}
 				db.execSQL("DELETE FROM BsUserServices WHERE Code=" + value[0]);
 				db.close();
 			} else {
 				if (GenderStr.compareTo("1") == 0) {
 					if (GenderStr.compareTo(value[5]) != 0 && (value[21].compareTo("0") == 0 || value[21].compareTo("") == 0)) {
+						if(!db.isOpen())
+						{
+							db=dbh.getWritableDatabase();
+						}
 						db.execSQL("DELETE FROM BsUserServices WHERE Code=" + value[0]);
 						db.close();
 					} else {
@@ -236,6 +244,10 @@ public class SyncGetUserServiceForHamyarUpdated {
 					}
 				} else {
 					if (GenderStr.compareTo(value[6]) != 0 && (value[21].compareTo("0") == 0 || value[21].compareTo("") == 0)) {
+						if(!db.isOpen())
+						{
+							db=dbh.getWritableDatabase();
+						}
 						db.execSQL("DELETE FROM BsUserServices WHERE Code=" + value[0]);
 						db.close();
 					} else {

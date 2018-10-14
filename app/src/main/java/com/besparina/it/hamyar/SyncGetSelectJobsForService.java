@@ -113,7 +113,7 @@ public class SyncGetSelectJobsForService {
 					InsertDataFromWsToDb(WsResponse);
 				}
 			} else {
-				//keText(this.activity, "ط®ط·ط§ ط¯ط± ط§طھطµط§ظ„ ط¨ظ‡ ط³ط±ظˆط±", Toast.LENGTH_SHORT).show();
+				PublicVariable.theard_ServiceSelected=true;
 			}
 			try {
 				if (this.dialog.isShowing()) {

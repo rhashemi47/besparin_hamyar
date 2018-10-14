@@ -1241,21 +1241,21 @@ public class ViewJob extends AppCompatActivity{
             public void onClick(View v) {
                 if (swStartOrFinal == 1) {
                     db = dbh.getReadableDatabase();
-                    Cursor c = db.rawQuery("SELECT * FROM HeadFactor WHERE UserServiceCode='" + BsUserServicesID + "'", null);
+                    Cursor c = db.rawQuery("SELECT * FROM HeadFactor WHERE UserServiceCode='" + BsUserServicesID + "' ORDER BY CAST(Code as INT) DESC", null);
                     if (c.getCount() > 0) {
                         c.moveToNext();
-                        if (c.getString(c.getColumnIndex("Type")).compareTo("0") == 0) {
-                            if (c.getString(c.getColumnIndex("Status")).compareTo("3") == 0) {
+                        if (c.getString(c.getColumnIndex("Type")).compareTo("1") == 0) {
+                            if (c.getString(c.getColumnIndex("PerInvocAccept")).compareTo("-1") == 0) {
                                 Toast.makeText(ViewJob.this, "در انتظار تایید پیش فاکتور توسط کاربر می باشد", Toast.LENGTH_LONG).show();
-                            } else if (c.getString(c.getColumnIndex("Status")).compareTo("0") == 0) {
+                            } else if (c.getString(c.getColumnIndex("PerInvocAccept")).compareTo("0") == 0) {
                                 Toast.makeText(ViewJob.this, "پیش فاکتور تایید نشده است", Toast.LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(ViewJob.this, "پیش فاکتور تایید شده است لطفا فاکتور نهایی را ارسال نمایید", Toast.LENGTH_LONG).show();
                             }
                         } else {
-                            if (c.getString(c.getColumnIndex("Status")).compareTo("3") == 0) {
+                            if (c.getString(c.getColumnIndex("InvocAccept")).compareTo("-1") == 0) {
                                 Toast.makeText(ViewJob.this, "در انتظار تایید فاکتور توسط کاربر می باشد", Toast.LENGTH_LONG).show();
-                            } else if (c.getString(c.getColumnIndex("Status")).compareTo("0") == 0) {
+                            } else if (c.getString(c.getColumnIndex("InvocAccept")).compareTo("0") == 0) {
                                 Toast.makeText(ViewJob.this, " فاکتور تایید نشده است", Toast.LENGTH_LONG).show();
                             } else {
                                 SyncFinalJob syncFinalJob = new SyncFinalJob(ViewJob.this, guid, hamyarcode, coursors.getString(coursors.getColumnIndex("Code")),
@@ -1264,7 +1264,7 @@ public class ViewJob extends AppCompatActivity{
                             }
                         }
                     } else {
-                        Toast.makeText(ViewJob.this, "برای شروع به کار ابتدا باید پیش فاکتور ثبت نمایید ", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ViewJob.this, "باید پیش فاکتور ثبت نمایید!", Toast.LENGTH_LONG).show();
                     }
 
                 }

@@ -106,15 +106,14 @@ public class SyncGetPreInvoiceAccept {
 		protected void onPostExecute(String result) {
 			PublicVariable.theard_GetFactorAccept=true;
 			if (result == null) {
-				String res[] = WsResponse.split("##");
-				if (res[1].compareTo("ER") == 0) {
-					//Toast.makeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();
-				}
-				else if (res[1].compareTo("-1") == 0) {
-				}
-				else
-				{
-					InsertDataFromWsToDb(WsResponse);
+				if(WsResponse.compareTo("ER") != 0) {
+					String res[] = WsResponse.split("##");
+
+					 if (res[1].compareTo("-1") == 0) {
+					 	//Do Nothing
+					} else {
+						InsertDataFromWsToDb(WsResponse);
+					}
 				}
 			} else {
 				////Toast.makeText(this.activity, "ط®ط·ط§ ط¯ط± ط§طھطµط§ظ„ ط¨ظ‡ ط³ط±ظˆط±", Toast.LENGTH_SHORT).show();
