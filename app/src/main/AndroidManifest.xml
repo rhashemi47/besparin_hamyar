@@ -33,6 +33,7 @@
             android:noHistory="false"/>
         <activity
             android:name="com.besparina.it.hamyar.Profile"
+            android:windowSoftInputMode="adjustPan"
             android:noHistory="false"/>
         <activity
             android:name="com.besparina.it.hamyar.About"
