@@ -533,32 +533,33 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    if(coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("1")==0) {
+                    String Lan=coursors.getString(coursors.getColumnIndex("Language"));
+                    if(coursors.getString(coursors.getColumnIndex("Language")).compareTo("1")==0) {
                         LinearLanguage.setVisibility(View.VISIBLE);
                         LinearLanguage.setBackgroundColor(getStyleLinear());
                         txtLanguage.setText("انگلیسی");
                     }
-                    else if(coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("2")==0) {
+                    else if(coursors.getString(coursors.getColumnIndex("Language")).compareTo("2")==0) {
                         LinearLanguage.setVisibility(View.VISIBLE);
                         LinearLanguage.setBackgroundColor(getStyleLinear());
                         txtLanguage.setText("روسی");
                     }
-                    else if(coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("3")==0) {
+                    else if(coursors.getString(coursors.getColumnIndex("Language")).compareTo("3")==0) {
                         LinearLanguage.setVisibility(View.VISIBLE);
                         LinearLanguage.setBackgroundColor(getStyleLinear());
                         txtLanguage.setText("آلمانی");
                     }
-                    else if(coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("4")==0) {
+                    else if(coursors.getString(coursors.getColumnIndex("Language")).compareTo("4")==0) {
                         LinearLanguage.setVisibility(View.VISIBLE);
                         LinearLanguage.setBackgroundColor(getStyleLinear());
                         txtLanguage.setText("فرانسه");
                     }
-                    else if(coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("5")==0) {
+                    else if(coursors.getString(coursors.getColumnIndex("Language")).compareTo("5")==0) {
                         LinearLanguage.setVisibility(View.VISIBLE);
                         LinearLanguage.setBackgroundColor(getStyleLinear());
                         txtLanguage.setText("ترکی");
                     }
-                    else if(coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("6")==0) {
+                    else if(coursors.getString(coursors.getColumnIndex("Language")).compareTo("6")==0) {
                         LinearLanguage.setVisibility(View.VISIBLE);
                         LinearLanguage.setBackgroundColor(getStyleLinear());
                         txtLanguage.setText("عربی");
@@ -570,12 +571,12 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    if(coursors.getString(coursors.getColumnIndex("StudentGender")).toString().compareTo("1")==0) {
+                    if(coursors.getString(coursors.getColumnIndex("StudentGender")).compareTo("1")==0) {
                         LinearGenderStudent.setVisibility(View.VISIBLE);
                         LinearGenderStudent.setBackgroundColor(getStyleLinear());
                         txtGenderStudent.setText("زن");
                     }
-                    else if(coursors.getString(coursors.getColumnIndex("StudentGender")).toString().compareTo("2")==0) {
+                    else if(coursors.getString(coursors.getColumnIndex("StudentGender")).compareTo("2")==0) {
                         LinearGenderStudent.setVisibility(View.VISIBLE);
                         LinearGenderStudent.setBackgroundColor(getStyleLinear());
                         txtGenderStudent.setText("مرد");
@@ -587,12 +588,12 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    if(coursors.getString(coursors.getColumnIndex("CarWashType")).toString().compareTo("1")==0) {
+                    if(coursors.getString(coursors.getColumnIndex("CarWashType")).compareTo("1")==0) {
                         LinearCarWash.setVisibility(View.VISIBLE);
                         LinearCarWash.setBackgroundColor(getStyleLinear());
                         txtCarWash.setText("روشویی");
                     }
-                    else if(coursors.getString(coursors.getColumnIndex("CarWashType")).toString().compareTo("2")==0) {
+                    else if(coursors.getString(coursors.getColumnIndex("CarWashType")).compareTo("2")==0) {
                         LinearCarWash.setVisibility(View.VISIBLE);
                         LinearCarWash.setBackgroundColor(getStyleLinear());
                         txtCarWash.setText("روشویی و توشویی");
@@ -604,17 +605,17 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    if(coursors.getString(coursors.getColumnIndex("CarType")).toString().compareTo("1")==0) {
+                    if(coursors.getString(coursors.getColumnIndex("CarType")).compareTo("1")==0) {
                         LinearCarType.setVisibility(View.VISIBLE);
                         LinearCarType.setBackgroundColor(getStyleLinear());
                         txtCarType.setText("سواری");
                     }
-                    else if(coursors.getString(coursors.getColumnIndex("CarType")).toString().compareTo("2")==0) {
+                    else if(coursors.getString(coursors.getColumnIndex("CarType")).compareTo("2")==0) {
                         LinearCarType.setVisibility(View.VISIBLE);
                         LinearCarType.setBackgroundColor(getStyleLinear());
                         txtCarType.setText("شاسی و نیم شاسی");
                     }
-                    else if(coursors.getString(coursors.getColumnIndex("CarType")).toString().compareTo("3")==0) {
+                    else if(coursors.getString(coursors.getColumnIndex("CarType")).compareTo("3")==0) {
                         LinearCarType.setVisibility(View.VISIBLE);
                         LinearCarType.setBackgroundColor(getStyleLinear());
                         txtCarType.setText("ون");
@@ -718,25 +719,25 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    if(coursors.getString(coursors.getColumnIndex("PeriodicServices")).toString().compareTo("1")==0)
+                    if(coursors.getString(coursors.getColumnIndex("PeriodicServices")).compareTo("1")==0)
                     {
                         LinearPeriodAndEmergency.setVisibility(View.VISIBLE);
                         LinearPeriodAndEmergency.setBackgroundColor(getStyleLinear());
                         txtPeriodAndEmergency.setText("روزانه");
                     }
-                    else if(coursors.getString(coursors.getColumnIndex("PeriodicServices")).toString().compareTo("2")==0)
+                    else if(coursors.getString(coursors.getColumnIndex("PeriodicServices")).compareTo("2")==0)
                     {
                         LinearPeriodAndEmergency.setVisibility(View.VISIBLE);
                         LinearPeriodAndEmergency.setBackgroundColor(getStyleLinear());
                         txtPeriodAndEmergency.setText("هفتگی");
                     }
-                    else if(coursors.getString(coursors.getColumnIndex("PeriodicServices")).toString().compareTo("3")==0)
+                    else if(coursors.getString(coursors.getColumnIndex("PeriodicServices")).compareTo("3")==0)
                     {
                         LinearPeriodAndEmergency.setVisibility(View.VISIBLE);
                         LinearPeriodAndEmergency.setBackgroundColor(getStyleLinear());
                         txtPeriodAndEmergency.setText("هفته در میان");
                     }
-                    else if(coursors.getString(coursors.getColumnIndex("PeriodicServices")).toString().compareTo("4")==0)
+                    else if(coursors.getString(coursors.getColumnIndex("PeriodicServices")).compareTo("4")==0)
                     {
                         LinearPeriodAndEmergency.setVisibility(View.VISIBLE);
                         LinearPeriodAndEmergency.setBackgroundColor(getStyleLinear());
@@ -762,7 +763,7 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    if(coursors.getString(coursors.getColumnIndex("EducationGrade")).toString().compareTo("0")!=0) {
+                    if(coursors.getString(coursors.getColumnIndex("EducationGrade")).compareTo("0")!=0) {
                         LinearGraid.setVisibility(View.VISIBLE);
                         LinearGraid.setBackgroundColor(getStyleLinear());
                         txtGraid.setText(coursors.getString(coursors.getColumnIndex("EducationGrade")));
@@ -774,27 +775,27 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    if(coursors.getString(coursors.getColumnIndex("FieldOfStudy")).toString().compareTo("1")==0) {
+                    if(coursors.getString(coursors.getColumnIndex("FieldOfStudy")).compareTo("1")==0) {
                         LinearFieldEducation.setVisibility(View.VISIBLE);
                         LinearFieldEducation.setBackgroundColor(getStyleLinear());
                         txtFieldEducation.setText("ابتدایی");
                     }
-                    else if(coursors.getString(coursors.getColumnIndex("FieldOfStudy")).toString().compareTo("2")==0) {
+                    else if(coursors.getString(coursors.getColumnIndex("FieldOfStudy")).compareTo("2")==0) {
                         LinearFieldEducation.setVisibility(View.VISIBLE);
                         LinearFieldEducation.setBackgroundColor(getStyleLinear());
                         txtFieldEducation.setText("متوسطه اول");
                     }
-                    else if(coursors.getString(coursors.getColumnIndex("FieldOfStudy")).toString().compareTo("3")==0) {
+                    else if(coursors.getString(coursors.getColumnIndex("FieldOfStudy")).compareTo("3")==0) {
                         LinearFieldEducation.setVisibility(View.VISIBLE);
                         LinearFieldEducation.setBackgroundColor(getStyleLinear());
                         txtFieldEducation.setText("علوم تجربی");
                     }
-                    else if(coursors.getString(coursors.getColumnIndex("FieldOfStudy")).toString().compareTo("4")==0) {
+                    else if(coursors.getString(coursors.getColumnIndex("FieldOfStudy")).compareTo("4")==0) {
                         LinearFieldEducation.setVisibility(View.VISIBLE);
                         LinearFieldEducation.setBackgroundColor(getStyleLinear());
                         txtFieldEducation.setText("ریاضی و فیزیک");
                     }
-                    else if(coursors.getString(coursors.getColumnIndex("FieldOfStudy")).toString().compareTo("5")==0) {
+                    else if(coursors.getString(coursors.getColumnIndex("FieldOfStudy")).compareTo("5")==0) {
                         LinearFieldEducation.setVisibility(View.VISIBLE);
                         LinearFieldEducation.setBackgroundColor(getStyleLinear());
                         txtFieldEducation.setText("انسانی");
@@ -806,29 +807,29 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    if(coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("0")!=0)
+                    if(coursors.getString(coursors.getColumnIndex("ArtField")).compareTo("0")!=0)
                     {
                         LinearFieldArt.setVisibility(View.VISIBLE);
                         LinearFieldArt.setBackgroundColor(getStyleLinear());
-                        if(coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("2")==0) {
+                        if(coursors.getString(coursors.getColumnIndex("ArtField")).compareTo("2")==0) {
                             txtFieldArt.setText("موسیقی");
                         }
-                        else if(coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("3")==0) {
+                        else if(coursors.getString(coursors.getColumnIndex("ArtField")).compareTo("3")==0) {
                             txtFieldArt.setText("طراحی و نقاشی");
                         }
-                        else if(coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("4")==0) {
+                        else if(coursors.getString(coursors.getColumnIndex("ArtField")).compareTo("4")==0) {
                             txtFieldArt.setText("خوشنویسی");
                         }
-                        else if(coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("5")==0) {
+                        else if(coursors.getString(coursors.getColumnIndex("ArtField")).compareTo("5")==0) {
                             txtFieldArt.setText("عکاسی");
                         }
-                        else if(coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("6")==0) {
+                        else if(coursors.getString(coursors.getColumnIndex("ArtField")).compareTo("6")==0) {
                             txtFieldArt.setText("بافندگی");
                         }
-                        else if(coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("7")==0) {
+                        else if(coursors.getString(coursors.getColumnIndex("ArtField")).compareTo("7")==0) {
                             txtFieldArt.setText("خیاطی");
                         }
-                        else if(coursors.getString(coursors.getColumnIndex("ArtField")).toString().compareTo("7")==0) {
+                        else if(coursors.getString(coursors.getColumnIndex("ArtField")).compareTo("7")==0) {
                             txtFieldArt.setText("سایر");
                         }
                     }
@@ -839,31 +840,32 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    if(coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("1")==0) {
+                    String Lan=coursors.getString(coursors.getColumnIndex("Language"));
+                    if(coursors.getString(coursors.getColumnIndex("Language")).compareTo("0")==0) {
                         LinearLanguage.setVisibility(View.VISIBLE);
                         LinearLanguage.setBackgroundColor(getStyleLinear());
                         txtLanguage.setText("انگلیسی");
                     }
-                    else if(coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("2")==0) {
+                    else if(coursors.getString(coursors.getColumnIndex("Language")).compareTo("1")==0) {
                         LinearLanguage.setVisibility(View.VISIBLE);
                         LinearLanguage.setBackgroundColor(getStyleLinear());
                         txtLanguage.setText("روسی");
                     }
-                    else if(coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("3")==0) {
+                    else if(coursors.getString(coursors.getColumnIndex("Language")).compareTo("2")==0) {
                         LinearLanguage.setVisibility(View.VISIBLE);
                         LinearLanguage.setBackgroundColor(getStyleLinear());
                         txtLanguage.setText("آلمانی");
                     }
-                    else if(coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("4")==0) {
+                    else if(coursors.getString(coursors.getColumnIndex("Language")).compareTo("3")==0) {
                         LinearLanguage.setVisibility(View.VISIBLE);
                         LinearLanguage.setBackgroundColor(getStyleLinear());
                         txtLanguage.setText("فرانسه");
                     }
-                    else if(coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("5")==0) {
+                    else if(coursors.getString(coursors.getColumnIndex("Language")).compareTo("4")==0) {
                         LinearLanguage.setVisibility(View.VISIBLE);
                         txtLanguage.setText("ترکی");
                     }
-                    else if(coursors.getString(coursors.getColumnIndex("Language")).toString().compareTo("6")==0) {
+                    else if(coursors.getString(coursors.getColumnIndex("Language")).compareTo("5")==0) {
                         LinearLanguage.setVisibility(View.VISIBLE);
                         LinearLanguage.setBackgroundColor(getStyleLinear());
                         txtLanguage.setText("عربی");
@@ -875,12 +877,12 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    if(coursors.getString(coursors.getColumnIndex("StudentGender")).toString().compareTo("1")==0) {
+                    if(coursors.getString(coursors.getColumnIndex("StudentGender")).compareTo("1")==0) {
                         LinearGenderStudent.setVisibility(View.VISIBLE);
                         LinearGenderStudent.setBackgroundColor(getStyleLinear());
                         txtGenderStudent.setText("زن");
                     }
-                    else if(coursors.getString(coursors.getColumnIndex("StudentGender")).toString().compareTo("2")==0) {
+                    else if(coursors.getString(coursors.getColumnIndex("StudentGender")).compareTo("2")==0) {
                         LinearGenderStudent.setVisibility(View.VISIBLE);
                         LinearGenderStudent.setBackgroundColor(getStyleLinear());
                         txtGenderStudent.setText("مرد");
@@ -892,12 +894,12 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    if(coursors.getString(coursors.getColumnIndex("CarWashType")).toString().compareTo("1")==0) {
+                    if(coursors.getString(coursors.getColumnIndex("CarWashType")).compareTo("1")==0) {
                         LinearCarWash.setVisibility(View.VISIBLE);
                         LinearCarWash.setBackgroundColor(getStyleLinear());
                         txtCarWash.setText("روشویی");
                     }
-                    else if(coursors.getString(coursors.getColumnIndex("CarWashType")).toString().compareTo("2")==0) {
+                    else if(coursors.getString(coursors.getColumnIndex("CarWashType")).compareTo("2")==0) {
                         LinearCarWash.setVisibility(View.VISIBLE);
                         LinearCarWash.setBackgroundColor(getStyleLinear());
                         txtCarWash.setText("روشویی و توشویی");
@@ -909,17 +911,17 @@ public class ViewJob extends AppCompatActivity{
                 }
                 try
                 {
-                    if(coursors.getString(coursors.getColumnIndex("CarType")).toString().compareTo("1")==0) {
+                    if(coursors.getString(coursors.getColumnIndex("CarType")).compareTo("1")==0) {
                         LinearCarType.setVisibility(View.VISIBLE);
                         LinearCarType.setBackgroundColor(getStyleLinear());
                         txtCarType.setText("سواری");
                     }
-                    else if(coursors.getString(coursors.getColumnIndex("CarType")).toString().compareTo("2")==0) {
+                    else if(coursors.getString(coursors.getColumnIndex("CarType")).compareTo("2")==0) {
                         LinearCarType.setVisibility(View.VISIBLE);
                         LinearCarType.setBackgroundColor(getStyleLinear());
                         txtCarType.setText("شاسی و نیم شاسی");
                     }
-                    else if(coursors.getString(coursors.getColumnIndex("CarType")).toString().compareTo("3")==0) {
+                    else if(coursors.getString(coursors.getColumnIndex("CarType")).compareTo("3")==0) {
                         LinearCarType.setVisibility(View.VISIBLE);
                         LinearCarType.setBackgroundColor(getStyleLinear());
                         txtCarType.setText("ون");
