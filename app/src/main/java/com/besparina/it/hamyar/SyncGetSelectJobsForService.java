@@ -383,7 +383,7 @@ public class SyncGetSelectJobsForService {
 //				StrStatus="متوقف و تسویه نشده است";
 //				break;
 		}
-		NotificationClass notifi=new NotificationClass();
+		NotificationClass notifi=new NotificationClass(this.activity);
 		notifi.Notificationm(this.activity,title,getDetailname(detail)+" "+ StrStatus,OrderCode,"0",id,Cls);
 	}
 	public boolean IsFristInsert()

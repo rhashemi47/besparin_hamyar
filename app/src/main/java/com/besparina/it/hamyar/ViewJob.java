@@ -217,7 +217,25 @@ public class ViewJob extends AppCompatActivity{
         txtLanguage=(TextView)findViewById(R.id.txtLanguage);
 //        txtStatus=(TextView)findViewById(R.id.txtStatus);
         //*********************************************************************
+        dbh=new DatabaseHelper(getApplicationContext());
+        try {
 
+            dbh.createDataBase();
+
+        } catch (IOException ioe) {
+
+            throw new Error("Unable to create database");
+
+        }
+
+        try {
+
+            dbh.openDataBase();
+
+        } catch (SQLException sqle) {
+
+            throw sqle;
+        }
         try
         {
             hamyarcode = getIntent().getStringExtra("hamyarcode").toString();
@@ -258,25 +276,7 @@ public class ViewJob extends AppCompatActivity{
         {
             back_activity ="MainMenu";
         }
-        dbh=new DatabaseHelper(getApplicationContext());
-        try {
 
-            dbh.createDataBase();
-
-        } catch (IOException ioe) {
-
-            throw new Error("Unable to create database");
-
-        }
-
-        try {
-
-            dbh.openDataBase();
-
-        } catch (SQLException sqle) {
-
-            throw sqle;
-        }
         //****************************************************************************************
         TextView tvAmountCredit=(TextView) findViewById(R.id.tvAmountCredit);
         db=dbh.getReadableDatabase();

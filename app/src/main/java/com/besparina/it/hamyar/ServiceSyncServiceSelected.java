@@ -32,53 +32,54 @@ public class ServiceSyncServiceSelected extends Service {
     public int onStartCommand(final Intent intent, int flags, int startId) {
         // Let it continue running until it is stopped.
 //        keText(this, "Service Started", Toast.LENGTH_LONG).show();
-        continue_or_stop=true;
-        if(createthread) {
-            mHandler = new Handler();
-            new Thread(new Runnable() {
-//                public String LastHamyarUserServiceCode;
-                @Override
-                public void run() {
-                    // TODO Auto-generated method stub
-                    while (continue_or_stop) {
-                        try {
-                            mHandler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (PublicVariable.theard_ServiceSelected) {
-                                        dbh = new DatabaseHelper(getApplicationContext());
-                                        try {
+        dbh = new DatabaseHelper(getApplicationContext());
+        try {
 
-                                            dbh.createDataBase();
+            dbh.createDataBase();
 
-                                        } catch (IOException ioe) {
+        } catch (IOException ioe) {
 
-                                            throw new Error("Unable to create database");
+            throw new Error("Unable to create database");
 
-                                        }
+        }
 
-                                        try {
+        try {
 
-                                            dbh.openDataBase();
+            dbh.openDataBase();
 
-                                        } catch (SQLException sqle) {
+        } catch (SQLException sqle) {
 
-                                            throw sqle;
-                                        }
-                                        if (db != null) {
-                                            if (db.isOpen()) {
-                                                db.close();
+            throw sqle;
+        }
+        if(Check_Login()) {
+            continue_or_stop = true;
+            if (createthread) {
+                mHandler = new Handler();
+                new Thread(new Runnable() {
+                    //                public String LastHamyarUserServiceCode;
+                    @Override
+                    public void run() {
+                        // TODO Auto-generated method stub
+                        while (continue_or_stop) {
+                            try {
+                                mHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (PublicVariable.theard_ServiceSelected) {
+                                            if (db != null) {
+                                                if (db.isOpen()) {
+                                                    db.close();
+                                                }
                                             }
-                                        }
-                                        db = dbh.getReadableDatabase();
-                                        Cursor coursors = db.rawQuery("SELECT * FROM login", null);
-                                        for (int i = 0; i < coursors.getCount(); i++) {
-                                            coursors.moveToNext();
+                                            db = dbh.getReadableDatabase();
+                                            Cursor coursors = db.rawQuery("SELECT * FROM login", null);
+                                            for (int i = 0; i < coursors.getCount(); i++) {
+                                                coursors.moveToNext();
 
-                                            hamyarcode = coursors.getString(coursors.getColumnIndex("hamyarcode"));
-                                            guid = coursors.getString(coursors.getColumnIndex("guid"));
-                                        }
-                                        db.close();
+                                                hamyarcode = coursors.getString(coursors.getColumnIndex("hamyarcode"));
+                                                guid = coursors.getString(coursors.getColumnIndex("guid"));
+                                            }
+                                            db.close();
 //                                    db=dbh.getReadableDatabase();
 //                                    Cursor cursors = db.rawQuery("SELECT * FROM BsHamyarSelectServices WHERE IsDelete='0'", null);
 //                                    if(cursors.getCount()>0)
@@ -92,19 +93,20 @@ public class ServiceSyncServiceSelected extends Service {
 //                                            db.close();
 //                                        }
 //                                    }
-                                        SyncGetSelectJobsForService syncGetSelectJobsForService = new SyncGetSelectJobsForService(getApplicationContext(), guid, hamyarcode, "0");
-                                        syncGetSelectJobsForService.AsyncExecute();
+                                            SyncGetSelectJobsForService syncGetSelectJobsForService = new SyncGetSelectJobsForService(getApplicationContext(), guid, hamyarcode, "0");
+                                            syncGetSelectJobsForService.AsyncExecute();
+                                        }
                                     }
-                                }
-                            });
-                            Thread.sleep(60000); // every 60 seconds
-                        } catch (Exception e) {
-                            // TODO: handle exception
+                                });
+                                Thread.sleep(60000); // every 60 seconds
+                            } catch (Exception e) {
+                                // TODO: handle exception
+                            }
                         }
                     }
-                }
-            }).start();
-            createthread=false;
+                }).start();
+                createthread = false;
+            }
         }
         return START_STICKY;
     }
@@ -114,5 +116,39 @@ public class ServiceSyncServiceSelected extends Service {
         super.onDestroy();
        // keText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
         continue_or_stop=false;
+    }
+    public boolean Check_Login()
+    {
+        Cursor cursor;
+        if(db==null)
+        {
+            db = dbh.getReadableDatabase();
+        }
+        if(!db.isOpen()) {
+            db = dbh.getReadableDatabase();
+        }
+        cursor = db.rawQuery("SELECT * FROM login", null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToNext();
+            String Result = cursor.getString(cursor.getColumnIndex("islogin"));
+            if (Result.compareTo("0") == 0)
+            {
+                if(db.isOpen())
+                    db.close();
+                return false;
+            }
+            else
+            {
+                if(db.isOpen())
+                    db.close();
+                return true;
+            }
+        }
+        else
+        {
+            if(db.isOpen())
+                db.close();
+            return false;
+        }
     }
 }

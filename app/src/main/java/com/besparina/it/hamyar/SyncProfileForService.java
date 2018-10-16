@@ -254,7 +254,7 @@ public class SyncProfileForService {
 				{
 					title="شما فعال شده اید";
 				}
-				NotificationClass notifi=new NotificationClass();
+				NotificationClass notifi=new NotificationClass(this.activity);
 				notifi.Notificationm(this.activity,"بسپارینا",title,"0","1",10,MainMenu.class);
 			}
 		}

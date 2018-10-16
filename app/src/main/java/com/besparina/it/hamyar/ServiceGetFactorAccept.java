@@ -35,110 +35,111 @@ public class ServiceGetFactorAccept extends Service {
     public int onStartCommand(final Intent intent, int flags, int startId) {
         // Let it continue running until it is stopped.
 //        Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
-        continue_or_stop=true;
-        if(createthread) {
-            mHandler = new Handler();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    // TODO Auto-generated method stub
-                    while (continue_or_stop) {
-                        try {
-                            Thread.sleep(6000); // every 6 seconds
-                            mHandler.post(new Runnable() {
+        dbh = new DatabaseHelper(getApplicationContext());
+        try {
 
-                                @Override
-                                public void run() {
-                                    if (PublicVariable.theard_GetFactorAccept) {
-                                        dbh = new DatabaseHelper(getApplicationContext());
-                                        try {
+            dbh.createDataBase();
 
-                                            dbh.createDataBase();
+        } catch (IOException ioe) {
 
-                                        } catch (IOException ioe) {
+            throw new Error("Unable to create database");
 
-                                            throw new Error("Unable to create database");
+        }
 
-                                        }
+        try {
 
-                                        try {
+            dbh.openDataBase();
 
-                                            dbh.openDataBase();
+        } catch (SQLException sqle) {
 
-                                        } catch (SQLException sqle) {
+            throw sqle;
+        }
+        if(Check_Login()) {
+            continue_or_stop = true;
+            if (createthread) {
+                mHandler = new Handler();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // TODO Auto-generated method stub
+                        while (continue_or_stop) {
+                            try {
+                                Thread.sleep(6000); // every 6 seconds
+                                mHandler.post(new Runnable() {
 
-                                            throw sqle;
-                                        }
-                                        if (db != null) {
-                                            if (db.isOpen()) {
-                                                db.close();
-                                            }
-                                        }
-                                        db = dbh.getReadableDatabase();
-                                        coursors = db.rawQuery("SELECT * FROM login", null);
-                                        for (int i = 0; i < coursors.getCount(); i++) {
+                                    @Override
+                                    public void run() {
+                                        if (PublicVariable.theard_GetFactorAccept) {
 
-                                            coursors.moveToNext();
-                                            guid = coursors.getString(coursors.getColumnIndex("guid"));
-                                            hamyarcode = coursors.getString(coursors.getColumnIndex("hamyarcode"));
-                                        }
-                                        if(!coursors.isClosed())
-                                        {
-                                            coursors.close();
-                                        }
-                                        if (db != null) {
-                                            if (db.isOpen()) {
-                                                db.close();
-                                            }
-                                        }
-                                        db = dbh.getReadableDatabase();
-                                        cursors = db.rawQuery("SELECT Code FROM BsHamyarSelectServices WHERE IsDelete='0'", null);
-                                        for (int i = 0; i < cursors.getCount(); i++) {
-                                            cursors.moveToNext();
-                                            if (!db.isOpen()) {
-                                                db = dbh.getReadableDatabase();
-                                            }
-                                            c = db.rawQuery("SELECT * FROM HeadFactor WHERE UserServiceCode='" + cursors.getString(cursors.getColumnIndex("Code")) + "' ORDER BY CAST(Code AS INTEGER) DESC", null);
-                                            if (c.getCount() > 0) {
-                                                c.moveToNext();
-                                                String Code=c.getString(c.getColumnIndex("Code"));
-                                                String TypeSTR=c.getString(c.getColumnIndex("Type"));
-                                                if (TypeSTR.compareTo("1") == 0) {
-                                                    SyncGetPreInvoiceAccept syncGetPreInvoiceAccept = new SyncGetPreInvoiceAccept(getApplicationContext(), guid, hamyarcode, c.getString(c.getColumnIndex("Code")), cursors.getString(cursors.getColumnIndex("Code")));
-                                                    syncGetPreInvoiceAccept.AsyncExecute();
-                                                    c.close();
-                                                } else {
-                                                    SyncGetInvoiceAccept syncGetInvoiceAccept = new SyncGetInvoiceAccept(getApplicationContext(), guid, hamyarcode, c.getString(c.getColumnIndex("Code")), cursors.getString(cursors.getColumnIndex("Code")));
-                                                    syncGetInvoiceAccept.AsyncExecute();
-                                                    c.close();
+                                            if (db != null) {
+                                                if (db.isOpen()) {
+                                                    db.close();
                                                 }
                                             }
-                                            if(!c.isClosed())
-                                            {
-                                                c.close();
-                                                c=null;
-                                            }
-                                        }
+                                            db = dbh.getReadableDatabase();
+                                            coursors = db.rawQuery("SELECT * FROM login", null);
+                                            for (int i = 0; i < coursors.getCount(); i++) {
 
-                                        if (db != null) {
-                                            if (db.isOpen()) {
-                                                db.close();
+                                                coursors.moveToNext();
+                                                guid = coursors.getString(coursors.getColumnIndex("guid"));
+                                                hamyarcode = coursors.getString(coursors.getColumnIndex("hamyarcode"));
                                             }
-                                        }
-                                        if (!cursors.isClosed()) {
-                                            cursors.close();
-                                        }
+                                            if (!coursors.isClosed()) {
+                                                coursors.close();
+                                            }
+                                            if (db != null) {
+                                                if (db.isOpen()) {
+                                                    db.close();
+                                                }
+                                            }
+                                            db = dbh.getReadableDatabase();
+                                            cursors = db.rawQuery("SELECT Code FROM BsHamyarSelectServices WHERE IsDelete='0'", null);
+                                            for (int i = 0; i < cursors.getCount(); i++) {
+                                                cursors.moveToNext();
+                                                if (!db.isOpen()) {
+                                                    db = dbh.getReadableDatabase();
+                                                }
+                                                c = db.rawQuery("SELECT * FROM HeadFactor WHERE UserServiceCode='" + cursors.getString(cursors.getColumnIndex("Code")) + "' ORDER BY CAST(Code AS INTEGER) DESC", null);
+                                                if (c.getCount() > 0) {
+                                                    c.moveToNext();
+                                                    String Code = c.getString(c.getColumnIndex("Code"));
+                                                    String TypeSTR = c.getString(c.getColumnIndex("Type"));
+                                                    if (TypeSTR.compareTo("1") == 0) {
+                                                        SyncGetPreInvoiceAccept syncGetPreInvoiceAccept = new SyncGetPreInvoiceAccept(getApplicationContext(), guid, hamyarcode, c.getString(c.getColumnIndex("Code")), cursors.getString(cursors.getColumnIndex("Code")));
+                                                        syncGetPreInvoiceAccept.AsyncExecute();
+                                                        c.close();
+                                                    } else {
+                                                        SyncGetInvoiceAccept syncGetInvoiceAccept = new SyncGetInvoiceAccept(getApplicationContext(), guid, hamyarcode, c.getString(c.getColumnIndex("Code")), cursors.getString(cursors.getColumnIndex("Code")));
+                                                        syncGetInvoiceAccept.AsyncExecute();
+                                                        c.close();
+                                                    }
+                                                }
+                                                if (!c.isClosed()) {
+                                                    c.close();
+                                                    c = null;
+                                                }
+                                            }
 
+                                            if (db != null) {
+                                                if (db.isOpen()) {
+                                                    db.close();
+                                                }
+                                            }
+                                            if (!cursors.isClosed()) {
+                                                cursors.close();
+                                            }
+
+                                        }
                                     }
-                                }
-                            });
-                        } catch (Exception e) {
-                            // TODO: handle exception
+                                });
+                            } catch (Exception e) {
+                                // TODO: handle exception
+                            }
                         }
                     }
-                }
-            }).start();
-            createthread=false;
+                }).start();
+                createthread = false;
+            }
         }
         return START_STICKY;
     }
@@ -148,5 +149,39 @@ public class ServiceGetFactorAccept extends Service {
         super.onDestroy();
        // Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
         continue_or_stop=false;
+    }
+    public boolean Check_Login()
+    {
+        Cursor cursor;
+        if(db==null)
+        {
+            db = dbh.getReadableDatabase();
+        }
+        if(!db.isOpen()) {
+            db = dbh.getReadableDatabase();
+        }
+        cursor = db.rawQuery("SELECT * FROM login", null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToNext();
+            String Result = cursor.getString(cursor.getColumnIndex("islogin"));
+            if (Result.compareTo("0") == 0)
+            {
+                if(db.isOpen())
+                    db.close();
+                return false;
+            }
+            else
+            {
+                if(db.isOpen())
+                    db.close();
+                return true;
+            }
+        }
+        else
+        {
+            if(db.isOpen())
+                db.close();
+            return false;
+        }
     }
 }

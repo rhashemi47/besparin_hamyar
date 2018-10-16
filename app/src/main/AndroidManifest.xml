@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.besparina.it.hamyar">
 
     <application
@@ -116,6 +117,17 @@
                 <action android:name=
                     "android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
+        </receiver>
+        <receiver android:name="ScheduleReceiver"
+            android:directBootAware="true"
+            android:exported="false"
+            tools:targetApi="n">
+        <intent-filter>
+            <action android:name="android.intent.action.BOOT_COMPLETED" />
+            <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+        </intent-filter>
+    </receiver>
+        <receiver android:name="StartServiceReceiver">
         </receiver>
     </application>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />

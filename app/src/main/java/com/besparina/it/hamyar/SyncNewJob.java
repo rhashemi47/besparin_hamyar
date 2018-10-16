@@ -308,7 +308,7 @@ public class SyncNewJob {
                     }
                     query = "SELECT * FROM Servicesdetails  WHERE code=" + value[4];
                     Cursor coursors = dbR.rawQuery(query, null);
-                    if (coursors.getCount() > 0 && i < 10)//Just show 10 Notification
+                    if (coursors.getCount() > 0 )//Just show 10 Notification
                     {
                         coursors.moveToNext();
                         String TitleStr = coursors.getString(coursors.getColumnIndex("name")) + " کد سرویس: " + value[0];
@@ -331,7 +331,7 @@ public class SyncNewJob {
 
     public void runNotification(String title,String detail,int id,String BsUserServicesID,Class<?> Cls)
     {
-        NotificationClass notifi=new NotificationClass();
+        NotificationClass notifi=new NotificationClass(this.activity);
         notifi.Notificationm(this.activity,title,detail,BsUserServicesID,"1",id,Cls);
     }
 }

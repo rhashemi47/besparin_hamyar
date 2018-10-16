@@ -181,4 +181,6 @@
     <string name="Unit1">واحد سنجش:</string>
     <string name="TitleBrand">عنوان برند:</string>
     <string name="TypeService">نوع سرویس:</string>
+    <string name="default_notification_channel_id">Besparina_Karbar</string>
+    <string name="default_notification_channel_title">بسپارینا</string>
 </resources>

@@ -31,60 +31,62 @@ public class ServiceGetUserServiceStartDate extends Service {
     public int onStartCommand(final Intent intent, int flags, int startId) {
         // Let it continue running until it is stopped.
 //        akeText(this, "Service Started", Toast.LENGTH_LONG).show();
-        continue_or_stop=true;
-        if(createthread) {
-            mHandler = new Handler();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    // TODO Auto-generated method stub
-                    while (continue_or_stop) {
-                        try {
-                            mHandler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (PublicVariable.theard_GetUserServiceStartDate) {
-                                        dbh = new DatabaseHelper(getApplicationContext());
-                                        try {
+        dbh = new DatabaseHelper(getApplicationContext());
+        try {
 
-                                            dbh.createDataBase();
+            dbh.createDataBase();
 
-                                        } catch (IOException ioe) {
+        } catch (IOException ioe) {
 
-                                            throw new Error("Unable to create database");
+            throw new Error("Unable to create database");
 
+        }
+
+        try {
+
+            dbh.openDataBase();
+
+        } catch (SQLException sqle) {
+
+            throw sqle;
+        }
+        if(Check_Login()) {
+            continue_or_stop = true;
+            if (createthread) {
+                mHandler = new Handler();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // TODO Auto-generated method stub
+                        while (continue_or_stop) {
+                            try {
+                                mHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (PublicVariable.theard_GetUserServiceStartDate) {
+                                            db = dbh.getReadableDatabase();
+                                            Cursor coursors = db.rawQuery("SELECT * FROM BsHamyarSelectServices A WHERE A.Status='1' AND " +
+                                                    "A.Code NOT IN (SELECT BsUserServiceCode FROM StartDateService)", null);
+                                            for (int i = 0; i < coursors.getCount(); i++) {
+                                                coursors.moveToNext();
+
+                                                pUserServiceCode = coursors.getString(coursors.getColumnIndex("Code"));
+                                                SyncGetUserServiceStartDate syncGetUserServiceStartDate = new SyncGetUserServiceStartDate(getApplicationContext(), pUserServiceCode);
+                                                syncGetUserServiceStartDate.AsyncExecute();
+                                            }
+                                            db.close();
                                         }
-
-                                        try {
-
-                                            dbh.openDataBase();
-
-                                        } catch (SQLException sqle) {
-
-                                            throw sqle;
-                                        }
-                                        db = dbh.getReadableDatabase();
-                                        Cursor coursors = db.rawQuery("SELECT * FROM BsHamyarSelectServices A WHERE A.Status='1' AND " +
-                                                "A.Code NOT IN (SELECT BsUserServiceCode FROM StartDateService)", null);
-                                        for (int i = 0; i < coursors.getCount(); i++) {
-                                            coursors.moveToNext();
-
-                                            pUserServiceCode = coursors.getString(coursors.getColumnIndex("Code"));
-                                            SyncGetUserServiceStartDate syncGetUserServiceStartDate = new SyncGetUserServiceStartDate(getApplicationContext(), pUserServiceCode);
-                                            syncGetUserServiceStartDate.AsyncExecute();
-                                        }
-                                        db.close();
                                     }
-                                }
-                            });
-                            Thread.sleep(6000); // every 6 seconds
-                        } catch (Exception e) {
-                            // TODO: handle exception
+                                });
+                                Thread.sleep(6000); // every 6 seconds
+                            } catch (Exception e) {
+                                // TODO: handle exception
+                            }
                         }
                     }
-                }
-            }).start();
-            createthread=false;
+                }).start();
+                createthread = false;
+            }
         }
         return START_STICKY;
     }
@@ -94,5 +96,39 @@ public class ServiceGetUserServiceStartDate extends Service {
         super.onDestroy();
        // akeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
         continue_or_stop=false;
+    }
+    public boolean Check_Login()
+    {
+        Cursor cursor;
+        if(db==null)
+        {
+            db = dbh.getReadableDatabase();
+        }
+        if(!db.isOpen()) {
+            db = dbh.getReadableDatabase();
+        }
+        cursor = db.rawQuery("SELECT * FROM login", null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToNext();
+            String Result = cursor.getString(cursor.getColumnIndex("islogin"));
+            if (Result.compareTo("0") == 0)
+            {
+                if(db.isOpen())
+                    db.close();
+                return false;
+            }
+            else
+            {
+                if(db.isOpen())
+                    db.close();
+                return true;
+            }
+        }
+        else
+        {
+            if(db.isOpen())
+                db.close();
+            return false;
+        }
     }
 }

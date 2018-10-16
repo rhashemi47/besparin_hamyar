@@ -31,73 +31,75 @@ public class ServiceGetNewJob extends Service {
     public int onStartCommand(final Intent intent, int flags, int startId) {
         // Let it continue running until it is stopped.
 //        Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
-        continue_or_stop=true;
-        if(createthread) {
-            mHandler = new Handler();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    while (continue_or_stop) {
-                        try {
-                            Thread.sleep(6000); // every 60 seconds
-                            mHandler.post(new Runnable() {
+        dbh = new DatabaseHelper(getApplicationContext());
+        try {
+
+            dbh.createDataBase();
+
+        } catch (IOException ioe) {
+
+            throw new Error("Unable to create database");
+
+        }
+
+        try {
+
+            dbh.openDataBase();
+
+        } catch (SQLException sqle) {
+
+            throw sqle;
+        }
+        if(Check_Login()) {
+            continue_or_stop = true;
+            if (createthread) {
+                mHandler = new Handler();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        while (continue_or_stop) {
+                            try {
+                                Thread.sleep(6000); // every 60 seconds
+                                mHandler.post(new Runnable() {
 
 //                                public String LastHamyarUserServiceCode;
 
-                                @Override
-                                public void run() {
-                                    if (PublicVariable.theard_GetNewJob) {
-                                        dbh = new DatabaseHelper(getApplicationContext());
-                                        try {
-
-                                            dbh.createDataBase();
-
-                                        } catch (IOException ioe) {
-
-                                            throw new Error("Unable to create database");
-
-                                        }
-
-                                        try {
-
-                                            dbh.openDataBase();
-
-                                        } catch (SQLException sqle) {
-
-                                            throw sqle;
-                                        }
-                                        if (db != null) {
-                                            if (db.isOpen()) {
-                                                db.close();
+                                    @Override
+                                    public void run() {
+                                        if (PublicVariable.theard_GetNewJob) {
+                                            if (db != null) {
+                                                if (db.isOpen()) {
+                                                    db.close();
+                                                }
                                             }
-                                        }
-                                        db = dbh.getReadableDatabase();
-                                        Cursor coursors = db.rawQuery("SELECT * FROM login", null);
-                                        for (int i = 0; i < coursors.getCount(); i++) {
-                                            coursors.moveToNext();
-                                            guid = coursors.getString(coursors.getColumnIndex("guid"));
-                                            hamyarcode = coursors.getString(coursors.getColumnIndex("hamyarcode"));
-                                        }
+                                            db = dbh.getReadableDatabase();
+                                            Cursor coursors = db.rawQuery("SELECT * FROM login", null);
+                                            for (int i = 0; i < coursors.getCount(); i++) {
+                                                coursors.moveToNext();
+                                                guid = coursors.getString(coursors.getColumnIndex("guid"));
+                                                hamyarcode = coursors.getString(coursors.getColumnIndex("hamyarcode"));
+                                            }
 //                                        Cursor cursors = db.rawQuery("SELECT ifnull(MAX(CAST (code AS INT)),0)as code FROM BsUserServices", null);
 //                                        if (cursors.getCount() > 0) {
 //                                            cursors.moveToNext();
 //                                            LastHamyarUserServiceCode = cursors.getString(cursors.getColumnIndex("code"));
 //                                        }
-                                        SyncNewJob syncNewJob = new SyncNewJob(getApplicationContext(), guid, hamyarcode, "0", true);
-                                        syncNewJob.AsyncExecute();//Get Allways All Free Services
-                                        if (db.isOpen()) {
-                                            db.close();
+                                            SyncNewJob syncNewJob = new SyncNewJob(getApplicationContext(), guid, hamyarcode, "0", true);
+                                            syncNewJob.AsyncExecute();//Get Allways All Free Services
+                                            if (db.isOpen()) {
+                                                db.close();
+                                            }
                                         }
                                     }
-                                }
-                            });
-                        } catch (Exception e) {
-                            // TODO: handle exception
+                                });
+                            } catch (Exception e) {
+                                // TODO: handle exception
+                            }
                         }
                     }
-                }
-            }).start();
-            createthread=false;
+                }).start();
+                createthread = false;
+            }
         }
         return START_STICKY;
     }
@@ -108,4 +110,39 @@ public class ServiceGetNewJob extends Service {
        // Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
         continue_or_stop=false;
     }
+    public boolean Check_Login()
+    {
+        Cursor cursor;
+        if(db==null)
+        {
+            db = dbh.getReadableDatabase();
+        }
+        if(!db.isOpen()) {
+            db = dbh.getReadableDatabase();
+        }
+        cursor = db.rawQuery("SELECT * FROM login", null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToNext();
+            String Result = cursor.getString(cursor.getColumnIndex("islogin"));
+            if (Result.compareTo("0") == 0)
+            {
+                if(db.isOpen())
+                    db.close();
+                return false;
+            }
+            else
+            {
+                if(db.isOpen())
+                    db.close();
+                return true;
+            }
+        }
+        else
+        {
+            if(db.isOpen())
+                db.close();
+            return false;
+        }
+    }
+
 }

@@ -205,7 +205,7 @@ public class SyncGetUserServiceStartDate {
 	}
 	public void runNotification(String title,String detail,int id,String OrderCode,Class<?> Cls)
 	{
-		NotificationClass notifi=new NotificationClass();
+		NotificationClass notifi=new NotificationClass(this.activity);
 		notifi.Notificationm(this.activity,title,detail,OrderCode,"0",id,Cls);
 	}
 

@@ -267,7 +267,7 @@ public class SyncNewJob {
 
     public void runNotification(String title,String detail,int id,Class<?> Cls)
     {
-        NotificationClass notifi=new NotificationClass();
+        NotificationClass notifi=new NotificationClass(this.activity);
         notifi.Notificationm(this.activity,title,detail,id,Cls);
     }
 }

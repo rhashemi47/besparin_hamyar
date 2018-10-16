@@ -233,7 +233,7 @@ public class SyncGetInvoiceAccept {
 	}
 	public void runNotification(String title,String detail,int id,String BsUserServicesID,Class<?> Cls)
 	{
-		NotificationClass notifi=new NotificationClass();
+		NotificationClass notifi=new NotificationClass(this.activity);
 		notifi.Notificationm(this.activity,title,detail,BsUserServicesID,"0",id,Cls);
 	}
 }
