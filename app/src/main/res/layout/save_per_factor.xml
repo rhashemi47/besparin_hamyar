@@ -26,8 +26,8 @@
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="80dp"
-    android:layout_marginBottom="85dp">
+    android:layout_below="@+id/appbar"
+    android:layout_marginBottom="60dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -315,8 +315,8 @@
                 android:background="@drawable/rounded_button3"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:paddingRight="100dp"
-                android:paddingLeft="100dp"
+                android:paddingRight="50dp"
+                android:paddingLeft="50dp"
                 android:textColor="#000000"/>
 
         </LinearLayout>
@@ -329,9 +329,10 @@
             <ListView
                 android:id="@+id/ListTools"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp" />
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="20dp"/>
             <Button
                 android:id="@+id/btnSendPerFactor"
                 android:layout_width="match_parent"

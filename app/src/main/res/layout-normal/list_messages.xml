@@ -26,8 +26,8 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="70dp"
-        android:layout_marginBottom="20dp"
+        android:layout_below="@+id/appbar"
+        android:layout_marginBottom="60dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:orientation="vertical">
@@ -40,7 +40,6 @@
             android:id="@+id/listViewMessages"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="55dp"
             android:background="@drawable/rounded_listview_message">
         </ListView>
     </LinearLayout>

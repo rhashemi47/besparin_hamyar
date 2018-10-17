@@ -58,7 +58,6 @@ public class Profile extends AppCompatActivity {
 	private String countMessage;
 	private String countVisit;
 	private boolean IsActive;
-	private TextView tvProfileRegentCode;
 	private TextView tvUserCode;
 	private TextView tvTitleUserCode;
 	private TextView tvTitleName;
@@ -75,6 +74,8 @@ public class Profile extends AppCompatActivity {
 	private DatabaseHelper dbh;
 	private SQLiteDatabase db;
 	private Button btnSendProfile;
+	private String ReagentCode="0";
+	private boolean CheckInputRegentCode=true;
 //	private Button btnOrders;
 //	private Button btnHome;
 	private ImageView imgUser;
@@ -115,13 +116,11 @@ public class Profile extends AppCompatActivity {
 //		btnCredit=(TextView)findViewById(R.id.btnCredit);
 //		btnOrders=(Button)findViewById(R.id.btnOrders);
 //		btnHome=(Button)findViewById(R.id.btnHome);
-		tvProfileRegentCode=(TextView)findViewById(R.id.tvCodeMoaref);
 		Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");//set font for page
 //		btnCredit.setTypeface(FontMitra);
 //		btnOrders.setTypeface(FontMitra);
 //		btnHome.setTypeface(FontMitra);
 		//********************************************************
-		tvProfileRegentCode.setTypeface(FontMitra);
 		tvUserCode.setTypeface(FontMitra);
 		tvTitleUserCode.setTypeface(FontMitra);
 		tvTitleName.setTypeface(FontMitra);
@@ -135,7 +134,6 @@ public class Profile extends AppCompatActivity {
 		etBrithday.setTypeface(FontMitra);
 		etReagentCodeProfile.setTypeface(FontMitra);
 		//********************************************************
-		tvProfileRegentCode.setTextSize(18);
 		tvUserCode.setTextSize(18);
 		tvTitleUserCode.setTextSize(18);
 		tvTitleName.setTextSize(18);
@@ -214,6 +212,19 @@ public class Profile extends AppCompatActivity {
 			tvNumberPhone.setText(coursors.getString(coursors.getColumnIndex("Mobile")));
 			tvStatuse.setText((coursors.getString(coursors.getColumnIndex("Status"))).compareTo("0")==0 ? "غیرفعال" : "فعال");
 			bmp=convertToBitmap(coursors.getString(coursors.getColumnIndex("Pic")));
+			try{
+				if (coursors.getString(coursors.getColumnIndex("ReagentName")).length() > 0) {
+					etReagentCodeProfile.setText(coursors.getString(coursors.getColumnIndex("ReagentName")));
+					tvCodeMoaref.setText("معرف");
+					etReagentCodeProfile.setEnabled(false);
+					btnSendProfile.setVisibility(View.GONE);
+					CheckInputRegentCode=false;
+				}
+			}
+			catch (Exception e)
+			{
+
+			}
 		}
 
 		db.close();
@@ -299,13 +310,20 @@ public class Profile extends AppCompatActivity {
 				InternetConnection ic=new InternetConnection(getApplicationContext());
 				if(ic.isConnectingToInternet())
 				{
-					if(etReagentCodeProfile.getText().toString().length()>0 && etReagentCodeProfile.getText().toString().length()<=5)
-					{
-						Toast.makeText(getApplicationContext(), "کد معرف به درستی وارد نشده!", Toast.LENGTH_LONG).show();
+					if(CheckInputRegentCode) {
+						ReagentCode = etReagentCodeProfile.getText().toString();
+						if (ReagentCode.length() > 0 && ReagentCode.length() <= 5) {
+							Toast.makeText(getApplicationContext(), "کد معرف به درستی وارد نشده!", Toast.LENGTH_LONG).show();
+						}
+						else
+						{
+							SyncUpdateProfile syncUpdateProfile=new SyncUpdateProfile(Profile.this,guid,hamyarcode,PersianDigitConverter.EnglishNumber(ReagentCode));
+							syncUpdateProfile.AsyncExecute();
+						}
 					}
 					else
 					{
-						SyncUpdateProfile syncUpdateProfile=new SyncUpdateProfile(Profile.this,guid,hamyarcode,etReagentCodeProfile.getText().toString());
+						SyncUpdateProfile syncUpdateProfile=new SyncUpdateProfile(Profile.this,guid,hamyarcode,"0");
 						syncUpdateProfile.AsyncExecute();
 					}
 				}

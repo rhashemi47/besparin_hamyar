@@ -24,16 +24,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="80dp">
+        android:layout_marginBottom="60dp"
+        android:layout_below="@+id/appbar">
     <ListView
         android:id="@+id/listViewMessages"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="75dp">
+        android:layout_height="wrap_content">
 
     </ListView>
     </LinearLayout>
     <include layout="@layout/bottom_button"
+        android:id="@+id/BottomLayout"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"/>

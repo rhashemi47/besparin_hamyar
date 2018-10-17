@@ -214,7 +214,7 @@ public class MainMenu extends AppCompatActivity {
                             IsActive=true;
                             startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
                             startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
-                            //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+                            startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
                             startService(new Intent(getBaseContext(), ServiceGetLocation.class));
                             startService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
                             startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
@@ -948,7 +948,7 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
 
         super.onStart();
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-        startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
+        startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
         startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
         //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
 
@@ -957,7 +957,7 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
 
         super.onResume();
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-        startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
+        startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
         startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
         try
         {
@@ -998,7 +998,7 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
         super.onStop();
         //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-        startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
+        startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
         startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
     }
     protected void onPause() {
@@ -1006,7 +1006,7 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
         super.onPause();
         //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-        startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
+        startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
         startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
     }
     protected void onDestroy() {
@@ -1014,7 +1014,7 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
         super.onDestroy();
         //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-        startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
+        startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
     }
     void sharecode(String shareStr)
     {

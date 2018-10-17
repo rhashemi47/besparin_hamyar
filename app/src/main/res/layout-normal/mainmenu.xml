@@ -38,7 +38,7 @@
         android:id="@+id/LinearSlidShow">
         <com.besparina.it.hamyar.Custom_ViewFlipper
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="150dp"
             android:inAnimation="@anim/right_in"
             android:outAnimation="@anim/left_out"
             android:flipInterval="5000"
@@ -65,7 +65,7 @@
             android:gravity="center"
             android:text="@string/Duty"
             android:textColor="#171e4c"
-            android:textSize="22sp" />
+            android:textSize="18sp" />
         <Button
             android:id="@+id/btnDuty"
             android:layout_width="60dp"
@@ -83,7 +83,7 @@
             android:layout_marginTop="10dp"
             android:text="@string/Job"
             android:textColor="#171e4c"
-            android:textSize="22sp" />
+            android:textSize="18sp" />
         <Button
             android:id="@+id/btnServices"
             android:layout_width="60dp"
@@ -103,7 +103,7 @@
         android:gravity="center">
         <pl.droidsonroids.gif.GifImageView
             android:layout_width="200dp"
-            android:layout_height="50dp"
+            android:layout_height="30dp"
             android:id="@+id/gifImageView"
             android:src="@drawable/wating"
             />
@@ -122,12 +122,12 @@
             android:gravity="center"/>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginTop="10dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="5dp"
             android:background="#AF66b6cb">
             <ListView
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="60dp"
                 android:id="@+id/ListDutyNow"/>
         </LinearLayout>
     </LinearLayout>

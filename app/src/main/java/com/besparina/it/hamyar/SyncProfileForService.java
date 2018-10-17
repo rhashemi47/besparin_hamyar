@@ -257,6 +257,51 @@ public class SyncProfileForService {
 				NotificationClass notifi=new NotificationClass(this.activity);
 				notifi.Notificationm(this.activity,"بسپارینا",title,"0","1",10,MainMenu.class);
 			}
+			else
+			{
+				db = dbh.getWritableDatabase();
+				db.execSQL("DELETE FROM Profile");
+				query = "INSERT INTO Profile " +
+						"(Code," +
+						"Name," +
+						"Fam," +
+						"BthDate," +
+						"ShSh," +
+						"BirthplaceCode," +
+						"Sader," +
+						"StartDate," +
+						"Address," +
+						"Tel," +
+						"Mobile," +
+						"ReagentName," +
+						"AccountNumber," +
+						"HamyarNumber," +
+						"IsEmrgency," +
+						"Status" +
+						",HamyarCodeForReagent" +
+						" )" +
+						"VALUES" +
+						"('" + value[0] +
+						"','" + value[1] +
+						"','" + value[2] +
+						"','" + value[3] +
+						"','" + value[4] +
+						"','" + value[5] +
+						"','" + value[6] +
+						"','" + value[7] +
+						"','" + value[8] +
+						"','" + value[9] +
+						"','" + value[10] +
+						"','" + value[11] +
+						"','" + value[12] +
+						"','" + value[13] +
+						"','" + value[14] +
+						"','" + value[15] +
+						"','" + value[16] +
+						"')";
+				db.execSQL(query);
+				db.close();
+			}
 		}
 		catch (Exception ex)
 		{PublicVariable.theard_Profile=true;
