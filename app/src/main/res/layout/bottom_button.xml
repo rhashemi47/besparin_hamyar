@@ -33,35 +33,43 @@
             android:divider="@color/transparent"
             android:drawableBottom="@drawable/clock"
             android:text="@string/Services_at_the_turn"/>
-        <LinearLayout
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:layout_gravity="center"
-            android:gravity="center"
+            android:id="@+id/btnCredit"
+            android:layout_weight="1"
+            android:background="#ffffff"
             android:divider="@color/transparent"
-            android:background="@color/transparent"
-            android:orientation="vertical">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:id="@+id/btnCredit"
-                    android:textSize="16sp"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="اعتبار"
-                    android:textColor="#0c0c0c"
-                    android:layout_marginBottom="10dp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textColor="#da291c"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textSize="14sp"
-                    android:id="@+id/tvAmountCredit"
-                    android:text="0"
-                    android:background="#ffffff"
-                    android:layout_marginTop="-10dp"/>
-        </LinearLayout>
+            android:text="@string/credite"/>
+        <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="3"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:gravity="center"-->
+            <!--android:divider="@color/transparent"-->
+            <!--android:background="@color/transparent"-->
+            <!--android:orientation="vertical">-->
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="30dp"-->
+                    <!--android:id="@+id/btnCredit"-->
+                    <!--android:textSize="16sp"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:gravity="center"-->
+                    <!--android:text="اعتبار"-->
+                    <!--android:textColor="#0c0c0c"-->
+                    <!--android:layout_marginBottom="10dp"/>-->
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:textColor="#da291c"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:gravity="center"-->
+                    <!--android:textSize="14sp"-->
+                    <!--android:id="@+id/tvAmountCredit"-->
+                    <!--android:text="0"-->
+                    <!--android:background="#ffffff"-->
+                    <!--android:layout_marginTop="-10dp"/>-->
+        <!--</LinearLayout>-->
 </LinearLayout>

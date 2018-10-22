@@ -82,6 +82,7 @@ public class MainMenu extends AppCompatActivity {
     GestureDetector mGestureDetector;
     private String AppVersion;
     private ArrayList<HashMap<String ,String>> valuse=new ArrayList<HashMap<String, String>>();
+    private int CountDuty=0,CountService=0;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -145,7 +146,7 @@ public class MainMenu extends AppCompatActivity {
             throw sqle;
         }
         //****************************************************************************************
-        TextView tvAmountCredit=(TextView) findViewById(R.id.tvAmountCredit);
+        /*TextView tvAmountCredit=(TextView) findViewById(R.id.tvAmountCredit);
         db=dbh.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM AmountCredit", null);
         if (cursor.getCount() > 0) {
@@ -165,24 +166,24 @@ public class MainMenu extends AppCompatActivity {
                 tvAmountCredit.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("Amount"))));
             }
         }
-        db.close();
+        db.close();*/
 
-        //************************************************************************************
 
-        //************************************************************************************
-        db=dbh.getReadableDatabase();
-        Cursor cursorService = db.rawQuery("SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
-                "LEFT JOIN " +
-                "Servicesdetails ON " +
-                "Servicesdetails.code=BsUserServices.ServiceDetaileCode WHERE 1=1 ",null);
-        if(cursorService.getCount()>0)
-        {
-            btnServices.setText(String.valueOf(cursorService.getCount()));
-        }
-        else
-        {
-            btnServices.setText("0");
-        }
+        //******************************************* COUNT SERVICES *****************************************
+//        db=dbh.getReadableDatabase();
+//        Cursor cursorService = db.rawQuery("SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
+//                "LEFT JOIN " +
+//                "Servicesdetails ON " +
+//                "Servicesdetails.code=BsUserServices.ServiceDetaileCode WHERE 1=1 ",null);
+//        if(cursorService.getCount()>0)
+//        {
+//            btnServices.setText(String.valueOf(cursorService.getCount()));
+//        }
+//        else
+//        {
+//            btnServices.setText("0");
+//        }
+
         db=dbh.getReadableDatabase();
         Cursor coursors = db.rawQuery("SELECT * FROM messages WHERE IsReade='0' AND IsDelete='0'",null);
         if(coursors.getCount()>0)
@@ -198,7 +199,7 @@ public class MainMenu extends AppCompatActivity {
         {
             String status="0";
             db = dbh.getReadableDatabase();
-            cursor = db.rawQuery("SELECT * FROM Profile", null);
+           Cursor cursor = db.rawQuery("SELECT * FROM Profile", null);
             if (cursor.getCount() > 0) {
                 cursor.moveToNext();
                 try {
@@ -257,49 +258,127 @@ public class MainMenu extends AppCompatActivity {
             }
             c.close();
         }
-        ir.hamsaa.persiandatepicker.util.PersianCalendar calNow=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
+//        ir.hamsaa.persiandatepicker.util.PersianCalendar calNow=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
+//        db=dbh.getReadableDatabase();
+//        String year,mon,day,query;
+//        year=String.valueOf(calNow.getPersianYear());
+//        if(calNow.getPersianMonth()<10)
+//        {
+//            mon="0"+String.valueOf(calNow.getPersianMonth());
+//        }
+//        else
+//        {
+//            mon=String.valueOf(calNow.getPersianMonth());
+//        }
+//        if(calNow.getPersianDay()<10)
+//        {
+//            day="0"+String.valueOf(calNow.getPersianDay());
+//        }
+//        else
+//        {
+//            day=String.valueOf(calNow.getPersianDay());
+//        }
+//        query="SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
+//                "LEFT JOIN " +
+//                "Servicesdetails ON " +
+//                "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode WHERE IsDelete='0' AND " +
+//                "Status='1'"+
+//                " AND StartDate='"+year+"/"+mon+"/"+day+"'";
+//        Cursor cursorDuty = db.rawQuery(query,null);
+//        if(cursorDuty.getCount()>0)
+//        {
+//            btnDuty.setText(String.valueOf(cursorDuty.getCount()));
+//        }
+//        else
+//        {
+//            btnDuty.setText("0");
+//        }
+        //****************************************************COUNT DUTY********************************
         db=dbh.getReadableDatabase();
-        String year,mon,day,query;
-        year=String.valueOf(calNow.getPersianYear());
-        if(calNow.getPersianMonth()<10)
-        {
-            mon="0"+String.valueOf(calNow.getPersianMonth());
-        }
-        else
-        {
-            mon=String.valueOf(calNow.getPersianMonth());
-        }
-        if(calNow.getPersianDay()<10)
-        {
-            day="0"+String.valueOf(calNow.getPersianDay());
-        }
-        else
-        {
-            day=String.valueOf(calNow.getPersianDay());
-        }
-        query="SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
+        String query = "SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
                 "LEFT JOIN " +
                 "Servicesdetails ON " +
-                "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode WHERE IsDelete='0' AND " +
-                "Status='1'"+
-                " AND StartDate='"+year+"/"+mon+"/"+day+"'";
-        Cursor cursorDuty = db.rawQuery(query,null);
-        if(cursorDuty.getCount()>0)
-        {
-            btnDuty.setText(String.valueOf(cursorDuty.getCount()));
+                "Servicesdetails.code=BsUserServices.ServiceDetaileCode ORDER BY StartDate DESC";
+        coursors = db.rawQuery(query,null);
+        Cursor Ctime;
+        for(int i=0;i<coursors.getCount();i++){
+            coursors.moveToNext();
+            if((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("1") == 1 ))
+            {
+                CountDuty++;
+            }
+            else
+            {
+                String DateTimeStr = ChangeDate.changeFarsiToMiladi(coursors.getString(coursors.getColumnIndex("StartDate"))) + " " + coursors.getString(coursors.getColumnIndex("StartTime")) + ":00";
+                String GetDateTime = "Select Cast ((JulianDay('" + faToEn(DateTimeStr.replace("/", "-")) + "') - JulianDay('now'))" +
+                        " * 24 As Integer) time";
+                Ctime = db.rawQuery(GetDateTime, null);
+                if (Ctime.getCount() > 0) {
+                    Ctime.moveToNext();
+                    int STime = Integer.parseInt(Ctime.getString(Ctime.getColumnIndex("time")));
+                    if (STime <= 24) {
+                        CountDuty++;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+            }
         }
-        else
-        {
-            btnDuty.setText("0");
-        }
+        db.close();
+            btnDuty.setText(String.valueOf(CountDuty));
+
         //************************************************************************************
+        db=dbh.getReadableDatabase();
+         query = "SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
+                "LEFT JOIN " +
+                "Servicesdetails ON " +
+                "Servicesdetails.code=BsUserServices.ServiceDetaileCode  ORDER BY StartDate DESC";
+         coursors = db.rawQuery(query,null);
+        for(int i=0;i<coursors.getCount();i++){
+            coursors.moveToNext();
+            if((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0") == 1 ))
+            {
+                CountService++;
+            }
+            else
+            {
+                String DateTimeStr = ChangeDate.changeFarsiToMiladi(coursors.getString(coursors.getColumnIndex("StartDate"))) + " " + coursors.getString(coursors.getColumnIndex("StartTime")) + ":00";
+                String GetDateTime = "Select Cast ((JulianDay('" + faToEn(DateTimeStr.replace("/", "-")) + "') - JulianDay('now'))" +
+                        " * 24 As Integer) time";
+                Ctime = db.rawQuery(GetDateTime, null);
+                if (Ctime.getCount() > 0) {
+                    Ctime.moveToNext();
+                    int STime = Integer.parseInt(Ctime.getString(Ctime.getColumnIndex("time")));
+                    if (STime > 24) {
+                        CountService++;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+            }
+        }
+        db.close();
+        btnServices.setText(String.valueOf(CountService));
+        //************************************************************************************
+        db=dbh.getReadableDatabase();
         query="SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
                 "LEFT JOIN " +
                 "Servicesdetails ON " +
                 "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode WHERE IsDelete='0' AND " +
                 "Status='2'";
 //                "StartDate='"+year+"/"+mon+"/"+day+"'";
-        Cursor Ctime;
         Cursor cursorServiceNow = db.rawQuery(query,null);
         for(int i=0;i<cursorServiceNow.getCount();i++)
         {

@@ -26,6 +26,7 @@
     import android.widget.TextView;
     import android.widget.Toast;
 
+    import com.besparina.it.hamyar.Date.ChangeDate;
     import com.mikepenz.materialdrawer.AccountHeader;
     import com.mikepenz.materialdrawer.AccountHeaderBuilder;
     import com.mikepenz.materialdrawer.Drawer;
@@ -122,7 +123,7 @@
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             CreateMenu(toolbar);
             //****************************************************************************************
-            TextView tvAmountCredit=(TextView) findViewById(R.id.tvAmountCredit);
+            /*TextView tvAmountCredit=(TextView) findViewById(R.id.tvAmountCredit);
             db=dbh.getReadableDatabase();
             Cursor cursor = db.rawQuery("SELECT * FROM AmountCredit", null);
             if (cursor.getCount() > 0) {
@@ -141,43 +142,67 @@
                 {
                     tvAmountCredit.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("Amount"))));
                 }
-            }
-            //****************************************************************************************
+            }*/
             //***************************************************************************************************************************
-            ir.hamsaa.persiandatepicker.util.PersianCalendar calNow=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
-            db=dbh.getReadableDatabase();
-            String year,mon,day,query;
-            year=String.valueOf(calNow.getPersianYear());
-            if(calNow.getPersianMonth()<10)
-            {
-                mon="0"+String.valueOf(calNow.getPersianMonth());
-            }
-            else
-            {
-                mon=String.valueOf(calNow.getPersianMonth());
-            }
-            if(calNow.getPersianDay()<10)
-            {
-                day="0"+String.valueOf(calNow.getPersianDay());
-            }
-            else
-            {
-                day=String.valueOf(calNow.getPersianDay());
-            }
-            query="SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
+//            ir.hamsaa.persiandatepicker.util.PersianCalendar calNow=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
+//            db=dbh.getReadableDatabase();
+//            String year,mon,day,query;
+//            year=String.valueOf(calNow.getPersianYear());
+//            if(calNow.getPersianMonth()<10)
+//            {
+//                mon="0"+String.valueOf(calNow.getPersianMonth());
+//            }
+//            else
+//            {
+//                mon=String.valueOf(calNow.getPersianMonth());
+//            }
+//            if(calNow.getPersianDay()<10)
+//            {
+//                day="0"+String.valueOf(calNow.getPersianDay());
+//            }
+//            else
+//            {
+//                day=String.valueOf(calNow.getPersianDay());
+//            }
+
+           String query = "SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
                     "LEFT JOIN " +
                     "Servicesdetails ON " +
-                    "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode WHERE IsDelete='0' AND " +
-                    "Status='1'"+
-                    " AND StartDate='"+year+"/"+mon+"/"+day+"'";
+                    "Servicesdetails.code=BsUserServices.ServiceDetaileCode ORDER BY StartDate DESC";
             coursors = db.rawQuery(query,null);
+            Cursor Ctime;
             for(int i=0;i<coursors.getCount();i++){
-                coursors.moveToNext();
                 HashMap<String, String> map = new HashMap<String, String>();
+                coursors.moveToNext();
+                if((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("1") == 1 ))
+                {
+                    map.put("Emergency","فوری");
+                }
+                else
+                {
+                    String DateTimeStr = ChangeDate.changeFarsiToMiladi(coursors.getString(coursors.getColumnIndex("StartDate"))) + " " + coursors.getString(coursors.getColumnIndex("StartTime")) + ":00";
+                    String GetDateTime = "Select Cast ((JulianDay('" + faToEn(DateTimeStr.replace("/", "-")) + "') - JulianDay('now'))" +
+                            " * 24 As Integer) time";
+                    Ctime = db.rawQuery(GetDateTime, null);
+                    if (Ctime.getCount() > 0) {
+                        Ctime.moveToNext();
+                        int STime = Integer.parseInt(Ctime.getString(Ctime.getColumnIndex("time")));
+                        if (STime <= 24) {
+                            map.put("Emergency", "فوری");
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
                 map.put("Code",coursors.getString(coursors.getColumnIndex("Code")));
                 map.put("UserPhone",coursors.getString(coursors.getColumnIndex("UserPhone")));
                 map.put("TitleService",coursors.getString(coursors.getColumnIndex("name")));
-                map.put("Emergency",((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0")==1? "عادی":"فوری")));
                 map.put("NameCustomer",coursors.getString(coursors.getColumnIndex("UserName"))+" "+coursors.getString(coursors.getColumnIndex("UserFamily")));
                 map.put("Date",coursors.getString(coursors.getColumnIndex("StartDate"))+" "+coursors.getString(coursors.getColumnIndex("EndDate")));
                 map.put("Time",coursors.getString(coursors.getColumnIndex("StartTime"))+" "+coursors.getString(coursors.getColumnIndex("EndTime")));
@@ -651,4 +676,31 @@
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             List_Dutys.this.startActivity(intent);
         }
+        public static String faToEn(String num) {
+            return num
+                    .replace("۰", "0")
+                    .replace("۱", "1")
+                    .replace("۲", "2")
+                    .replace("۳", "3")
+                    .replace("۴", "4")
+                    .replace("۵", "5")
+                    .replace("۶", "6")
+                    .replace("۷", "7")
+                    .replace("۸", "8")
+                    .replace("۹", "9");
+        }
+        public static String EnToFa(String num) {
+            return num
+                    .replace("0", "۰")
+                    .replace("1", "۱")
+                    .replace("2", "۲")
+                    .replace("3", "۳")
+                    .replace("4", "۴")
+                    .replace("5", "۵")
+                    .replace("6", "۶")
+                    .replace("7", "۷")
+                    .replace("8", "۸")
+                    .replace("9", "۹");
+        }
     }
+

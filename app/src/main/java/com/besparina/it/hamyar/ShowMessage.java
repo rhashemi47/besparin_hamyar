@@ -113,7 +113,7 @@ public class ShowMessage extends Activity{
             db.close();
         }
         //****************************************************************************************
-        TextView tvAmountCredit=(TextView) findViewById(R.id.tvAmountCredit);
+        /*TextView tvAmountCredit=(TextView) findViewById(R.id.tvAmountCredit);
         db=dbh.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM AmountCredit", null);
         if (cursor.getCount() > 0) {
@@ -132,7 +132,7 @@ public class ShowMessage extends Activity{
             {
                 tvAmountCredit.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("Amount"))));
             }
-        }
+        }*/
         //****************************************************************************************
         db=dbh.getReadableDatabase();
         Cursor coursors = db.rawQuery("SELECT * FROM messages WHERE IsReade='0' AND IsDelete='0'",null);
@@ -154,7 +154,7 @@ public class ShowMessage extends Activity{
         code=getIntent().getStringExtra("Code").toString();
         db=dbh.getReadableDatabase();
         query="SELECT * FROM messages WHERE Code='"+code+"'";
-        cursor= db.rawQuery(query,null);
+        Cursor cursor= db.rawQuery(query,null);
         if(cursor.getCount()>0) {
             cursor.moveToNext();
             content.setText(cursor.getString(cursor.getColumnIndex("Content")));

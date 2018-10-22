@@ -34,6 +34,8 @@
     import android.widget.Spinner;
     import android.widget.TextView;
     import android.widget.Toast;
+
+    import com.besparina.it.hamyar.Date.ChangeDate;
     import com.mikepenz.materialdrawer.AccountHeader;
     import com.mikepenz.materialdrawer.AccountHeaderBuilder;
     import com.mikepenz.materialdrawer.Drawer;
@@ -427,7 +429,7 @@
                 }
             });
             //****************************************************************************************
-            TextView tvAmountCredit=(TextView) findViewById(R.id.tvAmountCredit);
+            /*TextView tvAmountCredit=(TextView) findViewById(R.id.tvAmountCredit);
             db=dbh.getReadableDatabase();
             Cursor cursor = db.rawQuery("SELECT * FROM AmountCredit", null);
             if (cursor.getCount() > 0) {
@@ -931,7 +933,7 @@
         String query = "SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
                 "LEFT JOIN " +
                 "Servicesdetails ON " +
-                "Servicesdetails.code=BsUserServices.ServiceDetaileCode WHERE 1=1 ";
+                "Servicesdetails.code=BsUserServices.ServiceDetaileCode ";
         if (etFromDate.getText().toString().length() > 0) {
             String spStr[] = etFromDate.getText().toString().split("/");
             if (spStr[1].length() < 2) {
@@ -991,12 +993,40 @@
                 query = query + " AND ServiceDetaileCode='0'";
             }
         }
-            query = query + " ORDER BY CAST(BsUserServices.Code as int) DESC";
+//            query = query + " ORDER BY CAST(BsUserServices.Code as int) DESC";
+            query = query + " ORDER BY StartDate DESC";
+        Cursor Ctime;
             db = dbh.getReadableDatabase();
             Cursor coursors = db.rawQuery(query, null);
             for (int i = 0; i < coursors.getCount(); i++) {
                 coursors.moveToNext();
                 HashMap<String, String> map = new HashMap<String, String>();
+                if((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0") == 1 ))
+                {
+                    map.put("Emergency","عادی");
+                }
+                else
+                {
+                    String DateTimeStr = ChangeDate.changeFarsiToMiladi(coursors.getString(coursors.getColumnIndex("StartDate"))) + " " + coursors.getString(coursors.getColumnIndex("StartTime")) + ":00";
+                    String GetDateTime = "Select Cast ((JulianDay('" + faToEn(DateTimeStr.replace("/", "-")) + "') - JulianDay('now'))" +
+                            " * 24 As Integer) time";
+                    Ctime = db.rawQuery(GetDateTime, null);
+                    if (Ctime.getCount() > 0) {
+                        Ctime.moveToNext();
+                        int STime = Integer.parseInt(Ctime.getString(Ctime.getColumnIndex("time")));
+                        if (STime > 24) {
+                            map.put("Emergency", "عادی");
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
                 map.put("Code", coursors.getString(coursors.getColumnIndex("Code")));
                 map.put("LocationService", coursors.getString(coursors.getColumnIndex("AddressText")));
                 map.put("Date", coursors.getString(coursors.getColumnIndex("StartDate")) + " - " + coursors.getString(coursors.getColumnIndex("EndDate")));

@@ -131,7 +131,7 @@
             }
 
             //****************************************************************************************
-            TextView tvAmountCredit=(TextView) findViewById(R.id.tvAmountCredit);
+            /*TextView tvAmountCredit=(TextView) findViewById(R.id.tvAmountCredit);
             db=dbh.getReadableDatabase();
             Cursor cursor = db.rawQuery("SELECT * FROM AmountCredit", null);
             if (cursor.getCount() > 0) {
@@ -150,7 +150,7 @@
                 {
                     tvAmountCredit.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("Amount"))));
                 }
-            }
+            }*/
             //****************************************************************************************
             addItemFromList(true);
             db=dbh.getReadableDatabase();

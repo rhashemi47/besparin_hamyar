@@ -103,15 +103,17 @@ public class AdapterDutys extends BaseAdapter {
         String UserPhone = map.get("UserPhone");
         holder.txtTitleService.setText(TitleService);
         holder.txtEmergency.setText(Emergency);
-        if(Emergency.compareTo("عادی")==0)
+        if(Emergency.compareTo("فوری")==0)
         {
-            holder.txtTitleService.setTextColor(Color.BLACK);
-            holder.txtEmergency.setTextColor(Color.BLACK);
+
+
+            holder.txtTitleService.setTextColor(Color.parseColor("#a01711"));
+            holder.txtEmergency.setTextColor(Color.parseColor("#a01711"));
         }
         else
         {
-            holder.txtTitleService.setTextColor(Color.parseColor("#a01711"));
-            holder.txtEmergency.setTextColor(Color.parseColor("#a01711"));
+            holder.txtTitleService.setTextColor(Color.BLACK);
+            holder.txtEmergency.setTextColor(Color.BLACK);
         }
         holder.txtNameCustomer.setText(NameCustomer);
         holder.txtDate.setText(Date);

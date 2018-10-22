@@ -134,7 +134,7 @@ protected void onCreate(Bundle savedInstanceState) {
 	}
 
 	//****************************************************************************************
-	db=dbh.getReadableDatabase();
+	/*db=dbh.getReadableDatabase();
 	Cursor cursor = db.rawQuery("SELECT * FROM AmountCredit", null);
 	if (cursor.getCount() > 0) {
 		cursor.moveToNext();
@@ -152,7 +152,7 @@ protected void onCreate(Bundle savedInstanceState) {
 		{
 			tvAmountCredit.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("Amount"))));
 		}
-	}
+	}*/
 	//****************************************************************************************
 	db=dbh.getReadableDatabase();
 	Cursor coursors = db.rawQuery("SELECT * FROM messages WHERE IsReade='0' AND IsDelete='0'",null);

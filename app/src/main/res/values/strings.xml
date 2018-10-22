@@ -90,7 +90,8 @@
     <string name="CasePause">علت وقفه</string>
     <string name="CodeMoaref">کد معرف</string>
     <string name="service">سرویس</string>
-    <string name="credite">اعتبارات</string>
+    <string name="credites">اعتبارات</string>
+    <string name="credite">اعتبار</string>
     <string name="home">خانه</string>
     <string name="DutyItem">وظایف</string>
     <string name="RecentCredit">میزان اعتبار</string>
