@@ -82,6 +82,7 @@
         Handler mHandler;
         private boolean continue_or_stop=true;
         private Button btnSearch;
+        private Button btnClear;
         private Spinner spExpert;
         private EditText etArea;
         private ImageView imgSearch;
@@ -156,6 +157,7 @@
             btnDutyToday=(Button)findViewById(R.id.btnDutyToday);
             btnHome=(Button)findViewById(R.id.btnHome);
             btnSearch=(Button)findViewById(R.id.btnSearch);
+            btnClear=(Button)findViewById(R.id.btnClear);
             //************************************************************
             etFromDate = (EditText) findViewById(R.id.etFromDate);
             etToDate = (EditText) findViewById(R.id.etToDate);
@@ -421,11 +423,26 @@
                         }
                     }
                     if(ErrorStr.length()==0) {
+                        mDrawer.closeDrawers();
                         setListServices();
                     }
                     else{
                         Toast.makeText(List_Services.this,ErrorStr,Toast.LENGTH_LONG).show();
                     }
+                }
+            });
+            //****************************************************************************************
+            btnClear.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    etFromDate.setText("");
+                    etToDate.setText("");
+                    etFromTime.setText("");
+                    etToTime.setText("");
+                    etArea.setText("");
+                    spExpert.setSelection(1);
+                    setListServices();
                 }
             });
             //****************************************************************************************
@@ -448,7 +465,7 @@
                 {
                     tvAmountCredit.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("Amount"))));
                 }
-            }
+            }*/
             //****************************************************************************************
             btnCredit.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -265,7 +265,7 @@ public class Save_Per_Factor extends Activity {
             {
                 tvAmountCredit.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("Amount"))));
             }
-        }
+        }*/
         //****************************************************************************************
         FillSpinnerStep();
         FillSpinnerTools();

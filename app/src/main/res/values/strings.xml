@@ -81,9 +81,9 @@
     <string name="Add">افزودن</string>
     <string name="Add_List">افزودن به لیست</string>
     <string name="FinalSave">ثبت نهایی</string>
-    <string name="value">مقدار</string>
+    <string name="value">تعداد</string>
     <string name="TitleTools">عنوان ملزومات</string>
-    <string name="CheckTitleTool">آیا عنوان کاری ملزومات دارد؟</string>
+    <string name="CheckTitleTool">آیا ملزومات خود را ثبت می کنید؟</string>
     <string name="Description">توضیحات</string>
     <string name="Total">جمع</string>
     <string name="CaseResume">علت وقفه</string>
@@ -184,4 +184,8 @@
     <string name="TypeService">نوع سرویس:</string>
     <string name="default_notification_channel_id">Besparina_Karbar</string>
     <string name="default_notification_channel_title">بسپارینا</string>
+    <string name="UnitPriceAndUnit">واحد/هزینه هر واحد:</string>
+    <string name="FinalSavePerFactor">ثبت پیش فاکتور</string>
+    <string name="Cansel2">انصراف</string>
+    <string name="clear">حذف فیلتر</string>
 </resources>

@@ -27,21 +27,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_below="@+id/appbar"
-    android:layout_marginBottom="60dp">
+    android:layout_marginBottom="95dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_layout_save_perfactor"
         android:id="@+id/linearLayout"
-        android:orientation="vertical"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp">
+        android:orientation="vertical">
 
+        android:gravity="center"
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#82cbd4"
             android:layout_marginTop="10dp">
             <TextView
                 android:id="@+id/tvTitleStepJob"
@@ -49,9 +46,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/titleStep"
                 android:layout_marginLeft="5dp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_marginStart="5dp" />
+                android:layout_marginStart="5dp"
+                android:layout_gravity="center"/>
             <Spinner
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -63,13 +59,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
             <TextView
+                android:id="@+id/tvUnitPriceTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/Unit1"
-                android:layout_marginLeft="5dp"
+                android:text="@string/UnitPriceAndUnit"
                 android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_marginStart="5dp" />
+                android:gravity="center"/>
             <TextView
                 android:id="@+id/tvUnit"
                 android:layout_width="wrap_content"
@@ -80,18 +75,16 @@
                 android:gravity="center"
                 android:layout_marginStart="5dp" />
 
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+
             <TextView
-                android:id="@+id/tvUnitPriceTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/UnitPrice"
+                android:text="/"
+                android:layout_marginLeft="10dp"
                 android:layout_gravity="center"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:layout_marginStart="10dp" />
+
             <TextView
                 android:id="@+id/tvUnitPrice"
                 android:layout_width="wrap_content"
@@ -101,10 +94,21 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:layout_marginStart="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ریال"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginStart="10dp" />
+
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edittext"
             android:layout_marginTop="10dp">
             <TextView
                 android:id="@+id/tvUnitValuePrice"
@@ -112,21 +116,22 @@
                 android:layout_height="wrap_content"
                 android:text="@string/value"
                 android:inputType="numberDecimal"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_gravity="center"
                 android:gravity="center"/>
             <EditText
                 android:id="@+id/EtUnitValuePrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_edittext"
                 android:inputType="number"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="20dp"
                 android:layout_weight="1"
                 android:text="0"
                 android:layout_marginStart="10dp" />
         </LinearLayout>
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:id="@+id/LinerTotalSumStep">
@@ -150,6 +155,36 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:gravity="center">
+            <Button
+                android:id="@+id/btnSaveTool"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Add_List"
+                android:drawableRight="@drawable/plus_small"
+                android:background="@drawable/rounded_button3"
+                android:paddingRight="110dp"
+                android:paddingLeft="110dp"
+                android:textColor="#000000"/>
+
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:id="@+id/LinerListTools">
+        <ListView
+            android:id="@+id/ListTools"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"/>
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
             <TextView
                 android:id="@+id/tvCheckTitleTool"
@@ -169,6 +204,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:background="#82cbd4"
             android:id="@+id/LinerTitleTools">
             <TextView
                 android:id="@+id/tvTitleTools"
@@ -189,6 +225,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:background="@drawable/rounded_edittext"
             android:id="@+id/LinerBrand">
             <TextView
                 android:layout_width="wrap_content"
@@ -235,6 +272,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:background="@drawable/rounded_edittext"
             android:id="@+id/LinerValueTools">
             <TextView
                 android:id="@+id/tvToolValuePrice"
@@ -248,7 +286,6 @@
                 android:id="@+id/EtToolValuePrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_edittext"
                 android:inputType="number"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
@@ -303,45 +340,34 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:orientation="vertical"
-            android:layout_gravity="center"
-            android:gravity="center">
-            <Button
-                android:id="@+id/btnSaveTool"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/Add_List"
-                android:drawableRight="@drawable/plus"
-                android:background="@drawable/rounded_button3"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:paddingRight="50dp"
-                android:paddingLeft="50dp"
-                android:textColor="#000000"/>
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical"
-            android:id="@+id/LinerListTools">
-            <ListView
-                android:id="@+id/ListTools"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
             <Button
                 android:id="@+id/btnSendPerFactor"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/FinalSave"
+                android:text="@string/FinalSavePerFactor"
                 android:drawableRight="@drawable/check"
-                android:background="@drawable/rounded_button3"
-                android:layout_marginLeft="20dp"
+                android:background="@drawable/rounded_button5"
                 android:layout_marginRight="20dp"
+                android:layout_marginLeft="10dp"
+                android:paddingRight="20dp"
+                android:paddingLeft="20dp"
+                android:textSize="12sp"
+                android:textColor="#000000" />
+            <Button
+                android:id="@+id/btnCanselPerFactor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Cansel2"
+                android:drawableRight="@drawable/close"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingLeft="20dp"
+                android:textSize="12sp"
+                android:background="@drawable/rounded_button_transparent"
+                android:layout_weight="1"
                 android:textColor="#000000" />
         </LinearLayout>
     </LinearLayout>

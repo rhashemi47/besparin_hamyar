@@ -38,7 +38,7 @@
         android:id="@+id/LinearSlidShow">
         <com.besparina.it.hamyar.Custom_ViewFlipper
             android:layout_width="match_parent"
-            android:layout_height="220dp"
+            android:layout_height="420dp"
             android:inAnimation="@anim/right_in"
             android:outAnimation="@anim/left_out"
             android:flipInterval="5000"
@@ -69,8 +69,8 @@
             android:textSize="32sp" />
         <Button
             android:id="@+id/btnDuty"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
+            android:layout_width="210dp"
+            android:layout_height="210dp"
             android:layout_gravity="center"
             android:background="@drawable/rounded_button_route2"
             android:gravity="center"
@@ -87,8 +87,8 @@
             android:textSize="32sp" />
         <Button
             android:id="@+id/btnServices"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
+            android:layout_width="210dp"
+            android:layout_height="210dp"
             android:layout_gravity="center"
             android:background="@drawable/rounded_button_route1"
             android:gravity="center"
@@ -104,7 +104,7 @@
         android:gravity="center">
         <pl.droidsonroids.gif.GifImageView
             android:layout_width="400dp"
-            android:layout_height="100dp"
+            android:layout_height="50dp"
             android:id="@+id/gifImageView"
             android:src="@drawable/wating"
             />
@@ -120,6 +120,7 @@
             android:layout_height="wrap_content"
             android:text="@string/serviceNow"
             android:layout_gravity="center"
+            android:textSize="32sp"
             android:gravity="center"/>
         <LinearLayout
             android:layout_width="match_parent"

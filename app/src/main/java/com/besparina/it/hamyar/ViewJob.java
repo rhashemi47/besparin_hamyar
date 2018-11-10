@@ -110,6 +110,7 @@ public class ViewJob extends AppCompatActivity{
     private Button btnResume;
     private Button btnFinal;
     private Button btnCallToCustomer;
+    private Button btnCanselPerFactor;
     private Cursor coursors;
     private TextView btnCredit;
     private Button btnDutyToday;
@@ -157,7 +158,7 @@ public class ViewJob extends AppCompatActivity{
         btnServices_at_the_turn=(Button)findViewById(R.id.btnServices_at_the_turn);
         btnDutyToday=(Button)findViewById(R.id.btnDutyToday);
         btnHome=(Button)findViewById(R.id.btnHome);
-//        ContentShowJob=(TextView)findViewById(R.id.ContentShowJob);
+        btnCanselPerFactor=(Button) findViewById(R.id.btnCanselPerFactor);
         btnSelect=(Button)findViewById(R.id.btnSelect);
         btnCansel=(Button)findViewById(R.id.btnCansel);
         btnPause=(Button)findViewById(R.id.btnPause);
@@ -169,7 +170,7 @@ public class ViewJob extends AppCompatActivity{
         //********************************
         btnCredit.setTypeface(FontMitra);
         btnHome.setTypeface(FontMitra);
-//        ContentShowJob.setTypeface(FontMitra);
+        btnCanselPerFactor.setTypeface(FontMitra);
         btnSelect.setTypeface(FontMitra);
         btnCansel.setTypeface(FontMitra);
         btnPause.setTypeface(FontMitra);
@@ -1360,7 +1361,12 @@ public class ViewJob extends AppCompatActivity{
             }
         });
 
-        btnCredit.setOnClickListener(new View.OnClickListener() {
+        btnCanselPerFactor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                backToActivity();
+            }
+        }); btnCredit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
@@ -1815,29 +1821,32 @@ public class ViewJob extends AppCompatActivity{
     public boolean onKeyDown( int keyCode, KeyEvent event )  {
         if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
             continue_or_stop=false;
-            if(back_activity.compareTo("ListServices")==0)
-            {
-                LoadActivity(List_Services.class, "guid", guid, "hamyarcode", hamyarcode);
-            }
-            else if(back_activity.compareTo("ListDuty")==0)
-            {
-                LoadActivity(List_Dutys.class, "guid", guid, "hamyarcode", hamyarcode);
-            }
-            else if(back_activity.compareTo("ServiceAtTurn")==0)
-            {
-                LoadActivity(ListServiceAtTheTurn.class, "guid", guid, "hamyarcode", hamyarcode);
-            }
-            else if(back_activity.compareTo("ListVisit")==0){
-                LoadActivity(List_Visits.class, "guid", guid, "hamyarcode", hamyarcode);
-            }
-            else
-            {
-                LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
-            }
-
+            backToActivity();
         }
 
         return super.onKeyDown( keyCode, event );
+    }
+    public void backToActivity()
+    {
+        if(back_activity.compareTo("ListServices")==0)
+        {
+            LoadActivity(List_Services.class, "guid", guid, "hamyarcode", hamyarcode);
+        }
+        else if(back_activity.compareTo("ListDuty")==0)
+        {
+            LoadActivity(List_Dutys.class, "guid", guid, "hamyarcode", hamyarcode);
+        }
+        else if(back_activity.compareTo("ServiceAtTurn")==0)
+        {
+            LoadActivity(ListServiceAtTheTurn.class, "guid", guid, "hamyarcode", hamyarcode);
+        }
+        else if(back_activity.compareTo("ListVisit")==0){
+            LoadActivity(List_Visits.class, "guid", guid, "hamyarcode", hamyarcode);
+        }
+        else
+        {
+            LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
+        }
     }
     public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2)
     {

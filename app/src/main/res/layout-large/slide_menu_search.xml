@@ -307,7 +307,7 @@
 
                     <Button
                         android:id="@+id/btnSearch"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:layout_marginBottom="20dp"
                         android:background="@drawable/rounded_button_search"
@@ -315,6 +315,19 @@
                         android:paddingLeft="60dp"
                         android:paddingRight="60dp"
                         android:text="@string/search"
+                        android:layout_weight="1"
+                        android:textSize="16sp" />
+                    <Button
+                        android:id="@+id/btnClear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="20dp"
+                        android:background="@drawable/rounded_button_search"
+                        android:drawableRight="@drawable/close"
+                        android:paddingLeft="60dp"
+                        android:paddingRight="60dp"
+                        android:text="@string/clear"
+                        android:layout_weight="1"
                         android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>
