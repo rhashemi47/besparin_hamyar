@@ -28,13 +28,15 @@ public class SyncUpdateProfile {
 	private String hamyarcode;
 	private String WsResponse;
 	private String ReagentCode;
+	private String Email;
 	private boolean CuShowDialog=true;
 	//Contractor
-	public SyncUpdateProfile(Activity activity, String guid, String hamyarcode, String ReagentCode) {
+	public SyncUpdateProfile(Activity activity, String guid, String hamyarcode, String ReagentCode,String Email) {
 		this.activity = activity;
 		this.guid = guid;
 		this.hamyarcode=hamyarcode;
 		this.ReagentCode=ReagentCode;
+		this.Email=Email;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
 		
@@ -185,6 +187,16 @@ public class SyncUpdateProfile {
 		ReagentCodePI.setType(String.class);
 		//Add the property to request object
 		request.addProperty(ReagentCodePI);
+		//*****************************************************
+		PropertyInfo EmailPI = new PropertyInfo();
+		//Set Name
+		EmailPI.setName("Email");
+		//Set Value
+		EmailPI.setValue(this.Email);
+		//Set dataType
+		EmailPI.setType(String.class);
+		//Add the property to request object
+		request.addProperty(EmailPI);
 		//*****************************************************
 
 	    //Create envelope

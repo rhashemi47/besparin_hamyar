@@ -71,6 +71,7 @@ public class Profile extends AppCompatActivity {
 	private TextView tvStatuse;
 	private EditText etBrithday;
 	private EditText etReagentCodeProfile;
+	private EditText etEmail;
 	private DatabaseHelper dbh;
 	private SQLiteDatabase db;
 	private Button btnSendProfile;
@@ -109,6 +110,7 @@ public class Profile extends AppCompatActivity {
 		tvNumberPhone=(TextView)findViewById(R.id.tvNumberPhone);
 		tvCodeMoaref=(TextView)findViewById(R.id.tvCodeMoaref);
 		etBrithday=(EditText) findViewById(R.id.etBrithday);
+		etEmail=(EditText) findViewById(R.id.etEmail);
 		etReagentCodeProfile=(EditText)findViewById(R.id.etReagentCodeProfile);
 		imgUser=(ImageView) findViewById(R.id.imgUser);
 		btnSendProfile=(Button) findViewById(R.id.btnSendProfile);
@@ -133,6 +135,7 @@ public class Profile extends AppCompatActivity {
 		tvCodeMoaref.setTypeface(FontMitra);
 		etBrithday.setTypeface(FontMitra);
 		etReagentCodeProfile.setTypeface(FontMitra);
+		etEmail.setTypeface(FontMitra);
 		//********************************************************
 		tvUserCode.setTextSize(18);
 		tvTitleUserCode.setTextSize(18);
@@ -146,6 +149,7 @@ public class Profile extends AppCompatActivity {
 		tvCodeMoaref.setTextSize(18);
 		etBrithday.setTextSize(18);
 		etReagentCodeProfile.setTextSize(18);
+		etEmail.setTextSize(18);
 		dbh=new DatabaseHelper(getApplicationContext());
 		try {
 
@@ -211,6 +215,7 @@ public class Profile extends AppCompatActivity {
 			etBrithday.setText(coursors.getString(coursors.getColumnIndex("BthDate")));
 			tvNumberPhone.setText(coursors.getString(coursors.getColumnIndex("Mobile")));
 			tvStatuse.setText((coursors.getString(coursors.getColumnIndex("Status"))).compareTo("0")==0 ? "غیرفعال" : "فعال");
+			etEmail.setText(coursors.getString(coursors.getColumnIndex("Email")));
 			bmp=convertToBitmap(coursors.getString(coursors.getColumnIndex("Pic")));
 			try{
 				if (coursors.getString(coursors.getColumnIndex("ReagentName")).length() > 0) {
@@ -317,13 +322,13 @@ public class Profile extends AppCompatActivity {
 						}
 						else
 						{
-							SyncUpdateProfile syncUpdateProfile=new SyncUpdateProfile(Profile.this,guid,hamyarcode,PersianDigitConverter.EnglishNumber(ReagentCode));
+							SyncUpdateProfile syncUpdateProfile=new SyncUpdateProfile(Profile.this,guid,hamyarcode,PersianDigitConverter.EnglishNumber(ReagentCode),etEmail.getText().toString());
 							syncUpdateProfile.AsyncExecute();
 						}
 					}
 					else
 					{
-						SyncUpdateProfile syncUpdateProfile=new SyncUpdateProfile(Profile.this,guid,hamyarcode,"0");
+						SyncUpdateProfile syncUpdateProfile=new SyncUpdateProfile(Profile.this,guid,hamyarcode,"0",etEmail.getText().toString());
 						syncUpdateProfile.AsyncExecute();
 					}
 				}

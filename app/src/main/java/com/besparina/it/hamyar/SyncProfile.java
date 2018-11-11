@@ -225,6 +225,7 @@ public class SyncProfile {
 					"Status" +
 					",HamyarCodeForReagent" +
 					",Gender" +
+					",Email" +
 					" )" +
 					"VALUES" +
 					"('"+value[0]+
@@ -245,6 +246,7 @@ public class SyncProfile {
 					"','"+value[15]+
 					"','"+value[16]+
 					"','"+value[17]+
+					"','"+value[18]+
 					"')";
 			db.execSQL(query);
 
