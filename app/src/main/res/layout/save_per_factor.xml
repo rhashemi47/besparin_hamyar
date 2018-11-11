@@ -152,36 +152,7 @@
                 android:gravity="center"
                 android:layout_marginStart="10dp" />
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical"
-            android:layout_gravity="center"
-            android:gravity="center">
-            <Button
-                android:id="@+id/btnSaveTool"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/Add_List"
-                android:drawableRight="@drawable/plus_small"
-                android:background="@drawable/rounded_button3"
-                android:paddingRight="110dp"
-                android:paddingLeft="110dp"
-                android:textColor="#000000"/>
 
-        </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical"
-        android:id="@+id/LinerListTools">
-        <ListView
-            android:id="@+id/ListTools"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"/>
-    </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -313,6 +284,36 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:layout_marginStart="10dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:gravity="center">
+            <Button
+                android:id="@+id/btnSaveTool"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Add_List"
+                android:drawableRight="@drawable/plus_small"
+                android:background="@drawable/rounded_button3"
+                android:paddingRight="110dp"
+                android:paddingLeft="110dp"
+                android:textColor="#000000"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:id="@+id/LinerListTools">
+            <ListView
+                android:id="@+id/ListTools"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"

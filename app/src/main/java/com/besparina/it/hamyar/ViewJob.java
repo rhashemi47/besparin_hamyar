@@ -110,7 +110,6 @@ public class ViewJob extends AppCompatActivity{
     private Button btnResume;
     private Button btnFinal;
     private Button btnCallToCustomer;
-    private Button btnCanselPerFactor;
     private Cursor coursors;
     private TextView btnCredit;
     private Button btnDutyToday;
@@ -158,7 +157,6 @@ public class ViewJob extends AppCompatActivity{
         btnServices_at_the_turn=(Button)findViewById(R.id.btnServices_at_the_turn);
         btnDutyToday=(Button)findViewById(R.id.btnDutyToday);
         btnHome=(Button)findViewById(R.id.btnHome);
-        btnCanselPerFactor=(Button) findViewById(R.id.btnCanselPerFactor);
         btnSelect=(Button)findViewById(R.id.btnSelect);
         btnCansel=(Button)findViewById(R.id.btnCansel);
         btnPause=(Button)findViewById(R.id.btnPause);
@@ -170,7 +168,6 @@ public class ViewJob extends AppCompatActivity{
         //********************************
         btnCredit.setTypeface(FontMitra);
         btnHome.setTypeface(FontMitra);
-        btnCanselPerFactor.setTypeface(FontMitra);
         btnSelect.setTypeface(FontMitra);
         btnCansel.setTypeface(FontMitra);
         btnPause.setTypeface(FontMitra);
@@ -1361,12 +1358,7 @@ public class ViewJob extends AppCompatActivity{
             }
         });
 
-        btnCanselPerFactor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                backToActivity();
-            }
-        }); btnCredit.setOnClickListener(new View.OnClickListener() {
+         btnCredit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);

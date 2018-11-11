@@ -93,6 +93,7 @@ public class Save_Per_Factor extends Activity {
     private Button btnServices_at_the_turn;
     private Button btnHome;
     private String back_activity;
+    private Button btnCanselPerFactor;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -106,6 +107,7 @@ public class Save_Per_Factor extends Activity {
         //********************************************************************
 
         btnCredit=(TextView)findViewById(R.id.btnCredit);
+        btnCanselPerFactor=(Button) findViewById(R.id.btnCanselPerFactor);
         btnServices_at_the_turn=(Button)findViewById(R.id.btnServices_at_the_turn);
         btnDutyToday=(Button)findViewById(R.id.btnDutyToday);
         btnHome=(Button)findViewById(R.id.btnHome);
@@ -286,6 +288,16 @@ public class Save_Per_Factor extends Activity {
             @Override
             public void onClick(View v) {
                 addItemFromList();
+            }
+        });
+        btnCanselPerFactor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String query="DELETE FROM HmFactorTools_List";
+                db=dbh.getWritableDatabase();
+                db.execSQL(query);
+                db.close();
+                LoadActivity_Select(ViewJob.class, "guid", guid, "hamyarcode", hamyarcode,"BsUserServicesID", BsUserServicesID, "tab", tab,"back_activity",back_activity);
             }
         });
         EtToolValuePrice.addTextChangedListener(new NumberTextWatcherForThousand(EtToolValuePrice));
