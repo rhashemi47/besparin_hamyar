@@ -441,7 +441,7 @@
                     etFromTime.setText("");
                     etToTime.setText("");
                     etArea.setText("");
-                    spExpert.setSelection(1);
+                    spExpert.setSelection(0);
                     setListServices();
                 }
             });
@@ -676,18 +676,10 @@
 //                                    LoadActivity(YourCommitment.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
 //                                }
 //                                db.close();
-                                    openWebPage("http://besparina.ir");
+                                    openWebPage("http://besparina.ir/?page_id=178");
                                     break;
                                 case 4:
-//                                db = dbh.getReadableDatabase();
-//                                c = db.rawQuery("SELECT * FROM login",null);
-//                                if(c.getCount()>0) {
-//                                    c.moveToNext();
-//
-//                                    LoadActivity(OurCommitment.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
-//                                }
-//                                db.close();
-                                    openWebPage("http://besparina.ir");
+openWebPage("http://besparina.ir/?page_id=164");
                                     break;
                                 case 5:
                                     db = dbh.getReadableDatabase();
@@ -700,14 +692,7 @@
                                     db.close();
                                     break;
                                 case 6:
-                                    db = dbh.getReadableDatabase();
-                                    c = db.rawQuery("SELECT * FROM login",null);
-                                    if(c.getCount()>0) {
-                                        c.moveToNext();
-
-                                        LoadActivity(GiftBank.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
-                                    }
-                                    db.close();
+                                   openWebPage("http://besparina.ir/?page_id=405&preview=true");
                                     break;
                                 case 7:
                                     db = dbh.getReadableDatabase();
@@ -776,14 +761,7 @@
 //                                alertbox.show();
                                     break;
                                 case 10:
-                                    db = dbh.getReadableDatabase();
-                                    c = db.rawQuery("SELECT * FROM login",null);
-                                    if(c.getCount()>0) {
-                                        c.moveToNext();
-
-                                        LoadActivity(Help.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
-                                    }
-                                    db.close();
+                                    openWebPage("http://besparina.ir/?page_id=377&preview=true");
                                     break;
                                 case 11:
                                     db = dbh.getReadableDatabase();

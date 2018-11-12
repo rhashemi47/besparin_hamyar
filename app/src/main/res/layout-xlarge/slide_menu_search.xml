@@ -264,21 +264,35 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="20dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp">
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
                     <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
                         android:id="@+id/btnSearch"
-                        android:text="@string/search"
-                        android:paddingLeft="80dp"
-                        android:paddingRight="80dp"
-                        android:textSize="16sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
                         android:layout_marginBottom="20dp"
+                        android:background="@drawable/rounded_button_search"
                         android:drawableRight="@drawable/search"
-                        android:background="@drawable/rounded_button_search"/>
+                        android:paddingRight="5dp"
+                        android:layout_weight="1"
+                        android:text="@string/search"
+                        android:layout_marginLeft="2dp"
+                        android:textSize="16sp" />
+                    <Button
+                        android:id="@+id/btnClear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="20dp"
+                        android:background="@drawable/rounded_button_search"
+                        android:drawableRight="@drawable/close"
+                        android:paddingRight="5dp"
+                        android:text="@string/clear"
+                        android:layout_weight="1"
+                        android:layout_marginRight="2dp"
+                        android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

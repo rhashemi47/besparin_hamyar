@@ -391,7 +391,7 @@ public class ShowMessage extends Activity{
 //                                    LoadActivity(YourCommitment.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
 //                                }
 //                                db.close();
-                                openWebPage("http://besparina.ir");
+                                openWebPage("http://besparina.ir/?page_id=178");
                                 break;
                             case 4:
 //                                db = dbh.getReadableDatabase();
@@ -402,7 +402,7 @@ public class ShowMessage extends Activity{
 //                                    LoadActivity(OurCommitment.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
 //                                }
 //                                db.close();
-                                openWebPage("http://besparina.ir");
+                                openWebPage("http://besparina.ir/?page_id=178");
                                 break;
                             case 5:
                                 db = dbh.getReadableDatabase();

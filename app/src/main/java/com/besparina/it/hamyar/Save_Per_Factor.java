@@ -287,7 +287,22 @@ public class Save_Per_Factor extends Activity {
         btnSaveTool.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addItemFromList();
+                db = dbh.getReadableDatabase();
+                Cursor coursors = db.rawQuery("SELECT * FROM HmFactorService WHERE ServiceDetaileCode='"+ServiceDetaileCode+"' AND Status='1'", null);
+                if (coursors.getCount() > 0) {
+                    Cursor coursor = db.rawQuery("SELECT * FROM HmFactorTools WHERE ServiceDetaileCode='"+ServiceDetaileCode+"'", null);
+                    if (coursor.getCount() > 0) {
+                        addItemFromList();
+                    }
+                    else
+                    {
+                        Toast.makeText(Save_Per_Factor.this,"ابتدا باید در قسمت تنظیمات، ملزومات کاری را ثبت نمایید",Toast.LENGTH_LONG).show();
+                    }
+                }
+                else
+                {
+                    Toast.makeText(Save_Per_Factor.this,"ابتدا باید در قسمت تنظیمات، مراحل کاری را ثبت نمایید",Toast.LENGTH_LONG).show();
+                }
             }
         });
         btnCanselPerFactor.setOnClickListener(new View.OnClickListener() {
@@ -534,6 +549,10 @@ public class Save_Per_Factor extends Activity {
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             SpTitleStepJob.setAdapter(dataAdapter);
         }
+        else
+        {
+            Toast.makeText(Save_Per_Factor.this,"ابتدا باید در قسمت تنظیمات، مراحل کاری را ثبت نمایید",Toast.LENGTH_LONG).show();
+        }
     }
     public void FillSpinnerTools(){
 
@@ -570,6 +589,10 @@ public class Save_Per_Factor extends Activity {
             };
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             SPTitleTools.setAdapter(dataAdapter);
+        }
+        else
+        {
+            Toast.makeText(Save_Per_Factor.this,"ابتدا باید در قسمت تنظیمات، ملزومات کاری را ثبت نمایید",Toast.LENGTH_LONG).show();
         }
     }
     public void SendFarctor() {
