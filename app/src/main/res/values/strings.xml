@@ -188,4 +188,5 @@
     <string name="FinalSavePerFactor">ثبت پیش فاکتور</string>
     <string name="Cansel2">انصراف</string>
     <string name="clear">حذف فیلتر</string>
+    <string name="TotalAll">جمع کل:</string>
 </resources>

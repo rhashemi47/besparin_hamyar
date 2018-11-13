@@ -72,6 +72,7 @@ public class Save_Per_Factor extends Activity {
     private TextView tvToolValuePrice;
     private TextView tvTotalSumToolTitle;
     private TextView tvDescription;
+    private TextView tvTotal;
     private CheckBox CheckTitleTools;
     private Button btnSendPerFactor;
     private Button btnSaveTool;
@@ -94,6 +95,7 @@ public class Save_Per_Factor extends Activity {
     private Button btnHome;
     private String back_activity;
     private Button btnCanselPerFactor;
+    private float TotalALL_Float=0;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -132,6 +134,7 @@ public class Save_Per_Factor extends Activity {
         tvPriceToolsTitle=(TextView) findViewById(R.id.tvPriceToolsTitle);
         tvToolValuePrice=(TextView) findViewById(R.id.tvToolValuePrice);
         tvTotalSumToolTitle=(TextView) findViewById(R.id.tvTotalSumToolTitle);
+        tvTotal=(TextView) findViewById(R.id.tvTotal);
         tvDescription=(TextView) findViewById(R.id.tvDescription);
         CheckTitleTools=(CheckBox) findViewById(R.id.CheckTitleTools);
         btnSendPerFactor=(Button) findViewById(R.id.btnSendPerFactor);
@@ -382,6 +385,8 @@ public class Save_Per_Factor extends Activity {
                         PriceStep=tvUnitPrice.getText().toString();
                         Result=0*Integer.parseInt(PriceStep);
                         tvTotalSumStep.setText(Integer.toString(Result));
+                        tvTotal.setText(Integer.toString(Result));
+                        TotalALL_Float=Result;
                     }
                     else
                     {
@@ -395,6 +400,8 @@ public class Save_Per_Factor extends Activity {
                             PriceStep=tvUnitPrice.getText().toString();
                             Result=Double.parseDouble(Amount)*Double.parseDouble(PriceStep);
                             tvTotalSumStep.setText(df.format(Result));
+                            tvTotal.setText(df.format(Result));
+                            TotalALL_Float= (float) Result;
                         }
                         catch (Exception e) {
                             e.printStackTrace();
@@ -662,6 +669,12 @@ public class Save_Per_Factor extends Activity {
                             + "','" + Price + "','" + Amont + "','" +ServiceDetaileCode+"')";
                     db = dbh.getWritableDatabase();
                     db.execSQL(query);
+//                    String StrTotalSumStep=tvTotalSumStep.getText().toString().replace("٬","");
+                    String StrTotalSumTool=tvTotalSumTool.getText().toString().replace("٬","");
+//                    float TotalSumStep_Float=Float.valueOf(PersianDigitConverter.EnglishNumber(StrTotalSumStep));
+                    float tvTotalSumTool_Float=Float.valueOf(PersianDigitConverter.EnglishNumber(StrTotalSumTool));
+                    TotalALL_Float+=tvTotalSumTool_Float;
+                    tvTotal.setText(String.valueOf(TotalALL_Float));
                     if (ListTools.getCount() > 0) {
                         adapterList.add(temp);
                         ListTools.setAdapter(adapterList);
@@ -695,15 +708,18 @@ void removeItemFromList(final int position) {
         // do something when the button is clicked
         public void onClick(DialogInterface arg0, int arg1) {
             //Declare Object From Get Internet Connection Status For Check Internet Status
-            String[] STR=listItems.get(position).toString().split("-");
+            String[] STR=PersianDigitConverter.EnglishNumber(listItems.get(position).toString()).split("-");
             db = dbh.getWritableDatabase();
-            String query="DELETE FROM HmFactorTools WHERE ToolName='"+STR[0]+"' AND Price='"+STR[2]+"'" +
+            String query="DELETE FROM HmFactorTools_List WHERE ToolName='"+STR[0]+"' AND Price='"+STR[2]+"'" +
                     " AND ServiceDetaileCode='"+ServiceDetaileCode+"' AND BrandName='"+STR[1]+"' AND Amount='"+STR[3]+"'";
            db.execSQL(query);
 
             db.close();
             listItems.remove(deletePosition);
             adapterList.notifyDataSetChanged();
+            float zarb=Float.valueOf(PersianDigitConverter.EnglishNumber(STR[2]))*Float.valueOf(PersianDigitConverter.EnglishNumber(STR[3]));
+            TotalALL_Float-=zarb;
+            tvTotal.setText(String.valueOf(TotalALL_Float));
             Toast.makeText(Save_Per_Factor.this, "آیتم حذف شد", Toast.LENGTH_LONG).show();
             arg0.dismiss();
 
