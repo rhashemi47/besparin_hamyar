@@ -319,7 +319,7 @@
                             //new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
                             new SecondaryDrawerItem().withName(R.string.action_settings).withIcon(R.drawable.setting).withSelectable(false).withEnabled(IsActive),
                             new SecondaryDrawerItem().withName(R.string.Help).withIcon(R.drawable.help).withSelectable(false),
-                            new SecondaryDrawerItem().withName(R.string.About).withIcon(R.drawable.about).withSelectable(false),
+                            new SecondaryDrawerItem().withName(R.string.About).withIcon(R.drawable.about).withSelectable(false),                        new SecondaryDrawerItem().withName(R.string.History).withIcon(R.drawable.history).withSelectable(false),
                             //new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
                             //new SecondaryDrawerItem().withName(R.string.Exit).withIcon(R.drawable.exit).withSelectable(false),
                             new SecondaryDrawerItem().withName(R.string.Logout).withIcon(R.drawable.logout).withSelectable(false)
@@ -468,12 +468,10 @@ openWebPage("http://besparina.ir/?page_id=164");
                                 case 11:
                                     openWebPage("http://besparina.ir/?page_id=194");
                                     break;
-//                            case 12:
-////                                Toast.makeText(About.this, "خروج از برنامه", Toast.LENGTH_SHORT).show();
-//                                ExitApplication();
-//                                break;
                                 case 12:
-//                                Toast.makeText(About.this, "خروج از کاربری", Toast.LENGTH_SHORT).show();
+                                    LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
+                                    break;
+                                case 13:
                                     Logout();
                                     break;
                                 case 14:
