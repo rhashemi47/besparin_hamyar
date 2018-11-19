@@ -383,8 +383,9 @@ public class MainMenu extends AppCompatActivity {
         for(int i=0;i<cursorServiceNow.getCount();i++)
         {
             cursorServiceNow.moveToNext();
-            String DateTimeStr= ChangeDate.changeFarsiToMiladi(cursorServiceNow.getString(cursorServiceNow.getColumnIndex("EndDate")))+" "+cursorServiceNow.getString(cursorServiceNow.getColumnIndex("EndTime")) + ":00" ;
-            String GetDateTime="Select Cast ((JulianDay('"+faToEn(DateTimeStr.replace("/","-"))+"') - JulianDay('now'))" +
+            String DateTimeStartStr= ChangeDate.changeFarsiToMiladi(cursorServiceNow.getString(cursorServiceNow.getColumnIndex("StartDate")))+" "+cursorServiceNow.getString(cursorServiceNow.getColumnIndex("StartTime")) + ":00" ;
+            String DateTimeEndStr= ChangeDate.changeFarsiToMiladi(cursorServiceNow.getString(cursorServiceNow.getColumnIndex("EndDate")))+" "+cursorServiceNow.getString(cursorServiceNow.getColumnIndex("EndTime")) + ":00" ;
+            String GetDateTime="Select Cast ((JulianDay('"+faToEn(DateTimeEndStr.replace("/","-"))+"') - JulianDay('"+faToEn(DateTimeStartStr.replace("/","-"))+"'))" +
                     " * 24 As Integer) time";
             Ctime=db.rawQuery(GetDateTime,null);
             if(Ctime.getCount()>0) {

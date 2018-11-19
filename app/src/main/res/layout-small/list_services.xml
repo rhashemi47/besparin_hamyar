@@ -45,7 +45,7 @@
             android:id="@+id/listViewServices"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="80dp"
+            android:layout_marginBottom="40dp"
             android:dividerHeight="15dp"
             android:divider="@color/mdtp_transparent">
         </ListView>

@@ -106,19 +106,21 @@ public class SyncGetInvoiceAccept {
 		protected void onPostExecute(String result) {
 			PublicVariable.theard_GetFactorAccept=true;
 			if (result == null) {
-				String res[] = WsResponse.split("##");
-				if (res[1].compareTo("ER") == 0) {
-					//Toast.makeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();
+				try {
+					String res[] = WsResponse.split("##");
+					if (res[1].compareTo("ER") == 0) {
+						//Toast.makeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();
+					} else if (res[1].compareTo("-1") == 0) {
+					} else {
+						InsertDataFromWsToDb(WsResponse);
+					}
 				}
-				else if (res[1].compareTo("-1") == 0) {
-				}
-				else {
-					InsertDataFromWsToDb(WsResponse);
-				}
-			}
-			else
+				catch (Exception ex)
 				{
+					PublicVariable.theard_GetFactorAccept=true;
+				}
 			}
+
 			try {
 				if (this.dialog.isShowing()) {
 					this.dialog.dismiss();

@@ -72,7 +72,7 @@ public class ViewJob extends AppCompatActivity{
     private boolean IsActive;
     private String BsUserServicesID;
     private String tab;
-    private String status;
+    private String status="0";
     private String latStr="0";
     private String lonStr="0";
     private String DateStr="";
@@ -991,6 +991,18 @@ public class ViewJob extends AppCompatActivity{
         });
 
 //**************************************************************************************
+        db = dbh.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM HeadFactor WHERE UserServiceCode='" + BsUserServicesID + "' ORDER BY CAST(Code AS INTEGER) DESC", null);
+        if (c.getCount() > 0) {
+            c.moveToNext();
+            String TypeFactor = c.getString(c.getColumnIndex("Type"));
+            String InvocAccept = c.getString(c.getColumnIndex("PerInvocAccept"));
+            if (TypeFactor.compareTo("1") == 0 && InvocAccept.compareTo("1") == 0) {
+                btnPerFactor.setText("فاکتور");
+            }
+        }
+//**************************************************************************************
+
         if(tab.compareTo("0")==0)//status 0 is check-status 1 is select- 2 is pause - 3 is pause - 4 is cansel - 5 is visit - 6 is perfactor-7 is Final
         {
             if(status.compareTo("0")==0 )//check
