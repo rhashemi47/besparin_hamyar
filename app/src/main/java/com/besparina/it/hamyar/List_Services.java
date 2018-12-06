@@ -169,8 +169,49 @@
             lvServices = (ListView) findViewById(R.id.listViewServices);
             labelssp=new ArrayList<>();
             labelssp.add("");
-            db = dbh.getReadableDatabase();
-            Cursor cursors = db.rawQuery("SELECT * FROM servicesdetails ", null);
+            //****************************************************************
+            try
+            {
+                if(!db.isOpen())
+                {
+                    db = dbh.getReadableDatabase();
+                }
+            }
+            catch (Exception ex)
+            {
+                db = dbh.getReadableDatabase();
+            }
+            String query = "SELECT * FROM BsUserServices GROUP BY ServiceDetaileCode";
+            String StrExperts="";
+            Cursor cursors = db.rawQuery(query, null);
+            for (int i = 0; i < cursors.getCount(); i++) {
+                cursors.moveToNext();
+                if(StrExperts.length()==0) {
+                    StrExperts = cursors.getString(cursors.getColumnIndex("ServiceDetaileCode"));
+                }
+                else
+                {
+                    StrExperts ="," + cursors.getString(cursors.getColumnIndex("ServiceDetaileCode"));
+                }
+            }
+            if(db.isOpen())
+            {
+                db.close();
+            }
+            //****************************************************************
+            try
+            {
+                if(!db.isOpen())
+                {
+                    db = dbh.getReadableDatabase();
+                }
+            }
+            catch (Exception ex)
+            {
+                db = dbh.getReadableDatabase();
+            }
+            query="SELECT * FROM servicesdetails WHERE code in ("+StrExperts+")";
+            cursors = db.rawQuery(query, null);
             String str;
             for (int i = 0; i < cursors.getCount(); i++) {
                 cursors.moveToNext();
@@ -180,7 +221,10 @@
             ArrayAdapter<String> dataAdaptersp = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, labelssp);
             dataAdaptersp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spExpert.setAdapter(dataAdaptersp);
-            db.close();
+            if(db.isOpen())
+            {
+                db.close();
+            }
 //*********************************************************
             mHandler = new Handler();
             new Thread(new Runnable() {

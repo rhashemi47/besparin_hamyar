@@ -223,6 +223,7 @@ public class SyncProfileForService {
 						"IsEmrgency," +
 						"Status" +
 						",HamyarCodeForReagent" +
+						",Gender" +
 						" )" +
 						"VALUES" +
 						"('" + value[0] +
@@ -242,6 +243,7 @@ public class SyncProfileForService {
 						"','" + value[14] +
 						"','" + value[15] +
 						"','" + value[16] +
+						"','" + value[17] +
 						"')";
 				db.execSQL(query);
 				db.close();
@@ -279,6 +281,7 @@ public class SyncProfileForService {
 						"IsEmrgency," +
 						"Status" +
 						",HamyarCodeForReagent" +
+						",Gender" +
 						" )" +
 						"VALUES" +
 						"('" + value[0] +
@@ -298,6 +301,7 @@ public class SyncProfileForService {
 						"','" + value[14] +
 						"','" + value[15] +
 						"','" + value[16] +
+						"','" + value[17] +
 						"')";
 				db.execSQL(query);
 				db.close();

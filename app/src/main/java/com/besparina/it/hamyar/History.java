@@ -151,7 +151,7 @@
             String query = "SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
                     "LEFT JOIN " +
                     "Servicesdetails ON " +
-                    "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode";
+                    "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode WHERE Status in (3,4,12,13) ORDER BY CAST(BsHamyarSelectServices.Code AS int)";
             coursors = db.rawQuery(query, null);
             for (int i = 0; i < coursors.getCount(); i++) {
                 coursors.moveToNext();

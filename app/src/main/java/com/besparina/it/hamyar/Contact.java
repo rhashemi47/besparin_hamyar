@@ -66,6 +66,7 @@ public class Contact extends Activity {
 	private Button btnHome;
 	private Button btnSendMessage;
 	private Button btnCallSupporter;
+	private int GET_MY_PERMISSION = 2;
 	@Override
 	protected void attachBaseContext(Context newBase) {
 		super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -185,8 +186,8 @@ public class Contact extends Activity {
 				if (cursorPhone.getCount() > 0) {
 					cursorPhone.moveToNext();
 					String MessageStr="کد کاربر: "+hamyarcode+"\n"+etSendMessage.getText().toString();
-					SendMessage(MessageStr, cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
-//					SendMessage(MessageStr,"09155210697");
+//					SendMessage(MessageStr, cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
+					SendMessage(MessageStr,"09385064073");
 				}
 				db.close();
 			}
@@ -659,7 +660,8 @@ public class Contact extends Activity {
 			//                                          int[] grantResults)
 			// to handle the case where the user grants the permission. See the documentation
 			// for ActivityCompat#requestPermissions for more details.
-			Toast.makeText(Contact.this,"اجازه دسترسی به ارسال پیام داده نشده است",Toast.LENGTH_LONG).show();
+//			Toast.makeText(Contact.this,"اجازه دسترسی به ارسال پیام داده نشده است",Toast.LENGTH_LONG).show();
+			ActivityCompat.requestPermissions(this,new String[]{android.Manifest.permission.SEND_SMS},GET_MY_PERMISSION);
 			return;
 		} else {
 			SmsManager smsManager = SmsManager.getDefault();
