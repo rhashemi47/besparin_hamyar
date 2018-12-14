@@ -152,7 +152,7 @@
 
             //****************************************************************************************
             /*TextView tvAmountCredit=(TextView) findViewById(R.id.tvAmountCredit);
-            db=dbh.getReadableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
             Cursor cursor = db.rawQuery("SELECT * FROM AmountCredit", null);
             if (cursor.getCount() > 0) {
                 cursor.moveToNext();
@@ -209,7 +209,7 @@
                 SyncUnit unit = new SyncUnit(this,guid,hamyarcode);
                 unit.AsyncExecute();
             }
-            db=dbh.getReadableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
             coursors = db.rawQuery("SELECT * FROM services", null);
             if (coursors.getCount() > 0) {
                 for (int i = 0; i < coursors.getCount(); i++) {
@@ -339,7 +339,7 @@
                             String[] StrDetail=SpDitalNameService.getSelectedItem().toString().split(":");
                             String query="INSERT INTO HmFactorService (ServiceName,PricePerUnit,Unit,ServiceDetaileCode) VALUES('" + EttitleStepStr + "','" + EtUnitPriceStr
                                     + "','" + Unit_value.get(UnitStr) + "','" +StrDetail[0] +"')";
-                            db = dbh.getWritableDatabase();
+                            try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
                             db.execSQL(query);
                             if (lvStepJob.getCount() > 0) {
                                 adapterList.add(temp);

@@ -203,7 +203,7 @@ public class SyncProfileForService {
 		try {
 			boolean check = checkStatus(value[15]);
 			if (!check) {
-				db = dbh.getWritableDatabase();
+				try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 				db.execSQL("DELETE FROM Profile");
 				query = "INSERT INTO Profile " +
 						"(Code," +
@@ -261,7 +261,7 @@ public class SyncProfileForService {
 			}
 			else
 			{
-				db = dbh.getWritableDatabase();
+				try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 				db.execSQL("DELETE FROM Profile");
 				query = "INSERT INTO Profile " +
 						"(Code," +
@@ -315,7 +315,7 @@ public class SyncProfileForService {
 
 	public boolean checkStatus(String statusStr)
 	{
-		db=dbh.getReadableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		String query = "SELECT * FROM Profile WHERE Status='"+statusStr+"'";
 		Cursor cursor= db.rawQuery(query,null);
 		if(cursor.getCount()>0)

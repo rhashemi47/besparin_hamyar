@@ -98,11 +98,11 @@
                 hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
             }
 
-            db.close();
+            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
         }
             //****************************************************************************************
             /*TextView tvAmountCredit=(TextView) findViewById(R.id.tvAmountCredit);
-            db=dbh.getReadableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
             Cursor cursor = db.rawQuery("SELECT * FROM AmountCredit", null);
             if (cursor.getCount() > 0) {
                 cursor.moveToNext();
@@ -123,7 +123,7 @@
             }*/
             //****************************************************************************************
             //****************************************************************************************
-            db=dbh.getReadableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
             Cursor coursors = db.rawQuery("SELECT * FROM messages WHERE IsReade='0' AND IsDelete='0'",null);
             if(coursors.getCount()>0)
             {
@@ -300,7 +300,7 @@
                         public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                             switch (position){
                                 case 1://Profile
-                                    db=dbh.getReadableDatabase();
+                                    try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
                                     Cursor coursors = db.rawQuery("SELECT * FROM Profile",null);
                                     if(coursors.getCount()>0)
                                     {
@@ -327,7 +327,7 @@
                                         LoadActivity(Login.class,"guid",guid,"hamyarcode",hamyarcode);
                                     }
 
-                                    db.close();
+                                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                                     break;
                                 case 2:
                                     db = dbh.getReadableDatabase();
@@ -336,7 +336,7 @@
                                         c.moveToNext();
                                         LoadActivity(List_Visits.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
                                     }
-                                    db.close();
+                                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                                     break;
                                 case 3:
 //                                db = dbh.getReadableDatabase();
@@ -346,7 +346,7 @@
 //
 //                                    LoadActivity(YourCommitment.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
 //                                }
-//                                db.close();
+//                                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                                     openWebPage("http://besparina.ir/?page_id=178");
                                     break;
                                 case 4:
@@ -360,7 +360,7 @@ openWebPage("http://besparina.ir/?page_id=164");
 
                                         LoadActivity(List_Messages.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
                                     }
-                                    db.close();
+                                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                                     break;
                                 case 6:
                                    openWebPage("http://besparina.ir/?page_id=405&preview=true");
@@ -373,7 +373,7 @@ openWebPage("http://besparina.ir/?page_id=164");
                                         sharecode(c.getString(c.getColumnIndex("HamyarCodeForReagent")));
                                         // LoadActivity(GiftBank.class, "karbarCode", c.getString(c.getColumnIndex("karbarCode")));
                                     }
-                                    db.close();
+                                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                                     break;
                                 case 8:
                                     db = dbh.getReadableDatabase();
@@ -393,7 +393,7 @@ openWebPage("http://besparina.ir/?page_id=164");
 //                                alertbox.setPositiveButton("مراحل کاری", new DialogInterface.OnClickListener() {
 //                                    // do something when the button is clicked
 //                                    public void onClick(DialogInterface arg0, int arg1) {
-                                    db=dbh.getReadableDatabase();
+                                    try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
                                     c = db.rawQuery("SELECT * FROM login",null);
                                     if(c.getCount()>0)
                                     {
@@ -404,7 +404,7 @@ openWebPage("http://besparina.ir/?page_id=164");
                                         syncGetHmFactorTools.AsyncExecute();
                                         LoadActivity(Setting.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
                                     }
-                                    db.close();
+                                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 //                                        arg0.dismiss();
 //                                    }
 //                                });
@@ -414,7 +414,7 @@ openWebPage("http://besparina.ir/?page_id=164");
 //                                    // do something when the button is clicked
 //                                    public void onClick(DialogInterface arg0, int arg1) {
 //                                        //Declare Object From Get Internet Connection Status For Check Internet Status
-//                                        db=dbh.getReadableDatabase();
+//                                        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 //                                        Cursor  c = db.rawQuery("SELECT * FROM login",null);
 //                                        if(c.getCount()>0) {
 //                                            c.moveToNext();
@@ -423,7 +423,7 @@ openWebPage("http://besparina.ir/?page_id=164");
 //                                            LoadActivity(StepJobDetaile.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
 //                                        }
 //
-//                                        db.close();
+//                                        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 //                                        arg0.dismiss();
 //
 //                                    }
@@ -512,7 +512,7 @@ openWebPage("http://besparina.ir/?page_id=164");
                     stopService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
                     stopService(new Intent(getBaseContext(), ServiceSyncProfile.class));
                     stopService(new Intent(getBaseContext(), ServiceSyncServiceSelected.class));
-                    db = dbh.getWritableDatabase();
+                    try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
                     db.execSQL("DELETE FROM AmountCredit");
                     db.execSQL("DELETE FROM android_metadata");
                     db.execSQL("DELETE FROM BsHamyarSelectServices");
@@ -537,7 +537,7 @@ openWebPage("http://besparina.ir/?page_id=164");
                     db.execSQL("DELETE FROM Supportphone");
                     db.execSQL("DELETE FROM Unit");
                     db.execSQL("DELETE FROM UpdateApp");
-                    db.close();
+                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                     Intent startMain = new Intent(Intent.ACTION_MAIN);
 
 

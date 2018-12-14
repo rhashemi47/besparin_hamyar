@@ -134,7 +134,7 @@ protected void onCreate(Bundle savedInstanceState) {
 	}
 
 	//****************************************************************************************
-	/*db=dbh.getReadableDatabase();
+	/*try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 	Cursor cursor = db.rawQuery("SELECT * FROM AmountCredit", null);
 	if (cursor.getCount() > 0) {
 		cursor.moveToNext();
@@ -154,7 +154,7 @@ protected void onCreate(Bundle savedInstanceState) {
 		}
 	}*/
 	//****************************************************************************************
-	db=dbh.getReadableDatabase();
+	try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 	Cursor coursors = db.rawQuery("SELECT * FROM messages WHERE IsReade='0' AND IsDelete='0'",null);
 	if(coursors.getCount()>0)
 	{
@@ -398,7 +398,7 @@ protected void onCreate(Bundle savedInstanceState) {
 					public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
 						switch (position){
 							case 1://Profile
-								db=dbh.getReadableDatabase();
+								try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 								Cursor coursors = db.rawQuery("SELECT * FROM Profile",null);
 								if(coursors.getCount()>0)
 								{
@@ -498,7 +498,7 @@ protected void onCreate(Bundle savedInstanceState) {
 //                                alertbox.setPositiveButton("مراحل کاری", new DialogInterface.OnClickListener() {
 //                                    // do something when the button is clicked
 //                                    public void onClick(DialogInterface arg0, int arg1) {
-								db=dbh.getReadableDatabase();
+								try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 								c = db.rawQuery("SELECT * FROM login",null);
 								if(c.getCount()>0)
 								{
@@ -519,7 +519,7 @@ protected void onCreate(Bundle savedInstanceState) {
 //                                    // do something when the button is clicked
 //                                    public void onClick(DialogInterface arg0, int arg1) {
 //                                        //Declare Object From Get Internet Connection Status For Check Internet Status
-//                                        db=dbh.getReadableDatabase();
+//                                        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 //                                        Cursor  c = db.rawQuery("SELECT * FROM login",null);
 //                                        if(c.getCount()>0) {
 //                                            c.moveToNext();
@@ -617,7 +617,7 @@ protected void onCreate(Bundle savedInstanceState) {
 				stopService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
 				stopService(new Intent(getBaseContext(), ServiceSyncProfile.class));
 				stopService(new Intent(getBaseContext(), ServiceSyncServiceSelected.class));
-				db = dbh.getWritableDatabase();
+				try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 				db.execSQL("DELETE FROM AmountCredit");
 				db.execSQL("DELETE FROM android_metadata");
 				db.execSQL("DELETE FROM BsHamyarSelectServices");

@@ -77,19 +77,19 @@ protected void onCreate(Bundle savedInstanceState) {
 	}
 	catch (Exception e)
 	{
-		db=dbh.getReadableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		Cursor coursors = db.rawQuery("SELECT * FROM login",null);
 		for(int i=0;i<coursors.getCount();i++){
 			coursors.moveToNext();
 			guid=coursors.getString(coursors.getColumnIndex("guid"));
 			hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
 		}
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 	}
 
 	//****************************************************************************************
 	/*TextView tvAmountCredit=(TextView) findViewById(R.id.tvAmountCredit);
-	db=dbh.getReadableDatabase();
+	try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 	Cursor cursor = db.rawQuery("SELECT * FROM AmountCredit", null);
 	if (cursor.getCount() > 0) {
 		cursor.moveToNext();
@@ -220,7 +220,7 @@ public boolean onKeyDown( int keyCode, KeyEvent event )  {
 						cursorPhone.moveToNext();
 						dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
 					}
-					db.close();
+					try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 				} else {
 					// Permission Denied
 					Toast.makeText(this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)

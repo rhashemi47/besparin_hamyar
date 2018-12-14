@@ -174,7 +174,7 @@ public class WsDownLoadUpdate {
 
         alertbox.show();
 
-//        db.close();
+//        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 //        dbh.close();
     }
 

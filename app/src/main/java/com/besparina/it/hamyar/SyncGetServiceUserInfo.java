@@ -198,6 +198,6 @@ public class SyncGetServiceUserInfo {
 				"' WHERE Code='"+ UserServiceCode+"'";
 			db.execSQL(query);
 
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
     }
 }

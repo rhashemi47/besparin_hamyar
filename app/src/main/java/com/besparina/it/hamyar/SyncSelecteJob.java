@@ -231,7 +231,7 @@ public class SyncSelecteJob {
     {
 		String query=null;
 		Cursor coursors;
-		db=dbh.getReadableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		query = "SELECT * FROM BsUserServices WHERE code='" + UserServiceCode+"'";
 		coursors = db.rawQuery(query,null);
 		if(coursors.getCount()>0)

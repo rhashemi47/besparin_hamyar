@@ -51,7 +51,7 @@ public class Profile extends Activity {
 		}
 		catch (Exception e)
 		{
-			db=dbh.getReadableDatabase();
+			try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 			Cursor coursors = db.rawQuery("SELECT * FROM login",null);
 			for(int i=0;i<coursors.getCount();i++){
 				coursors.moveToNext();
@@ -60,7 +60,7 @@ public class Profile extends Activity {
 			}
 		}
 
-		db=dbh.getReadableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		Cursor coursors = db.rawQuery("SELECT * FROM Profile",null);
 		for(int i=0;i<coursors.getCount();i++){
 			coursors.moveToNext();

@@ -208,7 +208,7 @@ public class SyncGetSelectJobs {
 		String query = null;
 		String LastHamyarUserServiceCode = null;
 		res = WsResponse.split("@@");
-		db = dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		for (int i = 0; i < res.length; i++) {
 			value = res[i].split("##");
 			query = "INSERT INTO BsHamyarSelectServices (Code," +

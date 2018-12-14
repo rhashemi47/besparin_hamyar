@@ -40,7 +40,7 @@ public class Accept_code extends Activity {
 	private BroadcastReceiver intentReciever=new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-		acceptcode.setText(intent.getExtras().getString("sms"));
+			acceptcode.setText(intent.getExtras().getString("sms"));
 		}
 	};
 	@Override
@@ -63,20 +63,27 @@ public class Accept_code extends Activity {
 		intentFilter.addAction("SMS_RECEIVED_ACTION");
 		int GET_MY_PERMISSION = 1;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {//For Read SMS In Android 8 and Last
+				if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
+					if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.RECEIVE_SMS)) {
+						//do nothing
+					} else {
 
-			if(ContextCompat.checkSelfPermission(this,android.Manifest.permission.READ_SMS)!= PackageManager.PERMISSION_GRANTED)
-			{
-				if(ActivityCompat.shouldShowRequestPermissionRationale(this,android.Manifest.permission.READ_SMS))
-				{
-					//do nothing
+						ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.RECEIVE_SMS}, GET_MY_PERMISSION);
+					}
 				}
-				else{
+			} else {
+				if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {
+					if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_SMS)) {
+						//do nothing
+					} else {
 
-					ActivityCompat.requestPermissions(this,new String[]{android.Manifest.permission.READ_SMS},GET_MY_PERMISSION);
+						ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.READ_SMS}, GET_MY_PERMISSION);
+					}
 				}
 			}
 		}
-
+		registerReceiver(intentReciever,intentFilter);
 		dbh=new DatabaseHelper(getApplicationContext());
 		try {
 
@@ -97,7 +104,7 @@ public class Accept_code extends Activity {
 			throw sqle;
 		}
 		Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");//set font for page
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//remive page title
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//remive page title
 		acceptcode=(EditText)findViewById(R.id.etAcceptcode);
 		btnSendAcceptcode=(Button)findViewById(R.id.btnSendAcceptCode);
 		btnRefreshAcceptcode=(Button)findViewById(R.id.btnRefreshAcceptCode);
@@ -106,7 +113,7 @@ public class Accept_code extends Activity {
 		btnSendAcceptcode.setTypeface(FontMitra);
 		btnRefreshAcceptcode.setTypeface(FontMitra);
 		btnSendAcceptcode.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				InternetConnection ic=new InternetConnection(getApplicationContext());
@@ -126,7 +133,7 @@ public class Accept_code extends Activity {
 			@Override
 			public void onClick(View v) {
 				String query=null;
-				db=dbh.getReadableDatabase();
+				try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 				query="SELECT * FROM Profile";
 				Cursor coursors = db.rawQuery(query,null);
 				if(coursors.getCount()>0)
@@ -139,7 +146,7 @@ public class Accept_code extends Activity {
 					sendCode.AsyncExecute();
 				}
 
-				db.close();
+				try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 
 			}
 		});
@@ -154,18 +161,18 @@ public class Accept_code extends Activity {
 		});
 	}
 
-@Override
-public  void onResume() {
+	@Override
+	public  void onResume() {
 
-	super.onResume();
-	registerReceiver(intentReciever,intentFilter);
-}
-@Override
-public void onPause() {
+		super.onResume();
+		registerReceiver(intentReciever,intentFilter);
+	}
+	@Override
+	public void onPause() {
 
-	super.onPause();
-	unregisterReceiver(intentReciever);
-}
+		super.onPause();
+		unregisterReceiver(intentReciever);
+	}
 	@Override
 	public boolean onKeyDown( int keyCode, KeyEvent event )  {
 		if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
@@ -197,11 +204,11 @@ public void onPause() {
 	{
 		phonenumber = getIntent().getStringExtra("phonenumber").toString();
 		String query="UPDATE login SET Phone ='"+phonenumber+"', AcceptCode='"+acceptcode.getText().toString()+"'";
-		db=dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		db.execSQL(query);
 		HmLogin hm=new HmLogin(Accept_code.this, phonenumber, acceptcode.getText().toString(),check_load);
 		hm.AsyncExecute();
 
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 	}
 }

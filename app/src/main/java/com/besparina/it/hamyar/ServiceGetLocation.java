@@ -90,7 +90,7 @@ public class ServiceGetLocation extends Service {
                                                         latitude = gps.getLatitude();
                                                         longitude = gps.getLongitude();
                                                         String query = "UPDATE Profile SET Lat='" + Double.toString(latitude) + "',Lon='" + Double.toString(longitude) + "'";
-                                                        db = dbh.getWritableDatabase();
+                                                        try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
                                                         db.execSQL(query);
                                                         String[] DateSp = ChangeDate.getCurrentDate().split("/");
                                                         String Yearobj = DateSp[0];

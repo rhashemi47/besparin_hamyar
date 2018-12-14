@@ -111,7 +111,7 @@ public class Info_Person extends Activity {
 		}
 	});	
 		//get List Edication for spinner		
-		db=dbh.getReadableDatabase();			
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		Cursor cursors = db.rawQuery("SELECT * FROM education ",null);
 		String str;
 		for(int i=0;i<cursors.getCount();i++){
@@ -211,7 +211,7 @@ public class Info_Person extends Activity {
 		});
 	}
 public void insertHamyar() {
-	db=dbh.getReadableDatabase();
+	try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 	String errorStr="";
 	if(fname.getText().toString().compareTo("")==0){
 		errorStr="لطفا نام خود راوارد نمایید\n";
@@ -256,7 +256,7 @@ public void insertHamyar() {
     private void prepareListData() {
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<String>>();
-        db=dbh.getReadableDatabase();			
+        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		Cursor headers = db.rawQuery("SELECT * FROM services ",null);
 		//String head;
 		for(int i=0;i<headers.getCount();i++){

@@ -88,7 +88,7 @@ public class MainMenu extends Activity {
         catch(Exception e)
         {
             Cursor cursors=null;
-            db=dbh.getReadableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
             cursors = db.rawQuery("SELECT * FROM login", null);
             if(cursors.getCount()>0)
             {

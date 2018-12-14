@@ -211,7 +211,7 @@ public class SyncGetUserServiceForHamyarUpdated {
 		String[] res;
 		String[] value;
 		String GenderStr="";
-		db=dbh.getReadableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		Cursor cursor=db.rawQuery("SELECT * FROM Profile",null);
 		if(cursor.getCount()>0)
 		{

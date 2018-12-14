@@ -349,7 +349,7 @@ public class InsertHamyar {
 				+"','"+notext
 				+"','"+notext
 				+"','0')");
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		LoadActivity(MainMenu.class, "guid", guid,"hamyarcode",hamyarcode);
     }
 	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2)

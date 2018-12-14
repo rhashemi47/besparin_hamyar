@@ -86,7 +86,7 @@ public class CustomAdapter extends BaseAdapter {
 
             throw sqle;
         }
-        db=dbh.getReadableDatabase();
+        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
         ViewHolder holder;
         LayoutInflater inflater = activity.getLayoutInflater();
         HashMap<String, String> map = list.get(position);

@@ -238,7 +238,7 @@ public class CustomeExpandableListAdapter extends BaseExpandableListAdapter {
 					boolean getChecked[] = mChildCheckStates.get(mGroupPosition);
 					getChecked[mChildPosition] = isChecked;
 					mChildCheckStates.put(mGroupPosition, getChecked);
-					db=dbh.getReadableDatabase();
+					try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 					Cursor coursors=db.rawQuery("SELECT * FROM servicesdetails WHERE name='"+buttonView.getTag().toString()+"'", null);
 					db=dbh.getWritableDatabase();
 					coursors.moveToNext();
@@ -249,7 +249,7 @@ public class CustomeExpandableListAdapter extends BaseExpandableListAdapter {
 					boolean getChecked[] = mChildCheckStates.get(mGroupPosition);
 					getChecked[mChildPosition] = isChecked;
 					mChildCheckStates.put(mGroupPosition, getChecked);
-					db=dbh.getReadableDatabase();
+					try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 					Cursor coursors=db.rawQuery("SELECT * FROM servicesdetails WHERE name='"+buttonView.getTag().toString()+"'", null);
 					db=dbh.getWritableDatabase();
 					coursors.moveToNext();

@@ -132,7 +132,7 @@
 
             //****************************************************************************************
             /*TextView tvAmountCredit=(TextView) findViewById(R.id.tvAmountCredit);
-            db=dbh.getReadableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
             Cursor cursor = db.rawQuery("SELECT * FROM AmountCredit", null);
             if (cursor.getCount() > 0) {
                 cursor.moveToNext();
@@ -153,7 +153,7 @@
             }*/
             //****************************************************************************************
             addItemFromList(true);
-            db=dbh.getReadableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
             Cursor coursors = db.rawQuery("SELECT * FROM services", null);
             if (coursors.getCount() > 0) {
                 for (int i = 0; i < coursors.getCount(); i++) {
@@ -184,7 +184,7 @@
                 ServiceNameTool.setAdapter(dataAdapter);
             }
 
-            db.close();
+            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
             ServiceNameTool.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -195,7 +195,7 @@
                         FillSpinnerChild(coursors.getString(coursors.getColumnIndex("code")));
                     }
 
-                    db.close();
+                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                 }
 
                 @Override
@@ -279,7 +279,7 @@
                             String[] StrDetail = SpDitalNameService.getSelectedItem().toString().split(":");
                             query = "INSERT INTO HmFactorTools (ToolName,Price,ServiceDetaileCode,BrandName) VALUES('" + EttitleToolsStepStr + "','" + EtPriceToolStr
                                     + "','" + StrDetail[0] + "','" + EtBrandToolStr + "')";
-                            db = dbh.getWritableDatabase();
+                            try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
                             db.execSQL(query);
                             if (ListViewSaveSetpTool.getCount() > 0) {
                                 adapterList.add(temp);
@@ -356,7 +356,7 @@
                                 }
                             };
 
-                            db.close();
+                            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                             ListViewSaveSetpTool.setAdapter(adapterList);
                         }
                     }
@@ -420,7 +420,7 @@
 
                     }
 
-                    db.close();
+                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                     listItems.remove(deletePosition);
                     adapterList.notifyDataSetChanged();
 
@@ -446,7 +446,7 @@
                 SpDitalNameService.setAdapter(dataAdapter);
             }
 
-            db.close();
+            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
         }
         public void SendFarctor() {
             db = dbh.getReadableDatabase();
@@ -473,6 +473,6 @@
                 Toast.makeText(StepJobDetaile.this, "لطفا آیتم جدیدی ایجاد کنید", Toast.LENGTH_LONG).show();
             }
 
-            db.close();
+            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
         }
     }

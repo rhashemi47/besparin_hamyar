@@ -224,7 +224,7 @@ public class Save_Per_Factor extends Activity {
         }
         catch (Exception e)
         {
-            db=dbh.getReadableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
             Cursor coursors = db.rawQuery("SELECT * FROM login",null);
             for(int i=0;i<coursors.getCount();i++){
                 coursors.moveToNext();
@@ -232,7 +232,7 @@ public class Save_Per_Factor extends Activity {
                 hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
             }
 
-            db.close();
+            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
         }
         try
         {
@@ -245,14 +245,14 @@ public class Save_Per_Factor extends Activity {
         {
             //todo
         }
-        db = dbh.getWritableDatabase();
+        try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
         String query="DELETE FROM HmFactorTools_List";
         db.execSQL(query);
-        db.close();
+        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 
         //****************************************************************************************
         /*TextView tvAmountCredit=(TextView) findViewById(R.id.tvAmountCredit);
-        db=dbh.getReadableDatabase();
+        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
         Cursor cursor = db.rawQuery("SELECT * FROM AmountCredit", null);
         if (cursor.getCount() > 0) {
             cursor.moveToNext();
@@ -314,7 +314,7 @@ public class Save_Per_Factor extends Activity {
                 String query="DELETE FROM HmFactorTools_List";
                 db=dbh.getWritableDatabase();
                 db.execSQL(query);
-                db.close();
+                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                 LoadActivity_Select(ViewJob.class, "guid", guid, "hamyarcode", hamyarcode,"BsUserServicesID", BsUserServicesID, "tab", tab,"back_activity",back_activity);
             }
         });
@@ -427,7 +427,7 @@ public class Save_Per_Factor extends Activity {
                     EtUnitValuePrice.setText("0");
                 }
 
-                db.close();
+                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
             }
 
             @Override
@@ -448,7 +448,7 @@ public class Save_Per_Factor extends Activity {
                         EtToolValuePrice.setText("0");
                     }
 
-                db.close();
+                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
             }
 
             @Override
@@ -498,7 +498,7 @@ public class Save_Per_Factor extends Activity {
             db=dbh.getWritableDatabase();
             db.execSQL(query);
 
-            db.close();
+            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
             Save_Per_Factor.this.LoadActivity_Select(ViewJob.class, "guid", guid, "hamyarcode", hamyarcode,"BsUserServicesID", BsUserServicesID, "tab", tab,"back_activity",back_activity);
         }
 
@@ -532,7 +532,7 @@ public class Save_Per_Factor extends Activity {
                 labelsServiceDetailName.add(coursors.getString(coursors.getColumnIndex("ServiceName")));
             }
 
-            db.close();
+            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, labelsServiceDetailName){
                 public View getView(int position, View convertView, ViewGroup parent) {
                     View v = super.getView(position, convertView, parent);
@@ -573,7 +573,7 @@ public class Save_Per_Factor extends Activity {
                 labelsServiceDetailName.add(coursors.getString(coursors.getColumnIndex("ToolName")));
             }
 
-            db.close();
+            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, labelsServiceDetailName){
                 public View getView(int position, View convertView, ViewGroup parent) {
                     View v = super.getView(position, convertView, parent);
@@ -667,7 +667,7 @@ public class Save_Per_Factor extends Activity {
                 } else {
                     String query="INSERT INTO HmFactorTools_List (Code,ToolName,BrandName,Price,Amount,ServiceDetaileCode) VALUES('" +mapTool.get(SPTitleTools.getSelectedItem().toString())+"','"+ TitleTool + "','" + BrandName
                             + "','" + Price + "','" + Amont + "','" +ServiceDetaileCode+"')";
-                    db = dbh.getWritableDatabase();
+                    try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
                     db.execSQL(query);
 //                    String StrTotalSumStep=tvTotalSumStep.getText().toString().replace("٬","");
                     String StrTotalSumTool=tvTotalSumTool.getText().toString().replace("٬","");
@@ -687,7 +687,7 @@ public class Save_Per_Factor extends Activity {
                 }
             }
 
-        db.close();
+        try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
     }
 void removeItemFromList(final int position) {
     final int deletePosition = position;
@@ -709,12 +709,12 @@ void removeItemFromList(final int position) {
         public void onClick(DialogInterface arg0, int arg1) {
             //Declare Object From Get Internet Connection Status For Check Internet Status
             String[] STR=PersianDigitConverter.EnglishNumber(listItems.get(position).toString()).split("-");
-            db = dbh.getWritableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
             String query="DELETE FROM HmFactorTools_List WHERE ToolName='"+STR[0]+"' AND Price='"+STR[2]+"'" +
                     " AND ServiceDetaileCode='"+ServiceDetaileCode+"' AND BrandName='"+STR[1]+"' AND Amount='"+STR[3]+"'";
            db.execSQL(query);
 
-            db.close();
+            try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
             listItems.remove(deletePosition);
             adapterList.notifyDataSetChanged();
             float zarb=Float.valueOf(PersianDigitConverter.EnglishNumber(STR[2]))*Float.valueOf(PersianDigitConverter.EnglishNumber(STR[3]));

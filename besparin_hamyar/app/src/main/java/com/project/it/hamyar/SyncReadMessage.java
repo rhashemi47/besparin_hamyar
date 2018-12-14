@@ -266,12 +266,12 @@ public class SyncReadMessage {
 	public void InsertDataFromWsToDb(String[] AllRecord)
     {
 		String query=null;
-		db=dbh.getReadableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		query="SELECT * FROM messages WHERE Code='"+messagecode+"'";
 		Cursor cursor= db.rawQuery(query,null);
 		if(cursor.getCount()>0) {
 			cursor.moveToNext();
-			db = dbh.getWritableDatabase();
+			try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 			query = "UPDATE  messages" +
 					" SET  IsReade='1' " +
 					"WHERE Code='" + messagecode + "'";

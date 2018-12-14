@@ -210,7 +210,7 @@ public class SyncGetUserServiceForHamyarDeleted {
 
 		db=dbh.getWritableDatabase();			
 		db.execSQL("DELETE FROM BsUserServices WHERE Code in ("+WsResponse+")");
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
     }
 	
 }

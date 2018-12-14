@@ -109,7 +109,7 @@ protected void onPause() {
 //					InternetConnection ic = new InternetConnection(getApplicationContext());
 //					if (ic.isConnectingToInternet()) {
 //						String query = null;
-//						db = dbh.getWritableDatabase();
+//						try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 //						query = "INSERT INTO Profile (Mobile) VALUES ('" + etPhoneNumber.getText().toString() + "')";
 //						db.execSQL(query);
 //						SendAcceptCode sendCode = new SendAcceptCode(Login.this, etPhoneNumber.getText().toString(), "0");
@@ -139,7 +139,7 @@ protected void onPause() {
 					InternetConnection ic = new InternetConnection(getApplicationContext());
 					if (ic.isConnectingToInternet()) {
 						String query = null;
-						db = dbh.getWritableDatabase();
+						try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 						query = "INSERT INTO Profile (Mobile) VALUES ('" + etPhoneNumber.getText().toString() + "')";
 						db.execSQL(query);
 						SendAcceptCode sendCode = new SendAcceptCode(Login.this, etPhoneNumber.getText().toString(), "1");

@@ -283,7 +283,7 @@ public class SyncUpdateStepJobs {
     {
 //		SyncGetHmFactorService getHmFactorService=new SyncGetHmFactorService(activity,guid,hamyarcode);
 //		getHmFactorService.AsyncExecute();
-		db = dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		String query="UPDATE HmFactorService SET Status='0',IsSend='1' WHERE ServiceName='"+ServiceName+"' AND PricePerUnit='"+PricePerUnit+"' AND Unit='"+UnitCode+"'" +
 				" AND ServiceDetaileCode='"+ServiceDetaileCode+"'";
 		db.execSQL(query);

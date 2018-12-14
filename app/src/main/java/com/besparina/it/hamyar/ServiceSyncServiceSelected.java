@@ -80,7 +80,7 @@ public class ServiceSyncServiceSelected extends Service {
                                                 guid = coursors.getString(coursors.getColumnIndex("guid"));
                                             }
                                             db.close();
-//                                    db=dbh.getReadableDatabase();
+//                                    try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 //                                    Cursor cursors = db.rawQuery("SELECT * FROM BsHamyarSelectServices WHERE IsDelete='0'", null);
 //                                    if(cursors.getCount()>0)
 //                                    {

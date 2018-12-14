@@ -212,12 +212,12 @@ public class SyncGetPreInvoiceAccept {
 				if (c.getString(c.getColumnIndex("PerInvocAccept")).compareTo(value[1]) != 0) {
 					if (value[1].compareTo("0") == 0) {
 						Title = "پیش فاکتور سرویس " + c.getString(c.getColumnIndex("UserServiceCode")) + "تایید نشد";
-						db = dbh.getWritableDatabase();
+						try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 						query = "UPDATE HeadFactor SET Type='1',PerInvocAccept='" + value[1] + "' WHERE Code='" + invoicecode + "'";
 						db.execSQL(query);
 					} else {
 						Title = "پیش فاکتور سرویس " + c.getString(c.getColumnIndex("UserServiceCode")) + "تایید شد";
-						db = dbh.getWritableDatabase();
+						try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 						query = "UPDATE HeadFactor SET Type='2',PerInvocAccept='" + value[1] + "',AcceptDatePerInvoc='" + value[2] + "' WHERE Code='" + invoicecode + "'";
 						db.execSQL(query);
 					}

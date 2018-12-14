@@ -277,7 +277,7 @@ public class ViewJob extends AppCompatActivity{
 
         //****************************************************************************************
         /*TextView tvAmountCredit=(TextView) findViewById(R.id.tvAmountCredit);
-        db=dbh.getReadableDatabase();
+        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
         Cursor cursor = db.rawQuery("SELECT * FROM AmountCredit", null);
         if (cursor.getCount() > 0) {
             cursor.moveToNext();
@@ -297,7 +297,7 @@ public class ViewJob extends AppCompatActivity{
             }
         }*/
         //****************************************************************************************
-        db=dbh.getReadableDatabase();
+        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
         Cursor coursor = db.rawQuery("SELECT * FROM messages WHERE IsReade='0' AND IsDelete='0'",null);
         if(coursor.getCount()>0)
         {
@@ -313,7 +313,7 @@ public class ViewJob extends AppCompatActivity{
         CreateMenu(toolbar);
         //***************************************************************************************************************************
 
-        db=dbh.getReadableDatabase();
+        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
         if(tab.compareTo("1")==0)
         {
             mHandler = new Handler();
@@ -326,7 +326,7 @@ public class ViewJob extends AppCompatActivity{
                                 @Override
                                 public void run() {
                                     String query="SELECT * FROM BsUserServices WHERE Code='"+BsUserServicesID+"'";
-                                    db=dbh.getReadableDatabase();
+                                    try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
                                     Cursor coursors = db.rawQuery(query,null);
                                     if(coursors.getCount()<=0)
                                     {
@@ -661,7 +661,7 @@ public class ViewJob extends AppCompatActivity{
                     "LEFT JOIN " +
                     "Servicesdetails ON " +
                     "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode WHERE BsHamyarSelectServices.Code='" + BsUserServicesID+"'";
-            db=dbh.getReadableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
             coursors = db.rawQuery(query, null);
             for (int i = 0; i < coursors.getCount(); i++) {
                 coursors.moveToNext();
@@ -1108,7 +1108,7 @@ public class ViewJob extends AppCompatActivity{
             public void onClick(View v)
             {
                 String query="SELECT * FROM BsUserServices WHERE Code='"+BsUserServicesID+"'";
-                db=dbh.getReadableDatabase();
+                try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
                 Cursor coursors = db.rawQuery(query,null);
                 if(coursors.getCount()<=0)
                 {
@@ -1531,7 +1531,7 @@ public class ViewJob extends AppCompatActivity{
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         switch (position){
                             case 1://Profile
-                                db=dbh.getReadableDatabase();
+                                try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
                                 Cursor coursors = db.rawQuery("SELECT * FROM Profile",null);
                                 if(coursors.getCount()>0)
                                 {
@@ -1639,7 +1639,7 @@ public class ViewJob extends AppCompatActivity{
 //                                alertbox.setPositiveButton("مراحل کاری", new DialogInterface.OnClickListener() {
 //                                    // do something when the button is clicked
 //                                    public void onClick(DialogInterface arg0, int arg1) {
-                                db=dbh.getReadableDatabase();
+                                try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
                                 c = db.rawQuery("SELECT * FROM login",null);
                                 if(c.getCount()>0)
                                 {
@@ -1660,7 +1660,7 @@ public class ViewJob extends AppCompatActivity{
 //                                    // do something when the button is clicked
 //                                    public void onClick(DialogInterface arg0, int arg1) {
 //                                        //Declare Object From Get Internet Connection Status For Check Internet Status
-//                                        db=dbh.getReadableDatabase();
+//                                        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 //                                        Cursor  c = db.rawQuery("SELECT * FROM login",null);
 //                                        if(c.getCount()>0) {
 //                                            c.moveToNext();
@@ -1774,7 +1774,7 @@ public class ViewJob extends AppCompatActivity{
                 stopService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
                 stopService(new Intent(getBaseContext(), ServiceSyncProfile.class));
                 stopService(new Intent(getBaseContext(), ServiceSyncServiceSelected.class));
-                db = dbh.getWritableDatabase();
+                try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
                 db.execSQL("DELETE FROM AmountCredit");
                 db.execSQL("DELETE FROM android_metadata");
                 db.execSQL("DELETE FROM BsHamyarSelectServices");
@@ -1906,7 +1906,7 @@ public class ViewJob extends AppCompatActivity{
 ////                 db=dbh.getWritableDatabase();
 ////                String query="UPDATE  DateTB SET Time = '" +String.valueOf(selectedHour)+":"+String.valueOf(selectedMinute)+"'";
 ////                db.execSQL(query);
-////                db=dbh.getReadableDatabase();
+////                try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 ////                query="SELECT * FROM DateTB";
 ////                Cursor c=db.rawQuery(query,null);
 ////                if(c.getCount()>0)

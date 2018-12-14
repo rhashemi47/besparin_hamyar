@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
             throw sqle;
         }
-        db=dbh.getReadableDatabase();
+        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
         Cursor coursors = db.rawQuery("SELECT * FROM messages WHERE IsReade='0' AND IsDelete='0'",null);
         if(coursors.getCount()>0)
         {
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
             {
 
                 Cursor cursors=null;
-                db=dbh.getReadableDatabase();
+                try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
                 cursors = db.rawQuery("SELECT * FROM login", null);
                 if(cursors.getCount()>0)
                 {
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                     {
                         hamyarcode = cursors.getString(cursors.getColumnIndex("hamyarcode"));
                         guid = cursors.getString(cursors.getColumnIndex("guid"));
-                        db=dbh.getReadableDatabase();
+                        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
                         coursors = db.rawQuery("SELECT * FROM UpdateApp",null);
                         if(coursors.getCount()>0)
                         {
@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
             }
             else
             {
-                db=dbh.getReadableDatabase();
+                try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
                 coursors = db.rawQuery("SELECT * FROM UpdateApp",null);
                 if(coursors.getCount()>0)
                 {
@@ -255,7 +255,7 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         switch (position){
                             case 1://Profile
-                                db=dbh.getReadableDatabase();
+                                try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
                                 Cursor coursors = db.rawQuery("SELECT * FROM Profile",null);
                                 if(coursors.getCount()>0)
                                 {
@@ -496,7 +496,7 @@ public class MainActivity extends AppCompatActivity {
             if(check_tap_number==0)
             {
                 check_tap_number=1;
-                db=dbh.getReadableDatabase();
+                try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
                 Cursor coursors = db.rawQuery("SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
                         "LEFT JOIN " +
                         "Servicesdetails ON " +
@@ -528,7 +528,7 @@ public class MainActivity extends AppCompatActivity {
             {
 
                 check_tap_number=0;
-                db=dbh.getReadableDatabase();
+                try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
                 Cursor coursors = db.rawQuery("SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
                         "LEFT JOIN " +
                         "Servicesdetails ON " +
@@ -601,7 +601,7 @@ public class MainActivity extends AppCompatActivity {
             // do something when the button is clicked
             public void onClick(DialogInterface arg0, int arg1) {
                 //Declare Object From Get Internet Connection Status For Check Internet Status
-                db = dbh.getWritableDatabase();
+                try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
                 db.execSQL("DELETE FROM login");
                 db.execSQL("DELETE FROM Profile");
                 db.execSQL("DELETE FROM BsHamyarSelectServices");

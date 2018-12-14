@@ -134,7 +134,7 @@ public class Info_Person extends Activity {
 		}
 	});	
 		//get List Edication for spinner		
-		db=dbh.getReadableDatabase();			
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		Cursor cursors = db.rawQuery("SELECT * FROM education ",null);
 		String str;
 		for(int i=0;i<cursors.getCount();i++){
@@ -145,7 +145,7 @@ public class Info_Person extends Activity {
 		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, labels);
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spEducation.setAdapter(dataAdapter);
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		spEducation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -294,7 +294,7 @@ public class Info_Person extends Activity {
 		});
 	}
 public void insertHamyar() {
-	db=dbh.getReadableDatabase();
+	try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 	String errorStr="";
 	if(fname.getText().toString().compareTo("")==0){
 		errorStr="لطفا نام خود راوارد نمایید\n";
@@ -340,7 +340,7 @@ public void insertHamyar() {
 		{
 			Toast.makeText(getApplicationContext(), "لطفا تخصص خود را اعلام انتخاب فرمایید", Toast.LENGTH_SHORT).show();
 		}
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 	}
 	else
 	{
@@ -353,7 +353,7 @@ public void insertHamyar() {
     private void prepareListData() {
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<String>>();
-        db=dbh.getReadableDatabase();			
+        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		Cursor headers = db.rawQuery("SELECT * FROM services ",null);
 		//String head;
 		for(int i=0;i<headers.getCount();i++){
@@ -370,7 +370,7 @@ public void insertHamyar() {
 
 			listDataChild.put(listDataHeader.get(i), childDetails);
 		}
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
     }
 
 	public Object getActivity() {

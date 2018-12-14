@@ -87,7 +87,7 @@
                 }
             }
             addItemFromList(true);
-            db=dbh.getReadableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
             Cursor coursors = db.rawQuery("SELECT * FROM services", null);
             if (coursors.getCount() > 0) {
                 for (int i = 0; i < coursors.getCount(); i++) {
@@ -161,7 +161,7 @@
                         String[] StrDetail=SpDitalNameService.getSelectedItem().toString().split(":");
                         query="INSERT INTO HmFactorTools (ToolName,Price,ServiceDetaileCode,BrandName) VALUES('" + EttitleStepStr + "','" + EtUnitPriceStr
                                 + "','" +StrDetail[0] +"','" +EtBrandStr+"')";
-                        db = dbh.getWritableDatabase();
+                        try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
                         db.execSQL(query);
                         if (lvStepJob.getCount() > 0) {
                             adapterList.add(temp);

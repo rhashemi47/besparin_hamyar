@@ -232,6 +232,6 @@ public class SyncGetHmFactorTools {
 			db.execSQL(query);
 		}
 
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
     }
 }

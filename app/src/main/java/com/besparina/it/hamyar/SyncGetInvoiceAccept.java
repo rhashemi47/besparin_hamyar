@@ -215,12 +215,12 @@ public class SyncGetInvoiceAccept {
 				if (c.getString(c.getColumnIndex("InvocAccept")).compareTo(value[1]) != 0) {
 					if (value[1].compareTo("0") == 0) {
 						Title = "فاکتور نهایی شماره  " + invoicecode + "تایید نشد";
-						db = dbh.getWritableDatabase();
+						try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 						query = "UPDATE HeadFactor SET Type='2',InvocAccept='" + value[1] + "' WHERE Code='" + invoicecode + "'";
 						db.execSQL(query);
 					} else {
 						Title = "فاکتور نهایی شماره  " + invoicecode + "تایید شد";
-						db = dbh.getWritableDatabase();
+						try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 						query = "UPDATE HeadFactor SET Type='2',InvocAccept='" + value[1] + "',AcceptDateInvoc='" + value[2] + "' WHERE Code='" + invoicecode + "'";
 						db.execSQL(query);
 					}

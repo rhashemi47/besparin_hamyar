@@ -147,7 +147,7 @@ public class MainMenu extends AppCompatActivity {
         }
         //****************************************************************************************
         /*TextView tvAmountCredit=(TextView) findViewById(R.id.tvAmountCredit);
-        db=dbh.getReadableDatabase();
+        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
         Cursor cursor = db.rawQuery("SELECT * FROM AmountCredit", null);
         if (cursor.getCount() > 0) {
             cursor.moveToNext();
@@ -170,7 +170,7 @@ public class MainMenu extends AppCompatActivity {
 
 
         //******************************************* COUNT SERVICES *****************************************
-//        db=dbh.getReadableDatabase();
+//        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 //        Cursor cursorService = db.rawQuery("SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
 //                "LEFT JOIN " +
 //                "Servicesdetails ON " +
@@ -184,7 +184,7 @@ public class MainMenu extends AppCompatActivity {
 //            btnServices.setText("0");
 //        }
 
-        db=dbh.getReadableDatabase();
+        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
         Cursor coursors = db.rawQuery("SELECT * FROM messages WHERE IsReade='0' AND IsDelete='0'",null);
         if(coursors.getCount()>0)
         {
@@ -246,7 +246,7 @@ public class MainMenu extends AppCompatActivity {
         //****************************************************************************************
         if(guid==null || hamyarcode==null)
         {
-            db=dbh.getReadableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
             Cursor c = db.rawQuery("SELECT * FROM login",null);
            if(c.getCount()>0){
                 c.moveToNext();
@@ -259,7 +259,7 @@ public class MainMenu extends AppCompatActivity {
             c.close();
         }
 //        ir.hamsaa.persiandatepicker.util.PersianCalendar calNow=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
-//        db=dbh.getReadableDatabase();
+//        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 //        String year,mon,day,query;
 //        year=String.valueOf(calNow.getPersianYear());
 //        if(calNow.getPersianMonth()<10)
@@ -294,7 +294,7 @@ public class MainMenu extends AppCompatActivity {
 //            btnDuty.setText("0");
 //        }
         //****************************************************COUNT DUTY********************************
-        db=dbh.getReadableDatabase();
+        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
         String query = "SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
                 "LEFT JOIN " +
                 "Servicesdetails ON " +
@@ -334,7 +334,7 @@ public class MainMenu extends AppCompatActivity {
             btnDuty.setText(String.valueOf(CountDuty));
 
         //************************************************************************************
-        db=dbh.getReadableDatabase();
+        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
          query = "SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
                 "LEFT JOIN " +
                 "Servicesdetails ON " +
@@ -372,7 +372,7 @@ public class MainMenu extends AppCompatActivity {
         db.close();
         btnServices.setText(String.valueOf(CountService));
         //************************************************************************************
-        db=dbh.getReadableDatabase();
+        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
         query="SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
                 "LEFT JOIN " +
                 "Servicesdetails ON " +
@@ -423,7 +423,7 @@ public class MainMenu extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         viewFlipper = (Custom_ViewFlipper) findViewById(R.id.vf);
-        db=dbh.getReadableDatabase();
+        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
         coursors = db.rawQuery("SELECT * FROM Slider",null);
         if(coursors.getCount()>0) {
             Bitmap bpm[]=new Bitmap[coursors.getCount()];
@@ -585,7 +585,7 @@ public class MainMenu extends AppCompatActivity {
                 stopService(new Intent(getBaseContext(), ServiceDeleteJob.class));
                 stopService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
                 stopService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
-                db = dbh.getWritableDatabase();
+                try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
                 db.execSQL("DELETE FROM AmountCredit");
                 db.execSQL("DELETE FROM android_metadata");
                 db.execSQL("DELETE FROM BsHamyarSelectServices");
@@ -766,7 +766,7 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         switch (position){
                             case 1://Profile
-                                db=dbh.getReadableDatabase();
+                                try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
                                 Cursor coursors = db.rawQuery("SELECT * FROM Profile",null);
                                 if(coursors.getCount()>0)
                                 {
@@ -867,7 +867,7 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
 //                                alertbox.setPositiveButton("مراحل کاری", new DialogInterface.OnClickListener() {
 //                                    // do something when the button is clicked
 //                                    public void onClick(DialogInterface arg0, int arg1) {
-                                db=dbh.getReadableDatabase();
+                                try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
                                 c = db.rawQuery("SELECT * FROM login",null);
                                 if(c.getCount()>0)
                                 {
@@ -888,7 +888,7 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
 //                                    // do something when the button is clicked
 //                                    public void onClick(DialogInterface arg0, int arg1) {
 //                                        //Declare Object From Get Internet Connection Status For Check Internet Status
-//                                        db=dbh.getReadableDatabase();
+//                                        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 //                                        Cursor  c = db.rawQuery("SELECT * FROM login",null);
 //                                        if(c.getCount()>0) {
 //                                            c.moveToNext();
@@ -1133,7 +1133,7 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
         {
 
             Cursor cursor;
-            db=dbh.getReadableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
             cursor = db.rawQuery("SELECT * FROM login", null);
             if(cursor.getCount()>0)
             {

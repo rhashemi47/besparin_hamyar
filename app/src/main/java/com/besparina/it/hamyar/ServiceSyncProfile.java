@@ -70,7 +70,7 @@ public class ServiceSyncProfile extends Service {
                                         if (PublicVariable.theard_Profile) {
                                             if (db != null) {
                                                 if (db.isOpen()) {
-                                                    db.close();
+                                                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                                                 }
                                             }
                                             db = dbh.getReadableDatabase();
@@ -85,7 +85,7 @@ public class ServiceSyncProfile extends Service {
 
                                             if (db != null) {
                                                 if (db.isOpen()) {
-                                                    db.close();
+                                                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                                                 }
                                             }
                                         }
@@ -126,20 +126,20 @@ public class ServiceSyncProfile extends Service {
             if (Result.compareTo("0") == 0)
             {
                 if(db.isOpen())
-                    db.close();
+                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                 return false;
             }
             else
             {
                 if(db.isOpen())
-                    db.close();
+                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                 return true;
             }
         }
         else
         {
             if(db.isOpen())
-                db.close();
+                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
             return false;
         }
     }

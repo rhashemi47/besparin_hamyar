@@ -95,7 +95,7 @@
                 hamyarcode = getIntent().getStringExtra("hamyarcode").toString();
                 guid = getIntent().getStringExtra("guid").toString();
             } catch (Exception e) {
-                db=dbh.getReadableDatabase();
+                try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
                 Cursor coursors = db.rawQuery("SELECT * FROM login", null);
                 for (int i = 0; i < coursors.getCount(); i++) {
                     coursors.moveToNext();
@@ -106,7 +106,7 @@
             }
             //****************************************************************************************
             /*TextView tvAmountCredit=(TextView) findViewById(R.id.tvAmountCredit);
-            db=dbh.getReadableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
             Cursor cursor = db.rawQuery("SELECT * FROM AmountCredit", null);
             if (cursor.getCount() > 0) {
                 cursor.moveToNext();
@@ -127,7 +127,7 @@
             }*/
             //****************************************************************************************
             //****************************************************************************************
-            db=dbh.getReadableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
             Cursor coursors = db.rawQuery("SELECT * FROM messages WHERE IsReade='0' AND IsDelete='0'",null);
             if(coursors.getCount()>0)
             {
@@ -147,7 +147,7 @@
             tvHistory.setTypeface(FontMitra);
             tvHistory.setTextSize(18);
             lstHistory=(ListView)findViewById(R.id.lstHistory);
-            db=dbh.getReadableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
             String query = "SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
                     "LEFT JOIN " +
                     "Servicesdetails ON " +
@@ -531,7 +531,7 @@
                         public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                             switch (position){
                                 case 1://Profile
-                                    db=dbh.getReadableDatabase();
+                                    try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
                                     Cursor coursors = db.rawQuery("SELECT * FROM Profile",null);
                                     if(coursors.getCount()>0)
                                     {
@@ -624,7 +624,7 @@
 //                                alertbox.setPositiveButton("مراحل کاری", new DialogInterface.OnClickListener() {
 //                                    // do something when the button is clicked
 //                                    public void onClick(DialogInterface arg0, int arg1) {
-                                    db=dbh.getReadableDatabase();
+                                    try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
                                     c = db.rawQuery("SELECT * FROM login",null);
                                     if(c.getCount()>0)
                                     {
@@ -645,7 +645,7 @@
 //                                    // do something when the button is clicked
 //                                    public void onClick(DialogInterface arg0, int arg1) {
 //                                        //Declare Object From Get Internet Connection Status For Check Internet Status
-//                                        db=dbh.getReadableDatabase();
+//                                        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 //                                        Cursor  c = db.rawQuery("SELECT * FROM login",null);
 //                                        if(c.getCount()>0) {
 //                                            c.moveToNext();
@@ -743,7 +743,7 @@
                     stopService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
                     stopService(new Intent(getBaseContext(), ServiceSyncProfile.class));
                     stopService(new Intent(getBaseContext(), ServiceSyncServiceSelected.class));
-                    db = dbh.getWritableDatabase();
+                    try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
                     db.execSQL("DELETE FROM AmountCredit");
                     db.execSQL("DELETE FROM android_metadata");
                     db.execSQL("DELETE FROM BsHamyarSelectServices");

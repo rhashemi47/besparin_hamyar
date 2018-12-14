@@ -80,7 +80,7 @@ protected void onCreate(Bundle savedInstanceState) {
 
 			karbarCode = coursors.getString(coursors.getColumnIndex("karbarCode"));
 		}
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 	}
 	//**************************************************************************************
 		prepareData();
@@ -158,7 +158,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 			ContentStr += "توضیحات: " + cursor.getString(cursor.getColumnIndex("Description")) + "\n";
 
 			ContentStr += "جمع کل فاکتور: " + df.format(Total) + "\n";
-			db.close();
+			try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 			ContentShowFactor.setTypeface(FontMitra);
 
 			ContentShowFactor.setText((PersianDigitConverter.PerisanNumber(ContentStr)));
@@ -186,7 +186,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 						cursorPhone.moveToNext();
 						dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
 					}
-					db.close();
+					try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 				} else {
 					// Permission Denied
 					Toast.makeText(this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)

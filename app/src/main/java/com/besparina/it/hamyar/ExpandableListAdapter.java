@@ -90,7 +90,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 	if (((RadioButton) v).isChecked())
 	{
 
-		db=dbh.getReadableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		Cursor coursors=db.rawQuery("SELECT * FROM servicesdetails WHERE name='"+((RadioButton) v).getTag().toString()+"'", null);
 		db=dbh.getWritableDatabase();			
 		coursors.moveToNext();
@@ -99,7 +99,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 	else
 	{
 		//Toast.makeText(_context,"Unchecked)", Toast.LENGTH_LONG).show();
-		db=dbh.getReadableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		Cursor coursors=db.rawQuery("SELECT * FROM exprtise WHERE name='"+((RadioButton) v).getTag().toString()+"'", null);
 		db=dbh.getWritableDatabase();			
 		coursors.moveToNext();

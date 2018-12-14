@@ -121,7 +121,7 @@ public class ViewJob extends AppCompatActivity{
         });
 //**************************************************************************************
         Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
-        db=dbh.getReadableDatabase();
+        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
         if(tab.compareTo("1")==0)
         {
             String query="SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
@@ -583,7 +583,7 @@ public class ViewJob extends AppCompatActivity{
                  db=dbh.getWritableDatabase();
                 String query="UPDATE  DateTB SET Time = '" +String.valueOf(selectedHour)+":"+String.valueOf(selectedMinute)+"'";
                 db.execSQL(query);
-                db=dbh.getReadableDatabase();
+                try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
                 query="SELECT * FROM DateTB";
                 Cursor c=db.rawQuery(query,null);
                 if(c.getCount()>0)

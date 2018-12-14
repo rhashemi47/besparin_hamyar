@@ -269,7 +269,7 @@ public class SyncInsertFaktorUserDetailes {
 				+Amount+"')";
 		db.execSQL(query);
 
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		Toast.makeText(activity," ثبت شد", Toast.LENGTH_SHORT).show();
 	}
 }

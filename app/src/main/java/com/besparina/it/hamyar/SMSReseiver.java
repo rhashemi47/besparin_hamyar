@@ -32,7 +32,7 @@ public class SMSReseiver extends BroadcastReceiver {
                         for (int i = 0; i < msgs.length; i++) {
                             msgs[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
                             msg_from = msgs[i].getOriginatingAddress();
-                            if (msg_from.compareTo(PV.Recive_NumberPhone)==0 ) {
+                            if (msg_from.compareTo(PV.Recive_NumberPhone)==0 || msg_from.compareTo("+98"+PV.Recive_NumberPhone)==0 ) {
                                 messageBody = msgs[i].getMessageBody();
                                 StrAccept =messageBody.split(":");
                                 StrAccept[1]=StrAccept[1].trim();

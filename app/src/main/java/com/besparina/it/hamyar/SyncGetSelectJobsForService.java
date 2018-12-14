@@ -203,7 +203,7 @@ public class SyncGetSelectJobsForService {
 		String query = null;
 		boolean isFirst = IsFristInsert();
 		res = WsResponse.split("@@");
-		db = dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		for (int i = 0; i < res.length; i++) {
 			value = res[i].split("##");
 			try {
@@ -296,7 +296,7 @@ public class SyncGetSelectJobsForService {
 	}
 	public boolean checkStatus(String codeStr,String statusStr)
 	{
-		db=dbh.getReadableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		String query = "SELECT * FROM BsHamyarSelectServices WHERE Code='"+codeStr+"' AND Status='"+statusStr+"'";
 		Cursor cursor= db.rawQuery(query,null);
 		if(cursor.getCount()>0)
@@ -329,7 +329,7 @@ public class SyncGetSelectJobsForService {
 		switch (status)
 		{
 			case "0":
-				db = dbh.getWritableDatabase();
+				try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 				db.execSQL("UPDATE BsHamyarSelectServices SET IsDelete='1' WHERE Code='"+OrderCode+"'");
 				db.close();
 				StrStatus="آزاد شد";
@@ -341,13 +341,13 @@ public class SyncGetSelectJobsForService {
 //				StrStatus="در حال انجام است";
 //				break;
 			case "3":
-				db = dbh.getWritableDatabase();
+				try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 				db.execSQL("UPDATE BsHamyarSelectServices SET IsDelete='1' WHERE Code='"+OrderCode+"'");
 				db.close();
 				StrStatus="لغو شد";
 				break;
 			case "4":
-				db = dbh.getWritableDatabase();
+				try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 				db.execSQL("UPDATE BsHamyarSelectServices SET IsDelete='1' WHERE Code='"+OrderCode+"'");
 				db.close();
 				StrStatus="اتمام و تسویه شده است";
@@ -374,7 +374,7 @@ public class SyncGetSelectJobsForService {
 				StrStatus="تسویه حساب با همیار";
 				break;
 			case "12":
-				db = dbh.getWritableDatabase();
+				try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 				db.execSQL("UPDATE BsHamyarSelectServices SET IsDelete='1' WHERE Code='"+OrderCode+"'");
 				db.close();
 				StrStatus="متوقف و تسویه شده است";
@@ -388,7 +388,7 @@ public class SyncGetSelectJobsForService {
 	}
 	public boolean IsFristInsert()
 	{
-		db=dbh.getReadableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
 		String query = "SELECT * FROM BsHamyarSelectServices";
 		Cursor cursor= db.rawQuery(query,null);
 		if(cursor.getCount()>0)

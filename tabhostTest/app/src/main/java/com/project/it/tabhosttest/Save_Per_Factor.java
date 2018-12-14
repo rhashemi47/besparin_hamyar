@@ -118,7 +118,7 @@ public class Save_Per_Factor extends Activity {
         }
         catch (Exception e)
         {
-            db=dbh.getReadableDatabase();
+            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
             Cursor coursors = db.rawQuery("SELECT * FROM login",null);
             for(int i=0;i<coursors.getCount();i++){
                 coursors.moveToNext();
@@ -310,7 +310,7 @@ public class Save_Per_Factor extends Activity {
         }
     }
     public void SendFarctor() {
-        db = dbh.getWritableDatabase();
+        try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 //        String query = "INSERT INTO SendFinalFactor (UserServiceCode,Description,Type,ObjectCode,PricePerUnit,Amount) " +
 //                "VALUES('"
 //                +BsUserServicesID + "'"
@@ -373,7 +373,7 @@ public class Save_Per_Factor extends Activity {
 //                    String[] StrDetail=SpDitalNameService.getSelectedItem().toString().split(":");
 //                    String query="INSERT INTO HmFactorService (ServiceName,PricePerUnit,Unit,ServiceDetaileCode) VALUES('" + EttitleStepStr + "','" + EtUnitPriceStr
 //                            + "','" + Unit_value.get(UnitStr) + "','" +StrDetail[0] +"')";
-//                    db = dbh.getWritableDatabase();
+//                    try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 //                    db.execSQL(query);
 //                    if (lvStepJob.getCount() > 0) {
 //                        adapterList.add(temp);

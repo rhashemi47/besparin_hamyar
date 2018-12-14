@@ -191,7 +191,7 @@ public class SyncGetHamyarCredit {
 		db=dbh.getWritableDatabase();
 			String query="UPDATE AmountCredit SET Amount='"+this.WsResponse+"'" ;
 			db.execSQL(query);
-		db.close();
+		try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 		if(this.Flag.compareTo("0")!=0) {
 			Toast.makeText(activity, "ثبت شد", Toast.LENGTH_LONG).show();
 			LoadActivity(Credit.class, "hamyarcode", pHamyarCode);

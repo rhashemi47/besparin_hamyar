@@ -271,7 +271,7 @@ public class SyncUpdateStepDetailJobs {
     {
 //		SyncGetHmFactorService getHmFactorService=new SyncGetHmFactorService(activity,guid,hamyarcode);
 //		getHmFactorService.AsyncExecute();
-		db = dbh.getWritableDatabase();
+		try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 		String query="UPDATE HmFactorTools SET Status='0',IsSend='1' WHERE ToolName='"+ToolName+"' AND Price='"+Price+"' AND BrandName='"+BrandName+"'" +
 				" AND ServiceDetaileCode='"+ServiceDetaileCode+"'";
 		db.execSQL(query);

@@ -69,7 +69,7 @@ public class ServiceGetNewJobNotNotifi extends Service {
                                         if (PublicVariable.theard_GetNewJob) {
                                             if (db != null) {
                                                 if (db.isOpen()) {
-                                                    db.close();
+                                                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                                                 }
                                             }
                                             db = dbh.getReadableDatabase();
@@ -89,7 +89,7 @@ public class ServiceGetNewJobNotNotifi extends Service {
 
                                             if (db != null) {
                                                 if (db.isOpen()) {
-                                                    db.close();
+                                                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                                                 }
                                             }
                                             SyncNewJob syncNewJob = new SyncNewJob(getApplicationContext(), guid, hamyarcode, LastHamyarUserServiceCode, false);
@@ -132,20 +132,20 @@ public class ServiceGetNewJobNotNotifi extends Service {
             if (Result.compareTo("0") == 0)
             {
                 if(db.isOpen())
-                    db.close();
+                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                 return false;
             }
             else
             {
                 if(db.isOpen())
-                    db.close();
+                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                 return true;
             }
         }
         else
         {
             if(db.isOpen())
-                db.close();
+                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
             return false;
         }
     }
