@@ -928,7 +928,7 @@ openWebPage("http://besparina.ir/?page_id=164");
         String query = "SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
                 "LEFT JOIN " +
                 "Servicesdetails ON " +
-                "Servicesdetails.code=BsUserServices.ServiceDetaileCode ";
+                "Servicesdetails.code=BsUserServices.ServiceDetaileCode WHERE 1=1 ";
         if (etFromDate.getText().toString().length() > 0) {
             String spStr[] = etFromDate.getText().toString().split("/");
             if (spStr[1].length() < 2) {
@@ -947,7 +947,7 @@ openWebPage("http://besparina.ir/?page_id=164");
             if (spStr[2].length() < 2) {
                 spStr[2] = "0" + spStr[2];
             }
-                query = query + " AND EndDate<='" + spStr[0] + "/" + spStr[1] + "/" + spStr[2] + "'";
+                query = query + " AND StartDate<='" + spStr[0] + "/" + spStr[1] + "/" + spStr[2] + "'";
         }
         if (etFromTime.getText().toString().length() > 0) {
             String spStr[] = etFromTime.getText().toString().split(":");
@@ -967,10 +967,10 @@ openWebPage("http://besparina.ir/?page_id=164");
             if (spStr[1].length() < 2) {
                 spStr[1] = "0" + spStr[1];
             }
-            query = query + " AND EndTime<='" + faToEn(spStr[0] + ":" + spStr[1]) + "'";
+            query = query + " AND StartTime<='" + faToEn(spStr[0] + ":" + spStr[1]) + "'";
         }
         if(etArea.getText().toString().length()>0) {
-            query = query + " AND AddressText LIKE '%" + etArea.getText().toString()+"%'";
+            query = query + " AND BsUserServices.AddressText LIKE '%" + etArea.getText().toString()+"%'";
         }
         if(spExpert.getSelectedItem().toString().compareTo("")!=0) {
             if(!db.isOpen())

@@ -92,7 +92,9 @@ public class ServiceGetFactorAccept extends Service {
                                                     db.close();
                                                 }
                                             }
-                                            db = dbh.getReadableDatabase();
+                                            if(!db.isOpen()){
+                                                db=dbh.getReadableDatabase();
+                                            }
                                             cursors = db.rawQuery("SELECT Code FROM BsHamyarSelectServices WHERE IsDelete='0'", null);
                                             for (int i = 0; i < cursors.getCount(); i++) {
                                                 cursors.moveToNext();
