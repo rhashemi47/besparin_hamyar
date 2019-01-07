@@ -28,7 +28,7 @@
             android:background="@drawable/background_actionbar"/>
     </android.support.design.widget.AppBarLayout>
     <ScrollView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,14 +42,12 @@
                     android:id="@+id/textViewName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="10sp"
                     android:text="@string/firstname" />
                 <EditText
                     android:id="@+id/etFname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
-                    android:textSize="10sp"
                     android:layout_weight="1"/>
             </LinearLayout>
             <LinearLayout
@@ -60,14 +58,12 @@
                     android:id="@+id/TextViewLastName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="10sp"
                     android:text="@string/lastname" />
                 <EditText
                     android:id="@+id/etLname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
-                    android:textSize="10sp"
                     android:layout_weight="1"/>
             </LinearLayout>
             <LinearLayout
@@ -78,14 +74,12 @@
                     android:id="@+id/TextViewAge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="10sp"
                     android:text="@string/brithday" />
                 <EditText
                     android:id="@+id/etBrithday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:textSize="10sp"
                     android:inputType="date"
                     android:maxLength="10" />
             </LinearLayout>
@@ -98,64 +92,26 @@
                     android:id="@+id/tvGender"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="10sp"
                     android:text="@string/Gender" />
                 <RadioGroup
-                    android:id="@+id/rgGender"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:id="@+id/rgGender"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp">
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/man"
-                        android:textSize="10sp"
-                        android:checked="true"
-                        android:id="@+id/rdbMale"/>
+                        android:id="@+id/rdbMan"
+                        android:checked="true"/>
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/woman"
-                        android:textSize="10sp"
-                        android:id="@+id/rdbFemale"/>
+                        android:id="@+id/rdbWonan"/>
                 </RadioGroup>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp">
-                <TextView
-                    android:id="@+id/TextViewEducation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="10sp"
-                    android:text="@string/education" />
-                <Spinner
-                    android:id="@+id/spEdudation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="10sp"
-                    android:layout_weight="1"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp">
-                <TextView
-                    android:id="@+id/TextViewExpertise"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="10sp"
-                    android:text="@string/Expertise" />
-                <ExpandableListView
-                    android:id="@+id/evExpertise"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:textSize="10sp"
-                    android:layout_weight="1">
-                </ExpandableListView>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -165,34 +121,63 @@
                     android:id="@+id/tvCodeMoaref"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="10sp"
                     android:text="@string/CodeMoaref" />
                 <EditText
                     android:id="@+id/etReagentCode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
-                    android:textSize="10sp"
                     android:text=""
                     android:layout_weight="1"/>
             </LinearLayout>
-            <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:layout_gravity="center"
-            android:gravity="center">
-                <Button
-                    android:id="@+id/btnSendInfo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/Save"
-                    android:textSize="10sp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:drawableLeft="@drawable/save_small"
-                    android:textColor="#000000"/>
-        </LinearLayout>
         </LinearLayout>
     </ScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp">
+        <TextView
+            android:id="@+id/TextViewEducation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/education" />
+        <Spinner
+            android:id="@+id/spEdudation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp">
+        <TextView
+            android:id="@+id/TextViewExpertise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Expertise" />
+        <ExpandableListView
+            android:id="@+id/evExpertise"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_weight="1">
+        </ExpandableListView>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_gravity="center"
+        android:gravity="center">
+        <Button
+            android:id="@+id/btnSendInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Save"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
+            android:drawableLeft="@drawable/save"
+            android:textColor="#000000"/>
+    </LinearLayout>
+
 </LinearLayout>

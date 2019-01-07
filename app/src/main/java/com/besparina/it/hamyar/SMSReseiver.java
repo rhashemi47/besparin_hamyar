@@ -22,6 +22,7 @@ public class SMSReseiver extends BroadcastReceiver {
                 Bundle data = intent.getExtras();
                 SmsMessage[] msgs = null;
                 String[] StrAccept={};
+                String[] NumberSp = new String[2];
                 String msg_from;
                 if (data != null) {
                     //---retrieve the SMS message received---
@@ -32,17 +33,21 @@ public class SMSReseiver extends BroadcastReceiver {
                         for (int i = 0; i < msgs.length; i++) {
                             msgs[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
                             msg_from = msgs[i].getOriginatingAddress();
-                            if (msg_from.compareTo(PV.Recive_NumberPhone)==0 || msg_from.compareTo("+98"+PV.Recive_NumberPhone)==0 ) {
+                            if (msg_from.compareTo(PV.Recive_NumberPhone1)==0 ||
+                                    msg_from.compareTo("+98"+PV.Recive_NumberPhone1)==0 ||
+                                    msg_from.compareTo(PV.Recive_NumberPhone2)==0 ||
+                                    msg_from.compareTo("+98"+PV.Recive_NumberPhone2)==0 ) {
                                 messageBody = msgs[i].getMessageBody();
                                 StrAccept =messageBody.split(":");
                                 StrAccept[1]=StrAccept[1].trim();
-                                mListener.onMessageReceived(StrAccept[1]);
+                                NumberSp=StrAccept[1].split("\n");
+                                mListener.onMessageReceived(NumberSp[0]);
                             }
                         }
                         if (messageBody.compareTo("") != 0) {
                             Intent broadcastintent = new Intent();
                             broadcastintent.setAction("SMS_RECEIVED_ACTION");
-                            broadcastintent.putExtra("sms", StrAccept[1]);
+                            broadcastintent.putExtra("sms", NumberSp[0]);
                             context.sendBroadcast(broadcastintent);
                         }
                     } catch (Exception e) {
