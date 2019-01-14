@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.besparina.it.hamyar">
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo2"
@@ -10,8 +9,8 @@
         android:supportsRtl="true"
         android:label="@string/Logo_name"
         android:theme="@style/AppTheme"
-
-        android:name="com.besparina.it.hamyar.FontMain">
+        android:name="com.besparina.it.hamyar.FontMain"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name="com.besparina.it.hamyar.MainMenu"
             android:label="@string/Logo_name"
