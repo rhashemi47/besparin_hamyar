@@ -3,13 +3,15 @@ package com.besparina.it.hamyar;
 import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
  * Created by Rm on 03/04/2018.
  */
 
-public class FontMain extends Application {
+public class FontMain extends MultiDexApplication {
 
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
@@ -25,5 +27,4 @@ public class FontMain extends Application {
                 .build()
         );
     }
-
 }
