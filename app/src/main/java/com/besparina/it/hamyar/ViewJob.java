@@ -1879,7 +1879,7 @@ public class ViewJob extends AppCompatActivity{
                 String[] DateTB = DateStr.split("/");
                 String min=PersianDigitConverter.EnglishNumber(minute.replace("00","0"));
                 String hour=PersianDigitConverter.EnglishNumber(hourOfDay);
-                SyncVisitJob syncVisitJob = new SyncVisitJob(ViewJob.this, guid, hamyarcode, coursors.getString(coursors.getColumnIndex("Code")), DateTB[0], DateTB[1], DateTB[2], hour, min);
+                SyncVisitJob syncVisitJob = new SyncVisitJob(ViewJob.this, guid, hamyarcode,BsUserServicesID, DateTB[0], DateTB[1], DateTB[2], hour, min);
                 syncVisitJob.AsyncExecute();
             }
         }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));

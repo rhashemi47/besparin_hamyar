@@ -21,11 +21,11 @@ public class Alert_Clock extends Dialog implements View.OnClickListener {
     private final Alert_Clock.OnTimeSetListener mCallback;
     public int intHour=0,intMinute=0;
     public int value_Hour=0,value_Minute=0;
-    public Alert_Clock(Activity activity, OnTimeSetListener mCallback, int hourOfDay, int minute) {
+    public Alert_Clock(Activity activity, OnTimeSetListener Callback, int hourOfDay, int minute) {
         super(activity);
         // TODO Auto-generated constructor stub
         this.activity = activity;
-        this.mCallback = mCallback;
+        this.mCallback = Callback;
         this.value_Hour=hourOfDay;
         this.value_Minute=minute;
     }
@@ -80,8 +80,13 @@ public class Alert_Clock extends Dialog implements View.OnClickListener {
                 {
                     min=String.valueOf(pMinute.getValue());
                 }
-                mCallback.onTimeSet(PersianDigitConverter.PerisanNumber(hour),
-                        PersianDigitConverter.PerisanNumber(min));
+//                mCallback.onTimeSet(PersianDigitConverter.PerisanNumber(hour),
+//                        PersianDigitConverter.PerisanNumber(min));
+                if(mCallback!=null)
+                {
+                    mCallback.onTimeSet(hour,min);
+                }
+
                 break;
             case R.id.btnCansel:
                 dismiss();
