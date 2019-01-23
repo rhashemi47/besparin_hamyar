@@ -40,6 +40,7 @@
                     android:paddingRight="15dp"
                     android:paddingLeft="15dp"
                     android:ems="10"
+                    android:maxLength="11"
                     android:textSize="10sp"
                     android:hint="شماره موبایل خورد را وارد نمایید"
                     android:inputType="phone"
