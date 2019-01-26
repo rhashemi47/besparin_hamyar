@@ -125,12 +125,20 @@ public class ServiceSyncProfile extends Service {
             String Result = cursor.getString(cursor.getColumnIndex("islogin"));
             if (Result.compareTo("0") == 0)
             {
+                if(!cursor.isClosed())
+                {
+                    cursor.close();
+                }
                 if(db.isOpen())
                     try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                 return false;
             }
             else
             {
+                if(!cursor.isClosed())
+                {
+                    cursor.close();
+                }
                 if(db.isOpen())
                     try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
                 return true;
@@ -138,6 +146,10 @@ public class ServiceSyncProfile extends Service {
         }
         else
         {
+            if(!cursor.isClosed())
+            {
+                cursor.close();
+            }
             if(db.isOpen())
                 try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
             return false;

@@ -76,6 +76,7 @@
         private Spinner SpDitalNameServiceDetail;
         private List<String> labels = new ArrayList<String>();
         private List<String> labelsServiceName = new ArrayList<String>();
+        private List<String> labelsServiceNameTool = new ArrayList<String>();
         private List<String> labelsServiceDetailName;
         private List<String> listItems;
         private ArrayAdapter<String> adapterList;
@@ -282,8 +283,56 @@
                 SyncUnit unit = new SyncUnit(this,guid,hamyarcode);
                 unit.AsyncExecute();
             }
+            //***********************************************
+            try
+            {
+                if(!db.isOpen())
+                {
+                    db = dbh.getReadableDatabase();
+                }
+            }
+            catch (Exception ex)
+            {
+                db = dbh.getReadableDatabase();
+            }
+            String query = "SELECT Experts FROM Profile";
+            String StrExperts="";
+            Cursor cursors = db.rawQuery(query, null);
+            for (int i = 0; i < cursors.getCount(); i++) {
+                cursors.moveToNext();
+                StrExperts = cursors.getString(cursors.getColumnIndex("Experts"));
+            }
+            try
+            {
+                if(!db.isOpen())
+                {
+                    db = dbh.getReadableDatabase();
+                }
+            }
+            catch (Exception ex)
+            {
+                db = dbh.getReadableDatabase();
+            }
+            query="SELECT * FROM servicesdetails WHERE code in ("+StrExperts+")";
+            cursors = db.rawQuery(query, null);
+            String StrExpertsName="";
+            for (int i = 0; i < cursors.getCount(); i++) {
+                cursors.moveToNext();
+                if(StrExpertsName.length()==0) {
+                    StrExpertsName = cursors.getString(cursors.getColumnIndex("servicename"));
+                }
+                else
+                {
+                    StrExpertsName = StrExpertsName + "," + cursors.getString(cursors.getColumnIndex("servicename"));
+                }
+            }
+            if(db.isOpen())
+            {
+                db.close();
+            }
+            //***********************************************
             try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
-            coursors = db.rawQuery("SELECT * FROM services", null);
+            coursors = db.rawQuery("SELECT * FROM services WHERE code in ("+StrExpertsName+")", null);
             if (coursors.getCount() > 0) {
                 for (int i = 0; i < coursors.getCount(); i++) {
                     coursors.moveToNext();
@@ -361,7 +410,7 @@
             if (coursors.getCount() > 0) {
                 for (int i = 0; i < coursors.getCount(); i++) {
                     coursors.moveToNext();
-                    labelsServiceName.add(coursors.getString(coursors.getColumnIndex("servicename")));
+                    labelsServiceNameTool.add(coursors.getString(coursors.getColumnIndex("servicename")));
                 }
                 ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, labelsServiceName){
                     public View getView(int position, View convertView, ViewGroup parent) {

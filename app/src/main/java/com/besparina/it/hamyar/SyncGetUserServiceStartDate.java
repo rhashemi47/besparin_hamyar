@@ -193,15 +193,22 @@ public class SyncGetUserServiceStartDate {
 						value[4] + "','" +
 						value[5] + "')";
 				db.execSQL(query);
-				String message = "برای سرویس به شماره: " + value[1] + "اعلام شروع به کار تایید شده است";
+				String message = "همیار محترم شروع سرویس: " + value[1] + "تایید شد.";
 				runNotification("بسپارینا", message, i, value[1], ViewJob.class);
 			}
 			catch (Exception ex)
 			{
+				if(db.isOpen())
+				{
+					db.close();
+				}
 				PublicVariable.theard_GetUserServiceStartDate=true;
 			}
 		}
-		db.close();
+		if(db.isOpen())
+		{
+			db.close();
+		}
 	}
 	public void runNotification(String title,String detail,int id,String OrderCode,Class<?> Cls)
 	{

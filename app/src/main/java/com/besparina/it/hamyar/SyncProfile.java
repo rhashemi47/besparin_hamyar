@@ -206,48 +206,50 @@ public class SyncProfile {
 		db=dbh.getWritableDatabase();
 		db.execSQL("DELETE FROM Profile");
 			value=WsResponse.split("##");
-			query="INSERT INTO Profile " +
-					"(Code," +
-					"Name," +
-					"Fam," +
-					"BthDate," +
-					"ShSh," +
-					"BirthplaceCode," +
-					"Sader," +
-					"StartDate," +
-					"Address," +
-					"Tel," +
-					"Mobile," +
-					"ReagentName," +
-					"AccountNumber," +
-					"HamyarNumber," +
-					"IsEmrgency," +
-					"Status" +
-					",HamyarCodeForReagent" +
-					",Gender" +
-					",Email" +
-					" )" +
-					"VALUES" +
-					"('"+value[0]+
-					"','"+value[1]+
-					"','"+value[2]+
-					"','"+value[3]+
-					"','"+value[4]+
-					"','"+value[5]+
-					"','"+value[6]+
-					"','"+value[7]+
-					"','"+value[8]+
-					"','"+value[9]+
-					"','"+value[10]+
-					"','"+value[11]+
-					"','"+value[12]+
-					"','"+value[13]+
-					"','"+value[14]+
-					"','"+value[15]+
-					"','"+value[16]+
-					"','"+value[17]+
-					"','"+value[18]+
-					"')";
+		query = "INSERT INTO Profile " +
+				"(Code," +
+				"Name," +
+				"Fam," +
+				"BthDate," +
+				"ShSh," +
+				"BirthplaceCode," +
+				"Sader," +
+				"StartDate," +
+				"Address," +
+				"Tel," +
+				"Mobile," +
+				"ReagentName," +
+				"AccountNumber," +
+				"HamyarNumber," +
+				"IsEmrgency," +
+				"Status" +
+				",HamyarCodeForReagent" +
+				",Gender" +
+				",Email" +
+				",Experts" +
+				" )" +
+				"VALUES" +
+				"('" + value[0] +
+				"','" + value[1] +
+				"','" + value[2] +
+				"','" + value[3] +
+				"','" + value[4] +
+				"','" + value[5] +
+				"','" + value[6] +
+				"','" + value[7] +
+				"','" + value[8] +
+				"','" + value[9] +
+				"','" + value[10] +
+				"','" + value[11] +
+				"','" + value[12] +
+				"','" + value[13] +
+				"','" + value[14] +
+				"','" + value[15] +
+				"','" + value[16] +
+				"','" + value[17] +
+				"','" + value[19] +
+				"','" + value[20] +
+				"')";
 			db.execSQL(query);
 
 		db.close();

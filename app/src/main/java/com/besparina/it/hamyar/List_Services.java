@@ -191,7 +191,7 @@
                 }
                 else
                 {
-                    StrExperts ="," + cursors.getString(cursors.getColumnIndex("ServiceDetaileCode"));
+                    StrExperts =StrExperts + "," + cursors.getString(cursors.getColumnIndex("ServiceDetaileCode"));
                 }
             }
             if(db.isOpen())

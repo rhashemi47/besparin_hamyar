@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -96,6 +97,7 @@ public class Save_Per_Factor extends Activity {
     private String back_activity;
     private Button btnCanselPerFactor;
     private float TotalALL_Float=0;
+    private Toolbar toolbar;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -140,6 +142,7 @@ public class Save_Per_Factor extends Activity {
         btnSendPerFactor=(Button) findViewById(R.id.btnSendPerFactor);
         btnSaveTool=(Button) findViewById(R.id.btnSaveTool);
         ListTools=(ListView) findViewById(R.id.ListTools);
+        toolbar=(Toolbar) findViewById(R.id.toolbar);
         //**********************************************************
         LinerTitleTools=(LinearLayout) findViewById(R.id.LinerTitleTools);
         LinerBrand=(LinearLayout) findViewById(R.id.LinerBrand);
@@ -251,26 +254,18 @@ public class Save_Per_Factor extends Activity {
         try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
 
         //****************************************************************************************
-        /*TextView tvAmountCredit=(TextView) findViewById(R.id.tvAmountCredit);
         try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
-        Cursor cursor = db.rawQuery("SELECT * FROM AmountCredit", null);
-        if (cursor.getCount() > 0) {
-            cursor.moveToNext();
-            String splitStr[] = cursor.getString(cursor.getColumnIndex("Amount")).toString().split("\\.");
-            if(splitStr.length>=2)
-            {
-                if (splitStr[1].compareTo("00") == 0) {
-                    tvAmountCredit.setText(PersianDigitConverter.PerisanNumber(splitStr[0]));
-                } else
-                {
-                    tvAmountCredit.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("Amount"))));
-                }
+
+        Cursor c = db.rawQuery("SELECT * FROM HeadFactor WHERE UserServiceCode='" + BsUserServicesID + "' ORDER BY CAST(Code AS INTEGER) DESC", null);
+        if (c.getCount() > 0) {
+            c.moveToNext();
+            String TypeFactor = c.getString(c.getColumnIndex("Type"));
+            String InvocAccept = c.getString(c.getColumnIndex("InvocAccept"));
+            if (TypeFactor.compareTo("2") != 0 && InvocAccept.compareTo("1") != 0) {
+                btnSendPerFactor.setText("ثبت فاکتور");
+                toolbar.setTitle("فاکتور");
             }
-            else
-            {
-                tvAmountCredit.setText(PersianDigitConverter.PerisanNumber(cursor.getString(cursor.getColumnIndex("Amount"))));
-            }
-        }*/
+        }
         //****************************************************************************************
         FillSpinnerStep();
         FillSpinnerTools();

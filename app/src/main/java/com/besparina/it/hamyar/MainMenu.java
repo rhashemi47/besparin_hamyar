@@ -82,7 +82,8 @@ public class MainMenu extends AppCompatActivity {
     GestureDetector mGestureDetector;
     private String AppVersion;
     private ArrayList<HashMap<String ,String>> valuse=new ArrayList<HashMap<String, String>>();
-    private int CountDuty=0,CountService=0;
+    private Handler mHandler;
+    private boolean continue_or_stop=true;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -293,87 +294,31 @@ public class MainMenu extends AppCompatActivity {
 //        {
 //            btnDuty.setText("0");
 //        }
-        //****************************************************COUNT DUTY********************************
-        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
-        String query = "SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
-                "LEFT JOIN " +
-                "Servicesdetails ON " +
-                "Servicesdetails.code=BsUserServices.ServiceDetaileCode ORDER BY StartDate DESC";
-        coursors = db.rawQuery(query,null);
-        Cursor Ctime;
-        for(int i=0;i<coursors.getCount();i++){
-            coursors.moveToNext();
-            if((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("1") == 1 ))
-            {
-                CountDuty++;
-            }
-            else
-            {
-                String DateTimeStr = ChangeDate.changeFarsiToMiladi(coursors.getString(coursors.getColumnIndex("StartDate"))) + " " + coursors.getString(coursors.getColumnIndex("StartTime")) + ":00";
-                String GetDateTime = "Select Cast ((JulianDay('" + faToEn(DateTimeStr.replace("/", "-")) + "') - JulianDay('now'))" +
-                        " * 24 As Integer) time";
-                Ctime = db.rawQuery(GetDateTime, null);
-                if (Ctime.getCount() > 0) {
-                    Ctime.moveToNext();
-                    int STime = Integer.parseInt(Ctime.getString(Ctime.getColumnIndex("time")));
-                    if (STime <= 24) {
-                        CountDuty++;
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                }
-                else
-                {
-                    continue;
-                }
-            }
-        }
-        db.close();
-            btnDuty.setText(String.valueOf(CountDuty));
+        //****************************************************ShowCountServices********************************
+        mHandler = new Handler();
+        continue_or_stop = true;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                while (continue_or_stop) {
+                    try {
+                        Thread.sleep(5000); // every 5 seconds
+                        mHandler.post(new Runnable() {
 
-        //************************************************************************************
-        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
-         query = "SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
-                "LEFT JOIN " +
-                "Servicesdetails ON " +
-                "Servicesdetails.code=BsUserServices.ServiceDetaileCode  ORDER BY StartDate DESC";
-         coursors = db.rawQuery(query,null);
-        for(int i=0;i<coursors.getCount();i++){
-            coursors.moveToNext();
-            if((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0") == 1 ))
-            {
-                CountService++;
-            }
-            else
-            {
-                String DateTimeStr = ChangeDate.changeFarsiToMiladi(coursors.getString(coursors.getColumnIndex("StartDate"))) + " " + coursors.getString(coursors.getColumnIndex("StartTime")) + ":00";
-                String GetDateTime = "Select Cast ((JulianDay('" + faToEn(DateTimeStr.replace("/", "-")) + "') - JulianDay('now'))" +
-                        " * 24 As Integer) time";
-                Ctime = db.rawQuery(GetDateTime, null);
-                if (Ctime.getCount() > 0) {
-                    Ctime.moveToNext();
-                    int STime = Integer.parseInt(Ctime.getString(Ctime.getColumnIndex("time")));
-                    if (STime > 24) {
-                        CountService++;
-                    }
-                    else
-                    {
-                        continue;
+                            @Override
+                            public void run() {
+                                count_service();
+                            }
+                        });
+                    } catch (Exception e) {
+                        // TODO: handle exception
                     }
                 }
-                else
-                {
-                    continue;
-                }
             }
-        }
-        db.close();
-        btnServices.setText(String.valueOf(CountService));
-        //************************************************************************************
+        }).start();
         try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
-        query="SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
+        String query="SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
                 "LEFT JOIN " +
                 "Servicesdetails ON " +
                 "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode WHERE IsDelete='0' AND " +
@@ -387,7 +332,7 @@ public class MainMenu extends AppCompatActivity {
             String DateTimeEndStr= ChangeDate.changeFarsiToMiladi(cursorServiceNow.getString(cursorServiceNow.getColumnIndex("EndDate")))+" "+cursorServiceNow.getString(cursorServiceNow.getColumnIndex("EndTime")) + ":00" ;
             String GetDateTime="Select Cast ((JulianDay('"+faToEn(DateTimeEndStr.replace("/","-"))+"') - JulianDay('"+faToEn(DateTimeStartStr.replace("/","-"))+"'))" +
                     " * 24 As Integer) time";
-            Ctime=db.rawQuery(GetDateTime,null);
+            Cursor Ctime=db.rawQuery(GetDateTime,null);
             if(Ctime.getCount()>0) {
                 Ctime.moveToNext();
                 HashMap<String, String> map = new HashMap<String, String>();
@@ -1058,6 +1003,7 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
     protected void onStop() {
 
         super.onStop();
+        continue_or_stop=false;
         //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
         startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
@@ -1066,6 +1012,7 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
     protected void onPause() {
 
         super.onPause();
+        continue_or_stop=false;
         //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
         startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
@@ -1074,6 +1021,7 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
     protected void onDestroy() {
 
         super.onDestroy();
+        continue_or_stop=false;
         //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
         startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
@@ -1103,6 +1051,7 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
         else
         {
             if (doubleBackToExitPressedOnce) {
+                continue_or_stop=false;
                 startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
                 startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
                 Intent startMain = new Intent(Intent.ACTION_MAIN);
@@ -1188,5 +1137,86 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
                 .replace("7", "۷")
                 .replace("8", "۸")
                 .replace("9", "۹");
+    }
+    public void count_service()
+    {
+        int CountDuty=0,CountService=0;
+        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
+        String query = "SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
+                "LEFT JOIN " +
+                "Servicesdetails ON " +
+                "Servicesdetails.code=BsUserServices.ServiceDetaileCode ORDER BY StartDate DESC";
+        Cursor coursors = db.rawQuery(query,null);
+        Cursor Ctime;
+        for(int i=0;i<coursors.getCount();i++){
+            coursors.moveToNext();
+            if((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("1") == 1 ))
+            {
+                CountDuty++;
+            }
+            else
+            {
+                String DateTimeStr = ChangeDate.changeFarsiToMiladi(coursors.getString(coursors.getColumnIndex("StartDate"))) + " " + coursors.getString(coursors.getColumnIndex("StartTime")) + ":00";
+                String GetDateTime = "Select Cast ((JulianDay('" + faToEn(DateTimeStr.replace("/", "-")) + "') - JulianDay('now'))" +
+                        " * 24 As Integer) time";
+                Ctime = db.rawQuery(GetDateTime, null);
+                if (Ctime.getCount() > 0) {
+                    Ctime.moveToNext();
+                    int STime = Integer.parseInt(Ctime.getString(Ctime.getColumnIndex("time")));
+                    if (STime <= 24) {
+                        CountDuty++;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+            }
+        }
+        db.close();
+        btnDuty.setText(String.valueOf(CountDuty));
+
+        //************************************************************************************
+        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
+        query = "SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
+                "LEFT JOIN " +
+                "Servicesdetails ON " +
+                "Servicesdetails.code=BsUserServices.ServiceDetaileCode  ORDER BY StartDate DESC";
+        coursors = db.rawQuery(query,null);
+        for(int i=0;i<coursors.getCount();i++){
+            coursors.moveToNext();
+            if((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0") == 1 ))
+            {
+                CountService++;
+            }
+            else
+            {
+                String DateTimeStr = ChangeDate.changeFarsiToMiladi(coursors.getString(coursors.getColumnIndex("StartDate"))) + " " + coursors.getString(coursors.getColumnIndex("StartTime")) + ":00";
+                String GetDateTime = "Select Cast ((JulianDay('" + faToEn(DateTimeStr.replace("/", "-")) + "') - JulianDay('now'))" +
+                        " * 24 As Integer) time";
+                Ctime = db.rawQuery(GetDateTime, null);
+                if (Ctime.getCount() > 0) {
+                    Ctime.moveToNext();
+                    int STime = Integer.parseInt(Ctime.getString(Ctime.getColumnIndex("time")));
+                    if (STime > 24) {
+                        CountService++;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+            }
+        }
+        db.close();
+        btnServices.setText(String.valueOf(CountService));
     }
 }

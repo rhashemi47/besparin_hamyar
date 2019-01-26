@@ -333,7 +333,7 @@
             <EditText
                 android:id="@+id/EtDescription"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
                 android:inputType="text|textMultiLine"
                 android:layout_marginStart="10dp" />

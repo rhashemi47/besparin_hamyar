@@ -224,6 +224,8 @@ public class SyncProfileForService {
 						"Status" +
 						",HamyarCodeForReagent" +
 						",Gender" +
+						",Email" +
+						",Experts" +
 						" )" +
 						"VALUES" +
 						"('" + value[0] +
@@ -244,6 +246,8 @@ public class SyncProfileForService {
 						"','" + value[15] +
 						"','" + value[16] +
 						"','" + value[17] +
+						"','" + value[19] +
+						"','" + value[20] +
 						"')";
 				db.execSQL(query);
 				db.close();
@@ -282,6 +286,8 @@ public class SyncProfileForService {
 						"Status" +
 						",HamyarCodeForReagent" +
 						",Gender" +
+						",Email" +
+						",Experts" +
 						" )" +
 						"VALUES" +
 						"('" + value[0] +
@@ -302,6 +308,8 @@ public class SyncProfileForService {
 						"','" + value[15] +
 						"','" + value[16] +
 						"','" + value[17] +
+						"','" + value[19] +
+						"','" + value[20] +
 						"')";
 				db.execSQL(query);
 				db.close();

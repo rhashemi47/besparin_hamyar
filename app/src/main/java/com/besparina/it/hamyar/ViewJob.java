@@ -314,7 +314,9 @@ public class ViewJob extends AppCompatActivity{
         //***************************************************************************************************************************
 
         try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
-        if(tab.compareTo("1")==0)
+        String query="SELECT * FROM BsUserServices WHERE Code='"+BsUserServicesID+"'";
+        coursors = db.rawQuery(query,null);
+        if(coursors.getCount()>0)
         {
             mHandler = new Handler();
             new Thread(new Runnable() {
@@ -351,7 +353,7 @@ public class ViewJob extends AppCompatActivity{
                     }
                 }
             }).start();
-            String query="SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
+            query="SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
                     "LEFT JOIN " +
                     "Servicesdetails ON " +
                     "Servicesdetails.code=BsUserServices.ServiceDetaileCode WHERE BsUserServices.Code="+BsUserServicesID;
@@ -657,7 +659,7 @@ public class ViewJob extends AppCompatActivity{
         }
         else
             {
-            String query = "SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
+            query = "SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
                     "LEFT JOIN " +
                     "Servicesdetails ON " +
                     "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode WHERE BsHamyarSelectServices.Code='" + BsUserServicesID+"'";
@@ -1040,7 +1042,7 @@ public class ViewJob extends AppCompatActivity{
             }
             else if(status.compareTo("2")==0)//Resume
             {
-                btnVisit.setEnabled(true);
+                btnVisit.setEnabled(false);
                 btnFinal.setEnabled(true);
                 btnFinal.setText("اتمام کار");
                 swStartOrFinal=1;
@@ -1049,6 +1051,7 @@ public class ViewJob extends AppCompatActivity{
                 btnSelect.setEnabled(false);
                 btnResume.setEnabled(false);
                 btnPerFactor.setEnabled(true);
+                btnPerFactor.setText("فاکتور");
             }
             else if(status.compareTo("4")==0)//cansel
             {
@@ -1252,7 +1255,7 @@ public class ViewJob extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 if (swStartOrFinal == 1) {
-                    db = dbh.getReadableDatabase();
+                    try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
                     Cursor c = db.rawQuery("SELECT * FROM HeadFactor WHERE UserServiceCode='" + BsUserServicesID + "' ORDER BY CAST(Code as INT) DESC", null);
                     if (c.getCount() > 0) {
                         c.moveToNext();
@@ -1264,7 +1267,9 @@ public class ViewJob extends AppCompatActivity{
                             } else {
                                 Toast.makeText(ViewJob.this, "پیش فاکتور تایید شده است لطفا فاکتور نهایی را ارسال نمایید", Toast.LENGTH_LONG).show();
                             }
-                        } else {
+                        }
+                        else
+                        {
                             if (c.getString(c.getColumnIndex("InvocAccept")).compareTo("-1") == 0) {
                                 Toast.makeText(ViewJob.this, "در انتظار تایید فاکتور توسط کاربر می باشد", Toast.LENGTH_LONG).show();
                             } else if (c.getString(c.getColumnIndex("InvocAccept")).compareTo("0") == 0) {
@@ -1278,12 +1283,28 @@ public class ViewJob extends AppCompatActivity{
                     } else {
                         Toast.makeText(ViewJob.this, "باید پیش فاکتور ثبت نمایید!", Toast.LENGTH_LONG).show();
                     }
-
+                    if(db.isOpen())
+                    {
+                        db.close();
+                    }
                 }
                 else
                 {
-                    SyncStartJob syncStartJob = new SyncStartJob(ViewJob.this, guid, hamyarcode, coursors.getString(coursors.getColumnIndex("Code")));
-                    syncStartJob.AsyncExecute();
+                    try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
+                    Cursor c = db.rawQuery("SELECT * FROM HeadFactor WHERE UserServiceCode='" + BsUserServicesID + "' ORDER BY CAST(Code as INT) DESC", null);
+                    if (c.getCount() > 0) {
+                        SyncStartJob syncStartJob = new SyncStartJob(ViewJob.this, guid, hamyarcode, coursors.getString(coursors.getColumnIndex("Code")));
+                        syncStartJob.AsyncExecute();
+                    }
+                    else
+                    {
+                        Toast.makeText(ViewJob.this, "باید پیش فاکتور ثبت نمایید!", Toast.LENGTH_LONG).show();
+                    }
+                    if(db.isOpen())
+                    {
+                        db.close();
+                    }
+
                 }
             }
 
@@ -1292,7 +1313,8 @@ public class ViewJob extends AppCompatActivity{
             @Override
             public void onClick(View v)
             {
-                db = dbh.getReadableDatabase();
+                try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
+
                 Cursor c = db.rawQuery("SELECT * FROM HeadFactor WHERE UserServiceCode='" + BsUserServicesID + "' ORDER BY CAST(Code AS INTEGER) DESC", null);
                 if (c.getCount() > 0) {
                     c.moveToNext();
@@ -1314,7 +1336,10 @@ public class ViewJob extends AppCompatActivity{
                             LoadActivity_PerFactor(Save_Per_Factor.class, "tab", tab, "BsUserServicesID", BsUserServicesID, "ServiceDetaileCode", coursors.getString(coursors.getColumnIndex("ServiceDetaileCode")), "back_activity", back_activity);
                         }
                         coursors.close();
-                        db.close();
+                        if(db.isOpen())
+                        {
+                            db.close();
+                        }
                     }
                 }
                 else
@@ -1323,14 +1348,17 @@ public class ViewJob extends AppCompatActivity{
                             "LEFT JOIN " +
                             "Servicesdetails ON " +
                             "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode WHERE BsHamyarSelectServices.Code=" + BsUserServicesID;
-                    db = dbh.getReadableDatabase();
+                    try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
                     coursors = db.rawQuery(query, null);
                     if (coursors.getCount() > 0) {
                         coursors.moveToNext();
                         LoadActivity_PerFactor(Save_Per_Factor.class, "tab", tab, "BsUserServicesID", BsUserServicesID, "ServiceDetaileCode", coursors.getString(coursors.getColumnIndex("ServiceDetaileCode")), "back_activity", back_activity);
                     }
                     coursors.close();
-                    db.close();
+                    if(db.isOpen())
+                    {
+                        db.close();
+                    }
                 }
                 if(db.isOpen())
                 {
@@ -1353,20 +1381,25 @@ public class ViewJob extends AppCompatActivity{
                     }
 
                 }
-                db = dbh.getReadableDatabase();
+                try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
+                String query="SELECT * FROM BsUserServices WHERE Code='"+BsUserServicesID+"'";
+                coursors = db.rawQuery(query,null);
                 Cursor cursorPhone;
-                if(tab.compareTo("0")==0){
-                     cursorPhone = db.rawQuery("SELECT * FROM BsHamyarSelectServices WHERE Code='"+BsUserServicesID+"'", null);
+                if(coursors.getCount()<=0)
+                {
+                    cursorPhone = db.rawQuery("SELECT * FROM BsHamyarSelectServices WHERE Code='"+BsUserServicesID+"'", null);
                 }
                 else {
-                     cursorPhone = db.rawQuery("SELECT * FROM BsUserServices WHERE Code='"+BsUserServicesID+"'", null);
+                    cursorPhone = db.rawQuery("SELECT * FROM BsUserServices WHERE Code='"+BsUserServicesID+"'", null);
                 }
-
                 if (cursorPhone.getCount() > 0) {
                     cursorPhone.moveToNext();
                     dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("UserPhone")));
                 }
-                db.close();
+                if(db.isOpen())
+                {
+                    db.close();
+                }
             }
         });
 
