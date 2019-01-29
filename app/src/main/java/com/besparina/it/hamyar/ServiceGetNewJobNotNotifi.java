@@ -19,7 +19,7 @@ public class ServiceGetNewJobNotNotifi extends Service {
     boolean continue_or_stop = true;
     boolean createthread=true;
     private DatabaseHelper dbh;
-    private SQLiteDatabase db;
+    SQLiteDatabase dbRW,dbR;
     private String hamyarcode;
     private String guid;
     @Override
@@ -67,13 +67,14 @@ public class ServiceGetNewJobNotNotifi extends Service {
                                     @Override
                                     public void run() {
                                         if (PublicVariable.theard_GetNewJob) {
-                                            if (db != null) {
-                                                if (db.isOpen()) {
-                                                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                                            if (dbR != null) {
+                                                if (dbR.isOpen()) {
+                                                    try {	if (dbR.isOpen()) {	dbR.close();	}}	catch (Exception ex){	}
                                                 }
                                             }
-                                            db = dbh.getReadableDatabase();
-                                            Cursor coursors = db.rawQuery("SELECT * FROM login", null);
+                                            dbR = dbh.getReadableDatabase();
+                                            dbRW = dbh.getWritableDatabase();
+                                            Cursor coursors = dbR.rawQuery("SELECT * FROM login", null);
                                             for (int i = 0; i < coursors.getCount(); i++) {
 
                                                 coursors.moveToNext();
@@ -81,18 +82,18 @@ public class ServiceGetNewJobNotNotifi extends Service {
                                                 hamyarcode = coursors.getString(coursors.getColumnIndex("hamyarcode"));
                                             }
 
-                                            Cursor cursors = db.rawQuery("SELECT ifnull(MAX(CAST (code AS INT)),0)as code FROM BsUserServices", null);
+                                            Cursor cursors = dbR.rawQuery("SELECT ifnull(MAX(CAST (code AS INT)),0)as code FROM BsUserServices", null);
                                             if (cursors.getCount() > 0) {
                                                 cursors.moveToNext();
                                                 LastHamyarUserServiceCode = cursors.getString(cursors.getColumnIndex("code"));
                                             }
 
-                                            if (db != null) {
-                                                if (db.isOpen()) {
-                                                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                                            if (dbR != null) {
+                                                if (dbR.isOpen()) {
+                                                    try {	if (dbR.isOpen()) {	dbR.close();	}}	catch (Exception ex){	}
                                                 }
                                             }
-                                            SyncNewJob syncNewJob = new SyncNewJob(getApplicationContext(), guid, hamyarcode, LastHamyarUserServiceCode, false);
+                                            SyncNewJob syncNewJob = new SyncNewJob(getApplicationContext(), guid, hamyarcode, LastHamyarUserServiceCode, false,dbh,dbR,dbRW);
                                             syncNewJob.AsyncExecute();
                                         }
                                     }
@@ -118,34 +119,34 @@ public class ServiceGetNewJobNotNotifi extends Service {
     public boolean Check_Login()
     {
         Cursor cursor;
-        if(db==null)
+        if(dbR==null)
         {
-            db = dbh.getReadableDatabase();
+            dbR = dbh.getReadableDatabase();
         }
-        if(!db.isOpen()) {
-            db = dbh.getReadableDatabase();
+        if(!dbR.isOpen()) {
+            dbR = dbh.getReadableDatabase();
         }
-        cursor = db.rawQuery("SELECT * FROM login", null);
+        cursor = dbR.rawQuery("SELECT * FROM login", null);
         if (cursor.getCount() > 0) {
             cursor.moveToNext();
             String Result = cursor.getString(cursor.getColumnIndex("islogin"));
             if (Result.compareTo("0") == 0)
             {
-                if(db.isOpen())
-                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                if(dbR.isOpen())
+                    try {	if (dbR.isOpen()) {	dbR.close();	}}	catch (Exception ex){	}
                 return false;
             }
             else
             {
-                if(db.isOpen())
-                    try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+                if(dbR.isOpen())
+                    try {	if (dbR.isOpen()) {	dbR.close();	}}	catch (Exception ex){	}
                 return true;
             }
         }
         else
         {
-            if(db.isOpen())
-                try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
+            if(dbR.isOpen())
+                try {	if (dbR.isOpen()) {	dbR.close();	}}	catch (Exception ex){	}
             return false;
         }
     }

@@ -1,12 +1,16 @@
 package com.besparina.it.hamyar;
 
 import android.app.Service;
+import android.app.job.JobParameters;
+import android.app.job.JobService;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.annotation.RequiresApi;
 
 import java.io.IOException;
 
@@ -14,7 +18,8 @@ import java.io.IOException;
  * Created by hashemi on 02/18/2018.
  */
 
-public class ServiceGetNewJob extends Service {
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+public class SchaduleServiceGetNewJobNotNotifi extends JobService {
     Handler mHandler;
     boolean continue_or_stop = true;
     boolean createthread=true;
@@ -22,14 +27,9 @@ public class ServiceGetNewJob extends Service {
     SQLiteDatabase dbRW,dbR;
     private String hamyarcode;
     private String guid;
-    @Override
-    public IBinder onBind(Intent arg0) {
-        return null;
-    }
 
     @Override
-    public int onStartCommand(final Intent intent, int flags, int startId) {
-        // Let it continue running until it is stopped.
+    public boolean onStartJob(JobParameters jobParameters) {     // Let it continue running until it is stopped.
 //        Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
         dbh = new DatabaseHelper(getApplicationContext());
         try {
@@ -59,10 +59,10 @@ public class ServiceGetNewJob extends Service {
                     public void run() {
                         while (continue_or_stop) {
                             try {
-                                Thread.sleep(6000); // every 60 seconds
+                                Thread.sleep(60000); // every 60 seconds
                                 mHandler.post(new Runnable() {
 
-//                                public String LastHamyarUserServiceCode;
+                                    public String LastHamyarUserServiceCode;
 
                                     @Override
                                     public void run() {
@@ -76,20 +76,25 @@ public class ServiceGetNewJob extends Service {
                                             dbRW = dbh.getWritableDatabase();
                                             Cursor coursors = dbR.rawQuery("SELECT * FROM login", null);
                                             for (int i = 0; i < coursors.getCount(); i++) {
+
                                                 coursors.moveToNext();
                                                 guid = coursors.getString(coursors.getColumnIndex("guid"));
                                                 hamyarcode = coursors.getString(coursors.getColumnIndex("hamyarcode"));
                                             }
-//                                        Cursor cursors = dbR.rawQuery("SELECT ifnull(MAX(CAST (code AS INT)),0)as code FROM BsUserServices", null);
-//                                        if (cursors.getCount() > 0) {
-//                                            cursors.moveToNext();
-//                                            LastHamyarUserServiceCode = cursors.getString(cursors.getColumnIndex("code"));
-//                                        }
-                                            SyncNewJob syncNewJob = new SyncNewJob(getApplicationContext(), guid, hamyarcode, "0", true,dbh,dbR,dbRW);
-                                            syncNewJob.AsyncExecute();//Get Allways All Free Services
-                                            if (dbR.isOpen()) {
-                                                try {	if (dbR.isOpen()) {	dbR.close();	}}	catch (Exception ex){	}
+
+                                            Cursor cursors = dbR.rawQuery("SELECT ifnull(MAX(CAST (code AS INT)),0)as code FROM BsUserServices", null);
+                                            if (cursors.getCount() > 0) {
+                                                cursors.moveToNext();
+                                                LastHamyarUserServiceCode = cursors.getString(cursors.getColumnIndex("code"));
                                             }
+
+                                            if (dbR != null) {
+                                                if (dbR.isOpen()) {
+                                                    try {	if (dbR.isOpen()) {	dbR.close();	}}	catch (Exception ex){	}
+                                                }
+                                            }
+                                            SyncNewJob syncNewJob = new SyncNewJob(getApplicationContext(), guid, hamyarcode, LastHamyarUserServiceCode, false,dbh,dbR,dbRW);
+                                            syncNewJob.AsyncExecute();
                                         }
                                     }
                                 });
@@ -102,14 +107,13 @@ public class ServiceGetNewJob extends Service {
                 createthread = false;
             }
         }
-        return START_STICKY;
+        return false;
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-       // Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
+    public boolean onStopJob(JobParameters jobParameters) {
         continue_or_stop=false;
+        return false;
     }
     public boolean Check_Login()
     {
@@ -145,5 +149,4 @@ public class ServiceGetNewJob extends Service {
             return false;
         }
     }
-
 }

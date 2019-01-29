@@ -80,7 +80,7 @@ public class ServiceGetSliderPic extends Service {
                                             }
                                             coursors.close();
                                             if (guid.compareTo("0") != 0 && hamyarcode.compareTo("0") != 0) {
-                                                SyncSliderPic syncSliderPic = new SyncSliderPic(getApplicationContext(), guid, hamyarcode);
+                                                SyncSliderPic syncSliderPic = new SyncSliderPic(getApplicationContext(), guid, hamyarcode,dbh,db);
                                                 syncSliderPic.AsyncExecute();
                                             }
 

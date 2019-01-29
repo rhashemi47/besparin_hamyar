@@ -29,33 +29,37 @@ public class SyncGetUserServiceForHamyarDeleted {
 	//private String acceptcode;
 	private boolean CuShowDialog=false;
 	//Contractor
-	public SyncGetUserServiceForHamyarDeleted(Context activity, String GUID, String HamyarCode, String UserServiceCode) {
+	public SyncGetUserServiceForHamyarDeleted(Context activity, String GUID, String HamyarCode, String UserServiceCode,
+											  DatabaseHelper dbh,
+											  SQLiteDatabase db) {
 		this.activity = activity;
 		this.GUID = GUID;
 		this.HamyarCode = HamyarCode;
 		this.UserServiceCode = UserServiceCode;
+		this.dbh = dbh;
+		this.db = db;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
 		PublicVariable.theard_DeleteJob=false;
-		dbh=new DatabaseHelper(this.activity.getApplicationContext());
-		try {
-
-			dbh.createDataBase();
-
-   		} catch (IOException ioe) {
-			PublicVariable.theard_DeleteJob=true;
-   			throw new Error("Unable to create database");
-
-   		}
-
-   		try {
-
-   			dbh.openDataBase();
-
-   		} catch (SQLException sqle) {
-			PublicVariable.theard_DeleteJob=true;
-   			throw sqle;
-   		}   		
+//		dbh=new DatabaseHelper(this.activity.getApplicationContext());
+//		try {
+//
+//			dbh.createDataBase();
+//
+//   		} catch (IOException ioe) {
+//			PublicVariable.theard_DeleteJob=true;
+//   			throw new Error("Unable to create database");
+//
+//   		}
+//
+//   		try {
+//
+//   			dbh.openDataBase();
+//
+//   		} catch (SQLException sqle) {
+//			PublicVariable.theard_DeleteJob=true;
+//   			throw sqle;
+//   		}
 	}
 	
 	public void AsyncExecute()

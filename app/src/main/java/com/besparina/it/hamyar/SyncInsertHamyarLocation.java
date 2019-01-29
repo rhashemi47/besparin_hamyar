@@ -44,8 +44,9 @@ public class SyncInsertHamyarLocation {
 									String Hour,
 									String Minute,
 									String Lat,
-									String Lng)
-	{
+									String Lng,
+									DatabaseHelper dbh,
+									SQLiteDatabase db) {
 		this.activity = activity;
 		this.guid = guid;
 		this.Hour = Hour;
@@ -56,28 +57,30 @@ public class SyncInsertHamyarLocation {
 		this.Minute=Minute;
 		this.Lat=Lat;
 		this.Lng=Lng;
+		this.dbh = dbh;
+		this.db = db;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
 		PublicVariable.theard_GetLocation=false;
-		dbh=new DatabaseHelper(this.activity.getApplicationContext());
-		try {
-
-			dbh.createDataBase();
-
-   		} catch (IOException ioe) {
-			PublicVariable.theard_GetLocation=true;
-   			throw new Error("Unable to create database");
-
-   		}
-
-   		try {
-
-   			dbh.openDataBase();
-
-   		} catch (SQLException sqle) {
-			PublicVariable.theard_GetLocation=true;
-   			throw sqle;
-   		}   		
+//		dbh=new DatabaseHelper(this.activity.getApplicationContext());
+//		try {
+//
+//			dbh.createDataBase();
+//
+//   		} catch (IOException ioe) {
+//			PublicVariable.theard_GetLocation=true;
+//   			throw new Error("Unable to create database");
+//
+//   		}
+//
+//   		try {
+//
+//   			dbh.openDataBase();
+//
+//   		} catch (SQLException sqle) {
+//			PublicVariable.theard_GetLocation=true;
+//   			throw sqle;
+//   		}
 	}
 	
 	public void AsyncExecute()

@@ -1,6 +1,9 @@
 package com.besparina.it.hamyar;
 
 import android.app.AlertDialog;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -63,7 +66,7 @@ public class MainMenu extends AppCompatActivity {
     private String guid;
     private DatabaseHelper dbh;
     private SQLiteDatabase db;
-    private Drawer drawer=null;
+    private Drawer drawer = null;
     private String countMessage;
     private String countVisit;
     private Button btnDuty;
@@ -81,26 +84,36 @@ public class MainMenu extends AppCompatActivity {
     Custom_ViewFlipper viewFlipper;
     GestureDetector mGestureDetector;
     private String AppVersion;
-    private ArrayList<HashMap<String ,String>> valuse=new ArrayList<HashMap<String, String>>();
+    private ArrayList<HashMap<String, String>> valuse = new ArrayList<HashMap<String, String>>();
     private Handler mHandler;
-    private boolean continue_or_stop=true;
+    private boolean continue_or_stop = true;
+    private JobScheduler jobScheduler_SchaduleServiceGetNewJob = null;
+    private JobScheduler jobScheduler_SchaduleServiceGetFactorAccept = null;
+    private JobScheduler jobScheduler_SchaduleServiceGetLocation = null;
+    private JobScheduler jobScheduler_SchaduleServiceGetSliderPic = null;
+    private JobScheduler jobScheduler_SchaduleServiceSyncProfile = null;
+    private JobScheduler jobScheduler_SchaduleServiceSyncServiceSelected = null;
+    private JobScheduler jobScheduler_SchaduleServiceGetJobUpdate = null;
+    private JobScheduler jobScheduler_SchaduleServiceDeleteJob = null;
+    private JobScheduler jobScheduler_SchaduleServiceGetUserServiceStartDate = null;
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-		super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.mainmenu);
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/IRANSans.ttf");//set font for page
-        btnDuty=(Button)findViewById(R.id.btnDuty);
-        btnServices=(Button)findViewById(R.id.btnServices);
-        ListDutyNow=(ListView) findViewById(R.id.ListDutyNow);
-        LinearTextServiceNow=(LinearLayout) findViewById(R.id.LinearTextServiceNow);
+        btnDuty = (Button) findViewById(R.id.btnDuty);
+        btnServices = (Button) findViewById(R.id.btnServices);
+        ListDutyNow = (ListView) findViewById(R.id.ListDutyNow);
+        LinearTextServiceNow = (LinearLayout) findViewById(R.id.LinearTextServiceNow);
         //****************************************************************
         btnDuty.setTypeface(FontMitra);
         btnServices.setTypeface(FontMitra);
@@ -115,19 +128,19 @@ public class MainMenu extends AppCompatActivity {
             e.printStackTrace();
         }
         String version = pInfo.versionName;
-        if(version.length()>0) {
+        if (version.length() > 0) {
             AppVersion = version;
-            WsDownLoadUpdate wsDownLoadUpdate=new WsDownLoadUpdate(MainMenu.this,AppVersion, PublicVariable.LinkFileTextCheckVersion,PublicVariable.DownloadAppUpdateLinkAPK);
+            WsDownLoadUpdate wsDownLoadUpdate = new WsDownLoadUpdate(MainMenu.this, AppVersion, PublicVariable.LinkFileTextCheckVersion, PublicVariable.DownloadAppUpdateLinkAPK);
             wsDownLoadUpdate.AsyncExecute();
         }
 
 
-        btnCredit=(TextView)findViewById(R.id.btnCredit);
-        btnServices_at_the_turn=(Button)findViewById(R.id.btnServices_at_the_turn);
-        btnDutyToday=(Button)findViewById(R.id.btnDutyToday);
-        btnHome=(Button)findViewById(R.id.btnHome);
+        btnCredit = (TextView) findViewById(R.id.btnCredit);
+        btnServices_at_the_turn = (Button) findViewById(R.id.btnServices_at_the_turn);
+        btnDutyToday = (Button) findViewById(R.id.btnDutyToday);
+        btnHome = (Button) findViewById(R.id.btnHome);
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(MainMenu.this));
-        dbh=new DatabaseHelper(getApplicationContext());
+        dbh = new DatabaseHelper(getApplicationContext());
         try {
 
             dbh.createDataBase();
@@ -185,22 +198,25 @@ public class MainMenu extends AppCompatActivity {
 //            btnServices.setText("0");
 //        }
 
-        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
-        Cursor coursors = db.rawQuery("SELECT * FROM messages WHERE IsReade='0' AND IsDelete='0'",null);
-        if(coursors.getCount()>0)
-        {
-            countMessage=String.valueOf(coursors.getCount());
-        }
-        coursors = db.rawQuery("SELECT * FROM BsHamyarSelectServices WHERE Status='5' AND IsDelete='0'",null);
-        if(coursors.getCount()>0)
-        {
-            countVisit=String.valueOf(coursors.getCount());
-        }
-        try
-        {
-            String status="0";
+        try {
+            if (!db.isOpen()) {
+                db = dbh.getReadableDatabase();
+            }
+        } catch (Exception ex) {
             db = dbh.getReadableDatabase();
-           Cursor cursor = db.rawQuery("SELECT * FROM Profile", null);
+        }
+        Cursor coursors = db.rawQuery("SELECT * FROM messages WHERE IsReade='0' AND IsDelete='0'", null);
+        if (coursors.getCount() > 0) {
+            countMessage = String.valueOf(coursors.getCount());
+        }
+        coursors = db.rawQuery("SELECT * FROM BsHamyarSelectServices WHERE Status='5' AND IsDelete='0'", null);
+        if (coursors.getCount() > 0) {
+            countVisit = String.valueOf(coursors.getCount());
+        }
+        try {
+            String status = "0";
+            db = dbh.getReadableDatabase();
+            Cursor cursor = db.rawQuery("SELECT * FROM Profile", null);
             if (cursor.getCount() > 0) {
                 cursor.moveToNext();
                 try {
@@ -208,53 +224,195 @@ public class MainMenu extends AppCompatActivity {
                         status = cursor.getString(cursor.getColumnIndex("Status"));
                         if (status.compareTo("0") == 0) {
                             status = "غیرفعال";
-                            PublicVariable.IsActive=false;
-                            IsActive=false;
+                            PublicVariable.IsActive = false;
+                            IsActive = false;
                         } else {
                             status = "فعال";
-                            PublicVariable.IsActive=true;
-                            IsActive=true;
-                            startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-                            startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
-                            startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
-                            startService(new Intent(getBaseContext(), ServiceGetLocation.class));
-                            startService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
-                            startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
-                            startService(new Intent(getBaseContext(), ServiceSyncServiceSelected.class));
-                            startService(new Intent(getBaseContext(), ServiceGetJobUpdate.class));
-                            startService(new Intent(getBaseContext(), ServiceDeleteJob.class));
+                            PublicVariable.IsActive = true;
+                            IsActive = true;
+                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                                //*****************************************SchaduleServiceGetNewJob******************************************
+                                ComponentName serviceComponent_SchaduleServiceGetNewJob = new ComponentName(getApplicationContext(), SchaduleServiceGetNewJob.class);
+                                JobInfo.Builder builder_SchaduleServiceGetNewJob = null;
+                                builder_SchaduleServiceGetNewJob = new JobInfo.Builder(0, serviceComponent_SchaduleServiceGetNewJob);
+                                builder_SchaduleServiceGetNewJob.setMinimumLatency(5 * 1000); // wait at least
+                                builder_SchaduleServiceGetNewJob.setOverrideDeadline(50 * 1000); // maximum delay
+                                builder_SchaduleServiceGetNewJob.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+                                builder_SchaduleServiceGetNewJob.setRequiresDeviceIdle(false); // device should be idle
+                                builder_SchaduleServiceGetNewJob.setRequiresCharging(false); // we don't care if the device is charging or not
+                                JobScheduler jobScheduler_SchaduleServiceGetNewJob = null;
+                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                                    jobScheduler_SchaduleServiceGetNewJob = getApplicationContext().getSystemService(JobScheduler.class);
+                                }
+                                jobScheduler_SchaduleServiceGetNewJob.schedule(builder_SchaduleServiceGetNewJob.build());
+                                //*****************************************SchaduleServiceGetFactorAccept******************************************
+                                ComponentName serviceComponent_SchaduleServiceGetFactorAccept = new ComponentName(getApplicationContext(), SchaduleServiceGetFactorAccept.class);
+                                JobInfo.Builder builder_SchaduleServiceGetFactorAccept = null;
+                                builder_SchaduleServiceGetFactorAccept = new JobInfo.Builder(1, serviceComponent_SchaduleServiceGetFactorAccept);
+                                builder_SchaduleServiceGetFactorAccept.setMinimumLatency(5 * 1000); // wait at least
+                                builder_SchaduleServiceGetFactorAccept.setOverrideDeadline(50 * 1000); // maximum delay
+                                builder_SchaduleServiceGetFactorAccept.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+                                builder_SchaduleServiceGetFactorAccept.setRequiresDeviceIdle(false); // device should be idle
+                                builder_SchaduleServiceGetFactorAccept.setRequiresCharging(false); // we don't care if the device is charging or not
+                                JobScheduler jobScheduler_SchaduleServiceGetFactorAccept = null;
+                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                                    jobScheduler_SchaduleServiceGetFactorAccept = getApplicationContext().getSystemService(JobScheduler.class);
+                                }
+                                jobScheduler_SchaduleServiceGetFactorAccept.schedule(builder_SchaduleServiceGetFactorAccept.build());
+
+                                //*****************************************SchaduleServiceGetLocation************************************************
+                                ComponentName serviceComponent_SchaduleServiceGetLocation = new ComponentName(getApplicationContext(), SchaduleServiceGetLocation.class);
+                                JobInfo.Builder builder_SchaduleServiceGetLocation = null;
+                                builder_SchaduleServiceGetLocation = new JobInfo.Builder(2, serviceComponent_SchaduleServiceGetLocation);
+                                builder_SchaduleServiceGetLocation.setMinimumLatency(5 * 1000); // wait at least
+                                builder_SchaduleServiceGetLocation.setOverrideDeadline(50 * 1000); // maximum delay
+                                builder_SchaduleServiceGetLocation.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+                                builder_SchaduleServiceGetLocation.setRequiresDeviceIdle(false); // device should be idle
+                                builder_SchaduleServiceGetLocation.setRequiresCharging(false); // we don't care if the device is charging or not
+                                JobScheduler jobScheduler_SchaduleServiceGetLocation = null;
+                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                                    jobScheduler_SchaduleServiceGetLocation = getApplicationContext().getSystemService(JobScheduler.class);
+                                }
+                                jobScheduler_SchaduleServiceGetLocation.schedule(builder_SchaduleServiceGetLocation.build());
+
+                                //*****************************************SchaduleServiceGetSliderPic******************************************
+                                ComponentName serviceComponent_SchaduleServiceGetSliderPic = new ComponentName(getApplicationContext(), SchaduleServiceGetSliderPic.class);
+                                JobInfo.Builder builder_SchaduleServiceGetSliderPic = null;
+                                builder_SchaduleServiceGetSliderPic = new JobInfo.Builder(4, serviceComponent_SchaduleServiceGetSliderPic);
+                                builder_SchaduleServiceGetSliderPic.setMinimumLatency(5 * 1000); // wait at least
+                                builder_SchaduleServiceGetSliderPic.setOverrideDeadline(50 * 1000); // maximum delay
+                                builder_SchaduleServiceGetSliderPic.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+                                builder_SchaduleServiceGetSliderPic.setRequiresDeviceIdle(false); // device should be idle
+                                builder_SchaduleServiceGetSliderPic.setRequiresCharging(false); // we don't care if the device is charging or not
+                                JobScheduler jobScheduler_SchaduleServiceGetSliderPic = null;
+                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                                    jobScheduler_SchaduleServiceGetSliderPic = getApplicationContext().getSystemService(JobScheduler.class);
+                                }
+                                jobScheduler_SchaduleServiceGetSliderPic.schedule(builder_SchaduleServiceGetSliderPic.build());
+
+                                //*****************************************SchaduleServiceSyncProfile******************************************
+                                ComponentName serviceComponent_SchaduleServiceSyncProfile = new ComponentName(getApplicationContext(), SchaduleServiceSyncProfile.class);
+                                JobInfo.Builder builder_SchaduleServiceSyncProfile = null;
+                                builder_SchaduleServiceSyncProfile = new JobInfo.Builder(5, serviceComponent_SchaduleServiceSyncProfile);
+                                builder_SchaduleServiceSyncProfile.setMinimumLatency(5 * 1000); // wait at least
+                                builder_SchaduleServiceSyncProfile.setOverrideDeadline(50 * 1000); // maximum delay
+                                builder_SchaduleServiceSyncProfile.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+                                builder_SchaduleServiceSyncProfile.setRequiresDeviceIdle(false); // device should be idle
+                                builder_SchaduleServiceSyncProfile.setRequiresCharging(false); // we don't care if the device is charging or not
+                                JobScheduler jobScheduler_SchaduleServiceSyncProfile = null;
+                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                                    jobScheduler_SchaduleServiceSyncProfile = getApplicationContext().getSystemService(JobScheduler.class);
+                                }
+                                jobScheduler_SchaduleServiceSyncProfile.schedule(builder_SchaduleServiceSyncProfile.build());
+
+                                //*****************************************SchaduleServiceSyncServiceSelected******************************************
+                                ComponentName serviceComponent_SchaduleServiceSyncServiceSelected = new ComponentName(getApplicationContext(), SchaduleServiceSyncServiceSelected.class);
+                                JobInfo.Builder builder_SchaduleServiceSyncServiceSelected = null;
+                                builder_SchaduleServiceSyncServiceSelected = new JobInfo.Builder(6, serviceComponent_SchaduleServiceSyncServiceSelected);
+                                builder_SchaduleServiceSyncServiceSelected.setMinimumLatency(5 * 1000); // wait at least
+                                builder_SchaduleServiceSyncServiceSelected.setOverrideDeadline(50 * 1000); // maximum delay
+                                builder_SchaduleServiceSyncServiceSelected.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+                                builder_SchaduleServiceSyncServiceSelected.setRequiresDeviceIdle(false); // device should be idle
+                                builder_SchaduleServiceSyncServiceSelected.setRequiresCharging(false); // we don't care if the device is charging or not
+                                JobScheduler jobScheduler_SchaduleServiceSyncServiceSelected = null;
+                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                                    jobScheduler_SchaduleServiceSyncServiceSelected = getApplicationContext().getSystemService(JobScheduler.class);
+                                }
+                                jobScheduler_SchaduleServiceSyncServiceSelected.schedule(builder_SchaduleServiceSyncServiceSelected.build());
+
+                                //*****************************************SchaduleServiceGetJobUpdate******************************************
+                                ComponentName serviceComponent_SchaduleServiceGetJobUpdate = new ComponentName(getApplicationContext(), SchaduleServiceGetJobUpdate.class);
+                                JobInfo.Builder builder_SchaduleServiceGetJobUpdate = null;
+                                builder_SchaduleServiceGetJobUpdate = new JobInfo.Builder(7, serviceComponent_SchaduleServiceGetJobUpdate);
+                                builder_SchaduleServiceGetJobUpdate.setMinimumLatency(5 * 1000); // wait at least
+                                builder_SchaduleServiceGetJobUpdate.setOverrideDeadline(50 * 1000); // maximum delay
+                                builder_SchaduleServiceGetJobUpdate.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+                                builder_SchaduleServiceGetJobUpdate.setRequiresDeviceIdle(false); // device should be idle
+                                builder_SchaduleServiceGetJobUpdate.setRequiresCharging(false); // we don't care if the device is charging or not
+                                JobScheduler jobScheduler_SchaduleServiceGetJobUpdate = null;
+                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                                    jobScheduler_SchaduleServiceGetJobUpdate = getApplicationContext().getSystemService(JobScheduler.class);
+                                }
+                                jobScheduler_SchaduleServiceGetJobUpdate.schedule(builder_SchaduleServiceGetJobUpdate.build());
+
+                                //*****************************************SchaduleServiceDeleteJob******************************************
+                                ComponentName serviceComponent_SchaduleServiceDeleteJob = new ComponentName(getApplicationContext(), SchaduleServiceDeleteJob.class);
+                                JobInfo.Builder builder_SchaduleServiceDeleteJob = null;
+                                builder_SchaduleServiceDeleteJob = new JobInfo.Builder(7, serviceComponent_SchaduleServiceDeleteJob);
+                                builder_SchaduleServiceDeleteJob.setMinimumLatency(5 * 1000); // wait at least
+                                builder_SchaduleServiceDeleteJob.setOverrideDeadline(50 * 1000); // maximum delay
+                                builder_SchaduleServiceDeleteJob.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+                                builder_SchaduleServiceDeleteJob.setRequiresDeviceIdle(false); // device should be idle
+                                builder_SchaduleServiceDeleteJob.setRequiresCharging(false); // we don't care if the device is charging or not
+                                JobScheduler jobScheduler_SchaduleServiceDeleteJob = null;
+                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                                    jobScheduler_SchaduleServiceDeleteJob = getApplicationContext().getSystemService(JobScheduler.class);
+                                }
+                                jobScheduler_SchaduleServiceDeleteJob.schedule(builder_SchaduleServiceDeleteJob.build());
+
+                                //*****************************************SchaduleServiceGetUserServiceStartDate******************************************
+                                ComponentName serviceComponent_SchaduleServiceGetUserServiceStartDate = new ComponentName(getApplicationContext(), SchaduleServiceGetUserServiceStartDate.class);
+                                JobInfo.Builder builder_SchaduleServiceGetUserServiceStartDate = null;
+                                builder_SchaduleServiceGetUserServiceStartDate = new JobInfo.Builder(7, serviceComponent_SchaduleServiceGetUserServiceStartDate);
+                                builder_SchaduleServiceGetUserServiceStartDate.setMinimumLatency(5 * 1000); // wait at least
+                                builder_SchaduleServiceGetUserServiceStartDate.setOverrideDeadline(50 * 1000); // maximum delay
+                                builder_SchaduleServiceGetUserServiceStartDate.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+                                builder_SchaduleServiceGetUserServiceStartDate.setRequiresDeviceIdle(false); // device should be idle
+                                builder_SchaduleServiceGetUserServiceStartDate.setRequiresCharging(false); // we don't care if the device is charging or not
+                                JobScheduler jobScheduler_SchaduleServiceGetUserServiceStartDate = null;
+                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                                    jobScheduler_SchaduleServiceGetUserServiceStartDate = getApplicationContext().getSystemService(JobScheduler.class);
+                                }
+                                jobScheduler_SchaduleServiceGetUserServiceStartDate.schedule(builder_SchaduleServiceGetUserServiceStartDate.build());
+
+
+                            } else {
+                                startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+                                startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
+                                startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
+                                startService(new Intent(getBaseContext(), ServiceGetLocation.class));
+                                startService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
+                                startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
+                                startService(new Intent(getBaseContext(), ServiceSyncServiceSelected.class));
+                                startService(new Intent(getBaseContext(), ServiceGetJobUpdate.class));
+                                startService(new Intent(getBaseContext(), ServiceDeleteJob.class));
+                            }
+
                         }
                     } else {
                         status = "غیرفعال";
-                        PublicVariable.IsActive=false;
-                        IsActive=false;
+                        PublicVariable.IsActive = false;
+                        IsActive = false;
                     }
 
                 } catch (Exception ex) {
                     status = "غیرفعال";
-                    PublicVariable.IsActive=false;
-                    IsActive=false;
+                    PublicVariable.IsActive = false;
+                    IsActive = false;
                 }
             }
             hamyarcode = getIntent().getStringExtra("hamyarcode");
             guid = getIntent().getStringExtra("guid");
-           Check_Login(hamyarcode,guid,status);
-        }
-        catch(Exception e)
-        {
+            Check_Login(hamyarcode, guid, status);
+        } catch (Exception e) {
             throw new Error("Error Opne Activity");
         }
         //****************************************************************************************
-        if(guid==null || hamyarcode==null)
-        {
-            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
-            Cursor c = db.rawQuery("SELECT * FROM login",null);
-           if(c.getCount()>0){
-                c.moveToNext();
-                guid=c.getString(c.getColumnIndex("guid"));
-                hamyarcode=c.getString(c.getColumnIndex("hamyarcode"));
+        if (guid == null || hamyarcode == null) {
+            try {
+                if (!db.isOpen()) {
+                    db = dbh.getReadableDatabase();
+                }
+            } catch (Exception ex) {
+                db = dbh.getReadableDatabase();
             }
-            if(db.isOpen()) {
+            Cursor c = db.rawQuery("SELECT * FROM login", null);
+            if (c.getCount() > 0) {
+                c.moveToNext();
+                guid = c.getString(c.getColumnIndex("guid"));
+                hamyarcode = c.getString(c.getColumnIndex("hamyarcode"));
+            }
+            if (db.isOpen()) {
                 db.close();
             }
             c.close();
@@ -317,23 +475,28 @@ public class MainMenu extends AppCompatActivity {
                 }
             }
         }).start();
-        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
-        String query="SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
+        try {
+            if (!db.isOpen()) {
+                db = dbh.getReadableDatabase();
+            }
+        } catch (Exception ex) {
+            db = dbh.getReadableDatabase();
+        }
+        String query = "SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
                 "LEFT JOIN " +
                 "Servicesdetails ON " +
                 "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode WHERE IsDelete='0' AND " +
                 "Status='2'";
 //                "StartDate='"+year+"/"+mon+"/"+day+"'";
-        Cursor cursorServiceNow = db.rawQuery(query,null);
-        for(int i=0;i<cursorServiceNow.getCount();i++)
-        {
+        Cursor cursorServiceNow = db.rawQuery(query, null);
+        for (int i = 0; i < cursorServiceNow.getCount(); i++) {
             cursorServiceNow.moveToNext();
-            String DateTimeStartStr= ChangeDate.changeFarsiToMiladi(cursorServiceNow.getString(cursorServiceNow.getColumnIndex("StartDate")))+" "+cursorServiceNow.getString(cursorServiceNow.getColumnIndex("StartTime")) + ":00" ;
-            String DateTimeEndStr= ChangeDate.changeFarsiToMiladi(cursorServiceNow.getString(cursorServiceNow.getColumnIndex("EndDate")))+" "+cursorServiceNow.getString(cursorServiceNow.getColumnIndex("EndTime")) + ":00" ;
-            String GetDateTime="Select Cast ((JulianDay('"+faToEn(DateTimeEndStr.replace("/","-"))+"') - JulianDay('"+faToEn(DateTimeStartStr.replace("/","-"))+"'))" +
+            String DateTimeStartStr = ChangeDate.changeFarsiToMiladi(cursorServiceNow.getString(cursorServiceNow.getColumnIndex("StartDate"))) + " " + cursorServiceNow.getString(cursorServiceNow.getColumnIndex("StartTime")) + ":00";
+            String DateTimeEndStr = ChangeDate.changeFarsiToMiladi(cursorServiceNow.getString(cursorServiceNow.getColumnIndex("EndDate"))) + " " + cursorServiceNow.getString(cursorServiceNow.getColumnIndex("EndTime")) + ":00";
+            String GetDateTime = "Select Cast ((JulianDay('" + faToEn(DateTimeEndStr.replace("/", "-")) + "') - JulianDay('" + faToEn(DateTimeStartStr.replace("/", "-")) + "'))" +
                     " * 24 As Integer) time";
-            Cursor Ctime=db.rawQuery(GetDateTime,null);
-            if(Ctime.getCount()>0) {
+            Cursor Ctime = db.rawQuery(GetDateTime, null);
+            if (Ctime.getCount() > 0) {
                 Ctime.moveToNext();
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put("BsUserServicesID", cursorServiceNow.getString(cursorServiceNow.getColumnIndex("Code")));
@@ -343,49 +506,50 @@ public class MainMenu extends AppCompatActivity {
                         "به نام: " + cursorServiceNow.getString(cursorServiceNow.getColumnIndex("UserName")) + " " + cursorServiceNow.getString(cursorServiceNow.getColumnIndex("UserFamily")));
                 valuse.add(map);
             }
-            if(!Ctime.isClosed())
-            {
+            if (!Ctime.isClosed()) {
                 Ctime.close();
             }
         }
-        if(!cursorServiceNow.isClosed())
-        {
+        if (!cursorServiceNow.isClosed()) {
             cursorServiceNow.close();
         }
-        if(db.isOpen()) {
+        if (db.isOpen()) {
             db.close();
         }
-        if(valuse.size()>0) {
+        if (valuse.size() > 0) {
             LinearTextServiceNow.setVisibility(View.VISIBLE);
             AdapterListServiceNow dataAdapter = new AdapterListServiceNow(this, valuse, guid, hamyarcode);
             ListDutyNow.setAdapter(dataAdapter);
-        }
-        else
-        {
+        } else {
             LinearTextServiceNow.setVisibility(View.GONE);
         }
         //**************************************************************************
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         viewFlipper = (Custom_ViewFlipper) findViewById(R.id.vf);
-        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
-        coursors = db.rawQuery("SELECT * FROM Slider",null);
-        if(coursors.getCount()>0) {
-            Bitmap bpm[]=new Bitmap[coursors.getCount()];
-            String link[]=new String[coursors.getCount()];
-            for (int j=0;j<coursors.getCount();j++) {
+        try {
+            if (!db.isOpen()) {
+                db = dbh.getReadableDatabase();
+            }
+        } catch (Exception ex) {
+            db = dbh.getReadableDatabase();
+        }
+        coursors = db.rawQuery("SELECT * FROM Slider", null);
+        if (coursors.getCount() > 0) {
+            Bitmap bpm[] = new Bitmap[coursors.getCount()];
+            String link[] = new String[coursors.getCount()];
+            for (int j = 0; j < coursors.getCount(); j++) {
                 coursors.moveToNext();
                 viewFlipper.setVisibility(View.VISIBLE);
                 //slides.add();
-                bpm[j]=convertToBitmap(coursors.getString(coursors.getColumnIndex("Pic")));
-                link[j]=coursors.getString(coursors.getColumnIndex("Link"));
+                bpm[j] = convertToBitmap(coursors.getString(coursors.getColumnIndex("Pic")));
+                link[j] = coursors.getString(coursors.getColumnIndex("Link"));
             }
             db.close();
             int i = 0;
-            while(i<bpm.length)
-            {
+            while (i < bpm.length) {
 //                imageView = new  com.flaviofaria.kenburnsview.KenBurnsView(this);
-                imageView=new ImageView(getApplicationContext());
+                imageView = new ImageView(getApplicationContext());
                 imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                 //ImageLoader.getInstance().displayImage(slides.get(i),imageView);
                 imageView.setImageBitmap(bpm[i]);
@@ -405,13 +569,12 @@ public class MainMenu extends AppCompatActivity {
 //            imageView.setTransitionGenerator(randomTransitionGenerator);
 
 
-
             Paint paint = new Paint();
-            paint.setColor(ContextCompat.getColor(this,R.color.colorPrimary));
+            paint.setColor(ContextCompat.getColor(this, R.color.colorPrimary));
             viewFlipper.setPaintCurrent(paint);
             paint = new Paint();
 
-            paint.setColor(ContextCompat.getColor(this,android.R.color.white));
+            paint.setColor(ContextCompat.getColor(this, android.R.color.white));
             viewFlipper.setPaintNormal(paint);
 
             viewFlipper.setRadius(10);
@@ -427,9 +590,7 @@ public class MainMenu extends AppCompatActivity {
                     return true;
                 }
             });
-        }
-        else
-        {
+        } else {
             viewFlipper.setVisibility(View.GONE);
         }
 
@@ -437,7 +598,7 @@ public class MainMenu extends AppCompatActivity {
         btnCredit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
+                LoadActivity(Credit.class, "guid", guid, "hamyarcode", hamyarcode);
             }
         });
         btnDutyToday.setOnClickListener(new View.OnClickListener() {
@@ -466,17 +627,18 @@ public class MainMenu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //goto Duty Page List
-                LoadActivity(List_Dutys.class, "guid",  guid, "hamyarcode", hamyarcode);
+                LoadActivity(List_Dutys.class, "guid", guid, "hamyarcode", hamyarcode);
             }
         });
         btnServices.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //goto Services Page List
-                LoadActivity(List_Services.class, "guid",  guid, "hamyarcode", hamyarcode);
+                LoadActivity(List_Services.class, "guid", guid, "hamyarcode", hamyarcode);
             }
         });
-	}
+    }
+
     class CustomGestureDetector extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
@@ -487,7 +649,7 @@ public class MainMenu extends AppCompatActivity {
                 viewFlipper.setOutAnimation(MainMenu.this, R.anim.left_out);
 
                 viewFlipper.showNext();
-            }else if (e1.getX() < e2.getX()) {
+            } else if (e1.getX() < e2.getX()) {
                 viewFlipper.setInAnimation(MainMenu.this, R.anim.right_in);
                 viewFlipper.setOutAnimation(MainMenu.this, R.anim.right_out);
 
@@ -520,17 +682,35 @@ public class MainMenu extends AppCompatActivity {
             // do something when the button is clicked
             public void onClick(DialogInterface arg0, int arg1) {
                 //Declare Object From Get Internet Connection Status For Check Internet Status
-                stopService(new Intent(getBaseContext(), ServiceGetLocation.class));
-                stopService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-                stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
-                stopService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
-                stopService(new Intent(getBaseContext(), ServiceSyncProfile.class));
-                stopService(new Intent(getBaseContext(), ServiceSyncServiceSelected.class));
-                stopService(new Intent(getBaseContext(), ServiceGetJobUpdate.class));
-                stopService(new Intent(getBaseContext(), ServiceDeleteJob.class));
-                stopService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
-                stopService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
-                try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    jobScheduler_SchaduleServiceGetNewJob.cancelAll();
+                    jobScheduler_SchaduleServiceGetFactorAccept.cancelAll();
+                    jobScheduler_SchaduleServiceGetLocation.cancelAll();
+                    jobScheduler_SchaduleServiceGetSliderPic.cancelAll();
+                    jobScheduler_SchaduleServiceSyncProfile.cancelAll();
+                    jobScheduler_SchaduleServiceSyncServiceSelected.cancelAll();
+                    jobScheduler_SchaduleServiceGetJobUpdate.cancelAll();
+                    jobScheduler_SchaduleServiceDeleteJob.cancelAll();
+                    jobScheduler_SchaduleServiceGetUserServiceStartDate.cancelAll();
+                } else {
+                    stopService(new Intent(getBaseContext(), ServiceGetLocation.class));
+                    stopService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+                    stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+                    stopService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
+                    stopService(new Intent(getBaseContext(), ServiceSyncProfile.class));
+                    stopService(new Intent(getBaseContext(), ServiceSyncServiceSelected.class));
+                    stopService(new Intent(getBaseContext(), ServiceGetJobUpdate.class));
+                    stopService(new Intent(getBaseContext(), ServiceDeleteJob.class));
+                    stopService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
+                    stopService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
+                }
+                try {
+                    if (!db.isOpen()) {
+                        db = dbh.getWritableDatabase();
+                    }
+                } catch (Exception ex) {
+                    db = dbh.getWritableDatabase();
+                }
                 db.execSQL("DELETE FROM AmountCredit");
                 db.execSQL("DELETE FROM android_metadata");
                 db.execSQL("DELETE FROM BsHamyarSelectServices");
@@ -575,95 +755,75 @@ public class MainMenu extends AppCompatActivity {
 
         alertbox.show();
     }
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private void CreateMenu(Toolbar toolbar){
-        Bitmap bmp=BitmapFactory.decodeResource(getResources(),R.drawable.useravatar);
-        String name="";
-        String family="";
-        String status="";
+    private void CreateMenu(Toolbar toolbar) {
+        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.useravatar);
+        String name = "";
+        String family = "";
+        String status = "";
         db = dbh.getReadableDatabase();
         Cursor coursors = db.rawQuery("SELECT * FROM Profile", null);
         if (coursors.getCount() > 0) {
             coursors.moveToNext();
-            try
-            {
-                if(coursors.getString(coursors.getColumnIndex("Status")).compareTo("null")!=0){
+            try {
+                if (coursors.getString(coursors.getColumnIndex("Status")).compareTo("null") != 0) {
                     status = coursors.getString(coursors.getColumnIndex("Status"));
-                    if(status.compareTo("0")==0)
-                    {
-                        status="غیرفعال";
+                    if (status.compareTo("0") == 0) {
+                        status = "غیرفعال";
+                    } else {
+                        status = "فعال";
                     }
-                    else
-                    {
-                        status="فعال";
-                    }
-                }
-                else
-                {
+                } else {
                     status = "غیرفعال";
                 }
 
-            }
-            catch (Exception ex){
+            } catch (Exception ex) {
                 status = "غیرفعال";
             }
-            try
-            {
-                if(coursors.getString(coursors.getColumnIndex("Name")).compareTo("null")!=0){
+            try {
+                if (coursors.getString(coursors.getColumnIndex("Name")).compareTo("null") != 0) {
                     name = coursors.getString(coursors.getColumnIndex("Name"));
-                }
-                else
-                {
+                } else {
                     name = "کاربر";
                 }
 
-            }
-            catch (Exception ex){
+            } catch (Exception ex) {
                 name = "کاربر";
             }
-            try
-            {
-                if(coursors.getString(coursors.getColumnIndex("Fam")).compareTo("null")!=0){
+            try {
+                if (coursors.getString(coursors.getColumnIndex("Fam")).compareTo("null") != 0) {
                     family = coursors.getString(coursors.getColumnIndex("Fam"));
-                }
-                else
-                {
+                } else {
                     family = "مهمان";
                 }
 
-            }
-            catch (Exception ex){
+            } catch (Exception ex) {
                 family = "مهمان";
             }
-            try
-            {
-                if(coursors.getString(coursors.getColumnIndex("Pic")).compareTo("null")!=0){
+            try {
+                if (coursors.getString(coursors.getColumnIndex("Pic")).compareTo("null") != 0) {
                     bmp = convertToBitmap(coursors.getString(coursors.getColumnIndex("Pic")));
-                }
-                else
-                {
+                } else {
                     bmp = BitmapFactory.decodeResource(getResources(), R.drawable.useravatar);
                 }
 
-            }
-            catch (Exception ex){
+            } catch (Exception ex) {
                 bmp = BitmapFactory.decodeResource(getResources(), R.drawable.useravatar);
             }
-        }
-        else
-        {
+        } else {
             name = "کاربر";
             family = "مهمان";
         }
 
-        int drawerGravity= Gravity.END;
-            Configuration config = getResources().getConfiguration();
-            if(config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
-                drawerGravity= Gravity.START;
-            }
+        int drawerGravity = Gravity.END;
+        Configuration config = getResources().getConfiguration();
+        if (config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
+            drawerGravity = Gravity.START;
+        }
 
 
-String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
+        String HeaderStr = name + " " + family + " - " + "وضعیت: " + status;
         // Create the AccountHeader
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
@@ -678,7 +838,7 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
                     }
                 })
                 .build();
-        drawer= new DrawerBuilder()
+        drawer = new DrawerBuilder()
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .withAccountHeader(headerResult)
@@ -704,48 +864,47 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
                         //new SecondaryDrawerItem().withName(R.string.Exit).withIcon(R.drawable.exit).withSelectable(false),
                         new SecondaryDrawerItem().withName(R.string.Logout).withIcon(R.drawable.logout).withSelectable(false)
                 )//.addStickyDrawerItems(new PrimaryDrawerItem().withName(R.string.RelateUs).withSelectable(false).withEnabled(false),se),
-                        //new PrimaryDrawerItem().withName(R.string.telegram).withIcon(R.drawable.telegram).withSelectable(false),
-                        //new PrimaryDrawerItem().withName(R.string.instagram).withIcon(R.drawable.instagram).withSelectable(false))
+                //new PrimaryDrawerItem().withName(R.string.telegram).withIcon(R.drawable.telegram).withSelectable(false),
+                //new PrimaryDrawerItem().withName(R.string.instagram).withIcon(R.drawable.instagram).withSelectable(false))
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        switch (position){
+                        switch (position) {
                             case 1://Profile
-                                try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
-                                Cursor coursors = db.rawQuery("SELECT * FROM Profile",null);
-                                if(coursors.getCount()>0)
-                                {
+                                try {
+                                    if (!db.isOpen()) {
+                                        db = dbh.getReadableDatabase();
+                                    }
+                                } catch (Exception ex) {
+                                    db = dbh.getReadableDatabase();
+                                }
+                                Cursor coursors = db.rawQuery("SELECT * FROM Profile", null);
+                                if (coursors.getCount() > 0) {
                                     coursors.moveToNext();
-                                    String Status_check=coursors.getString(coursors.getColumnIndex("Status"));
-                                    if(Status_check.compareTo("0")==0)
-                                    {
-                                        Cursor c = db.rawQuery("SELECT * FROM login",null);
-                                        if(c.getCount()>0)
-                                        {
+                                    String Status_check = coursors.getString(coursors.getColumnIndex("Status"));
+                                    if (Status_check.compareTo("0") == 0) {
+                                        Cursor c = db.rawQuery("SELECT * FROM login", null);
+                                        if (c.getCount() > 0) {
                                             c.moveToNext();
                                             SyncProfile profile = new SyncProfile(MainMenu.this, c.getString(c.getColumnIndex("guid")), c.getString(c.getColumnIndex("hamyarcode")));
                                             profile.AsyncExecute();
                                         }
+                                    } else {
+                                        LoadActivity(Profile.class, "guid", guid, "hamyarcode", hamyarcode);
                                     }
-                                    else
-                                    {
-                                        LoadActivity(Profile.class, "guid", guid,"hamyarcode",hamyarcode);
-                                    }
-                                }
-                                else
-                                {
+                                } else {
                                     Toast.makeText(MainMenu.this, "برای استفاده از امکانات بسپارینا باید ثبت نام کنید", Toast.LENGTH_LONG).show();
-                                    LoadActivity(Login.class,"guid",guid,"hamyarcode",hamyarcode);
+                                    LoadActivity(Login.class, "guid", guid, "hamyarcode", hamyarcode);
                                 }
 
                                 db.close();
                                 break;
                             case 2:
                                 db = dbh.getReadableDatabase();
-                                Cursor c = db.rawQuery("SELECT * FROM login",null);
-                                if(c.getCount()>0) {
+                                Cursor c = db.rawQuery("SELECT * FROM login", null);
+                                if (c.getCount() > 0) {
                                     c.moveToNext();
-                                    LoadActivity(List_Visits.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
+                                    LoadActivity(List_Visits.class, "guid", c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
                                 }
                                 db.close();
                                 break;
@@ -760,8 +919,8 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
 //                                db.close();
                                 openWebPage("http://besparina.ir/?page_id=178");
                                 break;
-							case 4:
-							openWebPage("http://besparina.ir/?page_id=164");
+                            case 4:
+                                openWebPage("http://besparina.ir/?page_id=164");
                                 break;
                             case 5:
 //                                db = dbh.getReadableDatabase();
@@ -796,10 +955,10 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
                                 break;
                             case 8:
                                 db = dbh.getReadableDatabase();
-                                c = db.rawQuery("SELECT * FROM login",null);
-                                if(c.getCount()>0) {
+                                c = db.rawQuery("SELECT * FROM login", null);
+                                if (c.getCount() > 0) {
                                     c.moveToNext();
-                                    LoadActivity(Contact.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
+                                    LoadActivity(Contact.class, "guid", c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
                                 }
                                 break;
                             case 9:
@@ -812,16 +971,21 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
 //                                alertbox.setPositiveButton("مراحل کاری", new DialogInterface.OnClickListener() {
 //                                    // do something when the button is clicked
 //                                    public void onClick(DialogInterface arg0, int arg1) {
-                                try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
-                                c = db.rawQuery("SELECT * FROM login",null);
-                                if(c.getCount()>0)
-                                {
+                                try {
+                                    if (!db.isOpen()) {
+                                        db = dbh.getReadableDatabase();
+                                    }
+                                } catch (Exception ex) {
+                                    db = dbh.getReadableDatabase();
+                                }
+                                c = db.rawQuery("SELECT * FROM login", null);
+                                if (c.getCount() > 0) {
                                     c.moveToNext();
-                                    SyncGetHmFactorService getHmFactorService=new SyncGetHmFactorService(MainMenu.this,guid,hamyarcode);
+                                    SyncGetHmFactorService getHmFactorService = new SyncGetHmFactorService(MainMenu.this, guid, hamyarcode);
                                     getHmFactorService.AsyncExecute();
-                                    SyncGetHmFactorTools syncGetHmFactorTools=new SyncGetHmFactorTools(MainMenu.this,guid,hamyarcode);
+                                    SyncGetHmFactorTools syncGetHmFactorTools = new SyncGetHmFactorTools(MainMenu.this, guid, hamyarcode);
                                     syncGetHmFactorTools.AsyncExecute();
-                                    LoadActivity(Setting.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
+                                    LoadActivity(Setting.class, "guid", c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
                                 }
                                 db.close();
 //                                        arg0.dismiss();
@@ -920,7 +1084,7 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
 //        alertbox.show();
 //    }
 
-//    @Override
+    //    @Override
 //    public boolean onKeyDown( int keyCode, KeyEvent event )  {
 //        if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
 //            //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
@@ -929,46 +1093,166 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
 //
 //        return super.onKeyDown( keyCode, event );
 //    }
-    public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2)
-    {
-        Intent intent = new Intent(getApplicationContext(),Cls);
+    public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2) {
+        Intent intent = new Intent(getApplicationContext(), Cls);
         intent.putExtra(VariableName, VariableValue);
         intent.putExtra(VariableName2, VariableValue2);
         this.startActivity(intent);
     }
-	  public Bitmap convertToBitmap(String base){
-          Bitmap Bmp=null;
-          try
-          {
-              byte[] decodedByte = Base64.decode(base, Base64.DEFAULT);
-              Bmp = BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
+
+    public Bitmap convertToBitmap(String base) {
+        Bitmap Bmp = null;
+        try {
+            byte[] decodedByte = Base64.decode(base, Base64.DEFAULT);
+            Bmp = BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
 //
-              return Bmp;
-          }
-          catch (Exception e)
-          {
-              e.printStackTrace();
-              return Bmp;
-          }
-	  }
+            return Bmp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Bmp;
+        }
+    }
+
     protected void onStart() {
 
         super.onStart();
-        startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-        startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
-        startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
-        //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            //*****************************************SchaduleServiceGetNewJob******************************************
+            ComponentName serviceComponent_SchaduleServiceGetNewJob = new ComponentName(getApplicationContext(), SchaduleServiceGetNewJob.class);
+            JobInfo.Builder builder_SchaduleServiceGetNewJob = null;
+            builder_SchaduleServiceGetNewJob = new JobInfo.Builder(0, serviceComponent_SchaduleServiceGetNewJob);
+            builder_SchaduleServiceGetNewJob.setMinimumLatency(5 * 1000); // wait at least
+            builder_SchaduleServiceGetNewJob.setOverrideDeadline(50 * 1000); // maximum delay
+            builder_SchaduleServiceGetNewJob.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+            builder_SchaduleServiceGetNewJob.setRequiresDeviceIdle(false); // device should be idle
+            builder_SchaduleServiceGetNewJob.setRequiresCharging(false); // we don't care if the device is charging or not
+            JobScheduler jobScheduler_SchaduleServiceGetNewJob = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                jobScheduler_SchaduleServiceGetNewJob = getApplicationContext().getSystemService(JobScheduler.class);
+            }
+            jobScheduler_SchaduleServiceGetNewJob.schedule(builder_SchaduleServiceGetNewJob.build());
+            //*****************************************SchaduleServiceGetFactorAccept******************************************
+            ComponentName serviceComponent_SchaduleServiceGetFactorAccept = new ComponentName(getApplicationContext(), SchaduleServiceGetFactorAccept.class);
+            JobInfo.Builder builder_SchaduleServiceGetFactorAccept = null;
+            builder_SchaduleServiceGetFactorAccept = new JobInfo.Builder(1, serviceComponent_SchaduleServiceGetFactorAccept);
+            builder_SchaduleServiceGetFactorAccept.setMinimumLatency(5 * 1000); // wait at least
+            builder_SchaduleServiceGetFactorAccept.setOverrideDeadline(50 * 1000); // maximum delay
+            builder_SchaduleServiceGetFactorAccept.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+            builder_SchaduleServiceGetFactorAccept.setRequiresDeviceIdle(false); // device should be idle
+            builder_SchaduleServiceGetFactorAccept.setRequiresCharging(false); // we don't care if the device is charging or not
+            JobScheduler jobScheduler_SchaduleServiceGetFactorAccept = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                jobScheduler_SchaduleServiceGetFactorAccept = getApplicationContext().getSystemService(JobScheduler.class);
+            }
+            jobScheduler_SchaduleServiceGetFactorAccept.schedule(builder_SchaduleServiceGetFactorAccept.build());
+//*****************************************SchaduleServiceSyncProfile******************************************
+            ComponentName serviceComponent_SchaduleServiceSyncProfile = new ComponentName(getApplicationContext(), SchaduleServiceSyncProfile.class);
+            JobInfo.Builder builder_SchaduleServiceSyncProfile = null;
+            builder_SchaduleServiceSyncProfile = new JobInfo.Builder(5, serviceComponent_SchaduleServiceSyncProfile);
+            builder_SchaduleServiceSyncProfile.setMinimumLatency(5 * 1000); // wait at least
+            builder_SchaduleServiceSyncProfile.setOverrideDeadline(50 * 1000); // maximum delay
+            builder_SchaduleServiceSyncProfile.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+            builder_SchaduleServiceSyncProfile.setRequiresDeviceIdle(false); // device should be idle
+            builder_SchaduleServiceSyncProfile.setRequiresCharging(false); // we don't care if the device is charging or not
+            JobScheduler jobScheduler_SchaduleServiceSyncProfile = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                jobScheduler_SchaduleServiceSyncProfile = getApplicationContext().getSystemService(JobScheduler.class);
+            }
+            jobScheduler_SchaduleServiceSyncProfile.schedule(builder_SchaduleServiceSyncProfile.build());
+//*****************************************SchaduleServiceGetUserServiceStartDate******************************************
+            ComponentName serviceComponent_SchaduleServiceGetUserServiceStartDate = new ComponentName(getApplicationContext(), SchaduleServiceGetUserServiceStartDate.class);
+            JobInfo.Builder builder_SchaduleServiceGetUserServiceStartDate = null;
+            builder_SchaduleServiceGetUserServiceStartDate = new JobInfo.Builder(7, serviceComponent_SchaduleServiceGetUserServiceStartDate);
+            builder_SchaduleServiceGetUserServiceStartDate.setMinimumLatency(5 * 1000); // wait at least
+            builder_SchaduleServiceGetUserServiceStartDate.setOverrideDeadline(50 * 1000); // maximum delay
+            builder_SchaduleServiceGetUserServiceStartDate.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+            builder_SchaduleServiceGetUserServiceStartDate.setRequiresDeviceIdle(false); // device should be idle
+            builder_SchaduleServiceGetUserServiceStartDate.setRequiresCharging(false); // we don't care if the device is charging or not
+            JobScheduler jobScheduler_SchaduleServiceGetUserServiceStartDate = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                jobScheduler_SchaduleServiceGetUserServiceStartDate = getApplicationContext().getSystemService(JobScheduler.class);
+            }
+            jobScheduler_SchaduleServiceGetUserServiceStartDate.schedule(builder_SchaduleServiceGetUserServiceStartDate.build());
 
+        } else {
+            startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+            startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
+            startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
+            startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
+            //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+        }
     }
+
     protected void onResume() {
 
         super.onResume();
-        startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-        startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
-        startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
-        try
-        {
-            String status="0";
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            //*****************************************SchaduleServiceGetNewJob******************************************
+            ComponentName serviceComponent_SchaduleServiceGetNewJob = new ComponentName(getApplicationContext(), SchaduleServiceGetNewJob.class);
+            JobInfo.Builder builder_SchaduleServiceGetNewJob = null;
+            builder_SchaduleServiceGetNewJob = new JobInfo.Builder(0, serviceComponent_SchaduleServiceGetNewJob);
+            builder_SchaduleServiceGetNewJob.setMinimumLatency(5 * 1000); // wait at least
+            builder_SchaduleServiceGetNewJob.setOverrideDeadline(50 * 1000); // maximum delay
+            builder_SchaduleServiceGetNewJob.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+            builder_SchaduleServiceGetNewJob.setRequiresDeviceIdle(false); // device should be idle
+            builder_SchaduleServiceGetNewJob.setRequiresCharging(false); // we don't care if the device is charging or not
+            JobScheduler jobScheduler_SchaduleServiceGetNewJob = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                jobScheduler_SchaduleServiceGetNewJob = getApplicationContext().getSystemService(JobScheduler.class);
+            }
+            jobScheduler_SchaduleServiceGetNewJob.schedule(builder_SchaduleServiceGetNewJob.build());
+            //*****************************************SchaduleServiceGetFactorAccept******************************************
+            ComponentName serviceComponent_SchaduleServiceGetFactorAccept = new ComponentName(getApplicationContext(), SchaduleServiceGetFactorAccept.class);
+            JobInfo.Builder builder_SchaduleServiceGetFactorAccept = null;
+            builder_SchaduleServiceGetFactorAccept = new JobInfo.Builder(1, serviceComponent_SchaduleServiceGetFactorAccept);
+            builder_SchaduleServiceGetFactorAccept.setMinimumLatency(5 * 1000); // wait at least
+            builder_SchaduleServiceGetFactorAccept.setOverrideDeadline(50 * 1000); // maximum delay
+            builder_SchaduleServiceGetFactorAccept.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+            builder_SchaduleServiceGetFactorAccept.setRequiresDeviceIdle(false); // device should be idle
+            builder_SchaduleServiceGetFactorAccept.setRequiresCharging(false); // we don't care if the device is charging or not
+            JobScheduler jobScheduler_SchaduleServiceGetFactorAccept = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                jobScheduler_SchaduleServiceGetFactorAccept = getApplicationContext().getSystemService(JobScheduler.class);
+            }
+            jobScheduler_SchaduleServiceGetFactorAccept.schedule(builder_SchaduleServiceGetFactorAccept.build());
+//*****************************************SchaduleServiceSyncProfile******************************************
+            ComponentName serviceComponent_SchaduleServiceSyncProfile = new ComponentName(getApplicationContext(), SchaduleServiceSyncProfile.class);
+            JobInfo.Builder builder_SchaduleServiceSyncProfile = null;
+            builder_SchaduleServiceSyncProfile = new JobInfo.Builder(5, serviceComponent_SchaduleServiceSyncProfile);
+            builder_SchaduleServiceSyncProfile.setMinimumLatency(5 * 1000); // wait at least
+            builder_SchaduleServiceSyncProfile.setOverrideDeadline(50 * 1000); // maximum delay
+            builder_SchaduleServiceSyncProfile.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+            builder_SchaduleServiceSyncProfile.setRequiresDeviceIdle(false); // device should be idle
+            builder_SchaduleServiceSyncProfile.setRequiresCharging(false); // we don't care if the device is charging or not
+            JobScheduler jobScheduler_SchaduleServiceSyncProfile = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                jobScheduler_SchaduleServiceSyncProfile = getApplicationContext().getSystemService(JobScheduler.class);
+            }
+            jobScheduler_SchaduleServiceSyncProfile.schedule(builder_SchaduleServiceSyncProfile.build());
+//*****************************************SchaduleServiceGetUserServiceStartDate******************************************
+            ComponentName serviceComponent_SchaduleServiceGetUserServiceStartDate = new ComponentName(getApplicationContext(), SchaduleServiceGetUserServiceStartDate.class);
+            JobInfo.Builder builder_SchaduleServiceGetUserServiceStartDate = null;
+            builder_SchaduleServiceGetUserServiceStartDate = new JobInfo.Builder(7, serviceComponent_SchaduleServiceGetUserServiceStartDate);
+            builder_SchaduleServiceGetUserServiceStartDate.setMinimumLatency(5 * 1000); // wait at least
+            builder_SchaduleServiceGetUserServiceStartDate.setOverrideDeadline(50 * 1000); // maximum delay
+            builder_SchaduleServiceGetUserServiceStartDate.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+            builder_SchaduleServiceGetUserServiceStartDate.setRequiresDeviceIdle(false); // device should be idle
+            builder_SchaduleServiceGetUserServiceStartDate.setRequiresCharging(false); // we don't care if the device is charging or not
+            JobScheduler jobScheduler_SchaduleServiceGetUserServiceStartDate = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                jobScheduler_SchaduleServiceGetUserServiceStartDate = getApplicationContext().getSystemService(JobScheduler.class);
+            }
+            jobScheduler_SchaduleServiceGetUserServiceStartDate.schedule(builder_SchaduleServiceGetUserServiceStartDate.build());
+
+        } else {
+            startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+            startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
+            startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
+            startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
+            //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+        }
+        try {
+            String status = "0";
             db = dbh.getReadableDatabase();
             Cursor cursor = db.rawQuery("SELECT * FROM Profile", null);
             if (cursor.getCount() > 0) {
@@ -991,50 +1275,239 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
             }
             hamyarcode = getIntent().getStringExtra("hamyarcode");
             guid = getIntent().getStringExtra("guid");
-            Check_Login(hamyarcode,guid,status);
-        }
-        catch(Exception e)
-        {
+            Check_Login(hamyarcode, guid, status);
+        } catch (Exception e) {
             throw new Error("Error Opne Activity");
         }
         //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
 
     }
+
     protected void onStop() {
 
         super.onStop();
-        continue_or_stop=false;
+        continue_or_stop = false;
         //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
-        startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-        startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
-        startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            //*****************************************SchaduleServiceGetNewJob******************************************
+            ComponentName serviceComponent_SchaduleServiceGetNewJob = new ComponentName(getApplicationContext(), SchaduleServiceGetNewJob.class);
+            JobInfo.Builder builder_SchaduleServiceGetNewJob = null;
+            builder_SchaduleServiceGetNewJob = new JobInfo.Builder(0, serviceComponent_SchaduleServiceGetNewJob);
+            builder_SchaduleServiceGetNewJob.setMinimumLatency(5 * 1000); // wait at least
+            builder_SchaduleServiceGetNewJob.setOverrideDeadline(50 * 1000); // maximum delay
+            builder_SchaduleServiceGetNewJob.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+            builder_SchaduleServiceGetNewJob.setRequiresDeviceIdle(false); // device should be idle
+            builder_SchaduleServiceGetNewJob.setRequiresCharging(false); // we don't care if the device is charging or not
+            JobScheduler jobScheduler_SchaduleServiceGetNewJob = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                jobScheduler_SchaduleServiceGetNewJob = getApplicationContext().getSystemService(JobScheduler.class);
+            }
+            jobScheduler_SchaduleServiceGetNewJob.schedule(builder_SchaduleServiceGetNewJob.build());
+            //*****************************************SchaduleServiceGetFactorAccept******************************************
+            ComponentName serviceComponent_SchaduleServiceGetFactorAccept = new ComponentName(getApplicationContext(), SchaduleServiceGetFactorAccept.class);
+            JobInfo.Builder builder_SchaduleServiceGetFactorAccept = null;
+            builder_SchaduleServiceGetFactorAccept = new JobInfo.Builder(1, serviceComponent_SchaduleServiceGetFactorAccept);
+            builder_SchaduleServiceGetFactorAccept.setMinimumLatency(5 * 1000); // wait at least
+            builder_SchaduleServiceGetFactorAccept.setOverrideDeadline(50 * 1000); // maximum delay
+            builder_SchaduleServiceGetFactorAccept.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+            builder_SchaduleServiceGetFactorAccept.setRequiresDeviceIdle(false); // device should be idle
+            builder_SchaduleServiceGetFactorAccept.setRequiresCharging(false); // we don't care if the device is charging or not
+            JobScheduler jobScheduler_SchaduleServiceGetFactorAccept = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                jobScheduler_SchaduleServiceGetFactorAccept = getApplicationContext().getSystemService(JobScheduler.class);
+            }
+            jobScheduler_SchaduleServiceGetFactorAccept.schedule(builder_SchaduleServiceGetFactorAccept.build());
+//*****************************************SchaduleServiceSyncProfile******************************************
+            ComponentName serviceComponent_SchaduleServiceSyncProfile = new ComponentName(getApplicationContext(), SchaduleServiceSyncProfile.class);
+            JobInfo.Builder builder_SchaduleServiceSyncProfile = null;
+            builder_SchaduleServiceSyncProfile = new JobInfo.Builder(5, serviceComponent_SchaduleServiceSyncProfile);
+            builder_SchaduleServiceSyncProfile.setMinimumLatency(5 * 1000); // wait at least
+            builder_SchaduleServiceSyncProfile.setOverrideDeadline(50 * 1000); // maximum delay
+            builder_SchaduleServiceSyncProfile.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+            builder_SchaduleServiceSyncProfile.setRequiresDeviceIdle(false); // device should be idle
+            builder_SchaduleServiceSyncProfile.setRequiresCharging(false); // we don't care if the device is charging or not
+            JobScheduler jobScheduler_SchaduleServiceSyncProfile = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                jobScheduler_SchaduleServiceSyncProfile = getApplicationContext().getSystemService(JobScheduler.class);
+            }
+            jobScheduler_SchaduleServiceSyncProfile.schedule(builder_SchaduleServiceSyncProfile.build());
+//*****************************************SchaduleServiceGetUserServiceStartDate******************************************
+            ComponentName serviceComponent_SchaduleServiceGetUserServiceStartDate = new ComponentName(getApplicationContext(), SchaduleServiceGetUserServiceStartDate.class);
+            JobInfo.Builder builder_SchaduleServiceGetUserServiceStartDate = null;
+            builder_SchaduleServiceGetUserServiceStartDate = new JobInfo.Builder(7, serviceComponent_SchaduleServiceGetUserServiceStartDate);
+            builder_SchaduleServiceGetUserServiceStartDate.setMinimumLatency(5 * 1000); // wait at least
+            builder_SchaduleServiceGetUserServiceStartDate.setOverrideDeadline(50 * 1000); // maximum delay
+            builder_SchaduleServiceGetUserServiceStartDate.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+            builder_SchaduleServiceGetUserServiceStartDate.setRequiresDeviceIdle(false); // device should be idle
+            builder_SchaduleServiceGetUserServiceStartDate.setRequiresCharging(false); // we don't care if the device is charging or not
+            JobScheduler jobScheduler_SchaduleServiceGetUserServiceStartDate = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                jobScheduler_SchaduleServiceGetUserServiceStartDate = getApplicationContext().getSystemService(JobScheduler.class);
+            }
+            jobScheduler_SchaduleServiceGetUserServiceStartDate.schedule(builder_SchaduleServiceGetUserServiceStartDate.build());
+
+        } else {
+            startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+            startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
+            startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
+            startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
+            //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+        }
     }
+
     protected void onPause() {
 
         super.onPause();
-        continue_or_stop=false;
+        continue_or_stop = false;
         //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
-        startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-        startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
-        startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            //*****************************************SchaduleServiceGetNewJob******************************************
+            ComponentName serviceComponent_SchaduleServiceGetNewJob = new ComponentName(getApplicationContext(), SchaduleServiceGetNewJob.class);
+            JobInfo.Builder builder_SchaduleServiceGetNewJob = null;
+            builder_SchaduleServiceGetNewJob = new JobInfo.Builder(0, serviceComponent_SchaduleServiceGetNewJob);
+            builder_SchaduleServiceGetNewJob.setMinimumLatency(5 * 1000); // wait at least
+            builder_SchaduleServiceGetNewJob.setOverrideDeadline(50 * 1000); // maximum delay
+            builder_SchaduleServiceGetNewJob.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+            builder_SchaduleServiceGetNewJob.setRequiresDeviceIdle(false); // device should be idle
+            builder_SchaduleServiceGetNewJob.setRequiresCharging(false); // we don't care if the device is charging or not
+            JobScheduler jobScheduler_SchaduleServiceGetNewJob = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                jobScheduler_SchaduleServiceGetNewJob = getApplicationContext().getSystemService(JobScheduler.class);
+            }
+            jobScheduler_SchaduleServiceGetNewJob.schedule(builder_SchaduleServiceGetNewJob.build());
+            //*****************************************SchaduleServiceGetFactorAccept******************************************
+            ComponentName serviceComponent_SchaduleServiceGetFactorAccept = new ComponentName(getApplicationContext(), SchaduleServiceGetFactorAccept.class);
+            JobInfo.Builder builder_SchaduleServiceGetFactorAccept = null;
+            builder_SchaduleServiceGetFactorAccept = new JobInfo.Builder(1, serviceComponent_SchaduleServiceGetFactorAccept);
+            builder_SchaduleServiceGetFactorAccept.setMinimumLatency(5 * 1000); // wait at least
+            builder_SchaduleServiceGetFactorAccept.setOverrideDeadline(50 * 1000); // maximum delay
+            builder_SchaduleServiceGetFactorAccept.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+            builder_SchaduleServiceGetFactorAccept.setRequiresDeviceIdle(false); // device should be idle
+            builder_SchaduleServiceGetFactorAccept.setRequiresCharging(false); // we don't care if the device is charging or not
+            JobScheduler jobScheduler_SchaduleServiceGetFactorAccept = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                jobScheduler_SchaduleServiceGetFactorAccept = getApplicationContext().getSystemService(JobScheduler.class);
+            }
+            jobScheduler_SchaduleServiceGetFactorAccept.schedule(builder_SchaduleServiceGetFactorAccept.build());
+//*****************************************SchaduleServiceSyncProfile******************************************
+            ComponentName serviceComponent_SchaduleServiceSyncProfile = new ComponentName(getApplicationContext(), SchaduleServiceSyncProfile.class);
+            JobInfo.Builder builder_SchaduleServiceSyncProfile = null;
+            builder_SchaduleServiceSyncProfile = new JobInfo.Builder(5, serviceComponent_SchaduleServiceSyncProfile);
+            builder_SchaduleServiceSyncProfile.setMinimumLatency(5 * 1000); // wait at least
+            builder_SchaduleServiceSyncProfile.setOverrideDeadline(50 * 1000); // maximum delay
+            builder_SchaduleServiceSyncProfile.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+            builder_SchaduleServiceSyncProfile.setRequiresDeviceIdle(false); // device should be idle
+            builder_SchaduleServiceSyncProfile.setRequiresCharging(false); // we don't care if the device is charging or not
+            JobScheduler jobScheduler_SchaduleServiceSyncProfile = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                jobScheduler_SchaduleServiceSyncProfile = getApplicationContext().getSystemService(JobScheduler.class);
+            }
+            jobScheduler_SchaduleServiceSyncProfile.schedule(builder_SchaduleServiceSyncProfile.build());
+//*****************************************SchaduleServiceGetUserServiceStartDate******************************************
+            ComponentName serviceComponent_SchaduleServiceGetUserServiceStartDate = new ComponentName(getApplicationContext(), SchaduleServiceGetUserServiceStartDate.class);
+            JobInfo.Builder builder_SchaduleServiceGetUserServiceStartDate = null;
+            builder_SchaduleServiceGetUserServiceStartDate = new JobInfo.Builder(7, serviceComponent_SchaduleServiceGetUserServiceStartDate);
+            builder_SchaduleServiceGetUserServiceStartDate.setMinimumLatency(5 * 1000); // wait at least
+            builder_SchaduleServiceGetUserServiceStartDate.setOverrideDeadline(50 * 1000); // maximum delay
+            builder_SchaduleServiceGetUserServiceStartDate.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+            builder_SchaduleServiceGetUserServiceStartDate.setRequiresDeviceIdle(false); // device should be idle
+            builder_SchaduleServiceGetUserServiceStartDate.setRequiresCharging(false); // we don't care if the device is charging or not
+            JobScheduler jobScheduler_SchaduleServiceGetUserServiceStartDate = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                jobScheduler_SchaduleServiceGetUserServiceStartDate = getApplicationContext().getSystemService(JobScheduler.class);
+            }
+            jobScheduler_SchaduleServiceGetUserServiceStartDate.schedule(builder_SchaduleServiceGetUserServiceStartDate.build());
+
+        } else {
+            startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+            startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
+            startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
+            startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
+            //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+        }
     }
+
     protected void onDestroy() {
 
         super.onDestroy();
-        continue_or_stop=false;
+        continue_or_stop = false;
         //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
-        startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-        startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            //*****************************************SchaduleServiceGetNewJob******************************************
+            ComponentName serviceComponent_SchaduleServiceGetNewJob = new ComponentName(getApplicationContext(), SchaduleServiceGetNewJob.class);
+            JobInfo.Builder builder_SchaduleServiceGetNewJob = null;
+            builder_SchaduleServiceGetNewJob = new JobInfo.Builder(0, serviceComponent_SchaduleServiceGetNewJob);
+            builder_SchaduleServiceGetNewJob.setMinimumLatency(5 * 1000); // wait at least
+            builder_SchaduleServiceGetNewJob.setOverrideDeadline(50 * 1000); // maximum delay
+            builder_SchaduleServiceGetNewJob.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+            builder_SchaduleServiceGetNewJob.setRequiresDeviceIdle(false); // device should be idle
+            builder_SchaduleServiceGetNewJob.setRequiresCharging(false); // we don't care if the device is charging or not
+            JobScheduler jobScheduler_SchaduleServiceGetNewJob = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                jobScheduler_SchaduleServiceGetNewJob = getApplicationContext().getSystemService(JobScheduler.class);
+            }
+            jobScheduler_SchaduleServiceGetNewJob.schedule(builder_SchaduleServiceGetNewJob.build());
+            //*****************************************SchaduleServiceGetFactorAccept******************************************
+            ComponentName serviceComponent_SchaduleServiceGetFactorAccept = new ComponentName(getApplicationContext(), SchaduleServiceGetFactorAccept.class);
+            JobInfo.Builder builder_SchaduleServiceGetFactorAccept = null;
+            builder_SchaduleServiceGetFactorAccept = new JobInfo.Builder(1, serviceComponent_SchaduleServiceGetFactorAccept);
+            builder_SchaduleServiceGetFactorAccept.setMinimumLatency(5 * 1000); // wait at least
+            builder_SchaduleServiceGetFactorAccept.setOverrideDeadline(50 * 1000); // maximum delay
+            builder_SchaduleServiceGetFactorAccept.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+            builder_SchaduleServiceGetFactorAccept.setRequiresDeviceIdle(false); // device should be idle
+            builder_SchaduleServiceGetFactorAccept.setRequiresCharging(false); // we don't care if the device is charging or not
+            JobScheduler jobScheduler_SchaduleServiceGetFactorAccept = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                jobScheduler_SchaduleServiceGetFactorAccept = getApplicationContext().getSystemService(JobScheduler.class);
+            }
+            jobScheduler_SchaduleServiceGetFactorAccept.schedule(builder_SchaduleServiceGetFactorAccept.build());
+//*****************************************SchaduleServiceSyncProfile******************************************
+            ComponentName serviceComponent_SchaduleServiceSyncProfile = new ComponentName(getApplicationContext(), SchaduleServiceSyncProfile.class);
+            JobInfo.Builder builder_SchaduleServiceSyncProfile = null;
+            builder_SchaduleServiceSyncProfile = new JobInfo.Builder(5, serviceComponent_SchaduleServiceSyncProfile);
+            builder_SchaduleServiceSyncProfile.setMinimumLatency(5 * 1000); // wait at least
+            builder_SchaduleServiceSyncProfile.setOverrideDeadline(50 * 1000); // maximum delay
+            builder_SchaduleServiceSyncProfile.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+            builder_SchaduleServiceSyncProfile.setRequiresDeviceIdle(false); // device should be idle
+            builder_SchaduleServiceSyncProfile.setRequiresCharging(false); // we don't care if the device is charging or not
+            JobScheduler jobScheduler_SchaduleServiceSyncProfile = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                jobScheduler_SchaduleServiceSyncProfile = getApplicationContext().getSystemService(JobScheduler.class);
+            }
+            jobScheduler_SchaduleServiceSyncProfile.schedule(builder_SchaduleServiceSyncProfile.build());
+//*****************************************SchaduleServiceGetUserServiceStartDate******************************************
+            ComponentName serviceComponent_SchaduleServiceGetUserServiceStartDate = new ComponentName(getApplicationContext(), SchaduleServiceGetUserServiceStartDate.class);
+            JobInfo.Builder builder_SchaduleServiceGetUserServiceStartDate = null;
+            builder_SchaduleServiceGetUserServiceStartDate = new JobInfo.Builder(7, serviceComponent_SchaduleServiceGetUserServiceStartDate);
+            builder_SchaduleServiceGetUserServiceStartDate.setMinimumLatency(5 * 1000); // wait at least
+            builder_SchaduleServiceGetUserServiceStartDate.setOverrideDeadline(50 * 1000); // maximum delay
+            builder_SchaduleServiceGetUserServiceStartDate.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+            builder_SchaduleServiceGetUserServiceStartDate.setRequiresDeviceIdle(false); // device should be idle
+            builder_SchaduleServiceGetUserServiceStartDate.setRequiresCharging(false); // we don't care if the device is charging or not
+            JobScheduler jobScheduler_SchaduleServiceGetUserServiceStartDate = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                jobScheduler_SchaduleServiceGetUserServiceStartDate = getApplicationContext().getSystemService(JobScheduler.class);
+            }
+            jobScheduler_SchaduleServiceGetUserServiceStartDate.schedule(builder_SchaduleServiceGetUserServiceStartDate.build());
+
+        } else {
+            startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+            startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
+            startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
+            startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
+            //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+        }
     }
-    void sharecode(String shareStr)
-    {
+
+    void sharecode(String shareStr) {
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
-        String shareBody = "بسپارینا" + "\n"+"کد معرف: "+shareStr+"\n"+"آدرس سایت: " + PublicVariable.site;
+        String shareBody = "بسپارینا" + "\n" + "کد معرف: " + shareStr + "\n" + "آدرس سایت: " + PublicVariable.site;
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "عنوان");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
         startActivity(Intent.createChooser(sharingIntent, "اشتراک گذاری با"));
     }
+
     public void openWebPage(String url) {
         Uri webpage = Uri.parse(url);
         Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
@@ -1047,13 +1520,44 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
     public void onBackPressed() {
         if (drawer.isDrawerOpen()) {
             drawer.closeDrawer();
-        }
-        else
-        {
+        } else {
             if (doubleBackToExitPressedOnce) {
-                continue_or_stop=false;
-                startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-                startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
+                continue_or_stop = false;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    //*****************************************SchaduleServiceGetNewJob******************************************
+                    ComponentName serviceComponent_SchaduleServiceGetNewJob = new ComponentName(getApplicationContext(), SchaduleServiceGetNewJob.class);
+                    JobInfo.Builder builder_SchaduleServiceGetNewJob = null;
+                    builder_SchaduleServiceGetNewJob = new JobInfo.Builder(0, serviceComponent_SchaduleServiceGetNewJob);
+                    builder_SchaduleServiceGetNewJob.setMinimumLatency(5 * 1000); // wait at least
+                    builder_SchaduleServiceGetNewJob.setOverrideDeadline(50 * 1000); // maximum delay
+                    builder_SchaduleServiceGetNewJob.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+                    builder_SchaduleServiceGetNewJob.setRequiresDeviceIdle(false); // device should be idle
+                    builder_SchaduleServiceGetNewJob.setRequiresCharging(false); // we don't care if the device is charging or not
+                    JobScheduler jobScheduler_SchaduleServiceGetNewJob = null;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                        jobScheduler_SchaduleServiceGetNewJob = getApplicationContext().getSystemService(JobScheduler.class);
+                    }
+                    jobScheduler_SchaduleServiceGetNewJob.schedule(builder_SchaduleServiceGetNewJob.build());
+
+//*****************************************SchaduleServiceGetUserServiceStartDate******************************************
+                    ComponentName serviceComponent_SchaduleServiceGetUserServiceStartDate = new ComponentName(getApplicationContext(), SchaduleServiceGetUserServiceStartDate.class);
+                    JobInfo.Builder builder_SchaduleServiceGetUserServiceStartDate = null;
+                    builder_SchaduleServiceGetUserServiceStartDate = new JobInfo.Builder(7, serviceComponent_SchaduleServiceGetUserServiceStartDate);
+                    builder_SchaduleServiceGetUserServiceStartDate.setMinimumLatency(5 * 1000); // wait at least
+                    builder_SchaduleServiceGetUserServiceStartDate.setOverrideDeadline(50 * 1000); // maximum delay
+                    builder_SchaduleServiceGetUserServiceStartDate.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY); // require unmetered network
+                    builder_SchaduleServiceGetUserServiceStartDate.setRequiresDeviceIdle(false); // device should be idle
+                    builder_SchaduleServiceGetUserServiceStartDate.setRequiresCharging(false); // we don't care if the device is charging or not
+                    JobScheduler jobScheduler_SchaduleServiceGetUserServiceStartDate = null;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                        jobScheduler_SchaduleServiceGetUserServiceStartDate = getApplicationContext().getSystemService(JobScheduler.class);
+                    }
+                    jobScheduler_SchaduleServiceGetUserServiceStartDate.schedule(builder_SchaduleServiceGetUserServiceStartDate.build());
+
+                } else {
+                    startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+                    startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
+                }
                 Intent startMain = new Intent(Intent.ACTION_MAIN);
 
                 startMain.addCategory(Intent.CATEGORY_HOME);
@@ -1071,47 +1575,45 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    doubleBackToExitPressedOnce=false;
+                    doubleBackToExitPressedOnce = false;
                 }
             }, 2000);
         }
     }
-    public void Check_Login(String hamyarcode,String guid,String status)
-    {
-        if(hamyarcode==null || guid==null)
-        {
+
+    public void Check_Login(String hamyarcode, String guid, String status) {
+        if (hamyarcode == null || guid == null) {
 
             Cursor cursor;
-            try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
-            cursor = db.rawQuery("SELECT * FROM login", null);
-            if(cursor.getCount()>0)
-            {
-                cursor.moveToNext();
-                String Result=cursor.getString(cursor.getColumnIndex("islogin"));
-                if(Result.compareTo("0")==0)
-                {
-                    LoadActivity(Login.class,"hamyarcode","0","guid","0");
+            try {
+                if (!db.isOpen()) {
+                    db = dbh.getReadableDatabase();
                 }
+            } catch (Exception ex) {
+                db = dbh.getReadableDatabase();
             }
-            else
-            {
-                LoadActivity(Login.class,"hamyarcode","0","guid","0");
+            cursor = db.rawQuery("SELECT * FROM login", null);
+            if (cursor.getCount() > 0) {
+                cursor.moveToNext();
+                String Result = cursor.getString(cursor.getColumnIndex("islogin"));
+                if (Result.compareTo("0") == 0) {
+                    LoadActivity(Login.class, "hamyarcode", "0", "guid", "0");
+                }
+            } else {
+                LoadActivity(Login.class, "hamyarcode", "0", "guid", "0");
             }
-        }
-        else if(hamyarcode.compareTo("0")==0 || guid.compareTo("0")==0 || status.compareTo("غیرفعال")==0)
-        {
+        } else if (hamyarcode.compareTo("0") == 0 || guid.compareTo("0") == 0 || status.compareTo("غیرفعال") == 0) {
             Toast.makeText(MainMenu.this, "شما فعال نشده اید", Toast.LENGTH_LONG).show();
-            PublicVariable.IsActive=false;
-            IsActive=false;
-        }
-        else
-        {
-            PublicVariable.IsActive=true;
-            IsActive=true;
+            PublicVariable.IsActive = false;
+            IsActive = false;
+        } else {
+            PublicVariable.IsActive = true;
+            IsActive = true;
         }
 
         db.close();
     }
+
     public static String faToEn(String num) {
         return num
                 .replace("۰", "0")
@@ -1125,6 +1627,7 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
                 .replace("۸", "8")
                 .replace("۹", "9");
     }
+
     public static String EnToFa(String num) {
         return num
                 .replace("0", "۰")
@@ -1138,24 +1641,27 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
                 .replace("8", "۸")
                 .replace("9", "۹");
     }
-    public void count_service()
-    {
-        int CountDuty=0,CountService=0;
-        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
+
+    public void count_service() {
+        int CountDuty = 0, CountService = 0;
+        try {
+            if (!db.isOpen()) {
+                db = dbh.getReadableDatabase();
+            }
+        } catch (Exception ex) {
+            db = dbh.getReadableDatabase();
+        }
         String query = "SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
                 "LEFT JOIN " +
                 "Servicesdetails ON " +
                 "Servicesdetails.code=BsUserServices.ServiceDetaileCode ORDER BY StartDate DESC";
-        Cursor coursors = db.rawQuery(query,null);
+        Cursor coursors = db.rawQuery(query, null);
         Cursor Ctime;
-        for(int i=0;i<coursors.getCount();i++){
+        for (int i = 0; i < coursors.getCount(); i++) {
             coursors.moveToNext();
-            if((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("1") == 1 ))
-            {
+            if ((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("1") == 1)) {
                 CountDuty++;
-            }
-            else
-            {
+            } else {
                 String DateTimeStr = ChangeDate.changeFarsiToMiladi(coursors.getString(coursors.getColumnIndex("StartDate"))) + " " + coursors.getString(coursors.getColumnIndex("StartTime")) + ":00";
                 String GetDateTime = "Select Cast ((JulianDay('" + faToEn(DateTimeStr.replace("/", "-")) + "') - JulianDay('now'))" +
                         " * 24 As Integer) time";
@@ -1165,14 +1671,10 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
                     int STime = Integer.parseInt(Ctime.getString(Ctime.getColumnIndex("time")));
                     if (STime <= 24) {
                         CountDuty++;
-                    }
-                    else
-                    {
+                    } else {
                         continue;
                     }
-                }
-                else
-                {
+                } else {
                     continue;
                 }
             }
@@ -1181,20 +1683,23 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
         btnDuty.setText(String.valueOf(CountDuty));
 
         //************************************************************************************
-        try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
+        try {
+            if (!db.isOpen()) {
+                db = dbh.getReadableDatabase();
+            }
+        } catch (Exception ex) {
+            db = dbh.getReadableDatabase();
+        }
         query = "SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
                 "LEFT JOIN " +
                 "Servicesdetails ON " +
                 "Servicesdetails.code=BsUserServices.ServiceDetaileCode  ORDER BY StartDate DESC";
-        coursors = db.rawQuery(query,null);
-        for(int i=0;i<coursors.getCount();i++){
+        coursors = db.rawQuery(query, null);
+        for (int i = 0; i < coursors.getCount(); i++) {
             coursors.moveToNext();
-            if((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0") == 1 ))
-            {
+            if ((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0") == 1)) {
                 CountService++;
-            }
-            else
-            {
+            } else {
                 String DateTimeStr = ChangeDate.changeFarsiToMiladi(coursors.getString(coursors.getColumnIndex("StartDate"))) + " " + coursors.getString(coursors.getColumnIndex("StartTime")) + ":00";
                 String GetDateTime = "Select Cast ((JulianDay('" + faToEn(DateTimeStr.replace("/", "-")) + "') - JulianDay('now'))" +
                         " * 24 As Integer) time";
@@ -1204,14 +1709,10 @@ String HeaderStr=name+" "+family+" - "+"وضعیت: "+status;
                     int STime = Integer.parseInt(Ctime.getString(Ctime.getColumnIndex("time")));
                     if (STime > 24) {
                         CountService++;
-                    }
-                    else
-                    {
+                    } else {
                         continue;
                     }
-                }
-                else
-                {
+                } else {
                     continue;
                 }
             }

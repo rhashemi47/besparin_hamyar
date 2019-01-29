@@ -80,7 +80,7 @@ public class ServiceSyncProfile extends Service {
                                                 guid = coursors.getString(coursors.getColumnIndex("guid"));
                                                 hamyarcode = coursors.getString(coursors.getColumnIndex("hamyarcode"));
                                             }
-                                            SyncProfileForService syncProfile = new SyncProfileForService(getApplicationContext(), guid, hamyarcode);
+                                            SyncProfileForService syncProfile = new SyncProfileForService(getApplicationContext(), guid, hamyarcode,dbh,db);
                                             syncProfile.AsyncExecute();
 
                                             if (db != null) {

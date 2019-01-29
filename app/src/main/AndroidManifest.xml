@@ -95,16 +95,46 @@
         <activity
             android:name="com.besparina.it.hamyar.ListServiceAtTheTurn"
             android:noHistory="false"/>
-        <service android:name="com.besparina.it.hamyar.ServiceGetNewJob"/>
-        <service android:name="com.besparina.it.hamyar.ServiceGetNewJobNotNotifi"/>
-        <service android:name="com.besparina.it.hamyar.ServiceGetLocation"/>
-        <service android:name="com.besparina.it.hamyar.ServiceGetSliderPic"/>
-        <service android:name="com.besparina.it.hamyar.ServiceSyncServiceSelected"/>
-        <service android:name="com.besparina.it.hamyar.ServiceGetJobUpdate"/>
-        <service android:name="com.besparina.it.hamyar.ServiceDeleteJob"/>
-        <service android:name="com.besparina.it.hamyar.ServiceGetFactorAccept"/>
-        <service android:name="com.besparina.it.hamyar.ServiceGetUserServiceStartDate"/>
-        <service android:name="com.besparina.it.hamyar.ServiceSyncProfile"/>
+        <service android:name="com.besparina.it.hamyar.SchaduleServiceGetNewJob"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service android:name="com.besparina.it.hamyar.SchaduleServiceGetNewJobNotNotifi"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service android:name="com.besparina.it.hamyar.SchaduleServiceGetLocation"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service android:name="com.besparina.it.hamyar.SchaduleServiceGetSliderPic"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service android:name="com.besparina.it.hamyar.SchaduleServiceSyncServiceSelected"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service android:name="com.besparina.it.hamyar.SchaduleServiceGetJobUpdate"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service android:name="com.besparina.it.hamyar.SchaduleServiceDeleteJob"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service android:name="com.besparina.it.hamyar.SchaduleServiceGetFactorAccept"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service android:name="com.besparina.it.hamyar.SchaduleServiceGetUserServiceStartDate"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service android:name="com.besparina.it.hamyar.SchaduleServiceSyncProfile"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service android:name="com.besparina.it.hamyar.ServiceGetNewJob"
+             />
+        <service android:name="com.besparina.it.hamyar.ServiceGetNewJobNotNotifi"
+             />
+        <service android:name="com.besparina.it.hamyar.ServiceGetLocation"
+             />
+        <service android:name="com.besparina.it.hamyar.ServiceGetSliderPic"
+             />
+        <service android:name="com.besparina.it.hamyar.ServiceSyncServiceSelected"
+             />
+        <service android:name="com.besparina.it.hamyar.ServiceGetJobUpdate"
+             />
+        <service android:name="com.besparina.it.hamyar.ServiceDeleteJob"
+             />
+        <service android:name="com.besparina.it.hamyar.ServiceGetFactorAccept"
+             />
+        <service android:name="com.besparina.it.hamyar.ServiceGetUserServiceStartDate"
+             />
+        <service android:name="com.besparina.it.hamyar.ServiceSyncProfile"
+             />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDnC52D6OdJODkWQpG-7SXrqhZk4ZLRV9M" />

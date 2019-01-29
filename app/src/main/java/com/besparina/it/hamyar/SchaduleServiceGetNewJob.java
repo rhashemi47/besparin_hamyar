@@ -1,12 +1,16 @@
 package com.besparina.it.hamyar;
 
 import android.app.Service;
+import android.app.job.JobParameters;
+import android.app.job.JobService;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.annotation.RequiresApi;
 
 import java.io.IOException;
 
@@ -14,7 +18,8 @@ import java.io.IOException;
  * Created by hashemi on 02/18/2018.
  */
 
-public class ServiceGetNewJob extends Service {
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+public class SchaduleServiceGetNewJob extends JobService {
     Handler mHandler;
     boolean continue_or_stop = true;
     boolean createthread=true;
@@ -22,14 +27,9 @@ public class ServiceGetNewJob extends Service {
     SQLiteDatabase dbRW,dbR;
     private String hamyarcode;
     private String guid;
-    @Override
-    public IBinder onBind(Intent arg0) {
-        return null;
-    }
 
     @Override
-    public int onStartCommand(final Intent intent, int flags, int startId) {
-        // Let it continue running until it is stopped.
+    public boolean onStartJob(JobParameters jobParameters) {    // Let it continue running until it is stopped.
 //        Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
         dbh = new DatabaseHelper(getApplicationContext());
         try {
@@ -102,15 +102,15 @@ public class ServiceGetNewJob extends Service {
                 createthread = false;
             }
         }
-        return START_STICKY;
+        return false;
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-       // Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
+    public boolean onStopJob(JobParameters jobParameters) {
         continue_or_stop=false;
+        return false;
     }
+
     public boolean Check_Login()
     {
         Cursor cursor;

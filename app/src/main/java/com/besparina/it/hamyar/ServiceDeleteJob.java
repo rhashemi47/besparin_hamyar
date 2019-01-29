@@ -102,7 +102,7 @@ public class ServiceDeleteJob extends Service {
                                                 coursors.close();
                                             }
                                             if (!ListServiceCode.isEmpty()) {
-                                                SyncGetUserServiceForHamyarDeleted syncGetUserServiceForHamyarDeleted = new SyncGetUserServiceForHamyarDeleted(getApplicationContext(), guid, hamyarcode, ListServiceCode);
+                                                SyncGetUserServiceForHamyarDeleted syncGetUserServiceForHamyarDeleted = new SyncGetUserServiceForHamyarDeleted(getApplicationContext(), guid, hamyarcode, ListServiceCode,dbh,db);
                                                 syncGetUserServiceForHamyarDeleted.AsyncExecute();
                                             }
                                         }

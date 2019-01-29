@@ -107,11 +107,11 @@ public class ServiceGetFactorAccept extends Service {
                                                     String Code = c.getString(c.getColumnIndex("Code"));
                                                     String TypeSTR = c.getString(c.getColumnIndex("Type"));
                                                     if (TypeSTR.compareTo("1") == 0) {
-                                                        SyncGetPreInvoiceAccept syncGetPreInvoiceAccept = new SyncGetPreInvoiceAccept(getApplicationContext(), guid, hamyarcode, c.getString(c.getColumnIndex("Code")), cursors.getString(cursors.getColumnIndex("Code")));
+                                                        SyncGetPreInvoiceAccept syncGetPreInvoiceAccept = new SyncGetPreInvoiceAccept(getApplicationContext(), guid, hamyarcode, c.getString(c.getColumnIndex("Code")), cursors.getString(cursors.getColumnIndex("Code")),dbh,db);
                                                         syncGetPreInvoiceAccept.AsyncExecute();
                                                         c.close();
                                                     } else {
-                                                        SyncGetInvoiceAccept syncGetInvoiceAccept = new SyncGetInvoiceAccept(getApplicationContext(), guid, hamyarcode, c.getString(c.getColumnIndex("Code")), cursors.getString(cursors.getColumnIndex("Code")));
+                                                        SyncGetInvoiceAccept syncGetInvoiceAccept = new SyncGetInvoiceAccept(getApplicationContext(), guid, hamyarcode, c.getString(c.getColumnIndex("Code")), cursors.getString(cursors.getColumnIndex("Code")),dbh,db);
                                                         syncGetInvoiceAccept.AsyncExecute();
                                                         c.close();
                                                     }

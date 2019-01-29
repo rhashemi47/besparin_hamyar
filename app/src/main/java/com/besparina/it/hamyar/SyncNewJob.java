@@ -34,34 +34,44 @@ public class SyncNewJob {
     private boolean CuShowDialog=false;
     private boolean notifocationEnable;
     //Contractor
-    public SyncNewJob(Context activity, String guid, String hamyarcode, String LastHamyarUserServiceCode,boolean notifocationEnable) {
+    public SyncNewJob(Context activity,
+                      String guid,
+                      String hamyarcode,
+                      String LastHamyarUserServiceCode,
+                      boolean notifocationEnable,
+                      DatabaseHelper dbh,
+                      SQLiteDatabase dbR,
+                      SQLiteDatabase dbRW) {
         this.activity = activity;
         this.guid = guid;
         this.LastUserServiceCode=LastHamyarUserServiceCode;
         this.hamyarcode=hamyarcode;
         this.notifocationEnable=notifocationEnable;
+        this.dbh = dbh;
+        this.dbR = dbR;
+        this.dbRW = dbRW;
         IC = new InternetConnection(this.activity.getApplicationContext());
         PV = new PublicVariable();
         PublicVariable.theard_GetNewJob=false;
-        dbh=new DatabaseHelper(this.activity.getApplicationContext());
-        try {
-
-            dbh.createDataBase();
-
-        } catch (IOException ioe) {
-            PublicVariable.theard_GetNewJob=true;
-            throw new Error("Unable to create database");
-
-        }
-
-        try {
-
-            dbh.openDataBase();
-
-        } catch (SQLException sqle) {
-            PublicVariable.theard_GetNewJob=true;
-            throw sqle;
-        }
+//        dbh=new DatabaseHelper(this.activity.getApplicationContext());
+//        try {
+//
+//            dbh.createDataBase();
+//
+//        } catch (IOException ioe) {
+//            PublicVariable.theard_GetNewJob=true;
+//            throw new Error("Unable to create database");
+//
+//        }
+//
+//        try {
+//
+//            dbh.openDataBase();
+//
+//        } catch (SQLException sqle) {
+//            PublicVariable.theard_GetNewJob=true;
+//            throw sqle;
+//        }
     }
 
     public void AsyncExecute()

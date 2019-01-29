@@ -35,34 +35,38 @@ public class SyncGetPreInvoiceAccept {
 	private boolean CuShowDialog = false;
 
 	//Contractor
-	public SyncGetPreInvoiceAccept(Context activity, String guid, String hamyarcode, String invoicecode, String ServiceCode) {
+	public SyncGetPreInvoiceAccept(Context activity, String guid, String hamyarcode, String invoicecode, String ServiceCode,
+								   DatabaseHelper dbh,
+								   SQLiteDatabase db) {
 		this.activity = activity;
 		this.guid = guid;
 		this.invoicecode = invoicecode;
 		this.hamyarcode = hamyarcode;
 		this.ServiceCode = ServiceCode;
+		this.dbh = dbh;
+		this.db = db;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
 		PublicVariable.theard_GetFactorAccept=false;
-		dbh = new DatabaseHelper(this.activity.getApplicationContext());
-		try {
-
-			dbh.createDataBase();
-
-		} catch (IOException ioe) {
-			PublicVariable.theard_GetFactorAccept=true;
-			throw new Error("Unable to create database");
-
-		}
-
-		try {
-
-			dbh.openDataBase();
-
-		} catch (SQLException sqle) {
-			PublicVariable.theard_GetFactorAccept=true;
-			throw sqle;
-		}
+//		dbh = new DatabaseHelper(this.activity.getApplicationContext());
+//		try {
+//
+//			dbh.createDataBase();
+//
+//		} catch (IOException ioe) {
+//			PublicVariable.theard_GetFactorAccept=true;
+//			throw new Error("Unable to create database");
+//
+//		}
+//
+//		try {
+//
+//			dbh.openDataBase();
+//
+//		} catch (SQLException sqle) {
+//			PublicVariable.theard_GetFactorAccept=true;
+//			throw sqle;
+//		}
 	}
 
 	public void AsyncExecute() {

@@ -28,32 +28,36 @@ public class SyncGetUserServiceStartDate {
 	private boolean CuShowDialog = false;
 
 	//Contractor
-	public SyncGetUserServiceStartDate(Context activity, String pUserServiceCode) {
+	public SyncGetUserServiceStartDate(Context activity,
+									   String pUserServiceCode,
+									   DatabaseHelper dbh,
+									   SQLiteDatabase db) {
 		this.activity = activity;
 		this.pUserServiceCode = pUserServiceCode;
-
+		this.dbh=dbh;
+		this.db=db;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
 		PublicVariable.theard_GetUserServiceStartDate=false;
-		dbh = new DatabaseHelper(this.activity.getApplicationContext());
-		try {
-
-			dbh.createDataBase();
-
-		} catch (IOException ioe) {
-			PublicVariable.theard_GetUserServiceStartDate=true;
-			throw new Error("Unable to create database");
-
-		}
-
-		try {
-
-			dbh.openDataBase();
-
-		} catch (SQLException sqle) {
-			PublicVariable.theard_GetUserServiceStartDate=true;
-			throw sqle;
-		}
+//		dbh = new DatabaseHelper(this.activity.getApplicationContext());
+//		try {
+//
+//			dbh.createDataBase();
+//
+//		} catch (IOException ioe) {
+//			PublicVariable.theard_GetUserServiceStartDate=true;
+//			throw new Error("Unable to create database");
+//
+//		}
+//
+//		try {
+//
+//			dbh.openDataBase();
+//
+//		} catch (SQLException sqle) {
+//			PublicVariable.theard_GetUserServiceStartDate=true;
+//			throw sqle;
+//		}
 	}
 
 	public void AsyncExecute() {

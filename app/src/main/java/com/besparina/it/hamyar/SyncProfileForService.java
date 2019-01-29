@@ -29,32 +29,36 @@ public class SyncProfileForService {
 	private String WsResponse;
 	private boolean CuShowDialog=false;
 	//Contractor
-	public SyncProfileForService(Context activity, String guid, String hamyarcode) {
+	public SyncProfileForService(Context activity, String guid, String hamyarcode,
+								 DatabaseHelper dbh,
+								 SQLiteDatabase db) {
 		this.activity = activity;
 		this.guid = guid;
 		this.hamyarcode=hamyarcode;
+		this.dbh = dbh;
+		this.db = db;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
 		PublicVariable.theard_Profile=false;
-		dbh = new DatabaseHelper(this.activity.getApplicationContext());
-		try {
-
-			dbh.createDataBase();
-
-		} catch (IOException ioe) {
-			PublicVariable.theard_Profile=true;
-			throw new Error("Unable to create database");
-
-		}
-
-		try {
-
-			dbh.openDataBase();
-
-		} catch (SQLException sqle) {
-			PublicVariable.theard_Profile=true;
-			throw sqle;
-		}
+//		dbh = new DatabaseHelper(this.activity.getApplicationContext());
+//		try {
+//
+//			dbh.createDataBase();
+//
+//		} catch (IOException ioe) {
+//			PublicVariable.theard_Profile=true;
+//			throw new Error("Unable to create database");
+//
+//		}
+//
+//		try {
+//
+//			dbh.openDataBase();
+//
+//		} catch (SQLException sqle) {
+//			PublicVariable.theard_Profile=true;
+//			throw sqle;
+//		}
 	}
 
 	public void AsyncExecute() {
