@@ -24,7 +24,7 @@ public class SchaduleServiceSyncProfile extends JobService {
     boolean continue_or_stop = true;
     boolean createthread=true;
     private DatabaseHelper dbh;
-    private SQLiteDatabase db;
+    private SQLiteDatabase db,db_Write;
     private String hamyarcode;
     private String guid;
 
@@ -50,6 +50,20 @@ public class SchaduleServiceSyncProfile extends JobService {
 
             throw sqle;
         }
+        try
+        {
+            if(!db_Write.isOpen())
+            {
+                db_Write=dbh.getWritableDatabase();
+            }
+            db_Write.execSQL("UPDATE ActiceBackgroundService SET Service_Profile='0'");
+        }
+        catch (Exception ex)
+        {
+            db_Write=dbh.getWritableDatabase();
+            db_Write.execSQL("UPDATE ActiceBackgroundService SET Service_Profile='0'");
+        }
+        PublicVariable.Active_Service_Profile=false;
         if(Check_Login()) {
             continue_or_stop = true;
             if (createthread) {
@@ -100,13 +114,13 @@ public class SchaduleServiceSyncProfile extends JobService {
                 createthread = false;
             }
         }
-        return false;
+        return true;
     }
 
     @Override
     public boolean onStopJob(JobParameters jobParameters) {
         continue_or_stop=false;
-        return false;
+        return true;
     }
     public boolean Check_Login()
     {
@@ -130,7 +144,7 @@ public class SchaduleServiceSyncProfile extends JobService {
                 }
                 if(db.isOpen())
                     try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
-                return false;
+                return true;
             }
             else
             {
@@ -151,7 +165,7 @@ public class SchaduleServiceSyncProfile extends JobService {
             }
             if(db.isOpen())
                 try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
-            return false;
+            return true;
         }
     }
 }

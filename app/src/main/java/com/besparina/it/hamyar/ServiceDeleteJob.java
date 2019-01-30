@@ -1,12 +1,16 @@
 package com.besparina.it.hamyar;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.IBinder;
+import android.util.Log;
 
 import java.io.IOException;
 
@@ -19,19 +23,45 @@ public class ServiceDeleteJob extends Service {
     boolean continue_or_stop = true;
     boolean createthread=true;
     private DatabaseHelper dbh;
-    private SQLiteDatabase db;
+    private SQLiteDatabase db,db_Write;
     private String hamyarcode;
     private String guid;
     private Cursor coursors;
+    private static final String ACTION_STOP = "com.besparina.it.hamyar.ServiceDeleteJob.ACTION_STOP";
     @Override
     public IBinder onBind(Intent arg0) {
         return null;
     }
 
+    private final BroadcastReceiver stopReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            context.removeStickyBroadcast(intent);
+            stopForeground(true);
+            stopSelf();
+        }
+    };
+    @Override
+    public void onCreate() {
+        super.onCreate();
+//        startForeground(1,new Intent(this, ServiceDeleteJob.class));
+        registerReceiver(stopReceiver, new IntentFilter(ACTION_STOP));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(stopReceiver);
+        continue_or_stop=false;
+        PublicVariable.Active_Service_DeleteJob=true;
+    }
+
+    public static void stop(Context context) {
+        context.sendStickyBroadcast(new Intent(ACTION_STOP));
+    }
     @Override
     public int onStartCommand(final Intent intent, int flags, int startId) {
         // Let it continue running until it is stopped.
-//        Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
         dbh = new DatabaseHelper(getApplicationContext());
         try {
 
@@ -51,6 +81,20 @@ public class ServiceDeleteJob extends Service {
 
             throw sqle;
         }
+//        try
+//        {
+//            if(!db_Write.isOpen())
+//            {
+//                db_Write=dbh.getWritableDatabase();
+//            }
+//            db_Write.execSQL("UPDATE ActiceBackgroundService SET Service_DeleteJob='0'");
+//        }
+//        catch (Exception ex)
+//        {
+//            db_Write=dbh.getWritableDatabase();
+//            db_Write.execSQL("UPDATE ActiceBackgroundService SET Service_DeleteJob='0'");
+//        }
+        PublicVariable.Active_Service_DeleteJob=false;
         if(Check_Login()) {
             continue_or_stop = true;
             if (createthread) {
@@ -109,7 +153,7 @@ public class ServiceDeleteJob extends Service {
                                     }
                                 });
                             } catch (Exception e) {
-                                // TODO: handle exception
+                                String Error=e.getMessage();
                             }
                         }
                     }
@@ -120,12 +164,7 @@ public class ServiceDeleteJob extends Service {
         return START_STICKY;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-       // Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
-        continue_or_stop=false;
-    }
+
     public boolean Check_Login()
     {
         Cursor cursor;

@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.RequiresApi;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -24,7 +25,7 @@ public class SchaduleServiceGetNewJob extends JobService {
     boolean continue_or_stop = true;
     boolean createthread=true;
     private DatabaseHelper dbh;
-    SQLiteDatabase dbRW,dbR;
+    SQLiteDatabase dbRW,dbR,db_Write;
     private String hamyarcode;
     private String guid;
 
@@ -50,6 +51,20 @@ public class SchaduleServiceGetNewJob extends JobService {
 
             throw sqle;
         }
+        try
+        {
+            if(!db_Write.isOpen())
+            {
+                db_Write=dbh.getWritableDatabase();
+            }
+            db_Write.execSQL("UPDATE ActiceBackgroundService SET Service_GetNewJob='0'");
+        }
+        catch (Exception ex)
+        {
+            db_Write=dbh.getWritableDatabase();
+            db_Write.execSQL("UPDATE ActiceBackgroundService SET Service_GetNewJob='0'");
+        }
+        PublicVariable.Active_Service_GetNewJob=false;
         if(Check_Login()) {
             continue_or_stop = true;
             if (createthread) {
@@ -102,13 +117,13 @@ public class SchaduleServiceGetNewJob extends JobService {
                 createthread = false;
             }
         }
-        return false;
+        return true;
     }
 
     @Override
     public boolean onStopJob(JobParameters jobParameters) {
         continue_or_stop=false;
-        return false;
+        return true;
     }
 
     public boolean Check_Login()
@@ -129,7 +144,7 @@ public class SchaduleServiceGetNewJob extends JobService {
             {
                 if(dbR.isOpen())
                     try {	if (dbR.isOpen()) {	dbR.close();	}}	catch (Exception ex){	}
-                return false;
+                return true;
             }
             else
             {
@@ -142,7 +157,7 @@ public class SchaduleServiceGetNewJob extends JobService {
         {
             if(dbR.isOpen())
                 try {	if (dbR.isOpen()) {	dbR.close();	}}	catch (Exception ex){	}
-            return false;
+            return true;
         }
     }
 

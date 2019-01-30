@@ -24,7 +24,7 @@ public class SchaduleServiceGetFactorAccept extends JobService {
     boolean continue_or_stop = true;
     boolean createthread=true;
     private DatabaseHelper dbh;
-    private SQLiteDatabase db;
+    private SQLiteDatabase db,db_Write;
     private String hamyarcode;
     private String guid;
     private Cursor cursors;
@@ -56,6 +56,20 @@ public class SchaduleServiceGetFactorAccept extends JobService {
 
             throw sqle;
         }
+        try
+        {
+            if(!db_Write.isOpen())
+            {
+                db_Write=dbh.getWritableDatabase();
+            }
+            db_Write.execSQL("UPDATE ActiceBackgroundService SET Service_GetFactorAccept='0'");
+        }
+        catch (Exception ex)
+        {
+            db_Write=dbh.getWritableDatabase();
+            db_Write.execSQL("UPDATE ActiceBackgroundService SET Service_GetFactorAccept='0'");
+        }
+        PublicVariable.Active_Service_GetFactorAccept=false;
         if(Check_Login()) {
             continue_or_stop = true;
             if (createthread) {
@@ -145,13 +159,13 @@ public class SchaduleServiceGetFactorAccept extends JobService {
                 createthread = false;
             }
         }
-        return false;
+        return true;
     }
 
     @Override
     public boolean onStopJob(JobParameters jobParameters) {
         continue_or_stop=false;
-        return false;
+        return true;
     }
 
     public boolean Check_Login()
@@ -172,7 +186,7 @@ public class SchaduleServiceGetFactorAccept extends JobService {
             {
                 if(db.isOpen())
                     db.close();
-                return false;
+                return true;
             }
             else
             {
@@ -185,7 +199,7 @@ public class SchaduleServiceGetFactorAccept extends JobService {
         {
             if(db.isOpen())
                 db.close();
-            return false;
+            return true;
         }
     }
 }

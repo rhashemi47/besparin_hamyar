@@ -118,13 +118,13 @@ public class SchaduleServiceDeleteJob extends JobService {
                 createthread = false;
             }
         }
-        return false;
+        return true;
     }
 
     @Override
     public boolean onStopJob(JobParameters jobParameters) {
         continue_or_stop=false;
-        return false;
+        return true;
     }
     public boolean Check_Login()
     {
@@ -144,7 +144,7 @@ public class SchaduleServiceDeleteJob extends JobService {
             {
                 if(db.isOpen())
                     db.close();
-                return false;
+                return true;
             }
             else
             {
@@ -157,7 +157,7 @@ public class SchaduleServiceDeleteJob extends JobService {
         {
             if(db.isOpen())
                 db.close();
-            return false;
+            return true;
         }
     }
 }

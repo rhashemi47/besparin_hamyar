@@ -22,9 +22,9 @@ import java.io.IOException;
 public class SchaduleServiceSyncServiceSelected extends JobService {
     Handler mHandler;
     boolean continue_or_stop = true;
-    boolean createthread=true;
+    boolean createthread = true;
     private DatabaseHelper dbh;
-    private SQLiteDatabase db;
+    private SQLiteDatabase db, db_Write;
     private String guid;
     private String hamyarcode;
 
@@ -51,7 +51,17 @@ public class SchaduleServiceSyncServiceSelected extends JobService {
 
             throw sqle;
         }
-        if(Check_Login()) {
+        try {
+            if (!db_Write.isOpen()) {
+                db_Write = dbh.getWritableDatabase();
+            }
+            db_Write.execSQL("UPDATE ActiceBackgroundService SET Service_ServiceSelected='0'");
+        } catch (Exception ex) {
+            db_Write = dbh.getWritableDatabase();
+            db_Write.execSQL("UPDATE ActiceBackgroundService SET Service_ServiceSelected='0'");
+        }
+        PublicVariable.Active_Service_ServiceSelected = false;
+        if (Check_Login()) {
             continue_or_stop = true;
             if (createthread) {
                 mHandler = new Handler();
@@ -80,12 +90,12 @@ public class SchaduleServiceSyncServiceSelected extends JobService {
                                                 guid = coursors.getString(coursors.getColumnIndex("guid"));
                                             }
                                             db.close();
-                                            SyncGetSelectJobsForService syncGetSelectJobsForService = new SyncGetSelectJobsForService(getApplicationContext(), guid, hamyarcode, "0",dbh,db);
+                                            SyncGetSelectJobsForService syncGetSelectJobsForService = new SyncGetSelectJobsForService(getApplicationContext(), guid, hamyarcode, "0", dbh, db);
                                             syncGetSelectJobsForService.AsyncExecute();
                                         }
                                     }
                                 });
-                                Thread.sleep(60000); // every 60 seconds
+                                Thread.sleep(6000); // every 60 seconds
                             } catch (Exception e) {
                                 // TODO: handle exception
                             }
@@ -100,40 +110,33 @@ public class SchaduleServiceSyncServiceSelected extends JobService {
 
     @Override
     public boolean onStopJob(JobParameters jobParameters) {
-        continue_or_stop=false;
+        continue_or_stop = false;
         return false;
     }
 
-    public boolean Check_Login()
-    {
+    public boolean Check_Login() {
         Cursor cursor;
-        if(db==null)
-        {
+        if (db == null) {
             db = dbh.getReadableDatabase();
         }
-        if(!db.isOpen()) {
+        if (!db.isOpen()) {
             db = dbh.getReadableDatabase();
         }
         cursor = db.rawQuery("SELECT * FROM login", null);
         if (cursor.getCount() > 0) {
             cursor.moveToNext();
             String Result = cursor.getString(cursor.getColumnIndex("islogin"));
-            if (Result.compareTo("0") == 0)
-            {
-                if(db.isOpen())
+            if (Result.compareTo("0") == 0) {
+                if (db.isOpen())
                     db.close();
                 return false;
-            }
-            else
-            {
-                if(db.isOpen())
+            } else {
+                if (db.isOpen())
                     db.close();
                 return true;
             }
-        }
-        else
-        {
-            if(db.isOpen())
+        } else {
+            if (db.isOpen())
                 db.close();
             return false;
         }
