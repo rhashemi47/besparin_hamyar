@@ -19,13 +19,13 @@ public class PublicVariable {
     public static boolean theard_GetUserServiceStartDate = true;
     public static boolean theard_Profile = true;
     public static boolean theard_ServiceSelected = true;
-    public static boolean Active_Service_DeleteJob = true;
-    public static boolean Active_Service_GetFactorAccept = true;
-    public static boolean Active_Service_GetJobUpdate = true;
-    public static boolean Active_Service_GetLocation = true;
-    public static boolean Active_Service_GetNewJob = true;
-    public static boolean Active_Service_GetSliderPic = true;
-    public static boolean Active_Service_GetUserServiceStartDate = true;
-    public static boolean Active_Service_Profile = true;
-    public static boolean Active_Service_ServiceSelected = true;
+//    public static boolean Active_Service_DeleteJob = true;
+//    public static boolean Active_Service_GetFactorAccept = true;
+//    public static boolean Active_Service_GetJobUpdate = true;
+//    public static boolean Active_Service_GetLocation = true;
+//    public static boolean Active_Service_GetNewJob = true;
+//    public static boolean Active_Service_GetSliderPic = true;
+//    public static boolean Active_Service_GetUserServiceStartDate = true;
+//    public static boolean Active_Service_Profile = true;
+//    public static boolean Active_Service_ServiceSelected = true;
 }

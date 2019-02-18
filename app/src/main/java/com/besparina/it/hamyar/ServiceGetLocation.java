@@ -10,6 +10,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.IBinder;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.besparina.it.hamyar.Date.ChangeDate;
 
@@ -30,43 +32,43 @@ public class ServiceGetLocation extends Service {
     private double latitude;
     private double longitude;
     private Cursor c;
-    private static final String ACTION_STOP = "com.besparina.it.hamyar.ServiceGetLocation.ACTION_STOP";
+//    private static final String ACTION_STOP = "com.besparina.it.hamyar.ServiceGetLocation.ACTION_STOP";
 
     @Override
     public IBinder onBind(Intent arg0) {
         return null;
     }
-    private final BroadcastReceiver stopReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            context.removeStickyBroadcast(intent);
-            stopForeground(true);
-            stopSelf();
-        }
-    };
-    @Override
-    public void onCreate() {
-        super.onCreate();
-//        startForeground(1,new Intent(this, ServiceDeleteJob.class));
-        registerReceiver(stopReceiver, new IntentFilter(ACTION_STOP));
-    }
+//    private final BroadcastReceiver stopReceiver = new BroadcastReceiver() {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            context.removeStickyBroadcast(intent);
+//            stopForeground(true);
+//            stopSelf();
+//        }
+//    };
+//    @Override
+//    public void onCreate() {
+//        super.onCreate();
+////        startForeground(1,new Intent(this, ServiceDeleteJob.class));
+//        registerReceiver(stopReceiver, new IntentFilter(ACTION_STOP));
+//    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(stopReceiver);
-        PublicVariable.Active_Service_GetLocation=true;
+//        unregisterReceiver(stopReceiver);
+//        PublicVariable.Active_Service_GetLocation=true;
         continue_or_stop=false;
     }
 
-    public static void stop(Context context) {
-        context.sendStickyBroadcast(new Intent(ACTION_STOP));
-    }
+//    public static void stop(Context context) {
+//        context.sendStickyBroadcast(new Intent(ACTION_STOP));
+//    }
     @Override
     public int onStartCommand(final Intent intent, int flags, int startId) {
         // Let it continue running until it is stopped.
 //        Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
-        PublicVariable.Active_Service_GetLocation=false;
+//        PublicVariable.Active_Service_GetLocation=false;
         dbh = new DatabaseHelper(getApplicationContext());
         try {
 
@@ -99,7 +101,7 @@ public class ServiceGetLocation extends Service {
 //            db_Write=dbh.getWritableDatabase();
 //            db_Write.execSQL("UPDATE ActiceBackgroundService SET Service_GetLocation='0'");
 //        }
-        PublicVariable.Active_Service_GetLocation=false;
+//        PublicVariable.Active_Service_GetLocation=false;
         if(Check_Login()) {
             continue_or_stop = true;
             if (createthread) {
@@ -110,6 +112,7 @@ public class ServiceGetLocation extends Service {
                         // TODO Auto-generated method stub
                         while (continue_or_stop) {
                             try {
+                                Log.d("Service Location", "Run");
                                 Thread.sleep(180000); // every 30 Minute
                                 mHandler.post(new Runnable() {
                                     @Override
@@ -162,7 +165,7 @@ public class ServiceGetLocation extends Service {
                                     }
                                 });
                             } catch (Exception e) {
-                                // TODO: handle exception
+                                Toast.makeText(getApplicationContext(),"Error Stop Service Location",Toast.LENGTH_LONG).show();
                             }
                         }
                     }

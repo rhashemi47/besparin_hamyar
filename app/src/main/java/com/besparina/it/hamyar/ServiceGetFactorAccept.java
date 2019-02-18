@@ -1,15 +1,13 @@
 package com.besparina.it.hamyar;
 
 import android.app.Service;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.IBinder;
+import android.util.Log;
 
 import java.io.IOException;
 
@@ -28,43 +26,23 @@ public class ServiceGetFactorAccept extends Service {
     private Cursor cursors;
     private Cursor coursors;
     private Cursor c;
-    private static final String ACTION_STOP = "com.besparina.it.hamyar.ServiceGetFactorAccept.ACTION_STOP";
+//    private static final String ACTION_STOP = "com.besparina.it.hamyar.ServiceGetFactorAccept.ACTION_STOP";
 
     @Override
     public IBinder onBind(Intent arg0) {
         return null;
     }
-    private final BroadcastReceiver stopReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            context.removeStickyBroadcast(intent);
-            stopForeground(true);
-            stopSelf();
-        }
-    };
-    @Override
-    public void onCreate() {
-        super.onCreate();
-//        startForeground(1,new Intent(this, ServiceDeleteJob.class));
-        registerReceiver(stopReceiver, new IntentFilter(ACTION_STOP));
-    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(stopReceiver);
-        PublicVariable.Active_Service_GetFactorAccept=true;
         continue_or_stop=false;
     }
 
-    public static void stop(Context context) {
-        context.sendStickyBroadcast(new Intent(ACTION_STOP));
-    }
     @Override
     public int onStartCommand(final Intent intent, int flags, int startId) {
         // Let it continue running until it is stopped.
 //        Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
-        PublicVariable.Active_Service_GetFactorAccept=false;
         dbh = new DatabaseHelper(getApplicationContext());
         try {
 
@@ -84,20 +62,7 @@ public class ServiceGetFactorAccept extends Service {
 
             throw sqle;
         }
-//        try
-//        {
-//            if(!db_Write.isOpen())
-//            {
-//                db_Write=dbh.getWritableDatabase();
-//            }
-//            db_Write.execSQL("UPDATE ActiceBackgroundService SET Service_GetFactorAccept='0'");
-//        }
-//        catch (Exception ex)
-//        {
-//            db_Write=dbh.getWritableDatabase();
-//            db_Write.execSQL("UPDATE ActiceBackgroundService SET Service_GetFactorAccept='0'");
-//        }
-        PublicVariable.Active_Service_GetFactorAccept=false;
+
         if(Check_Login()) {
             continue_or_stop = true;
             if (createthread) {
@@ -108,6 +73,7 @@ public class ServiceGetFactorAccept extends Service {
                         // TODO Auto-generated method stub
                         while (continue_or_stop) {
                             try {
+                                Log.d("Service Accept Factor", "Run");
                                 Thread.sleep(6000); // every 6 seconds
                                 mHandler.post(new Runnable() {
 

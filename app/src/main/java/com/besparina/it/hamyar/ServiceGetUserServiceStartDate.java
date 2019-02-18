@@ -10,6 +10,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.IBinder;
+import android.util.Log;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -24,38 +26,38 @@ public class ServiceGetUserServiceStartDate extends Service {
     private DatabaseHelper dbh;
     private SQLiteDatabase db,db_Write;
     private String pUserServiceCode;
-    private static final String ACTION_STOP = "com.besparina.it.hamyar.ServiceGetUserServiceStartDate.ACTION_STOP";
+//    private static final String ACTION_STOP = "com.besparina.it.hamyar.ServiceGetUserServiceStartDate.ACTION_STOP";
 
     @Override
     public IBinder onBind(Intent arg0) {
         return null;
     }
-    private final BroadcastReceiver stopReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            context.removeStickyBroadcast(intent);
-            stopForeground(true);
-            stopSelf();
-        }
-    };
-    @Override
-    public void onCreate() {
-        super.onCreate();
-//        startForeground(1,new Intent(this, ServiceDeleteJob.class));
-        registerReceiver(stopReceiver, new IntentFilter(ACTION_STOP));
-    }
+//    private final BroadcastReceiver stopReceiver = new BroadcastReceiver() {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            context.removeStickyBroadcast(intent);
+//            stopForeground(true);
+//            stopSelf();
+//        }
+//    };
+//    @Override
+//    public void onCreate() {
+//        super.onCreate();
+////        startForeground(1,new Intent(this, ServiceDeleteJob.class));
+//        registerReceiver(stopReceiver, new IntentFilter(ACTION_STOP));
+//    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(stopReceiver);
-        PublicVariable.Active_Service_GetUserServiceStartDate=true;
+//        unregisterReceiver(stopReceiver);
+//        PublicVariable.Active_Service_GetUserServiceStartDate=true;
         continue_or_stop=false;
     }
-
-    public static void stop(Context context) {
-        context.sendStickyBroadcast(new Intent(ACTION_STOP));
-    }
+//
+//    public static void stop(Context context) {
+//        context.sendStickyBroadcast(new Intent(ACTION_STOP));
+//    }
 
 
     @Override
@@ -63,7 +65,7 @@ public class ServiceGetUserServiceStartDate extends Service {
         // Let it continue running until it is stopped.
 //        akeText(this, "Service Started", Toast.LENGTH_LONG).show();
 
-        PublicVariable.Active_Service_GetUserServiceStartDate=false;
+//        PublicVariable.Active_Service_GetUserServiceStartDate=false;
         dbh = new DatabaseHelper(getApplicationContext());
         try {
 
@@ -96,7 +98,7 @@ public class ServiceGetUserServiceStartDate extends Service {
 //            db_Write=dbh.getWritableDatabase();
 //            db_Write.execSQL("UPDATE ActiceBackgroundService SET Service_GetUserServiceStartDate='0'");
 //        }
-        PublicVariable.Active_Service_GetUserServiceStartDate=false;
+//        PublicVariable.Active_Service_GetUserServiceStartDate=false;
         if(Check_Login()) {
             continue_or_stop = true;
             if (createthread) {
@@ -107,6 +109,7 @@ public class ServiceGetUserServiceStartDate extends Service {
                         // TODO Auto-generated method stub
                         while (continue_or_stop) {
                             try {
+                                Log.d("Service Start Date", "Run");
                                 mHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -131,7 +134,7 @@ public class ServiceGetUserServiceStartDate extends Service {
                                 });
                                 Thread.sleep(6000); // every 6 seconds
                             } catch (Exception e) {
-                                // TODO: handle exception
+                                Toast.makeText(getApplicationContext(),"Error Stop Service Start Service",Toast.LENGTH_LONG).show();
                             }
                         }
                     }

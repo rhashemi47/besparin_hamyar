@@ -87,15 +87,15 @@ public class MainMenu extends AppCompatActivity {
     private ArrayList<HashMap<String, String>> valuse = new ArrayList<HashMap<String, String>>();
     private Handler mHandler;
     private boolean continue_or_stop = true;
-    private JobScheduler jobScheduler_SchaduleServiceGetNewJob = null;
-    private JobScheduler jobScheduler_SchaduleServiceGetFactorAccept = null;
-    private JobScheduler jobScheduler_SchaduleServiceGetLocation = null;
-    private JobScheduler jobScheduler_SchaduleServiceGetSliderPic = null;
-    private JobScheduler jobScheduler_SchaduleServiceSyncProfile = null;
-    private JobScheduler jobScheduler_SchaduleServiceSyncServiceSelected = null;
-    private JobScheduler jobScheduler_SchaduleServiceGetJobUpdate = null;
-    private JobScheduler jobScheduler_SchaduleServiceDeleteJob = null;
-    private JobScheduler jobScheduler_SchaduleServiceGetUserServiceStartDate = null;
+//    private JobScheduler jobScheduler_SchaduleServiceGetNewJob = null;
+//    private JobScheduler jobScheduler_SchaduleServiceGetFactorAccept = null;
+//    private JobScheduler jobScheduler_SchaduleServiceGetLocation = null;
+//    private JobScheduler jobScheduler_SchaduleServiceGetSliderPic = null;
+//    private JobScheduler jobScheduler_SchaduleServiceSyncProfile = null;
+//    private JobScheduler jobScheduler_SchaduleServiceSyncServiceSelected = null;
+//    private JobScheduler jobScheduler_SchaduleServiceGetJobUpdate = null;
+//    private JobScheduler jobScheduler_SchaduleServiceDeleteJob = null;
+//    private JobScheduler jobScheduler_SchaduleServiceGetUserServiceStartDate = null;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -797,17 +797,17 @@ public class MainMenu extends AppCompatActivity {
             // do something when the button is clicked
             public void onClick(DialogInterface arg0, int arg1) {
                 //Declare Object From Get Internet Connection Status For Check Internet Status
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                    jobScheduler_SchaduleServiceGetNewJob.cancelAll();
-                    jobScheduler_SchaduleServiceGetFactorAccept.cancelAll();
-                    jobScheduler_SchaduleServiceGetLocation.cancelAll();
-                    jobScheduler_SchaduleServiceGetSliderPic.cancelAll();
-                    jobScheduler_SchaduleServiceSyncProfile.cancelAll();
-                    jobScheduler_SchaduleServiceSyncServiceSelected.cancelAll();
-                    jobScheduler_SchaduleServiceGetJobUpdate.cancelAll();
-                    jobScheduler_SchaduleServiceDeleteJob.cancelAll();
-                    jobScheduler_SchaduleServiceGetUserServiceStartDate.cancelAll();
-                } else {
+//                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+//                    jobScheduler_SchaduleServiceGetNewJob.cancelAll();
+//                    jobScheduler_SchaduleServiceGetFactorAccept.cancelAll();
+//                    jobScheduler_SchaduleServiceGetLocation.cancelAll();
+//                    jobScheduler_SchaduleServiceGetSliderPic.cancelAll();
+//                    jobScheduler_SchaduleServiceSyncProfile.cancelAll();
+//                    jobScheduler_SchaduleServiceSyncServiceSelected.cancelAll();
+//                    jobScheduler_SchaduleServiceGetJobUpdate.cancelAll();
+//                    jobScheduler_SchaduleServiceDeleteJob.cancelAll();
+//                    jobScheduler_SchaduleServiceGetUserServiceStartDate.cancelAll();
+//                } else {
                     stopService(new Intent(getBaseContext(), ServiceGetLocation.class));
                     stopService(new Intent(getBaseContext(), ServiceGetNewJob.class));
                     stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
@@ -818,7 +818,7 @@ public class MainMenu extends AppCompatActivity {
                     stopService(new Intent(getBaseContext(), ServiceDeleteJob.class));
                     stopService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
                     stopService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
-                }
+//                }
                 try {
                     if (!db.isOpen()) {
                         db = dbh.getWritableDatabase();
@@ -1301,10 +1301,10 @@ public class MainMenu extends AppCompatActivity {
 //                this.startService(new Intent(this, ServiceGetUserServiceStartDate.class));
 //            }
 //        } else {
-//            startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-//            startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
-//            startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
-//            startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
+            startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+            startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
+            startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
+            startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
 //        }
     }
 
@@ -1381,10 +1381,10 @@ public class MainMenu extends AppCompatActivity {
 //                this.startService(new Intent(this, ServiceGetUserServiceStartDate.class));
 //            }
 //        } else {
-//            startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-//            startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
-//            startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
-//            startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
+            startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+            startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
+            startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
+            startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
 //        }
 //        try {
 //            String status = "0";
@@ -1493,10 +1493,10 @@ public class MainMenu extends AppCompatActivity {
 //                this.startService(new Intent(this, ServiceGetUserServiceStartDate.class));
 //            }
 //        } else {
-//            startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-//            startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
-//            startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
-//            startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
+            startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+            startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
+            startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
+            startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
 //            //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
 //        }
     }
@@ -1576,10 +1576,10 @@ public class MainMenu extends AppCompatActivity {
 //                this.startService(new Intent(this, ServiceGetUserServiceStartDate.class));
 //            }
 //        } else {
-//            startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-//            startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
-//            startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
-//            startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
+            startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+            startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
+            startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
+            startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
 //            //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
 //        }
     }
@@ -1659,10 +1659,10 @@ public class MainMenu extends AppCompatActivity {
 //                this.startService(new Intent(this, ServiceGetUserServiceStartDate.class));
 //            }
 //        } else {
-//            startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-//            startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
-//            startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
-//            startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
+            startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+            startService(new Intent(getBaseContext(), ServiceGetFactorAccept.class));
+            startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
+            startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
 //            //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
 //        }
     }
@@ -1728,8 +1728,8 @@ public class MainMenu extends AppCompatActivity {
 //                        this.startForegroundService(new Intent(this, ServiceGetUserServiceStartDate.class));
 //                    }
 //                } else {
-//                    startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-//                    startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
+                    startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+                    startService(new Intent(getBaseContext(), ServiceGetUserServiceStartDate.class));
 //                }
                 Intent startMain = new Intent(Intent.ACTION_MAIN);
 

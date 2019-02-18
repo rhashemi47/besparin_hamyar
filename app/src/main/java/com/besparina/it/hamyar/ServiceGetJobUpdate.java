@@ -10,6 +10,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.IBinder;
+import android.util.Log;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -27,44 +29,44 @@ public class ServiceGetJobUpdate extends Service {
     private String guid;
     private  Cursor coursors;
     private  Cursor cursors;
-    private static final String ACTION_STOP = "com.besparina.it.hamyar.ServiceGetJobUpdate.ACTION_STOP";
+//    private static final String ACTION_STOP = "com.besparina.it.hamyar.ServiceGetJobUpdate.ACTION_STOP";
 
     @Override
     public IBinder onBind(Intent arg0) {
         return null;
     }
-    private final BroadcastReceiver stopReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            context.removeStickyBroadcast(intent);
-            stopForeground(true);
-            stopSelf();
-        }
-    };
-    @Override
-    public void onCreate() {
-        super.onCreate();
-//        startForeground(1,new Intent(this, ServiceDeleteJob.class));
-        registerReceiver(stopReceiver, new IntentFilter(ACTION_STOP));
-    }
+//    private final BroadcastReceiver stopReceiver = new BroadcastReceiver() {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            context.removeStickyBroadcast(intent);
+//            stopForeground(true);
+//            stopSelf();
+//        }
+//    };
+//    @Override
+//    public void onCreate() {
+//        super.onCreate();
+////        startForeground(1,new Intent(this, ServiceDeleteJob.class));
+//        registerReceiver(stopReceiver, new IntentFilter(ACTION_STOP));
+//    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(stopReceiver);
-        PublicVariable.Active_Service_GetJobUpdate=true;
+//        unregisterReceiver(stopReceiver);
+//        PublicVariable.Active_Service_GetJobUpdate=true;
         continue_or_stop=false;
     }
 
-    public static void stop(Context context) {
-        context.sendStickyBroadcast(new Intent(ACTION_STOP));
-    }
+//    public static void stop(Context context) {
+//        context.sendStickyBroadcast(new Intent(ACTION_STOP));
+//    }
     @Override
     public int onStartCommand(final Intent intent, int flags, int startId) {
         // Let it continue running until it is stopped.
 //        Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
 
-        PublicVariable.Active_Service_GetJobUpdate=false;
+//        PublicVariable.Active_Service_GetJobUpdate=false;
         dbh = new DatabaseHelper(getApplicationContext());
         try {
 
@@ -97,7 +99,7 @@ public class ServiceGetJobUpdate extends Service {
 //            db_Write=dbh.getWritableDatabase();
 //            db_Write.execSQL("UPDATE ActiceBackgroundService SET Service_GetJobUpdate='0'");
 //        }
-        PublicVariable.Active_Service_GetJobUpdate=false;
+//        PublicVariable.Active_Service_GetJobUpdate=false;
         if(Check_Login()) {
             continue_or_stop = true;
             if (createthread) {
@@ -107,6 +109,7 @@ public class ServiceGetJobUpdate extends Service {
                     public void run() {
                         while (continue_or_stop) {
                             try {
+                                Log.d("ServiceUpdate", "Run");
                                 Thread.sleep(6000); // every 6 seconds
                                 mHandler.post(new Runnable() {
 
@@ -156,7 +159,7 @@ public class ServiceGetJobUpdate extends Service {
                                     }
                                 });
                             } catch (Exception e) {
-                                // TODO: handle exception
+                                Toast.makeText(getApplicationContext(),"Error Stop Service Update",Toast.LENGTH_LONG).show();
                             }
                         }
                     }

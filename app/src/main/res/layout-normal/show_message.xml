@@ -55,6 +55,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_button_select"
                     android:text="@string/Delete"
+                    android:drawableRight="@drawable/recycle_small"
                     android:textColor="#000000"
                     />
             </LinearLayout>

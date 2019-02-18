@@ -1,16 +1,14 @@
 package com.besparina.it.hamyar;
 
 import android.app.Service;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -27,38 +25,38 @@ public class ServiceDeleteJob extends Service {
     private String hamyarcode;
     private String guid;
     private Cursor coursors;
-    private static final String ACTION_STOP = "com.besparina.it.hamyar.ServiceDeleteJob.ACTION_STOP";
+//    private static final String ACTION_STOP = "com.besparina.it.hamyar.ServiceDeleteJob.ACTION_STOP";
     @Override
     public IBinder onBind(Intent arg0) {
         return null;
     }
 
-    private final BroadcastReceiver stopReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            context.removeStickyBroadcast(intent);
-            stopForeground(true);
-            stopSelf();
-        }
-    };
-    @Override
-    public void onCreate() {
-        super.onCreate();
-//        startForeground(1,new Intent(this, ServiceDeleteJob.class));
-        registerReceiver(stopReceiver, new IntentFilter(ACTION_STOP));
-    }
+//    private final BroadcastReceiver stopReceiver = new BroadcastReceiver() {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            context.removeStickyBroadcast(intent);
+//            stopForeground(true);
+//            stopSelf();
+//        }
+//    };
+//    @Override
+//    public void onCreate() {
+//        super.onCreate();
+////        startForeground(1,new Intent(this, ServiceDeleteJob.class));
+//        registerReceiver(stopReceiver, new IntentFilter(ACTION_STOP));
+//    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(stopReceiver);
+//        unregisterReceiver(stopReceiver);
         continue_or_stop=false;
-        PublicVariable.Active_Service_DeleteJob=true;
+//        PublicVariable.Active_Service_DeleteJob=true;
     }
 
-    public static void stop(Context context) {
-        context.sendStickyBroadcast(new Intent(ACTION_STOP));
-    }
+//    public static void stop(Context context) {
+//        context.sendStickyBroadcast(new Intent(ACTION_STOP));
+//    }
     @Override
     public int onStartCommand(final Intent intent, int flags, int startId) {
         // Let it continue running until it is stopped.
@@ -94,7 +92,7 @@ public class ServiceDeleteJob extends Service {
 //            db_Write=dbh.getWritableDatabase();
 //            db_Write.execSQL("UPDATE ActiceBackgroundService SET Service_DeleteJob='0'");
 //        }
-        PublicVariable.Active_Service_DeleteJob=false;
+//        PublicVariable.Active_Service_DeleteJob=false;
         if(Check_Login()) {
             continue_or_stop = true;
             if (createthread) {
@@ -105,6 +103,7 @@ public class ServiceDeleteJob extends Service {
                         // TODO Auto-generated method stub
                         while (continue_or_stop) {
                             try {
+                                Log.d("Service Delete", "Run");
                                 Thread.sleep(6000); // every 6 seconds
                                 mHandler.post(new Runnable() {
 
@@ -153,7 +152,7 @@ public class ServiceDeleteJob extends Service {
                                     }
                                 });
                             } catch (Exception e) {
-                                String Error=e.getMessage();
+                                Toast.makeText(getApplicationContext(),"Error Stop Service Delete",Toast.LENGTH_LONG).show();
                             }
                         }
                     }

@@ -1354,6 +1354,9 @@ public class ViewJob extends AppCompatActivity{
                         coursors.moveToNext();
                         LoadActivity_PerFactor(Save_Per_Factor.class, "tab", tab, "BsUserServicesID", BsUserServicesID, "ServiceDetaileCode", coursors.getString(coursors.getColumnIndex("ServiceDetaileCode")), "back_activity", back_activity);
                     }
+                    else {
+                        Toast.makeText(ViewJob.this,"ابتدا باید سرویس را انتخاب فرمایید",Toast.LENGTH_LONG).show();
+                    }
                     coursors.close();
                     if(db.isOpen())
                     {
