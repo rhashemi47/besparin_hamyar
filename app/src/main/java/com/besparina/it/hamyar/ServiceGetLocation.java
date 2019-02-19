@@ -58,7 +58,7 @@ public class ServiceGetLocation extends Service {
         super.onDestroy();
 //        unregisterReceiver(stopReceiver);
 //        PublicVariable.Active_Service_GetLocation=true;
-        continue_or_stop=false;
+        //continue_or_stop=false;
     }
 
 //    public static void stop(Context context) {

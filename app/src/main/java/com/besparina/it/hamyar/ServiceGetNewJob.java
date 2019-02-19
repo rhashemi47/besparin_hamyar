@@ -34,7 +34,7 @@ public class ServiceGetNewJob extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        continue_or_stop=false;
+        //continue_or_stop=false;
     }
 
     @Override

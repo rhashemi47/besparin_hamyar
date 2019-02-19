@@ -96,7 +96,7 @@ public class Save_Per_Factor extends Activity {
     private Button btnHome;
     private String back_activity;
     private Button btnCanselPerFactor;
-    private float TotalALL_Float=0;
+    private double TotalALL_Float=0;
     private Toolbar toolbar;
 
     @Override
@@ -332,7 +332,8 @@ public class Save_Per_Factor extends Activity {
                     {
                         String PriceStep;
                         Integer Result;
-                        PriceStep=tvPriceTools.getText().toString().replace("/",".");
+//                        PriceStep=tvPriceTools.getText().toString().replace("/",".");
+                        PriceStep=PersianDigitConverter.EnglishNumber(tvPriceTools.getText().toString().replace("٬",""));
                         Result=0*Integer.parseInt(PriceStep);
                         tvTotalSumTool.setText(Float.toString(Result));
                     }
@@ -345,7 +346,8 @@ public class Save_Per_Factor extends Activity {
                         try {
                             Amount= EtToolValuePrice.getText().toString().replace(",","");
                             Result =  df.parse(Amount).longValue();
-                            PriceStep=tvPriceTools.getText().toString();
+//                            PriceStep=tvPriceTools.getText().toString();
+                            PriceStep=PersianDigitConverter.EnglishNumber(tvPriceTools.getText().toString().replace("٬",""));
                             Result=Double.parseDouble(Amount)*Double.parseDouble(PriceStep);
                             tvTotalSumTool.setText(df.format(Result));
                         }
@@ -377,7 +379,7 @@ public class Save_Per_Factor extends Activity {
 //                        String Amount;
                         Integer Result;
 //                        Amount= EtUnitValuePrice.getText().toString();
-                        PriceStep=tvUnitPrice.getText().toString();
+                        PriceStep=PersianDigitConverter.EnglishNumber(tvUnitPrice.getText().toString().replace("٬",""));
                         Result=0*Integer.parseInt(PriceStep);
                         tvTotalSumStep.setText(Integer.toString(Result));
                         tvTotal.setText(Integer.toString(Result));
@@ -392,7 +394,7 @@ public class Save_Per_Factor extends Activity {
                         try {
                             Amount= EtUnitValuePrice.getText().toString().replace(",","");
                             Result =  df.parse(Amount).longValue();
-                            PriceStep=tvUnitPrice.getText().toString();
+                            PriceStep=PersianDigitConverter.EnglishNumber(tvUnitPrice.getText().toString().replace("٬",""));
                             Result=Double.parseDouble(Amount)*Double.parseDouble(PriceStep);
                             tvTotalSumStep.setText(df.format(Result));
                             tvTotal.setText(df.format(Result));
@@ -409,6 +411,7 @@ public class Save_Per_Factor extends Activity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 db = dbh.getReadableDatabase();
+                DecimalFormat df = new DecimalFormat("###,###,###,###,###,###,###,###");
                 String temp=SpTitleStepJob.getSelectedItem().toString();
                 String codeStep=mapStep.get(temp);
                 Cursor coursors = db.rawQuery("SELECT HmFactorService.*,Unit.Name FROM HmFactorService" +
@@ -418,7 +421,8 @@ public class Save_Per_Factor extends Activity {
                 if (coursors.getCount() > 0) {
                     coursors.moveToNext();
                     tvUnit.setText(coursors.getString(coursors.getColumnIndex("Name")));
-                    tvUnitPrice.setText(coursors.getString(coursors.getColumnIndex("PricePerUnit")));
+                    double PricePerUnitDouble=Double.parseDouble(coursors.getString(coursors.getColumnIndex("PricePerUnit")));
+                    tvUnitPrice.setText(df.format(PricePerUnitDouble));
                     EtUnitValuePrice.setText("0");
                 }
 
@@ -434,12 +438,14 @@ public class Save_Per_Factor extends Activity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 db = dbh.getReadableDatabase();
+                DecimalFormat df = new DecimalFormat("###,###,###,###,###,###,###,###");
                 String codeStep=mapTool.get(SPTitleTools.getSelectedItem().toString());
                 Cursor coursors = db.rawQuery("SELECT * FROM HmFactorTools WHERE Code='"+codeStep+"'", null);
                 if (coursors.getCount() > 0) {
                     coursors.moveToNext();
                         tvBrand.setText(coursors.getString(coursors.getColumnIndex("BrandName")));
-                        tvPriceTools.setText(coursors.getString(coursors.getColumnIndex("Price")));
+                        double PriceDouble=Double.parseDouble(coursors.getString(coursors.getColumnIndex("Price")));
+                        tvPriceTools.setText(df.format(PriceDouble));
                         EtToolValuePrice.setText("0");
                     }
 
@@ -654,14 +660,15 @@ public class Save_Per_Factor extends Activity {
             } else {
                 temp=TitleTool+ "-" +BrandName+ "-" +Price+ "-" +Amont;
                 db = dbh.getReadableDatabase();
-                Cursor coursors = db.rawQuery("SELECT * FROM HmFactorTools_List WHERE ToolName='" + TitleTool + "' AND BrandName='" + BrandName + "'AND " +
-                        "Price='" +Price+"' AND " +
-                        "Amount='" +Amont+ "' AND ServiceDetaileCode='"+ServiceDetaileCode+"'", null);
+                String Query="SELECT * FROM HmFactorTools_List WHERE ToolName='" + TitleTool + "' AND BrandName='" + BrandName + "'AND " +
+                        "Price='" +(PersianDigitConverter.EnglishNumber(tvPriceTools.getText().toString().replace("٬","")))+"' AND " +
+                        "Amount='" +Amont+ "' AND ServiceDetaileCode='"+ServiceDetaileCode+"'";
+                Cursor coursors = db.rawQuery(Query, null);
                 if (coursors.getCount() > 0) {
                     Toast.makeText(Save_Per_Factor.this, "این مقدار تکراریست", Toast.LENGTH_SHORT).show();
                 } else {
                     String query="INSERT INTO HmFactorTools_List (Code,ToolName,BrandName,Price,Amount,ServiceDetaileCode) VALUES('" +mapTool.get(SPTitleTools.getSelectedItem().toString())+"','"+ TitleTool + "','" + BrandName
-                            + "','" + Price + "','" + Amont + "','" +ServiceDetaileCode+"')";
+                            + "','" + (PersianDigitConverter.EnglishNumber(tvPriceTools.getText().toString().replace("٬",""))) + "','" + Amont + "','" +ServiceDetaileCode+"')";
                     try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
                     db.execSQL(query);
 //                    String StrTotalSumStep=tvTotalSumStep.getText().toString().replace("٬","");
@@ -669,7 +676,8 @@ public class Save_Per_Factor extends Activity {
 //                    float TotalSumStep_Float=Float.valueOf(PersianDigitConverter.EnglishNumber(StrTotalSumStep));
                     float tvTotalSumTool_Float=Float.valueOf(PersianDigitConverter.EnglishNumber(StrTotalSumTool));
                     TotalALL_Float+=tvTotalSumTool_Float;
-                    tvTotal.setText(String.valueOf(TotalALL_Float));
+                    DecimalFormat df = new DecimalFormat("###,###,###,###,###,###,###,###");
+                    tvTotal.setText(String.valueOf(df.format(TotalALL_Float)));
                     if (ListTools.getCount() > 0) {
                         adapterList.add(temp);
                         ListTools.setAdapter(adapterList);
@@ -705,14 +713,17 @@ void removeItemFromList(final int position) {
             //Declare Object From Get Internet Connection Status For Check Internet Status
             String[] STR=PersianDigitConverter.EnglishNumber(listItems.get(position).toString()).split("-");
             try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
-            String query="DELETE FROM HmFactorTools_List WHERE ToolName='"+STR[0]+"' AND Price='"+STR[2]+"'" +
-                    " AND ServiceDetaileCode='"+ServiceDetaileCode+"' AND BrandName='"+STR[1]+"' AND Amount='"+STR[3]+"'";
+            String query="DELETE FROM HmFactorTools_List WHERE ToolName='"+(STR[0].replace("٬",""))+"' AND Price='"+(STR[2].replace("٬",""))+"'" +
+                    " AND ServiceDetaileCode='"+ServiceDetaileCode+"' AND BrandName='"+STR[1]+"' AND Amount='"+(STR[3].replace("٬",""))+"'";
            db.execSQL(query);
 
             try {	if (db.isOpen()) {	db.close();	}}	catch (Exception ex){	}
             listItems.remove(deletePosition);
             adapterList.notifyDataSetChanged();
-            float zarb=Float.valueOf(PersianDigitConverter.EnglishNumber(STR[2]))*Float.valueOf(PersianDigitConverter.EnglishNumber(STR[3]));
+            String s=PersianDigitConverter.EnglishNumber(STR[2].replace("٬",""));
+            float PriceFloat=Float.valueOf(s);
+            float AmountFloat=Float.valueOf(PersianDigitConverter.EnglishNumber(STR[3].replace("٬","")));
+            float zarb=PriceFloat * AmountFloat;
             TotalALL_Float-=zarb;
             tvTotal.setText(String.valueOf(TotalALL_Float));
             Toast.makeText(Save_Per_Factor.this, "آیتم حذف شد", Toast.LENGTH_LONG).show();

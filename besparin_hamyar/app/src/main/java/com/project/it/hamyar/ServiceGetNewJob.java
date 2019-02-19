@@ -98,6 +98,6 @@ public class ServiceGetNewJob extends Service {
     public void onDestroy() {
         super.onDestroy();
        // Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
-        continue_or_stop=false;
+        //continue_or_stop=false;
     }
 }

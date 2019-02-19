@@ -18,7 +18,6 @@
             android:noHistory="false" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -108,14 +107,12 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDnC52D6OdJODkWQpG-7SXrqhZk4ZLRV9M" />
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
         <receiver android:name="com.besparina.it.hamyar.SMSReseiver" android:enabled="true" android:exported="true">
             <intent-filter android:priority="2147483647">
-                <action android:name=
-                    "android.provider.Telephony.SMS_RECEIVED" />
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
         <receiver android:name="ScheduleReceiver"
@@ -127,8 +124,7 @@
             <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
         </intent-filter>
     </receiver>
-        <receiver android:name="StartServiceReceiver">
-        </receiver>
+        <receiver android:name="StartServiceReceiver"/>
     </application>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />

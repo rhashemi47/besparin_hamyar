@@ -50,7 +50,7 @@ public class ServiceDeleteJob extends Service {
     public void onDestroy() {
         super.onDestroy();
 //        unregisterReceiver(stopReceiver);
-        continue_or_stop=false;
+        //continue_or_stop=false;
 //        PublicVariable.Active_Service_DeleteJob=true;
     }
 

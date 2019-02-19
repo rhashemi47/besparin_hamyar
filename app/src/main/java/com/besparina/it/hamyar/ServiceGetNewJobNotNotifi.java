@@ -53,7 +53,7 @@ public class ServiceGetNewJobNotNotifi extends Service {
         super.onDestroy();
 //        unregisterReceiver(stopReceiver);
 //        PublicVariable.Active_Service_GetNewJob=true;
-        continue_or_stop=false;
+        //continue_or_stop=false;
     }
 
 //    public static void stop(Context context) {

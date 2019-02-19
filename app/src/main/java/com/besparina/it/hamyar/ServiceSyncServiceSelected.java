@@ -54,7 +54,7 @@ public class ServiceSyncServiceSelected extends Service {
         super.onDestroy();
 //        unregisterReceiver(stopReceiver);
 //        PublicVariable.Active_Service_ServiceSelected=true;
-        continue_or_stop=false;
+        //continue_or_stop=false;
     }
 
 //    public static void stop(Context context) {
