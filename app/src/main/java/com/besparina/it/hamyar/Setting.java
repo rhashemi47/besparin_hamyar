@@ -17,6 +17,7 @@
     import android.widget.EditText;
     import android.widget.LinearLayout;
     import android.widget.ListView;
+    import android.widget.ScrollView;
     import android.widget.Spinner;
     import android.widget.TextView;
     import android.widget.Toast;
@@ -87,6 +88,7 @@
         private String EtUnitPriceStr;
         private LinearLayout linearLayoutSave_working_levels;
         private LinearLayout linearLayoutSave_working_Details;
+        private ScrollView scroll_view;
         //****************************
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +131,7 @@
             tvtitleToolsStep = (TextView) findViewById(R.id.tvtitleToolsStep);
             tvBrand = (TextView) findViewById(R.id.tvBrand);
             tvPriceTools = (TextView) findViewById(R.id.tvPriceTools);
+            scroll_view = (ScrollView) findViewById(R.id.scroll_view);
         //**********************************
 
             dbh=new DatabaseHelper(getApplicationContext());

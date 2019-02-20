@@ -27,6 +27,7 @@
         android:layout_height="match_parent"
         android:verticalScrollbarPosition="right"
         android:layout_below="@+id/appbar"
+        android:id="@+id/scroll_view"
         android:layout_marginBottom="80dp">
         <LinearLayout
             android:layout_width="match_parent"

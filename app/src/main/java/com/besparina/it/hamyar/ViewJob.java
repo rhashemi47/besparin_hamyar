@@ -984,7 +984,7 @@ public class ViewJob extends AppCompatActivity{
                 }
 
                 map.addMarker(new MarkerOptions().position(point).title("سرویس").icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(point,12));
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(point,15));
 
 
                 map.getUiSettings().setZoomControlsEnabled(true);

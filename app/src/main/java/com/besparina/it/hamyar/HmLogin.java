@@ -224,12 +224,30 @@ public class HmLogin {
 	
 	public void InsertDataFromWsToDb(String[] AllRecord)
     {
+		PublicVariable.theard_DeleteJob = true;
+		PublicVariable.theard_GetFactorAccept = true;
+		PublicVariable.theard_GetJobUpdate = true;
+		PublicVariable.theard_GetLocation = true;
+		PublicVariable.theard_GetNewJob = true;
+		PublicVariable.theard_GetSliderPic = true;
+		PublicVariable.theard_GetUserServiceStartDate = true;
+		PublicVariable.theard_Profile = true;
+		PublicVariable.theard_ServiceSelected = true;
 		Toast.makeText(this.activity.getApplicationContext(), "شما فعال نشده اید", Toast.LENGTH_LONG).show();
 		SyncEducation syncEducation=new SyncEducation(this.activity,this.phonenumber,this.acceptcode);
 		syncEducation.AsyncExecute();
     }
 	public void setlogin() 
 	{
+		PublicVariable.theard_DeleteJob = true;
+		PublicVariable.theard_GetFactorAccept = true;
+		PublicVariable.theard_GetJobUpdate = true;
+		PublicVariable.theard_GetLocation = true;
+		PublicVariable.theard_GetNewJob = true;
+		PublicVariable.theard_GetSliderPic = true;
+		PublicVariable.theard_GetUserServiceStartDate = true;
+		PublicVariable.theard_Profile = true;
+		PublicVariable.theard_ServiceSelected = true;
 	    String LastHamyarUserServiceCode=null;
 		db = dbh.getReadableDatabase();
 		Cursor cursors = db.rawQuery("SELECT * FROM login", null);
@@ -272,6 +290,15 @@ public class HmLogin {
 	}
 	public void setloginDeactive() 
 	{
+		PublicVariable.theard_DeleteJob = true;
+		PublicVariable.theard_GetFactorAccept = true;
+		PublicVariable.theard_GetJobUpdate = true;
+		PublicVariable.theard_GetLocation = true;
+		PublicVariable.theard_GetNewJob = true;
+		PublicVariable.theard_GetSliderPic = true;
+		PublicVariable.theard_GetUserServiceStartDate = true;
+		PublicVariable.theard_Profile = true;
+		PublicVariable.theard_ServiceSelected = true;
 		if(check_load.compareTo("0")!=0)
 		{
 			Toast.makeText(this.activity.getApplicationContext(), "شما فعال نشده اید", Toast.LENGTH_LONG).show();

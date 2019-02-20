@@ -44,7 +44,7 @@ public class Accept_code extends Activity {
 	private Handler mHandler;
 	private boolean continue_or_stop = true;
 	private boolean createthread=true;
-	private int counter=59;
+	private int counter=120;
 	private BroadcastReceiver intentReciever=new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -231,7 +231,7 @@ public class Accept_code extends Activity {
 				public void run() {
 					while (continue_or_stop) {
 						try {
-							Thread.sleep(1000); // every 60 seconds
+							Thread.sleep(1000); // every 1 seconds
 							mHandler.post(new Runnable() {
 								@Override
 								public void run() {

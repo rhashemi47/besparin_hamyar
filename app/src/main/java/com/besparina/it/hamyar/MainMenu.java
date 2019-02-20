@@ -510,7 +510,6 @@ public class MainMenu extends AppCompatActivity {
                                 startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
                                 startService(new Intent(getBaseContext(), ServiceGetLocation.class));
                                 startService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
-                                startService(new Intent(getBaseContext(), ServiceSyncProfile.class));
                                 startService(new Intent(getBaseContext(), ServiceSyncServiceSelected.class));
                                 startService(new Intent(getBaseContext(), ServiceGetJobUpdate.class));
                                 startService(new Intent(getBaseContext(), ServiceDeleteJob.class));
@@ -808,6 +807,16 @@ public class MainMenu extends AppCompatActivity {
 //                    jobScheduler_SchaduleServiceDeleteJob.cancelAll();
 //                    jobScheduler_SchaduleServiceGetUserServiceStartDate.cancelAll();
 //                } else {
+
+                    PublicVariable.theard_DeleteJob = false;
+                    PublicVariable.theard_GetFactorAccept = false;
+                    PublicVariable.theard_GetJobUpdate = false;
+                    PublicVariable.theard_GetLocation = false;
+                    PublicVariable.theard_GetNewJob = false;
+                    PublicVariable.theard_GetSliderPic = false;
+                    PublicVariable.theard_GetUserServiceStartDate = false;
+                    PublicVariable.theard_Profile = false;
+                    PublicVariable.theard_ServiceSelected = false;
                     stopService(new Intent(getBaseContext(), ServiceGetLocation.class));
                     stopService(new Intent(getBaseContext(), ServiceGetNewJob.class));
                     stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
