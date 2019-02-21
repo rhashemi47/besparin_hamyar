@@ -20,9 +20,11 @@ import java.io.IOException;
  */
 
 public class ServiceGetUserServiceStartDate extends Service {
-    Handler mHandler;
+    private Handler mHandler;
+    private Thread thread;
+    private Runnable runnable;
     boolean continue_or_stop = true;
-    boolean createthread=true;
+    //boolean createthread=true;
     private DatabaseHelper dbh;
     private SQLiteDatabase db,db_Write;
     private String pUserServiceCode;
@@ -40,24 +42,30 @@ public class ServiceGetUserServiceStartDate extends Service {
 //            stopSelf();
 //        }
 //    };
-//    @Override
-//    public void onCreate() {
-//        super.onCreate();
-////        startForeground(1,new Intent(this, ServiceDeleteJob.class));
-//        registerReceiver(stopReceiver, new IntentFilter(ACTION_STOP));
-//    }
-
+    @Override
+    public void onCreate() {
+        super.onCreate();
+    }
+    @Override
+    public boolean stopService(Intent name) {
+        if(PublicVariable.stopthread_Service_GetUserServiceStartDate)
+        {
+            thread.interrupt();
+        }
+        return super.stopService(name);
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if(PublicVariable.stopthread_Service_GetUserServiceStartDate)
+        {
+            thread.interrupt();
+        }
 //        unregisterReceiver(stopReceiver);
 //        PublicVariable.Active_Service_GetUserServiceStartDate=true;
         //continue_or_stop=false;
     }
-//
-//    public static void stop(Context context) {
-//        context.sendStickyBroadcast(new Intent(ACTION_STOP));
-//    }
+
 
 
     @Override
@@ -101,9 +109,9 @@ public class ServiceGetUserServiceStartDate extends Service {
 //        PublicVariable.Active_Service_GetUserServiceStartDate=false;
         if(Check_Login()) {
             continue_or_stop = true;
-            if (createthread) {
+            if (PublicVariable.createthread_GetUserServiceStartDate) {
                 mHandler = new Handler();
-                new Thread(new Runnable() {
+                runnable=new Runnable() {
                     @Override
                     public void run() {
                         // TODO Auto-generated method stub
@@ -114,7 +122,7 @@ public class ServiceGetUserServiceStartDate extends Service {
                                     @Override
                                     public void run() {
                                         if (PublicVariable.theard_GetUserServiceStartDate) {
-                                            if(!db.isOpen()) {
+                                            if (!db.isOpen()) {
                                                 db = dbh.getReadableDatabase();
                                             }
                                             Cursor coursors = db.rawQuery("SELECT * FROM BsHamyarSelectServices A WHERE A.Status='1' AND " +
@@ -123,10 +131,10 @@ public class ServiceGetUserServiceStartDate extends Service {
                                                 coursors.moveToNext();
 
                                                 pUserServiceCode = coursors.getString(coursors.getColumnIndex("Code"));
-                                                SyncGetUserServiceStartDate syncGetUserServiceStartDate = new SyncGetUserServiceStartDate(getApplicationContext(), pUserServiceCode,dbh,db);
+                                                SyncGetUserServiceStartDate syncGetUserServiceStartDate = new SyncGetUserServiceStartDate(getApplicationContext(), pUserServiceCode, dbh, db);
                                                 syncGetUserServiceStartDate.AsyncExecute();
                                             }
-                                            if(db.isOpen()) {
+                                            if (db.isOpen()) {
                                                 db.close();
                                             }
                                         }
@@ -134,12 +142,21 @@ public class ServiceGetUserServiceStartDate extends Service {
                                 });
                                 Thread.sleep(6000); // every 6 seconds
                             } catch (Exception e) {
-                                Toast.makeText(getApplicationContext(),"Error Stop Service Start Service",Toast.LENGTH_LONG).show();
+                                //Toast.makeText(getApplicationContext(), "Error Stop Service Start Service", Toast.LENGTH_LONG).show();
                             }
                         }
                     }
-                }).start();
-                createthread = false;
+
+                };
+                thread=new Thread(runnable);
+                if(PublicVariable.stopthread_Service_GetUserServiceStartDate)
+                {
+                    thread.interrupt();
+                }
+                else {
+                    thread.start();
+                }
+                PublicVariable.createthread_GetUserServiceStartDate = false;
             }
         }
         return START_STICKY;

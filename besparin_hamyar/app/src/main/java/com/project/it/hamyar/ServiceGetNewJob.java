@@ -17,7 +17,7 @@ import java.io.IOException;
 public class ServiceGetNewJob extends Service {
     Handler mHandler;
     boolean continue_or_stop = true;
-    boolean createthread=true;
+    //boolean createthread=true;
     private DatabaseHelper dbh;
     private SQLiteDatabase db;
     private String hamyarcode;

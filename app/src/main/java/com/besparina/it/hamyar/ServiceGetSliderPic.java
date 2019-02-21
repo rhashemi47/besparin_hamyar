@@ -21,8 +21,10 @@ import java.io.IOException;
 
 public class ServiceGetSliderPic extends Service {
     Handler mHandler;
+    private Thread thread;
+    private Runnable runnable;
     boolean continue_or_stop = true;
-    boolean createthread=true;
+    //boolean createthread=true;
     private DatabaseHelper dbh;
     private SQLiteDatabase db,db_Write;
     private String hamyarcode="0";
@@ -51,9 +53,18 @@ public class ServiceGetSliderPic extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        unregisterReceiver(stopReceiver);
-//        PublicVariable.Active_Service_GetSliderPic=true;
-        //continue_or_stop=false;
+        if(PublicVariable.stopthread_Service_GetSliderPic)
+        {
+            thread.interrupt();
+        }
+    }
+    @Override
+    public boolean stopService(Intent name) {
+        if(PublicVariable.stopthread_Service_GetSliderPic)
+        {
+            thread.interrupt();
+        }
+        return super.stopService(name);
     }
 //
 //    public static void stop(Context context) {
@@ -101,9 +112,9 @@ public class ServiceGetSliderPic extends Service {
 //        PublicVariable.Active_Service_GetSliderPic=false;
         if(Check_Login()) {
             continue_or_stop = true;
-            if (createthread) {
+            if (PublicVariable.createthread_GetSliderPic) {
                 mHandler = new Handler();
-                new Thread(new Runnable() {
+                runnable=new Runnable() {
                     @Override
                     public void run() {
                         // TODO Auto-generated method stub
@@ -163,13 +174,21 @@ public class ServiceGetSliderPic extends Service {
                                     }
                                 }
                             } catch (Exception e) {
-                                Toast.makeText(getApplicationContext(),"Error Stop Service Slider",Toast.LENGTH_LONG).show();
+                                //Toast.makeText(getApplicationContext(),"Error Stop Service Slider",Toast.LENGTH_LONG).show();
                             }
 
                         }
                     }
-                }).start();
-                createthread = false;
+                };
+                thread=new Thread(runnable);
+                if(PublicVariable.stopthread_Service_GetSliderPic)
+                {
+                    thread.interrupt();
+                }
+                else {
+                    thread.start();
+                }
+                PublicVariable.createthread_GetSliderPic = false;
             }
         }
         return START_STICKY;

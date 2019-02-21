@@ -18,8 +18,10 @@ import java.io.IOException;
 
 public class ServiceGetNewJob extends Service {
     Handler mHandler;
+    private Thread thread;
+    private Runnable runnable;
     boolean continue_or_stop = true;
-    boolean createthread=true;
+    //boolean createthread=true;
     private DatabaseHelper dbh;
     SQLiteDatabase dbRW,dbR,db_Write;
     private String hamyarcode;
@@ -34,9 +36,19 @@ public class ServiceGetNewJob extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //continue_or_stop=false;
+        if(PublicVariable.stopthread_Service_GetNewJob)
+        {
+            thread.interrupt();
+        }
     }
-
+    @Override
+    public boolean stopService(Intent name) {
+        if(PublicVariable.stopthread_Service_GetNewJob)
+        {
+            thread.interrupt();
+        }
+        return super.stopService(name);
+    }
     @Override
     public int onStartCommand(final Intent intent, int flags, int startId) {
         // Let it continue running until it is stopped.
@@ -62,9 +74,9 @@ public class ServiceGetNewJob extends Service {
         }
         if(Check_Login()) {
             continue_or_stop = true;
-            if (createthread) {
+            if (PublicVariable.createthread_GetNewJob) {
                 mHandler = new Handler();
-                new Thread(new Runnable() {
+                runnable=new Runnable() {
                     @Override
                     public void run() {
                         while (continue_or_stop) {
@@ -105,12 +117,20 @@ public class ServiceGetNewJob extends Service {
                                     }
                                 });
                             } catch (Exception e) {
-                                Toast.makeText(getApplicationContext(),"Error Stop Service New Service",Toast.LENGTH_LONG).show();
+                                //Toast.makeText(getApplicationContext(),"Error Stop Service New Service",Toast.LENGTH_LONG).show();
                             }
                         }
                     }
-                }).start();
-                createthread = false;
+                };
+                thread=new Thread(runnable);
+                if(PublicVariable.stopthread_Service_GetNewJob)
+                {
+                    thread.interrupt();
+                }
+                else {
+                    thread.start();
+                }
+                PublicVariable.createthread_GetNewJob = false;
             }
         }
         return START_STICKY;

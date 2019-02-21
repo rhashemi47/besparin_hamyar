@@ -23,8 +23,10 @@ import java.io.IOException;
 
 public class ServiceGetLocation extends Service {
     Handler mHandler;
+    private Thread thread;
+    private Runnable runnable;
     boolean continue_or_stop = true;
-    boolean createthread=true;
+    //boolean createthread=true;
     private DatabaseHelper dbh;
     private SQLiteDatabase db,db_Write;
     private String hamyarcode;
@@ -52,13 +54,21 @@ public class ServiceGetLocation extends Service {
 ////        startForeground(1,new Intent(this, ServiceDeleteJob.class));
 //        registerReceiver(stopReceiver, new IntentFilter(ACTION_STOP));
 //    }
-
+@Override
+public boolean stopService(Intent name) {
+    if(PublicVariable.stopthread_Service_GetLocation)
+    {
+        thread.interrupt();
+    }
+    return super.stopService(name);
+}
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        unregisterReceiver(stopReceiver);
-//        PublicVariable.Active_Service_GetLocation=true;
-        //continue_or_stop=false;
+        if(PublicVariable.stopthread_Service_GetLocation)
+        {
+            thread.interrupt();
+        }
     }
 
 //    public static void stop(Context context) {
@@ -104,9 +114,9 @@ public class ServiceGetLocation extends Service {
 //        PublicVariable.Active_Service_GetLocation=false;
         if(Check_Login()) {
             continue_or_stop = true;
-            if (createthread) {
+            if (PublicVariable.createthread_GetLocation) {
                 mHandler = new Handler();
-                new Thread(new Runnable() {
+                runnable=new Runnable() {
                     @Override
                     public void run() {
                         // TODO Auto-generated method stub
@@ -165,12 +175,20 @@ public class ServiceGetLocation extends Service {
                                     }
                                 });
                             } catch (Exception e) {
-                                Toast.makeText(getApplicationContext(),"Error Stop Service Location",Toast.LENGTH_LONG).show();
+                                //Toast.makeText(getApplicationContext(),"Error Stop Service Location",Toast.LENGTH_LONG).show();
                             }
                         }
                     }
-                }).start();
-                createthread = false;
+                };
+                thread=new Thread(runnable);
+                if(PublicVariable.stopthread_Service_GetLocation)
+                {
+                    thread.interrupt();
+                }
+                else {
+                    thread.start();
+                }
+                PublicVariable.createthread_GetLocation = false;
             }
         }
         return START_STICKY;

@@ -233,6 +233,28 @@ public class HmLogin {
 		PublicVariable.theard_GetUserServiceStartDate = true;
 		PublicVariable.theard_Profile = true;
 		PublicVariable.theard_ServiceSelected = true;
+        //**********************************************************
+        PublicVariable.createthread_DeleteJob = true;
+        PublicVariable.createthread_GetFactorAccept = true;
+        PublicVariable.createthread_GetJobUpdate = true;
+        PublicVariable.createthread_GetLocation = true;
+        PublicVariable.createthread_GetNewJob = true;
+        PublicVariable.createthread_GetSliderPic = true;
+        PublicVariable.createthread_GetUserServiceStartDate = true;
+        PublicVariable.createthread_Profile = true;
+        PublicVariable.createthread_ServiceSelected = true;
+        PublicVariable.createthread_GetNewJobNotNotifi=true;
+        //******************************************************
+		PublicVariable.stopthread_Service_DeleteJob = false;
+		PublicVariable.stopthread_Service_GetFactorAccept = false;
+		PublicVariable.stopthread_Service_GetJobUpdate = false;
+		PublicVariable.stopthread_Service_GetLocation = false;
+		PublicVariable.stopthread_Service_GetNewJob = false;
+		PublicVariable.stopthread_Service_GetSliderPic = false;
+		PublicVariable.stopthread_Service_GetUserServiceStartDate = false;
+		PublicVariable.stopthread_Service_Profile = false;
+		PublicVariable.stopthread_Service_ServiceSelected = false;
+		PublicVariable.stopthread_GetNewJobNotNotifi = false;
 		Toast.makeText(this.activity.getApplicationContext(), "شما فعال نشده اید", Toast.LENGTH_LONG).show();
 		SyncEducation syncEducation=new SyncEducation(this.activity,this.phonenumber,this.acceptcode);
 		syncEducation.AsyncExecute();
@@ -248,6 +270,28 @@ public class HmLogin {
 		PublicVariable.theard_GetUserServiceStartDate = true;
 		PublicVariable.theard_Profile = true;
 		PublicVariable.theard_ServiceSelected = true;
+		//**********************************************************
+        PublicVariable.createthread_DeleteJob = true;
+        PublicVariable.createthread_GetFactorAccept = true;
+        PublicVariable.createthread_GetJobUpdate = true;
+        PublicVariable.createthread_GetLocation = true;
+        PublicVariable.createthread_GetNewJob = true;
+        PublicVariable.createthread_GetSliderPic = true;
+        PublicVariable.createthread_GetUserServiceStartDate = true;
+        PublicVariable.createthread_Profile = true;
+        PublicVariable.createthread_ServiceSelected = true;
+        PublicVariable.createthread_GetNewJobNotNotifi=true;
+		//******************************************************
+		PublicVariable.stopthread_Service_DeleteJob = false;
+		PublicVariable.stopthread_Service_GetFactorAccept = false;
+		PublicVariable.stopthread_Service_GetJobUpdate = false;
+		PublicVariable.stopthread_Service_GetLocation = false;
+		PublicVariable.stopthread_Service_GetNewJob = false;
+		PublicVariable.stopthread_Service_GetSliderPic = false;
+		PublicVariable.stopthread_Service_GetUserServiceStartDate = false;
+		PublicVariable.stopthread_Service_Profile = false;
+		PublicVariable.stopthread_Service_ServiceSelected = false;
+		PublicVariable.stopthread_GetNewJobNotNotifi = false;
 	    String LastHamyarUserServiceCode=null;
 		db = dbh.getReadableDatabase();
 		Cursor cursors = db.rawQuery("SELECT * FROM login", null);
@@ -299,6 +343,28 @@ public class HmLogin {
 		PublicVariable.theard_GetUserServiceStartDate = true;
 		PublicVariable.theard_Profile = true;
 		PublicVariable.theard_ServiceSelected = true;
+		//**********************************************************
+        PublicVariable.createthread_DeleteJob = true;
+        PublicVariable.createthread_GetFactorAccept = true;
+        PublicVariable.createthread_GetJobUpdate = true;
+        PublicVariable.createthread_GetLocation = true;
+        PublicVariable.createthread_GetNewJob = true;
+        PublicVariable.createthread_GetSliderPic = true;
+        PublicVariable.createthread_GetUserServiceStartDate = true;
+        PublicVariable.createthread_Profile = true;
+        PublicVariable.createthread_ServiceSelected = true;
+        PublicVariable.createthread_GetNewJobNotNotifi=true;
+		//******************************************************
+		PublicVariable.stopthread_Service_DeleteJob = false;
+		PublicVariable.stopthread_Service_GetFactorAccept = false;
+		PublicVariable.stopthread_Service_GetJobUpdate = false;
+		PublicVariable.stopthread_Service_GetLocation = false;
+		PublicVariable.stopthread_Service_GetNewJob = false;
+		PublicVariable.stopthread_Service_GetSliderPic = false;
+		PublicVariable.stopthread_Service_GetUserServiceStartDate = false;
+		PublicVariable.stopthread_Service_Profile = false;
+		PublicVariable.stopthread_Service_ServiceSelected = false;
+		PublicVariable.stopthread_GetNewJobNotNotifi = false;
 		if(check_load.compareTo("0")!=0)
 		{
 			Toast.makeText(this.activity.getApplicationContext(), "شما فعال نشده اید", Toast.LENGTH_LONG).show();

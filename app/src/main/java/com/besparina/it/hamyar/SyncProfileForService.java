@@ -205,8 +205,8 @@ public class SyncProfileForService {
 		String query = null;
 		value = WsResponse.split("##");
 		try {
-			boolean check = checkStatus(value[15]);
-			if (!check) {
+			int check = checkStatus();
+			if (check != -1) {
 				try {	if (!db.isOpen()) {	db = dbh.getWritableDatabase();	}}	catch (Exception ex){	db = dbh.getWritableDatabase();	}
 				db.execSQL("DELETE FROM Profile");
 				query = "INSERT INTO Profile " +
@@ -255,17 +255,16 @@ public class SyncProfileForService {
 						"')";
 				db.execSQL(query);
 				db.close();
-				String title="";
-				if(value[15].compareTo("0")==0)
-				{
-					title="شما غیرفعال شده اید";
+				if(value[15].compareTo(String.valueOf(check))!=0) {
+					String title="";
+					if (value[15].compareTo("0") == 0) {
+						title = "شما غیرفعال شده اید";
+					} else {
+						title = "شما فعال شده اید";
+					}
+					NotificationClass notifi=new NotificationClass(this.activity);
+					notifi.Notificationm(this.activity,"بسپارینا",title,"0","1",10,MainMenu.class);
 				}
-				else
-				{
-					title="شما فعال شده اید";
-				}
-				NotificationClass notifi=new NotificationClass(this.activity);
-				notifi.Notificationm(this.activity,"بسپارینا",title,"0","1",10,MainMenu.class);
 			}
 			else
 			{
@@ -325,18 +324,25 @@ public class SyncProfileForService {
 		}
 	}
 
-	public boolean checkStatus(String statusStr)
+	public int checkStatus()
 	{
 		try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
-		String query = "SELECT * FROM Profile WHERE Status='"+statusStr+"'";
+		String query = "SELECT * FROM Profile";
 		Cursor cursor= db.rawQuery(query,null);
 		if(cursor.getCount()>0)
 		{
-			return true;
+			cursor.moveToNext();
+			if(cursor.getString(cursor.getColumnIndex("Status")).compareTo("1")==0) {
+				return 1;
+			}
+			else
+			{
+				return 0;
+			}
 		}
 		else
 		{
-			return false;
+			return -1;
 		}
 	}
 }

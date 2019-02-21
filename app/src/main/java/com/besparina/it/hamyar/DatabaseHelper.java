@@ -15,7 +15,7 @@ import java.io.OutputStream;
 public class DatabaseHelper extends SQLiteOpenHelper {
 	  String DB_PATH =null;
 	  
-	    private static String DB_NAME = "externalDB_hamyar.db";
+	    private static String DB_NAME = "external_hamyar.db";
 	 
 	    private SQLiteDatabase myDataBase;
 	    

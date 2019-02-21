@@ -21,8 +21,10 @@ import java.io.IOException;
 
 public class ServiceGetJobUpdate extends Service {
     Handler mHandler;
+    private Thread thread;
+    private Runnable runnable;
     boolean continue_or_stop = true;
-    boolean createthread=true;
+    //boolean createthread=true;
     private DatabaseHelper dbh;
     private SQLiteDatabase db,db_Write;
     private String hamyarcode;
@@ -53,9 +55,18 @@ public class ServiceGetJobUpdate extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        unregisterReceiver(stopReceiver);
-//        PublicVariable.Active_Service_GetJobUpdate=true;
-        //continue_or_stop=false;
+        if(PublicVariable.stopthread_Service_GetJobUpdate)
+        {
+            thread.interrupt();
+        }
+    }
+    @Override
+    public boolean stopService(Intent name) {
+        if(PublicVariable.stopthread_Service_GetJobUpdate)
+        {
+            thread.interrupt();
+        }
+        return super.stopService(name);
     }
 
 //    public static void stop(Context context) {
@@ -102,9 +113,9 @@ public class ServiceGetJobUpdate extends Service {
 //        PublicVariable.Active_Service_GetJobUpdate=false;
         if(Check_Login()) {
             continue_or_stop = true;
-            if (createthread) {
+            if (PublicVariable.createthread_GetJobUpdate) {
                 mHandler = new Handler();
-                new Thread(new Runnable() {
+                runnable=new Runnable() {
                     @Override
                     public void run() {
                         while (continue_or_stop) {
@@ -159,12 +170,20 @@ public class ServiceGetJobUpdate extends Service {
                                     }
                                 });
                             } catch (Exception e) {
-                                Toast.makeText(getApplicationContext(),"Error Stop Service Update",Toast.LENGTH_LONG).show();
+                                //Toast.makeText(getApplicationContext(),"Error Stop Service Update",Toast.LENGTH_LONG).show();
                             }
                         }
                     }
-                }).start();
-                createthread = false;
+                };
+                thread=new Thread(runnable);
+                if(PublicVariable.stopthread_Service_GetJobUpdate)
+                {
+                    thread.interrupt();
+                }
+                else {
+                    thread.start();
+                }
+                PublicVariable.createthread_GetJobUpdate = false;
             }
         }
         return START_STICKY;

@@ -21,8 +21,10 @@ import java.io.IOException;
 
 public class ServiceGetNewJobNotNotifi extends Service {
     Handler mHandler;
+    private Thread thread;
+    private Runnable runnable;
     boolean continue_or_stop = true;
-    boolean createthread=true;
+    //boolean createthread=true;
     private DatabaseHelper dbh;
     SQLiteDatabase dbRW,dbR,db_Write;
     private String hamyarcode;
@@ -51,11 +53,19 @@ public class ServiceGetNewJobNotNotifi extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        unregisterReceiver(stopReceiver);
-//        PublicVariable.Active_Service_GetNewJob=true;
-        //continue_or_stop=false;
+        if(PublicVariable.stopthread_GetNewJobNotNotifi)
+        {
+            thread.interrupt();
+        }
     }
-
+    @Override
+    public boolean stopService(Intent name) {
+        if(PublicVariable.stopthread_GetNewJobNotNotifi)
+        {
+            thread.interrupt();
+        }
+        return super.stopService(name);
+    }
 //    public static void stop(Context context) {
 //        context.sendStickyBroadcast(new Intent(ACTION_STOP));
 //    }
@@ -99,9 +109,9 @@ public class ServiceGetNewJobNotNotifi extends Service {
 //        PublicVariable.Active_Service_GetNewJob=false;
         if(Check_Login()) {
             continue_or_stop = true;
-            if (createthread) {
+            if (PublicVariable.createthread_GetNewJobNotNotifi) {
                 mHandler = new Handler();
-                new Thread(new Runnable() {
+                runnable=new Runnable() {
                     @Override
                     public void run() {
                         while (continue_or_stop) {
@@ -147,12 +157,20 @@ public class ServiceGetNewJobNotNotifi extends Service {
                                     }
                                 });
                             } catch (Exception e) {
-                                Toast.makeText(getApplicationContext(),"Error Stop Service NewService Not Notifi",Toast.LENGTH_LONG).show();
+                                //Toast.makeText(getApplicationContext(),"Error Stop Service NewService Not Notifi",Toast.LENGTH_LONG).show();
                             }
                         }
                     }
-                }).start();
-                createthread = false;
+                };
+                thread=new Thread(runnable);
+                if(PublicVariable.stopthread_GetNewJobNotNotifi)
+                {
+                    thread.interrupt();
+                }
+                else {
+                    thread.start();
+                }
+                PublicVariable.createthread_GetNewJobNotNotifi = false;
             }
         }
         return START_STICKY;

@@ -21,8 +21,10 @@ import java.io.IOException;
 
 public class ServiceSyncServiceSelected extends Service {
     Handler mHandler;
+    private Thread thread;
+    private Runnable runnable;
     boolean continue_or_stop = true;
-    boolean createthread=true;
+    //boolean createthread=true;
     private DatabaseHelper dbh;
     private SQLiteDatabase db,db_Write;
     private String guid;
@@ -52,11 +54,19 @@ public class ServiceSyncServiceSelected extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        unregisterReceiver(stopReceiver);
-//        PublicVariable.Active_Service_ServiceSelected=true;
-        //continue_or_stop=false;
+        if(PublicVariable.stopthread_Service_ServiceSelected)
+        {
+            thread.interrupt();
+        }
     }
-
+    @Override
+    public boolean stopService(Intent name) {
+        if(PublicVariable.stopthread_Service_ServiceSelected)
+        {
+            thread.interrupt();
+        }
+        return super.stopService(name);
+    }
 //    public static void stop(Context context) {
 //        context.sendStickyBroadcast(new Intent(ACTION_STOP));
 //    }
@@ -98,9 +108,9 @@ public class ServiceSyncServiceSelected extends Service {
 //        PublicVariable.Active_Service_ServiceSelected = false;
         if(Check_Login()) {
             continue_or_stop = true;
-            if (createthread) {
+            if (PublicVariable.createthread_ServiceSelected) {
                 mHandler = new Handler();
-                new Thread(new Runnable() {
+                runnable=new Runnable() {
                     //                public String LastHamyarUserServiceCode;
                     @Override
                     public void run() {
@@ -146,12 +156,20 @@ public class ServiceSyncServiceSelected extends Service {
                                 });
                                 Thread.sleep(6000); // every 60 seconds
                             } catch (Exception e) {
-                                Toast.makeText(getApplicationContext(),"Error Stop Service Select",Toast.LENGTH_LONG).show();
+                                //Toast.makeText(getApplicationContext(),"Error Stop Service Select",Toast.LENGTH_LONG).show();
                             }
                         }
                     }
-                }).start();
-                createthread = false;
+                };
+                thread=new Thread(runnable);
+                if(PublicVariable.stopthread_Service_ServiceSelected)
+                {
+                    thread.interrupt();
+                }
+                else {
+                    thread.start();
+                }
+                PublicVariable.createthread_ServiceSelected = false;
             }
         }
         return START_STICKY;

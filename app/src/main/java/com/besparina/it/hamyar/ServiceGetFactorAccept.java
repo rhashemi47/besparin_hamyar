@@ -17,8 +17,10 @@ import java.io.IOException;
 
 public class ServiceGetFactorAccept extends Service {
     Handler mHandler;
+    private Thread thread;
+    private Runnable runnable;
     boolean continue_or_stop = true;
-    boolean createthread=true;
+    //boolean createthread=true;
     private DatabaseHelper dbh;
     private SQLiteDatabase db,db_Write;
     private String hamyarcode;
@@ -36,9 +38,19 @@ public class ServiceGetFactorAccept extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //continue_or_stop=false;
+        if(PublicVariable.stopthread_Service_GetFactorAccept)
+        {
+            thread.interrupt();
+        }
     }
-
+    @Override
+    public boolean stopService(Intent name) {
+        if(PublicVariable.stopthread_Service_GetFactorAccept)
+        {
+            thread.interrupt();
+        }
+        return super.stopService(name);
+    }
     @Override
     public int onStartCommand(final Intent intent, int flags, int startId) {
         // Let it continue running until it is stopped.
@@ -65,9 +77,9 @@ public class ServiceGetFactorAccept extends Service {
 
         if(Check_Login()) {
             continue_or_stop = true;
-            if (createthread) {
+            if (PublicVariable.createthread_GetFactorAccept) {
                 mHandler = new Handler();
-                new Thread(new Runnable() {
+                runnable=new Runnable() {
                     @Override
                     public void run() {
                         // TODO Auto-generated method stub
@@ -149,8 +161,16 @@ public class ServiceGetFactorAccept extends Service {
                             }
                         }
                     }
-                }).start();
-                createthread = false;
+                };
+                thread=new Thread(runnable);
+                if(PublicVariable.stopthread_Service_GetFactorAccept)
+                {
+                    thread.interrupt();
+                }
+                else {
+                    thread.start();
+                }
+                PublicVariable.createthread_GetFactorAccept = false;
             }
         }
         return START_STICKY;

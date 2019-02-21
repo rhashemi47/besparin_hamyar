@@ -21,8 +21,10 @@ import java.io.IOException;
 
 public class ServiceSyncProfile extends Service {
     Handler mHandler;
+    private Thread thread;
+    private Runnable runnable;
     boolean continue_or_stop = true;
-    boolean createthread=true;
+    //boolean createthread=true;
     private DatabaseHelper dbh;
     private SQLiteDatabase db,db_Write;
     private String hamyarcode;
@@ -51,11 +53,19 @@ public class ServiceSyncProfile extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        unregisterReceiver(stopReceiver);
-//        PublicVariable.Active_Service_Profile=true;
-        //continue_or_stop=false;
+        if(PublicVariable.stopthread_Service_Profile)
+        {
+            thread.interrupt();
+        }
     }
-
+    @Override
+    public boolean stopService(Intent name) {
+        if(PublicVariable.stopthread_Service_Profile)
+        {
+            thread.interrupt();
+        }
+        return super.stopService(name);
+    }
 //    public static void stop(Context context) {
 //        context.sendStickyBroadcast(new Intent(ACTION_STOP));
 //    }
@@ -102,9 +112,9 @@ public class ServiceSyncProfile extends Service {
 //        PublicVariable.Active_Service_Profile=false;
         if(Check_Login()) {
             continue_or_stop = true;
-            if (createthread) {
+            if (PublicVariable.createthread_Profile) {
                 mHandler = new Handler();
-                new Thread(new Runnable() {
+                runnable=new Runnable() {
                     @Override
                     public void run() {
                         // TODO Auto-generated method stub
@@ -143,12 +153,20 @@ public class ServiceSyncProfile extends Service {
                                     }
                                 });
                             } catch (Exception e) {
-                                Toast.makeText(getApplicationContext(),"Error Stop Service Profile",Toast.LENGTH_LONG).show();
+                                //Toast.makeText(getApplicationContext(),"Error Stop Service Profile",Toast.LENGTH_LONG).show();
                             }
                         }
                     }
-                }).start();
-                createthread = false;
+                };
+                thread=new Thread(runnable);
+                if(PublicVariable.stopthread_Service_Profile)
+                {
+                    thread.interrupt();
+                }
+                else {
+                    thread.start();
+                }
+                PublicVariable.createthread_Profile = false;
             }
         }
         return START_STICKY;
