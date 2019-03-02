@@ -1281,7 +1281,7 @@ public class ViewJob extends AppCompatActivity{
                             }
                         }
                     } else {
-                        Toast.makeText(ViewJob.this, "باید پیش فاکتور ثبت نمایید!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ViewJob.this, "باید  فاکتور ثبت نمایید!", Toast.LENGTH_LONG).show();
                     }
                     if(db.isOpen())
                     {
@@ -1293,8 +1293,16 @@ public class ViewJob extends AppCompatActivity{
                     try {	if (!db.isOpen()) {	db = dbh.getReadableDatabase();	}}	catch (Exception ex){	db = dbh.getReadableDatabase();	}
                     Cursor c = db.rawQuery("SELECT * FROM HeadFactor WHERE UserServiceCode='" + BsUserServicesID + "' ORDER BY CAST(Code as INT) DESC", null);
                     if (c.getCount() > 0) {
-                        SyncStartJob syncStartJob = new SyncStartJob(ViewJob.this, guid, hamyarcode, coursors.getString(coursors.getColumnIndex("Code")));
-                        syncStartJob.AsyncExecute();
+                        c.moveToNext();
+                        if (c.getString(c.getColumnIndex("PerInvocAccept")).compareTo("-1") == 0) {
+                            Toast.makeText(ViewJob.this, "در انتظار تایید پیش فاکتور توسط کاربر می باشد", Toast.LENGTH_LONG).show();
+                        } else if (c.getString(c.getColumnIndex("PerInvocAccept")).compareTo("0") == 0) {
+                            Toast.makeText(ViewJob.this, "پیش فاکتور توسط کاربر تایید نشده است", Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            SyncStartJob syncStartJob = new SyncStartJob(ViewJob.this, guid, hamyarcode, coursors.getString(coursors.getColumnIndex("Code")));
+                            syncStartJob.AsyncExecute();
+                        }
                     }
                     else
                     {

@@ -615,13 +615,28 @@ public class MainMenu extends AppCompatActivity {
                     " * 24 As Integer) time";
             Cursor Ctime = db.rawQuery(GetDateTime, null);
             if (Ctime.getCount() > 0) {
-                Ctime.moveToNext();
                 HashMap<String, String> map = new HashMap<String, String>();
-                map.put("BsUserServicesID", cursorServiceNow.getString(cursorServiceNow.getColumnIndex("Code")));
-                map.put("ContentService", "در: " + cursorServiceNow.getString(cursorServiceNow.getColumnIndex("StartDate")) + " - " +
-                        "شروع: " + cursorServiceNow.getString(cursorServiceNow.getColumnIndex("StartTime")) + " - " +
-                        "به مدت: " + Ctime.getString(Ctime.getColumnIndex("time")) + " ساعت " +
-                        "به نام: " + cursorServiceNow.getString(cursorServiceNow.getColumnIndex("UserName")) + " " + cursorServiceNow.getString(cursorServiceNow.getColumnIndex("UserFamily")));
+                Ctime.moveToNext();
+                if (!db.isOpen()) {
+                    db = dbh.getReadableDatabase();
+                }
+                Cursor cursor_StartDate = db.rawQuery("SELECT * FROM StartDateService A WHERE A.BsUserServiceCode='"
+                        +cursorServiceNow.getString(cursorServiceNow.getColumnIndex("Code"))+"'", null);
+                if (cursor_StartDate.getCount()>0) {
+                    cursor_StartDate.moveToNext();
+                    map.put("BsUserServicesID", cursorServiceNow.getString(cursorServiceNow.getColumnIndex("Code")));
+                    map.put("ContentService", "در: " + cursor_StartDate.getString(cursor_StartDate.getColumnIndex("UserConfirmDate")) + " - " +
+                            "شروع: " + cursor_StartDate.getString(cursor_StartDate.getColumnIndex("UserConfirmTime")) + " - " +
+                            "به مدت: " + Ctime.getString(Ctime.getColumnIndex("time")) + " ساعت " +
+                            "به نام: " + cursorServiceNow.getString(cursorServiceNow.getColumnIndex("UserName")) + " " + cursorServiceNow.getString(cursorServiceNow.getColumnIndex("UserFamily")));
+                }
+                else {
+                    map.put("BsUserServicesID", cursorServiceNow.getString(cursorServiceNow.getColumnIndex("Code")));
+                    map.put("ContentService", "در: " + cursorServiceNow.getString(cursorServiceNow.getColumnIndex("StartDate")) + " - " +
+                            "شروع: " + cursorServiceNow.getString(cursorServiceNow.getColumnIndex("StartTime")) + " - " +
+                            "به مدت: " + Ctime.getString(Ctime.getColumnIndex("time")) + " ساعت " +
+                            "به نام: " + cursorServiceNow.getString(cursorServiceNow.getColumnIndex("UserName")) + " " + cursorServiceNow.getString(cursorServiceNow.getColumnIndex("UserFamily")));
+                }
                 valuse.add(map);
             }
             if (!Ctime.isClosed()) {

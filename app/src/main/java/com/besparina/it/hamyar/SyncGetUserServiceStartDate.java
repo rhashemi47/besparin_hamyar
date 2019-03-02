@@ -189,13 +189,16 @@ public class SyncGetUserServiceStartDate {
 						"HamyarCode," +
 						"StartDate," +
 						"UserCode," +
-						"UserConfirmDate) VALUES('" +
+						"UserConfirmDate," +
+						"UserConfirmTime" +
+						") VALUES('" +
 						value[0] + "','" +
 						value[1] + "','" +
 						value[2] + "','" +
 						value[3] + "','" +
 						value[4] + "','" +
-						value[5] + "')";
+						value[5] + "','" +
+						value[6] + "')";
 				db.execSQL(query);
 				String message = "همیار محترم شروع سرویس: " + value[1] + "تایید شد.";
 				runNotification("بسپارینا", message, i, value[1], ViewJob.class);

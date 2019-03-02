@@ -61,9 +61,6 @@ public class ServiceGetUserServiceStartDate extends Service {
         {
             thread.interrupt();
         }
-//        unregisterReceiver(stopReceiver);
-//        PublicVariable.Active_Service_GetUserServiceStartDate=true;
-        //continue_or_stop=false;
     }
 
 
@@ -93,20 +90,6 @@ public class ServiceGetUserServiceStartDate extends Service {
 
             throw sqle;
         }
-//        try
-//        {
-//            if(!db_Write.isOpen())
-//            {
-//                db_Write=dbh.getWritableDatabase();
-//            }
-//            db_Write.execSQL("UPDATE ActiceBackgroundService SET Service_GetUserServiceStartDate='0'");
-//        }
-//        catch (Exception ex)
-//        {
-//            db_Write=dbh.getWritableDatabase();
-//            db_Write.execSQL("UPDATE ActiceBackgroundService SET Service_GetUserServiceStartDate='0'");
-//        }
-//        PublicVariable.Active_Service_GetUserServiceStartDate=false;
         if(Check_Login()) {
             continue_or_stop = true;
             if (PublicVariable.createthread_GetUserServiceStartDate) {

@@ -19,6 +19,7 @@ public class PublicVariable {
     public static boolean theard_GetUserServiceStartDate = true;
     public static boolean theard_Profile = true;
     public static boolean theard_ServiceSelected = true;
+    //**********************************************************************
     public static boolean createthread_DeleteJob = true;
     public static boolean createthread_GetFactorAccept = true;
     public static boolean createthread_GetJobUpdate = true;
@@ -29,6 +30,7 @@ public class PublicVariable {
     public static boolean createthread_Profile = true;
     public static boolean createthread_ServiceSelected = true;
     public static boolean createthread_GetNewJobNotNotifi=true;
+    //**********************************************************************
     public static boolean stopthread_Service_DeleteJob = false;
     public static boolean stopthread_Service_GetFactorAccept = false;
     public static boolean stopthread_Service_GetJobUpdate = false;
